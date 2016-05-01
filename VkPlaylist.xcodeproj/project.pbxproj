@@ -1,0 +1,294 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0531CD66441005B8494 /* AppDelegate.swift */; };
+		BBDEC0561CD66441005B8494 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0551CD66441005B8494 /* ViewController.swift */; };
+		BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0571CD66441005B8494 /* Main.storyboard */; };
+		BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05A1CD66441005B8494 /* Assets.xcassets */; };
+		BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BBDEC0551CD66441005B8494 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BBDEC0581CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BBDEC05A1CD66441005B8494 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BBDEC05D1CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BBDEC05F1CD66441005B8494 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BBDEC04D1CD66441005B8494 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BBDEC0471CD66441005B8494 = {
+			isa = PBXGroup;
+			children = (
+				BBDEC0521CD66441005B8494 /* VkPlaylist */,
+				BBDEC0511CD66441005B8494 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BBDEC0511CD66441005B8494 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC0501CD66441005B8494 /* VkPlaylist.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BBDEC0521CD66441005B8494 /* VkPlaylist */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC0531CD66441005B8494 /* AppDelegate.swift */,
+				BBDEC0551CD66441005B8494 /* ViewController.swift */,
+				BBDEC0571CD66441005B8494 /* Main.storyboard */,
+				BBDEC05A1CD66441005B8494 /* Assets.xcassets */,
+				BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */,
+				BBDEC05F1CD66441005B8494 /* Info.plist */,
+			);
+			path = VkPlaylist;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BBDEC04F1CD66441005B8494 /* VkPlaylist */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBDEC0621CD66441005B8494 /* Build configuration list for PBXNativeTarget "VkPlaylist" */;
+			buildPhases = (
+				BBDEC04C1CD66441005B8494 /* Sources */,
+				BBDEC04D1CD66441005B8494 /* Frameworks */,
+				BBDEC04E1CD66441005B8494 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VkPlaylist;
+			productName = VkPlaylist;
+			productReference = BBDEC0501CD66441005B8494 /* VkPlaylist.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BBDEC0481CD66441005B8494 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Ilya Khalyapin";
+				TargetAttributes = {
+					BBDEC04F1CD66441005B8494 = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 5PQ3T7YGZE;
+					};
+				};
+			};
+			buildConfigurationList = BBDEC04B1CD66441005B8494 /* Build configuration list for PBXProject "VkPlaylist" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BBDEC0471CD66441005B8494;
+			productRefGroup = BBDEC0511CD66441005B8494 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BBDEC04F1CD66441005B8494 /* VkPlaylist */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BBDEC04E1CD66441005B8494 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */,
+				BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */,
+				BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BBDEC04C1CD66441005B8494 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBDEC0561CD66441005B8494 /* ViewController.swift in Sources */,
+				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BBDEC0571CD66441005B8494 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BBDEC0581CD66441005B8494 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BBDEC05D1CD66441005B8494 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BBDEC0601CD66441005B8494 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BBDEC0611CD66441005B8494 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BBDEC0631CD66441005B8494 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = VkPlaylist/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.ilyahal.VkPlaylist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BBDEC0641CD66441005B8494 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = VkPlaylist/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.ilyahal.VkPlaylist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BBDEC04B1CD66441005B8494 /* Build configuration list for PBXProject "VkPlaylist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBDEC0601CD66441005B8494 /* Debug */,
+				BBDEC0611CD66441005B8494 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BBDEC0621CD66441005B8494 /* Build configuration list for PBXNativeTarget "VkPlaylist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBDEC0631CD66441005B8494 /* Debug */,
+				BBDEC0641CD66441005B8494 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BBDEC0481CD66441005B8494 /* Project object */;
+}
