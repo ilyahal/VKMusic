@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyVK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         customizeAppearance()
+        
+        // Инициализация SwiftyVK с id приложения и делегатом 
+        VK.start(appID: VKAPIManager.applicationID, delegate: self)
+        
+        return true
+    }
+    
+    // Вызается при переходе из URL при авторизации
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        
+        // Получение токена
+        VK.processURL(url, options: options)
         
         return true
     }
@@ -35,3 +48,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
+// MARK: VKDelegate
+
+extension AppDelegate: VKDelegate {
+    
+    // Запрашивает необходимые права доступа к аккаунту пользователя
+    func vkWillAutorize() -> [VK.Scope] {
+        return VKAPIManager.scope
+    }
+    
+    // Вызывается при возникновении ошибки при авторизации
+    func vkAutorizationFailed(error: VK.Error) {
+        print("Autorization failed with error: \n\(error)")
+    }
+    
+    // Вызывается при успешной авторизации
+    func vkDidAutorize(parameters: Dictionary<String, String>) {
+    }
+    
+    // Вызывается при деавторизации
+    func vkDidUnautorize() {
+    }
+    
+    // Вызывается для получения настроек места сохранения токена
+    func vkTokenPath() -> (useUserDefaults: Bool, alternativePath: String) {
+        return (true, "")
+    }
+    
+    // Запрашивает родительский view controller, который будет отображать view controller с окном авторизации
+    func vkWillPresentView() -> UIViewController {
+        return self.window!.rootViewController!
+    }
+    
+}

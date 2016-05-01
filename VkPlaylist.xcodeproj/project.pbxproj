@@ -15,6 +15,7 @@
 		BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */; };
 		BBDEC0661CD66DB6005B8494 /* AudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0651CD66DB6005B8494 /* AudioCell.swift */; };
 		BBDEC06A1CD67A84005B8494 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0691CD67A84005B8494 /* Track.swift */; };
+		BBDEC06E1CD6AFD5005B8494 /* VKAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC06D1CD6AFD5005B8494 /* VKAPIManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		BBDEC05F1CD66441005B8494 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBDEC0651CD66DB6005B8494 /* AudioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCell.swift; sourceTree = "<group>"; };
 		BBDEC0691CD67A84005B8494 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		BBDEC06D1CD6AFD5005B8494 /* VKAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKAPIManager.swift; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -84,6 +86,7 @@
 			children = (
 				BBDEC0671CD66F4D005B8494 /* Cells */,
 				BBDEC0681CD67A69005B8494 /* Data Objects */,
+				BBDEC06D1CD6AFD5005B8494 /* VKAPIManager.swift */,
 				BBDEC0531CD66441005B8494 /* AppDelegate.swift */,
 				BBDEC0551CD66441005B8494 /* MainViewController.swift */,
 				BBDEC0571CD66441005B8494 /* Main.storyboard */,
@@ -234,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBDEC0561CD66441005B8494 /* MainViewController.swift in Sources */,
+				BBDEC06E1CD6AFD5005B8494 /* VKAPIManager.swift in Sources */,
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
 				BBDEC0661CD66DB6005B8494 /* AudioCell.swift in Sources */,
 				BBDEC06A1CD67A84005B8494 /* Track.swift in Sources */,
