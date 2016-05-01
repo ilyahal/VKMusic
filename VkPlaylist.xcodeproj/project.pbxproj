@@ -8,20 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0531CD66441005B8494 /* AppDelegate.swift */; };
-		BBDEC0561CD66441005B8494 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0551CD66441005B8494 /* ViewController.swift */; };
+		BBDEC0561CD66441005B8494 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0551CD66441005B8494 /* MainViewController.swift */; };
 		BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0571CD66441005B8494 /* Main.storyboard */; };
 		BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05A1CD66441005B8494 /* Assets.xcassets */; };
 		BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */; };
+		BBDEC0661CD66DB6005B8494 /* AudioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0651CD66DB6005B8494 /* AudioTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BBDEC0551CD66441005B8494 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BBDEC0551CD66441005B8494 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		BBDEC0581CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BBDEC05A1CD66441005B8494 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBDEC05D1CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BBDEC05F1CD66441005B8494 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBDEC0651CD66DB6005B8494 /* AudioTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +56,23 @@
 		BBDEC0521CD66441005B8494 /* VkPlaylist */ = {
 			isa = PBXGroup;
 			children = (
+				BBDEC0671CD66F4D005B8494 /* Cells */,
 				BBDEC0531CD66441005B8494 /* AppDelegate.swift */,
-				BBDEC0551CD66441005B8494 /* ViewController.swift */,
+				BBDEC0551CD66441005B8494 /* MainViewController.swift */,
 				BBDEC0571CD66441005B8494 /* Main.storyboard */,
 				BBDEC05A1CD66441005B8494 /* Assets.xcassets */,
 				BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */,
 				BBDEC05F1CD66441005B8494 /* Info.plist */,
 			);
 			path = VkPlaylist;
+			sourceTree = "<group>";
+		};
+		BBDEC0671CD66F4D005B8494 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC0651CD66DB6005B8494 /* AudioTableViewCell.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,8 +147,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBDEC0561CD66441005B8494 /* ViewController.swift in Sources */,
+				BBDEC0561CD66441005B8494 /* MainViewController.swift in Sources */,
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
+				BBDEC0661CD66DB6005B8494 /* AudioTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
