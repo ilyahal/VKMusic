@@ -1,5 +1,5 @@
 //
-//  AudioTableViewCell.swift
+//  AudioCell.swift
 //  VkPlaylist
 //
 //  Created by Илья Халяпин on 01.05.16.
@@ -8,7 +8,16 @@
 
 import UIKit
 
-class AudioTableViewCell: UITableViewCell {
+protocol AudioCellDelegate {
+    func pauseTapped(cell: AudioCell)
+    func resumeTapped(cell: AudioCell)
+    func cancelTapped(cell: AudioCell)
+    func downloadTapped(cell: AudioCell)
+}
+
+class AudioCell: UITableViewCell {
+    
+    var delegate: AudioCellDelegate?
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
@@ -19,15 +28,19 @@ class AudioTableViewCell: UITableViewCell {
     @IBOutlet weak var downloadButton: UIButton!
     
     @IBAction func pauseOrResumeTapped(sender: UIButton) {
-        print(sender.currentTitle)
+        if pauseButton.titleLabel!.text == "Пауза" {
+            delegate?.pauseTapped(self)
+        } else {
+            delegate?.resumeTapped(self)
+        }
     }
     
     @IBAction func cancelTapped(sender: UIButton) {
-        print(sender.currentTitle)
+        delegate?.cancelTapped(self)
     }
 
     @IBAction func downloadTapped(sender: UIButton) {
-        print(sender.currentTitle)
+        delegate?.downloadTapped(self)
     }
     
 }
