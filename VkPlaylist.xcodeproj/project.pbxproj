@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6916AF7A4854C0421E68D318 /* Pods_VkPlaylist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */; };
+		BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */; };
 		BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0531CD66441005B8494 /* AppDelegate.swift */; };
 		BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0571CD66441005B8494 /* Main.storyboard */; };
 		BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05A1CD66441005B8494 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		1EAAB403CAD4D06D659038A0 /* Pods-VkPlaylist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VkPlaylist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VkPlaylist/Pods-VkPlaylist.debug.xcconfig"; sourceTree = "<group>"; };
 		9C3B038FE60D4559533DF8A6 /* Pods-VkPlaylist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VkPlaylist.release.xcconfig"; path = "Pods/Target Support Files/Pods-VkPlaylist/Pods-VkPlaylist.release.xcconfig"; sourceTree = "<group>"; };
+		BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
 		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBDEC0581CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			children = (
 				BBDEC06D1CD6AFD5005B8494 /* VKAPIManager.swift */,
 				BBDEC0791CD748B1005B8494 /* DataManager.swift */,
+				BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */,
 				BBDEC0821CD757E9005B8494 /* RequestManager.swift */,
 			);
 			name = Managers;
@@ -242,7 +245,7 @@
 				TargetAttributes = {
 					BBDEC04F1CD66441005B8494 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 5PQ3T7YGZE;
+						DevelopmentTeam = J6687322F4;
 					};
 				};
 			};
@@ -342,6 +345,7 @@
 				BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */,
 				BBDEC06A1CD67A84005B8494 /* Track.swift in Sources */,
 				BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */,
+				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,
 				BBDEC0921CD79EC7005B8494 /* MyMusicTableViewController.swift in Sources */,
 				BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */,
@@ -458,10 +462,13 @@
 			baseConfigurationReference = 1EAAB403CAD4D06D659038A0 /* Pods-VkPlaylist.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = VkPlaylist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.ilyahal.VkPlaylist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -470,10 +477,13 @@
 			baseConfigurationReference = 9C3B038FE60D4559533DF8A6 /* Pods-VkPlaylist.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = VkPlaylist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.ilyahal.VkPlaylist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

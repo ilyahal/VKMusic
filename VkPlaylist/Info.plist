@@ -25,6 +25,10 @@
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>vk5443807</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>vk5443807</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
