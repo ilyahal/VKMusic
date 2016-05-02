@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		6916AF7A4854C0421E68D318 /* Pods_VkPlaylist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */; };
 		BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0531CD66441005B8494 /* AppDelegate.swift */; };
-		BBDEC0561CD66441005B8494 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0551CD66441005B8494 /* MainViewController.swift */; };
 		BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0571CD66441005B8494 /* Main.storyboard */; };
 		BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05A1CD66441005B8494 /* Assets.xcassets */; };
 		BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */; };
@@ -26,6 +25,7 @@
 		BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */; };
 		BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */; };
 		BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08C1CD78B5A005B8494 /* Reachability.swift */; };
+		BBDEC0921CD79EC7005B8494 /* MyMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0911CD79EC7005B8494 /* MyMusicTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,6 @@
 		9C3B038FE60D4559533DF8A6 /* Pods-VkPlaylist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VkPlaylist.release.xcconfig"; path = "Pods/Target Support Files/Pods-VkPlaylist/Pods-VkPlaylist.release.xcconfig"; sourceTree = "<group>"; };
 		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BBDEC0551CD66441005B8494 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		BBDEC0581CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BBDEC05A1CD66441005B8494 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBDEC05D1CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +50,7 @@
 		BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NothingFoundCell.swift; sourceTree = "<group>"; };
 		BBDEC08C1CD78B5A005B8494 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		BBDEC0911CD79EC7005B8494 /* MyMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicTableViewController.swift; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -140,7 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */,
-				BBDEC0551CD66441005B8494 /* MainViewController.swift */,
+				BBDEC0911CD79EC7005B8494 /* MyMusicTableViewController.swift */,
 				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
 			);
 			name = ViewControllers;
@@ -333,7 +333,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBDEC0701CD6BEB7005B8494 /* AuthorizationViewController.swift in Sources */,
-				BBDEC0561CD66441005B8494 /* MainViewController.swift in Sources */,
 				BBDEC06E1CD6AFD5005B8494 /* VKAPIManager.swift in Sources */,
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
@@ -344,6 +343,7 @@
 				BBDEC06A1CD67A84005B8494 /* Track.swift in Sources */,
 				BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,
+				BBDEC0921CD79EC7005B8494 /* MyMusicTableViewController.swift in Sources */,
 				BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

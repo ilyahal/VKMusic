@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func customizeAppearance() {
         window?.tintColor = tintColor
-        UISearchBar.appearance().barTintColor = tintColor
+        UISearchBar.appearance().barTintColor = UIColor.whiteColor()
         UINavigationBar.appearance().barTintColor = tintColor
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UINavigationBar.appearance().titleTextAttributes = [
@@ -80,8 +80,8 @@ extension AppDelegate: VKDelegate {
     // Запрашивает родительский view controller, который будет отображать view controller с окном авторизации
     func vkWillPresentView() -> UIViewController {
         let navigationViewController = window!.rootViewController! as! UINavigationController
-        let mainViewController = navigationViewController.viewControllers.first as! MainViewController
-        let authorizationViewController = mainViewController.authorizationNavigationController?.viewControllers.first as! AuthorizationViewController
+        let myMusicTableViewController = navigationViewController.viewControllers.first as! MyMusicTableViewController
+        let authorizationViewController = myMusicTableViewController.authorizationNavigationController?.viewControllers.first as! AuthorizationViewController
         
         return authorizationViewController
     }

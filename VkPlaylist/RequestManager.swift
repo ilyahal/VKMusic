@@ -134,6 +134,7 @@ class RequestManager {
         getAudioRemoveObservers()
     }
     
+    // Отменяет выполнение запроса на получение личных аудиозаписей
     private func getAudioRequestCancel() {
         
         // Если есть активный запрос на получение личных аудиозаписей
@@ -146,24 +147,31 @@ class RequestManager {
         }
     }
     
+}
+
+
+// MARK: Типы данных
+
+private typealias RequestManagerDataTypes = RequestManager
+extension RequestManagerDataTypes {
     
-    
-    // MARK: Типы данных
-    
-    enum State { // Состояния выполнения запросов
+    // Состояния выполнения запросов
+    enum State {
         case NotSearchedYet // Поиск еще не был выполен (или была ошибка)
         case Loading // Результат загружается
         case NoResults // Ничего не найдено
         case Results // Результат поиска
     }
     
-    enum ErrorRequest { // Ошибки при запросах
+    // Ошибки при запросах
+    enum ErrorRequest {
         case None // Нет ошибок
         case NetworkError // Проблемы при подключении к интернету
         case UnknownError // Неизвестная ошибка
     }
     
-    enum requestKeys: String { // Ключи для запросов
+    // Ключи для запросов
+    enum requestKeys: String {
         case GetAudio = "getAudio" // Ключ на получение личных аудиозаписей
     }
     

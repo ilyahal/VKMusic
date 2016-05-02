@@ -7,128 +7,109 @@
     </dependencies>
     <scenes>
         <!--Моя музыка-->
-        <scene sceneID="tne-QT-ifu">
+        <scene sceneID="R3I-ph-RgW">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <tableViewController id="u0c-tT-8ti" customClass="MyMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="XIi-hS-VHz">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ewb-qN-wDn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AudioCell" rowHeight="62" id="hPC-JJ-zzh" customClass="AudioCell" customModule="VkPlaylist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="62"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hPC-JJ-zzh" id="c7A-Qm-j2M">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="61.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Название" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LnI-hI-JQk">
-                                                    <rect key="frame" x="14" y="8" width="484" height="19.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Исполнитель" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYT-d6-FTg">
-                                                    <rect key="frame" x="14" y="28" width="484" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OMF-r8-YzN">
-                                                    <rect key="frame" x="541" y="9" width="56" height="30"/>
-                                                    <state key="normal" title="Отмена"/>
-                                                    <connections>
-                                                        <action selector="cancelTapped:" destination="hPC-JJ-zzh" eventType="touchUpInside" id="cO9-df-vQd"/>
-                                                    </connections>
-                                                </button>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="je8-C5-fbu">
-                                                    <rect key="frame" x="490" y="9" width="43" height="30"/>
-                                                    <state key="normal" title="Пауза"/>
-                                                    <connections>
-                                                        <action selector="pauseOrResumeTapped:" destination="hPC-JJ-zzh" eventType="touchUpInside" id="Qeo-sF-A6T"/>
-                                                    </connections>
-                                                </button>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100% из 1.35MB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZP-lS-AXe">
-                                                    <rect key="frame" x="506.5" y="43.5" width="85.5" height="14"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zs1-gv-2o6">
-                                                    <rect key="frame" x="14" y="51" width="484" height="2"/>
-                                                </progressView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Irj-2N-6cF">
-                                                    <rect key="frame" x="525" y="9" width="58" height="30"/>
-                                                    <state key="normal" title="Скачать"/>
-                                                    <connections>
-                                                        <action selector="downloadTapped:" destination="hPC-JJ-zzh" eventType="touchUpInside" id="faK-dv-mhY"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="Irj-2N-6cF" secondAttribute="trailing" constant="17" id="2PS-F9-1Zn"/>
-                                                <constraint firstItem="OMF-r8-YzN" firstAttribute="leading" secondItem="je8-C5-fbu" secondAttribute="trailing" constant="8" id="6mu-wx-Xr7"/>
-                                                <constraint firstAttribute="trailing" secondItem="zs1-gv-2o6" secondAttribute="trailing" constant="102" id="Fbe-EM-MxF"/>
-                                                <constraint firstItem="LnI-hI-JQk" firstAttribute="leading" secondItem="c7A-Qm-j2M" secondAttribute="leading" constant="14" id="GPj-Wh-P52"/>
-                                                <constraint firstAttribute="trailing" secondItem="LnI-hI-JQk" secondAttribute="trailing" constant="102" id="Uwh-om-lWZ"/>
-                                                <constraint firstItem="zs1-gv-2o6" firstAttribute="top" secondItem="ZYT-d6-FTg" secondAttribute="bottom" constant="6" id="YE1-m3-wBe"/>
-                                                <constraint firstAttribute="trailing" secondItem="ZYT-d6-FTg" secondAttribute="trailing" constant="102" id="ahE-CZ-KCf"/>
-                                                <constraint firstAttribute="trailing" secondItem="aZP-lS-AXe" secondAttribute="trailing" constant="8" id="b0E-vG-kk1"/>
-                                                <constraint firstItem="ZYT-d6-FTg" firstAttribute="top" secondItem="LnI-hI-JQk" secondAttribute="bottom" constant="1" id="dXT-wH-azD"/>
-                                                <constraint firstItem="OMF-r8-YzN" firstAttribute="top" secondItem="c7A-Qm-j2M" secondAttribute="top" constant="9" id="iQr-Xr-DSX"/>
-                                                <constraint firstItem="zs1-gv-2o6" firstAttribute="leading" secondItem="c7A-Qm-j2M" secondAttribute="leading" constant="14" id="iVx-jz-IAP"/>
-                                                <constraint firstItem="Irj-2N-6cF" firstAttribute="top" secondItem="c7A-Qm-j2M" secondAttribute="top" constant="9" id="iha-JO-YfR"/>
-                                                <constraint firstItem="aZP-lS-AXe" firstAttribute="centerY" secondItem="zs1-gv-2o6" secondAttribute="centerY" constant="-2" id="kda-Ew-WYe"/>
-                                                <constraint firstAttribute="trailing" secondItem="OMF-r8-YzN" secondAttribute="trailing" constant="3" id="mIx-iI-9lJ"/>
-                                                <constraint firstItem="LnI-hI-JQk" firstAttribute="top" secondItem="c7A-Qm-j2M" secondAttribute="top" constant="8" id="nLf-Mx-IyE"/>
-                                                <constraint firstItem="je8-C5-fbu" firstAttribute="baseline" secondItem="OMF-r8-YzN" secondAttribute="baseline" id="o8H-Ys-ngR"/>
-                                                <constraint firstItem="ZYT-d6-FTg" firstAttribute="leading" secondItem="c7A-Qm-j2M" secondAttribute="leading" constant="14" id="wUs-b7-ma6"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="artistLabel" destination="ZYT-d6-FTg" id="jFA-BX-Vdh"/>
-                                            <outlet property="cancelButton" destination="OMF-r8-YzN" id="PPu-dX-rIh"/>
-                                            <outlet property="downloadButton" destination="Irj-2N-6cF" id="5fp-Ea-oOv"/>
-                                            <outlet property="nameLabel" destination="LnI-hI-JQk" id="SlJ-cG-NGJ"/>
-                                            <outlet property="pauseButton" destination="je8-C5-fbu" id="c3U-Cs-bAl"/>
-                                            <outlet property="progressBar" destination="zs1-gv-2o6" id="ZfY-Og-9Qp"/>
-                                            <outlet property="progressLabel" destination="aZP-lS-AXe" id="2J4-3V-Bri"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AudioCell" rowHeight="62" id="wyh-te-boJ" customClass="AudioCell" customModule="VkPlaylist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="62"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wyh-te-boJ" id="kJ3-YR-fYQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="61.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Название" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SrW-LD-ab1">
+                                            <rect key="frame" x="14" y="8" width="484" height="19.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Исполнитель" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMS-yI-CBi">
+                                            <rect key="frame" x="14" y="28" width="484" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="22y-EB-fUQ">
+                                            <rect key="frame" x="541" y="9" width="56" height="30"/>
+                                            <state key="normal" title="Отмена"/>
+                                            <connections>
+                                                <action selector="cancelTapped:" destination="wyh-te-boJ" eventType="touchUpInside" id="QWF-tO-YF8"/>
+                                            </connections>
+                                        </button>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZLf-Xe-wZ2">
+                                            <rect key="frame" x="490" y="9" width="43" height="30"/>
+                                            <state key="normal" title="Пауза"/>
+                                            <connections>
+                                                <action selector="pauseOrResumeTapped:" destination="wyh-te-boJ" eventType="touchUpInside" id="Fnf-LQ-eaD"/>
+                                            </connections>
+                                        </button>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100% из 1.35MB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtg-yL-X8h">
+                                            <rect key="frame" x="506.5" y="43.5" width="85.5" height="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="niG-u7-faz">
+                                            <rect key="frame" x="14" y="51" width="484" height="2"/>
+                                        </progressView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sSt-Lz-Rjr">
+                                            <rect key="frame" x="525" y="9" width="58" height="30"/>
+                                            <state key="normal" title="Скачать"/>
+                                            <connections>
+                                                <action selector="downloadTapped:" destination="wyh-te-boJ" eventType="touchUpInside" id="2ny-oY-JGJ"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="gtg-yL-X8h" secondAttribute="trailing" constant="8" id="0AI-8w-ta9"/>
+                                        <constraint firstAttribute="trailing" secondItem="sSt-Lz-Rjr" secondAttribute="trailing" constant="17" id="0NT-KD-1ct"/>
+                                        <constraint firstItem="niG-u7-faz" firstAttribute="leading" secondItem="kJ3-YR-fYQ" secondAttribute="leading" constant="14" id="1Pa-bZ-TqD"/>
+                                        <constraint firstItem="sSt-Lz-Rjr" firstAttribute="top" secondItem="kJ3-YR-fYQ" secondAttribute="top" constant="9" id="8F8-ur-ana"/>
+                                        <constraint firstItem="22y-EB-fUQ" firstAttribute="top" secondItem="kJ3-YR-fYQ" secondAttribute="top" constant="9" id="AjU-VH-K5q"/>
+                                        <constraint firstItem="22y-EB-fUQ" firstAttribute="leading" secondItem="ZLf-Xe-wZ2" secondAttribute="trailing" constant="8" id="CAK-UO-zSF"/>
+                                        <constraint firstAttribute="trailing" secondItem="22y-EB-fUQ" secondAttribute="trailing" constant="3" id="GFd-N7-PHU"/>
+                                        <constraint firstItem="SrW-LD-ab1" firstAttribute="top" secondItem="kJ3-YR-fYQ" secondAttribute="top" constant="8" id="RJ3-5f-Lz9"/>
+                                        <constraint firstAttribute="trailing" secondItem="KMS-yI-CBi" secondAttribute="trailing" constant="102" id="Ue2-ET-7DE"/>
+                                        <constraint firstAttribute="trailing" secondItem="niG-u7-faz" secondAttribute="trailing" constant="102" id="Uec-0o-35n"/>
+                                        <constraint firstItem="gtg-yL-X8h" firstAttribute="centerY" secondItem="niG-u7-faz" secondAttribute="centerY" constant="-2" id="VEg-AI-sIe"/>
+                                        <constraint firstItem="niG-u7-faz" firstAttribute="top" secondItem="KMS-yI-CBi" secondAttribute="bottom" constant="6" id="cTL-kv-giD"/>
+                                        <constraint firstItem="KMS-yI-CBi" firstAttribute="leading" secondItem="kJ3-YR-fYQ" secondAttribute="leading" constant="14" id="mQP-0G-78Q"/>
+                                        <constraint firstItem="KMS-yI-CBi" firstAttribute="top" secondItem="SrW-LD-ab1" secondAttribute="bottom" constant="1" id="mxq-7p-6pe"/>
+                                        <constraint firstAttribute="trailing" secondItem="SrW-LD-ab1" secondAttribute="trailing" constant="102" id="rQ6-f1-hoz"/>
+                                        <constraint firstItem="SrW-LD-ab1" firstAttribute="leading" secondItem="kJ3-YR-fYQ" secondAttribute="leading" constant="14" id="wyn-Hy-6az"/>
+                                        <constraint firstItem="ZLf-Xe-wZ2" firstAttribute="baseline" secondItem="22y-EB-fUQ" secondAttribute="baseline" id="yum-b6-mgv"/>
+                                    </constraints>
+                                </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="cS6-F6-Kvm"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="4aa-Kr-CaQ"/>
+                                    <outlet property="artistLabel" destination="KMS-yI-CBi" id="d2F-yC-uqe"/>
+                                    <outlet property="cancelButton" destination="22y-EB-fUQ" id="Ya0-sj-Tsy"/>
+                                    <outlet property="downloadButton" destination="sSt-Lz-Rjr" id="Oby-1L-Dzg"/>
+                                    <outlet property="nameLabel" destination="SrW-LD-ab1" id="JBq-ft-NoN"/>
+                                    <outlet property="pauseButton" destination="ZLf-Xe-wZ2" id="qQG-eW-eOG"/>
+                                    <outlet property="progressBar" destination="niG-u7-faz" id="CAj-pP-l5m"/>
+                                    <outlet property="progressLabel" destination="gtg-yL-X8h" id="WWX-2i-ME7"/>
                                 </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ewb-qN-wDn" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="1QH-7O-3O2"/>
-                            <constraint firstItem="ewb-qN-wDn" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="DeH-Bo-k0n"/>
-                            <constraint firstItem="ewb-qN-wDn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LjI-e3-M9M"/>
-                            <constraint firstItem="ewb-qN-wDn" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="PaE-CX-xVo"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Моя музыка" id="kOx-Zi-yPW">
-                        <barButtonItem key="leftBarButtonItem" image="settings-bar-button-icon" id="Eq2-6j-Wxe">
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="u0c-tT-8ti" id="Wpg-uA-nL3"/>
+                            <outlet property="delegate" destination="u0c-tT-8ti" id="ccZ-Qh-UKx"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Моя музыка" id="9hL-b2-wRH">
+                        <barButtonItem key="leftBarButtonItem" image="settings-bar-button-icon" id="pOs-nq-Y1C">
                             <connections>
-                                <segue destination="4gw-wh-h40" kind="show" id="tmw-Sj-J3t"/>
+                                <segue destination="4gw-wh-h40" kind="show" identifier="ShowSettings" id="Uze-Fb-dMY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="tableView" destination="ewb-qN-wDn" id="t3d-qp-En8"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FnK-XM-fHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1929" y="429"/>
         </scene>
@@ -243,7 +224,7 @@
                     <navigationItem key="navigationItem" id="SHd-r6-jie">
                         <barButtonItem key="leftBarButtonItem" image="settings-bar-button-icon" id="X1d-6g-zYJ">
                             <connections>
-                                <segue destination="4gw-wh-h40" kind="show" id="ZK7-Tt-xoo"/>
+                                <segue destination="4gw-wh-h40" kind="show" identifier="AuthorizationShowSettings" id="ZK7-Tt-xoo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -263,7 +244,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="dNQ-jd-o7k"/>
+                        <segue destination="u0c-tT-8ti" kind="relationship" relationship="rootViewController" id="qfH-FW-51D"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D8r-kW-Jcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -293,6 +274,6 @@
         <image name="settings-bar-button-icon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZK7-Tt-xoo"/>
+        <segue reference="Uze-Fb-dMY"/>
     </inferredMetricsTieBreakers>
 </document>
