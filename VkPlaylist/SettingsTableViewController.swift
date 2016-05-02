@@ -10,7 +10,7 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
 
-    @IBOutlet weak var logoutButton: UIButton! // Кнопка "Выход из аккаунта"
+    @IBOutlet private weak var logoutButton: UIButton! // Кнопка "Выход из аккаунта"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     // Вызывается при тапе по кнопке "Выход из аккаунта"
-    @IBAction func logoutTapped(sender: UIButton) {
+    @IBAction private func logoutTapped(sender: UIButton) {
         VKAPIManager.logout()
         sender.enabled = false
     }

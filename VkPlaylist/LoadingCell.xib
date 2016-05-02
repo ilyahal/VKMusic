@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadingCell" rowHeight="62" id="oRU-2w-uiJ" customClass="LoadingCell" customModule="VkPlaylist" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oRU-2w-uiJ" id="K5Q-3J-7Zh">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="61.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="my2-eK-E5w">
+                        <rect key="frame" x="95" y="13" width="130" height="36"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загрузка..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JZ-OE-lfm">
+                                <rect key="frame" x="36" y="8" width="86" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="vOg-D3-9eS">
+                                <rect key="frame" x="8" y="8" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3JZ-OE-lfm" firstAttribute="leading" secondItem="vOg-D3-9eS" secondAttribute="trailing" constant="8" id="5dd-lN-8jj"/>
+                            <constraint firstItem="3JZ-OE-lfm" firstAttribute="centerY" secondItem="vOg-D3-9eS" secondAttribute="centerY" id="8fa-Nd-2Ik"/>
+                            <constraint firstItem="vOg-D3-9eS" firstAttribute="top" secondItem="my2-eK-E5w" secondAttribute="top" constant="8" id="HuT-pd-vhJ"/>
+                            <constraint firstAttribute="bottom" secondItem="vOg-D3-9eS" secondAttribute="bottom" constant="8" id="Z3k-gm-3VR"/>
+                            <constraint firstAttribute="trailing" secondItem="3JZ-OE-lfm" secondAttribute="trailing" constant="8" id="hn0-0w-PTp"/>
+                            <constraint firstItem="vOg-D3-9eS" firstAttribute="leading" secondItem="my2-eK-E5w" secondAttribute="leading" constant="8" id="rDU-5o-yuW"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="my2-eK-E5w" firstAttribute="centerY" secondItem="K5Q-3J-7Zh" secondAttribute="centerY" id="kJw-Jn-kkC"/>
+                    <constraint firstItem="my2-eK-E5w" firstAttribute="centerX" secondItem="K5Q-3J-7Zh" secondAttribute="centerX" id="sd9-fA-puF"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="activityIndicator" destination="vOg-D3-9eS" id="7kB-fc-RzV"/>
+            </connections>
+            <point key="canvasLocation" x="684" y="413"/>
+        </tableViewCell>
+    </objects>
+</document>

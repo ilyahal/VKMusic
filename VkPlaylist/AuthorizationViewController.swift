@@ -14,7 +14,8 @@ class AuthorizationViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func authorizationTapped(sender: UIButton) {
+    // Вызывается при тапе по кнопке "Авторизоваться"
+    @IBAction private func authorizationTapped(sender: UIButton) {
         VKAPIManager.autorize()
     }
 

@@ -19,6 +19,13 @@
 		BBDEC0701CD6BEB7005B8494 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */; };
 		BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0711CD6BF2D005B8494 /* AuthorizationButton.swift */; };
 		BBDEC0741CD6CE9B005B8494 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */; };
+		BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0791CD748B1005B8494 /* DataManager.swift */; };
+		BBDEC07C1CD7538B005B8494 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC07B1CD7538B005B8494 /* LoadingCell.xib */; };
+		BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0801CD754FC005B8494 /* LoadingCell.swift */; };
+		BBDEC0831CD757E9005B8494 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0821CD757E9005B8494 /* RequestManager.swift */; };
+		BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */; };
+		BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */; };
+		BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08C1CD78B5A005B8494 /* Reachability.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +44,13 @@
 		BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		BBDEC0711CD6BF2D005B8494 /* AuthorizationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationButton.swift; sourceTree = "<group>"; };
 		BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		BBDEC0791CD748B1005B8494 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		BBDEC07B1CD7538B005B8494 /* LoadingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
+		BBDEC0801CD754FC005B8494 /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		BBDEC0821CD757E9005B8494 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
+		BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
+		BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NothingFoundCell.swift; sourceTree = "<group>"; };
+		BBDEC08C1CD78B5A005B8494 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -90,11 +104,11 @@
 		BBDEC0521CD66441005B8494 /* VkPlaylist */ = {
 			isa = PBXGroup;
 			children = (
-				BBDEC0671CD66F4D005B8494 /* Cells */,
 				BBDEC0761CD6D629005B8494 /* Views */,
 				BBDEC0751CD6D610005B8494 /* ViewControllers */,
 				BBDEC0681CD67A69005B8494 /* Data Objects */,
-				BBDEC06D1CD6AFD5005B8494 /* VKAPIManager.swift */,
+				BBDEC08F1CD78C74005B8494 /* Managers */,
+				BBDEC0901CD78DFA005B8494 /* Helpers */,
 				BBDEC0531CD66441005B8494 /* AppDelegate.swift */,
 				BBDEC0571CD66441005B8494 /* Main.storyboard */,
 				BBDEC05A1CD66441005B8494 /* Assets.xcassets */,
@@ -107,7 +121,9 @@
 		BBDEC0671CD66F4D005B8494 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				BBDEC0651CD66DB6005B8494 /* AudioCell.swift */,
+				BBDEC0871CD761A7005B8494 /* AudioCell */,
+				BBDEC0841CD760D8005B8494 /* NothingFoundCell */,
+				BBDEC07F1CD754A6005B8494 /* Loading Cell */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -133,9 +149,62 @@
 		BBDEC0761CD6D629005B8494 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BBDEC0711CD6BF2D005B8494 /* AuthorizationButton.swift */,
+				BBDEC0671CD66F4D005B8494 /* Cells */,
+				BBDEC08E1CD78C43005B8494 /* Buttons */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		BBDEC07F1CD754A6005B8494 /* Loading Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC07B1CD7538B005B8494 /* LoadingCell.xib */,
+				BBDEC0801CD754FC005B8494 /* LoadingCell.swift */,
+			);
+			name = "Loading Cell";
+			sourceTree = "<group>";
+		};
+		BBDEC0841CD760D8005B8494 /* NothingFoundCell */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */,
+				BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */,
+			);
+			name = NothingFoundCell;
+			sourceTree = "<group>";
+		};
+		BBDEC0871CD761A7005B8494 /* AudioCell */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC0651CD66DB6005B8494 /* AudioCell.swift */,
+			);
+			name = AudioCell;
+			sourceTree = "<group>";
+		};
+		BBDEC08E1CD78C43005B8494 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC0711CD6BF2D005B8494 /* AuthorizationButton.swift */,
+			);
+			name = Buttons;
+			sourceTree = "<group>";
+		};
+		BBDEC08F1CD78C74005B8494 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC06D1CD6AFD5005B8494 /* VKAPIManager.swift */,
+				BBDEC0791CD748B1005B8494 /* DataManager.swift */,
+				BBDEC0821CD757E9005B8494 /* RequestManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		BBDEC0901CD78DFA005B8494 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC08C1CD78B5A005B8494 /* Reachability.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +271,8 @@
 			files = (
 				BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */,
 				BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */,
+				BBDEC07C1CD7538B005B8494 /* LoadingCell.xib in Resources */,
+				BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */,
 				BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,10 +336,15 @@
 				BBDEC0561CD66441005B8494 /* MainViewController.swift in Sources */,
 				BBDEC06E1CD6AFD5005B8494 /* VKAPIManager.swift in Sources */,
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
+				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
 				BBDEC0741CD6CE9B005B8494 /* SettingsTableViewController.swift in Sources */,
 				BBDEC0661CD66DB6005B8494 /* AudioCell.swift in Sources */,
+				BBDEC0831CD757E9005B8494 /* RequestManager.swift in Sources */,
+				BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */,
 				BBDEC06A1CD67A84005B8494 /* Track.swift in Sources */,
+				BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,
+				BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
