@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Моя музыка-->
@@ -116,14 +117,140 @@
                             <constraint firstItem="ewb-qN-wDn" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="PaE-CX-xVo"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Моя музыка" id="kOx-Zi-yPW"/>
+                    <navigationItem key="navigationItem" title="Моя музыка" id="kOx-Zi-yPW">
+                        <barButtonItem key="leftBarButtonItem" image="settings-bar-button-icon" id="Eq2-6j-Wxe">
+                            <connections>
+                                <segue destination="4gw-wh-h40" kind="show" id="tmw-Sj-J3t"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="ewb-qN-wDn" id="t3d-qp-En8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1117" y="429"/>
+            <point key="canvasLocation" x="1929" y="429"/>
+        </scene>
+        <!--Настройки-->
+        <scene sceneID="WTZ-UN-nAx">
+            <objects>
+                <tableViewController id="4gw-wh-h40" customClass="SettingsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="VyZ-qB-Rwm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections>
+                            <tableViewSection headerTitle="VK.COM" id="gcH-We-VVC">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="fdq-Fu-Usw">
+                                        <rect key="frame" x="0.0" y="113.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fdq-Fu-Usw" id="BhJ-qT-AK8">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7AB-x9-cWc">
+                                                    <rect key="frame" x="206.5" y="7" width="187" height="30"/>
+                                                    <state key="normal" title="Выйти из аккаунта vk.com"/>
+                                                    <connections>
+                                                        <action selector="logoutTapped:" destination="4gw-wh-h40" eventType="touchUpInside" id="T0r-4c-iHT"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="7AB-x9-cWc" firstAttribute="centerY" secondItem="BhJ-qT-AK8" secondAttribute="centerY" id="S2s-HC-ZZS"/>
+                                                <constraint firstItem="7AB-x9-cWc" firstAttribute="centerX" secondItem="BhJ-qT-AK8" secondAttribute="centerX" id="qeD-up-oft"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="4gw-wh-h40" id="Wlw-qA-bSu"/>
+                            <outlet property="delegate" destination="4gw-wh-h40" id="0Ib-bX-2eq"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Настройки" id="bUS-GK-y3a"/>
+                    <connections>
+                        <outlet property="logoutButton" destination="7AB-x9-cWc" id="oph-eW-KGP"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mdJ-LD-1bg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1929" y="1212"/>
+        </scene>
+        <!--Authorization View Controller-->
+        <scene sceneID="dQe-ys-bPt">
+            <objects>
+                <viewController storyboardIdentifier="AuthorizationViewController" id="K0p-sA-XXX" customClass="AuthorizationViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WyX-ih-tSt"/>
+                        <viewControllerLayoutGuide type="bottom" id="0sL-8s-Ko8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gTR-86-XwR">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D1-zE-Npu" customClass="AuthorizationButton" customModule="VkPlaylist" customModuleProvider="target">
+                                <rect key="frame" x="70" y="530" width="460" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="82h-cU-bb2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Авторизоваться"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.98431372549999996" green="0.01176470588" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="authorizationTapped:" destination="K0p-sA-XXX" eventType="touchUpInside" id="Q3D-zO-ePT"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Для использования приложения необходимо авторизоваться в VK.com" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4K-UJ-qt1">
+                                <rect key="frame" x="70" y="457" width="460" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Привет!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3K-iY-QHX">
+                                <rect key="frame" x="244.5" y="326" width="111" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="2D1-zE-Npu" secondAttribute="trailing" constant="50" id="0Tf-aD-efX"/>
+                            <constraint firstItem="2D1-zE-Npu" firstAttribute="trailing" secondItem="r4K-UJ-qt1" secondAttribute="trailing" id="94e-mZ-tGR"/>
+                            <constraint firstItem="2D1-zE-Npu" firstAttribute="leading" secondItem="gTR-86-XwR" secondAttribute="leadingMargin" constant="50" id="BIk-pG-d2F"/>
+                            <constraint firstItem="2D1-zE-Npu" firstAttribute="leading" secondItem="r4K-UJ-qt1" secondAttribute="leading" id="Kcj-3W-Kbv"/>
+                            <constraint firstItem="G3K-iY-QHX" firstAttribute="centerX" secondItem="gTR-86-XwR" secondAttribute="centerX" id="LeY-6s-sRp"/>
+                            <constraint firstItem="2D1-zE-Npu" firstAttribute="top" secondItem="r4K-UJ-qt1" secondAttribute="bottom" constant="25" id="WUn-qO-2Fo"/>
+                            <constraint firstItem="0sL-8s-Ko8" firstAttribute="top" secondItem="2D1-zE-Npu" secondAttribute="bottom" constant="40" id="x67-n2-Rff"/>
+                            <constraint firstItem="r4K-UJ-qt1" firstAttribute="top" secondItem="G3K-iY-QHX" secondAttribute="bottom" constant="95" id="xyh-Kb-hFU"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="SHd-r6-jie">
+                        <barButtonItem key="leftBarButtonItem" image="settings-bar-button-icon" id="X1d-6g-zYJ">
+                            <connections>
+                                <segue destination="4gw-wh-h40" kind="show" id="ZK7-Tt-xoo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hJP-BA-wrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="342" y="429"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="R2a-yf-eZ0">
@@ -141,7 +268,31 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D8r-kW-Jcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="392" y="429"/>
+            <point key="canvasLocation" x="1204" y="429"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QY9-qo-Ytn">
+            <objects>
+                <navigationController storyboardIdentifier="AuthorizationNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="xl0-DN-Kh1" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1Yj-Qh-DJQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="K0p-sA-XXX" kind="relationship" relationship="rootViewController" id="Kq2-En-Xa9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1AX-tW-l6X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-376" y="429"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="settings-bar-button-icon" width="22" height="22"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ZK7-Tt-xoo"/>
+    </inferredMetricsTieBreakers>
 </document>

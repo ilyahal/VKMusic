@@ -64,10 +64,12 @@ extension AppDelegate: VKDelegate {
     
     // Вызывается при успешной авторизации
     func vkDidAutorize(parameters: Dictionary<String, String>) {
+        NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidAutorizeNotification, object: nil)
     }
     
     // Вызывается при деавторизации
     func vkDidUnautorize() {
+        NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidUnautorizeNotification, object: nil)
     }
     
     // Вызывается для получения настроек места сохранения токена
@@ -77,7 +79,11 @@ extension AppDelegate: VKDelegate {
     
     // Запрашивает родительский view controller, который будет отображать view controller с окном авторизации
     func vkWillPresentView() -> UIViewController {
-        return self.window!.rootViewController!
+        let navigationViewController = window!.rootViewController! as! UINavigationController
+        let mainViewController = navigationViewController.viewControllers.first as! MainViewController
+        let authorizationViewController = mainViewController.authorizationNavigationController?.viewControllers.first as! AuthorizationViewController
+        
+        return authorizationViewController
     }
     
 }

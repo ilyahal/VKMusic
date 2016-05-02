@@ -10,6 +10,8 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    var authorizationNavigationController: UINavigationController? // view controller для авторизации
+    
     var resultSearchController: UISearchController!
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,13 +28,52 @@ class MainViewController: UIViewController {
         resultSearchController.searchBar.sizeToFit()
         
         tableView.tableHeaderView = resultSearchController.searchBar
-        
         tableView.contentOffset = CGPointMake(0, CGRectGetHeight(resultSearchController.searchBar.frame)) // Прячем строку поиска
         
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .Plain, target: nil, action: nil)
         
-        searchResults = Array.init(count: 100, repeatedValue: Track(name: "Название трека", artist: "Имя исполнителя", previewUrl: nil))
+        // Авторизация пользователя
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userDidAutorize), name: VKAPIManagerDidAutorizeNotification, object: nil) // Добавляем слушаетля для события успешной авторизации
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userDidUnautorize), name: VKAPIManagerDidUnautorizeNotification, object: nil) // Добавляем слушателя для события деавторизации
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if !VKAPIManager.isAuthorized {
+            showAuthorizationViewController()
+        }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: Авторизация пользователя
+    
+    func showAuthorizationViewController() {
+        if authorizationNavigationController == nil {
+            authorizationNavigationController = storyboard?.instantiateViewControllerWithIdentifier("AuthorizationNavigationController") as? UINavigationController
+            presentViewController(authorizationNavigationController!, animated: true, completion: nil)
+        }
+    }
+    
+    func hideAuthorizationViewController() {
+        if let _ = authorizationNavigationController {
+            dismissViewControllerAnimated(true, completion: nil)
+            authorizationNavigationController = nil
+        }
+    }
+    
+    func userDidAutorize() {
+        hideAuthorizationViewController()
+    }
+    
+    func userDidUnautorize() {
+        //showAuthorizationViewController()
     }
     
     // MARK: Работа с клавиатурой

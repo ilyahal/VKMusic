@@ -9,6 +9,9 @@
 import Foundation
 import SwiftyVK
 
+let VKAPIManagerDidAutorizeNotification = "VKAPIManagerDidAutorizeNotification" // Уведомление о том, что авторизация успешно пройдена
+let VKAPIManagerDidUnautorizeNotification = "VKAPIManagerDidUnautorizeNotification" // Уведомление о том, что была произведена деавторизация
+
 class VKAPIManager {
     
     static let applicationID = "5443807" // ID приложения
@@ -34,6 +37,11 @@ class VKAPIManager {
     class func logout() {
         VK.logOut()
         print("SwiftyVK: LogOut")
+    }
+    
+    // Авторизован ли пользователь
+    class var isAuthorized: Bool {
+        return VK.state == .Authorized
     }
     
 }
