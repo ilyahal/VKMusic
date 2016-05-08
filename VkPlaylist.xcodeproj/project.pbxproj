@@ -12,6 +12,7 @@
 		BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */; };
 		BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */; };
 		BB6EF73B1CDF6AFA00466C3B /* NoAuthorizedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6EF7391CDF6AFA00466C3B /* NoAuthorizedCell.xib */; };
+		BB75FCC41CDF873900B40BC8 /* MyMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */; };
 		BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */; };
 		BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0531CD66441005B8494 /* AppDelegate.swift */; };
 		BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0571CD66441005B8494 /* Main.storyboard */; };
@@ -30,7 +31,6 @@
 		BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */; };
 		BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */; };
 		BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08C1CD78B5A005B8494 /* Reachability.swift */; };
-		BBDEC0921CD79EC7005B8494 /* MyMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0911CD79EC7005B8494 /* MyMusicTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +40,7 @@
 		BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkErrorCell.swift; sourceTree = "<group>"; };
 		BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoAuthorizedCell.swift; sourceTree = "<group>"; };
 		BB6EF7391CDF6AFA00466C3B /* NoAuthorizedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoAuthorizedCell.xib; sourceTree = "<group>"; };
+		BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicTableViewController.swift; sourceTree = "<group>"; };
 		BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
 		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NothingFoundCell.swift; sourceTree = "<group>"; };
 		BBDEC08C1CD78B5A005B8494 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		BBDEC0911CD79EC7005B8494 /* MyMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicTableViewController.swift; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -170,8 +170,8 @@
 			isa = PBXGroup;
 			children = (
 				BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */,
-				BBDEC0911CD79EC7005B8494 /* MyMusicTableViewController.swift */,
 				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
+				BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -367,6 +367,7 @@
 			files = (
 				BBDEC0701CD6BEB7005B8494 /* AuthorizationViewController.swift in Sources */,
 				BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */,
+				BB75FCC41CDF873900B40BC8 /* MyMusicTableViewController.swift in Sources */,
 				BBDEC06E1CD6AFD5005B8494 /* VKAPIManager.swift in Sources */,
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
@@ -379,7 +380,6 @@
 				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,
 				BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */,
-				BBDEC0921CD79EC7005B8494 /* MyMusicTableViewController.swift in Sources */,
 				BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
