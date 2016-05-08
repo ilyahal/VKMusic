@@ -39,15 +39,17 @@ class MyMusicTableViewController: UITableViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.searchBarStyle = .Prominent
         searchController.searchBar.placeholder = "Поиск в Моей музыке"
-        searchController.searchBar.sizeToFit()
         definesPresentationContext = true
         
-        tableView.tableHeaderView = searchController.searchBar
-        tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+        if VKAPIManager.isAuthorized {
+            searchEnable(true)
+        }
         
         
         // Настройка Pull-To-Refresh
-        pullToRefreshEnable(true)
+        if VKAPIManager.isAuthorized {
+            pullToRefreshEnable(true)
+        }
         
         
         // Кастомизация tableView
@@ -77,8 +79,10 @@ class MyMusicTableViewController: UITableViewController {
             if VKAPIManager.isAuthorized {
                 getMusic()
                 pullToRefreshEnable(true)
+                searchEnable(true)
             } else {
                 pullToRefreshEnable(false)
+                searchEnable(false)
             }
             
             reloadTableView()
@@ -148,6 +152,19 @@ class MyMusicTableViewController: UITableViewController {
     
     
     // MARK: Поиск
+    
+    func searchEnable(enable: Bool) {
+        if enable {
+            tableView.tableHeaderView = searchController.searchBar
+            tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+        } else {
+            if searchController.active {
+                searchController.active = false
+            }
+            tableView.tableHeaderView = nil
+            tableView.contentOffset = CGPointZero
+        }
+    }
     
     private func filterContentForSearchText(searchText: String) {
         filteredMusic = DataManager.sharedInstance.myMusic.filter { track in
