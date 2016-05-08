@@ -34,8 +34,13 @@ class RequestManager {
     private init() {
         activeRequests = [:]
         
+        
         getAudioState = State.NotSearchedYet
         getAudioError = ErrorRequest.None
+        
+        
+        searchAudioState = State.NotSearchedYet
+        searchAudioError = ErrorRequest.None
     }
     
     deinit {
@@ -50,6 +55,7 @@ class RequestManager {
     // Отмена запросов при деавторизации
     func cancelRequestInCaseOfDeavtorization() {
         getAudioRequestCancel()
+        searchAudioRequestCancel()
     }
     
     
@@ -58,13 +64,56 @@ class RequestManager {
     private(set) var getAudioState: State
     private(set) var getAudioError: ErrorRequest
     
+    
+    // MARK: Получение искомых аудиозаписей
+    
+    private(set) var searchAudioState: State
+    private(set) var searchAudioError: ErrorRequest
+    
+}
+
+
+// MARK: Типы данных
+
+private typealias RequestManagerDataTypes = RequestManager
+extension RequestManagerDataTypes {
+    
+    // Состояния выполнения запросов
+    enum State {
+        case NotSearchedYet // Поиск еще не был выполен (или была ошибка)
+        case Loading // Результат загружается
+        case NoResults // Ничего не найдено
+        case Results // Результат поиска
+    }
+    
+    // Ошибки при запросах
+    enum ErrorRequest {
+        case None // Нет ошибок
+        case NetworkError // Проблемы при подключении к интернету
+        case UnknownError // Неизвестная ошибка
+    }
+    
+    // Ключи для запросов
+    enum requestKeys: String {
+        case GetAudio = "getAudio" // Ключ на получение личных аудиозаписей
+        case SearchAudio = "searchAudio" // Ключ на получение искомых аудиозаписей
+    }
+    
+}
+
+
+// MARK: Получение личных аудиозаписей
+
+private typealias RequestManagerGetAudio = RequestManager
+extension RequestManagerGetAudio {
+    
     func getAudio(completion: (Bool) -> Void) {
         getAudioRequestCancel()
         
         if !Reachability.isConnectedToNetwork() {
             
             // Сохраняем данные
-            DataManager.sharedInstance.updateMyMusic([])
+            DataManager.sharedInstance.clearMyMusic()
             getAudioState = .NotSearchedYet
             getAudioError = .NetworkError
             
@@ -100,7 +149,7 @@ class RequestManager {
         NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerGetAudioNetworkErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
             
             // Сохраняем данные
-            DataManager.sharedInstance.updateMyMusic([])
+            DataManager.sharedInstance.clearMyMusic()
             self.getAudioState = .NotSearchedYet
             self.getAudioError = .NetworkError
             
@@ -116,7 +165,7 @@ class RequestManager {
         NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerGetAudioErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
             
             // Сохраняем данные
-            DataManager.sharedInstance.updateMyMusic([])
+            DataManager.sharedInstance.clearMyMusic()
             self.getAudioState = .NotSearchedYet
             self.getAudioError = .UnknownError
             
@@ -168,29 +217,116 @@ class RequestManager {
 }
 
 
-// MARK: Типы данных
+// MARK: Получение искомых аудиозаписей
 
-private typealias RequestManagerDataTypes = RequestManager
-extension RequestManagerDataTypes {
+private typealias RequestManagerSearchAudio = RequestManager
+extension RequestManagerSearchAudio {
     
-    // Состояния выполнения запросов
-    enum State {
-        case NotSearchedYet // Поиск еще не был выполен (или была ошибка)
-        case Loading // Результат загружается
-        case NoResults // Ничего не найдено
-        case Results // Результат поиска
+    func searchAudio(search: String, withCompletionHandler completion: (Bool) -> Void) {
+        searchAudioRequestCancel()
+        
+        if !Reachability.isConnectedToNetwork() {
+            
+            // Сохраняем данные
+            DataManager.sharedInstance.clearSearchMusic()
+            searchAudioState = .NotSearchedYet
+            searchAudioError = .NetworkError
+            
+            // Убираем состояние выполнения запроса
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.searchAudioRemoveObservers()
+            self.activeRequests[requestKeys.SearchAudio.rawValue] = nil
+            
+            completion(false)
+            
+            
+            return
+        }
+        
+        // Слушатель для уведомления об успешном завершении получения аудиозаписей
+        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerDidSearchAudioNotification, object: nil, queue: NSOperationQueue.mainQueue()) { notification in
+            let searchMusicResult = notification.userInfo!["Audio"] as! [Track]
+            
+            // Сохраняем данные
+            DataManager.sharedInstance.updateSearchMusic(searchMusicResult)
+            self.searchAudioState = DataManager.sharedInstance.searchMusic.count == 0 ? .NoResults : .Results
+            self.searchAudioError = .None
+            
+            // Убираем состояние выполнения запроса
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.searchAudioRemoveObservers()
+            self.activeRequests[requestKeys.SearchAudio.rawValue] = nil
+            
+            completion(true)
+        }
+        
+        // Слушатель для получения уведомления об ошибке при подключении к интернету
+        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerSearchAudioNetworkErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
+            
+            // Сохраняем данные
+            DataManager.sharedInstance.clearSearchMusic()
+            self.searchAudioState = .NotSearchedYet
+            self.searchAudioError = .NetworkError
+            
+            // Убираем состояние выполнения запроса
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.searchAudioRemoveObservers()
+            self.activeRequests[requestKeys.SearchAudio.rawValue] = nil
+            
+            completion(false)
+        }
+        
+        // Слушатель для уведомления о других ошибках
+        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerSearchAudioErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
+            
+            // Сохраняем данные
+            DataManager.sharedInstance.clearSearchMusic()
+            self.searchAudioState = .NotSearchedYet
+            self.searchAudioError = .UnknownError
+            
+            // Убираем состояние выполнения запроса
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.searchAudioRemoveObservers()
+            self.activeRequests[requestKeys.SearchAudio.rawValue] = nil
+            
+            completion(false)
+        }
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        let request = VKAPIManager.audioSearch(search)
+        
+        searchAudioState = .Loading
+        searchAudioError = .None
+        
+        activeRequests[requestKeys.SearchAudio.rawValue] = request
     }
     
-    // Ошибки при запросах
-    enum ErrorRequest {
-        case None // Нет ошибок
-        case NetworkError // Проблемы при подключении к интернету
-        case UnknownError // Неизвестная ошибка
+    // Удаляет слушателей для уведомлений о получении искомых аудиозаписей
+    private func searchAudioRemoveObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: VKAPIManagerDidSearchAudioNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: VKAPIManagerSearchAudioNetworkErrorNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: VKAPIManagerSearchAudioErrorNotification, object: nil)
     }
     
-    // Ключи для запросов
-    enum requestKeys: String {
-        case GetAudio = "getAudio" // Ключ на получение личных аудиозаписей
+    // Сбрасывает состояние для запроса о искомых аудиозаписях
+    private func searchAudioDropeState() {
+        searchAudioState = .NotSearchedYet
+        searchAudioError = .None
+        
+        searchAudioRemoveObservers()
+    }
+    
+    // Отменяет выполнение запроса на получение искомых аудиозаписей
+    private func searchAudioRequestCancel() {
+        
+        // Если есть активный запрос на получение искомых аудиозаписей
+        if let activeRequest = activeRequests[requestKeys.SearchAudio.rawValue] {
+            activeRequest.cancel()
+            activeRequests[requestKeys.SearchAudio.rawValue] = nil
+            
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            searchAudioDropeState()
+        }
     }
     
 }

@@ -16,8 +16,8 @@ class MoreTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        linksToScreens.append(LinkToScreen(title: "Друзья", icon: "icon-User", segueIdentifier: "ShowFriendsSegue"))
-        linksToScreens.append(LinkToScreen(title: "Группы", icon: "icon-MultipleUsers", segueIdentifier: "ShowGroupsSegue"))
+        linksToScreens.append(LinkToScreen(title: "Друзья", icon: "icon-UserReverse", segueIdentifier: "ShowFriendsSegue"))
+        linksToScreens.append(LinkToScreen(title: "Группы", icon: "icon-MultipleUsersReverse", segueIdentifier: "ShowGroupsSegue"))
         linksToScreens.append(LinkToScreen(title: "Рекомендации", icon: "icon-Recommendation", segueIdentifier: "ShowRecommendationsSegue"))
         linksToScreens.append(LinkToScreen(title: "Популярное", icon: "icon-Favorite", segueIdentifier: "ShowPopularSegue"))
         linksToScreens.append(LinkToScreen(title: "Настройки", icon: "icon-Settings", segueIdentifier: "ShowSettingsSegue"))

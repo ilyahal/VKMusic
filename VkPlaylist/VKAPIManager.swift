@@ -17,6 +17,10 @@ let VKAPIManagerDidGetAudioNotification = "VKAPIManagerDidGetAudioNotification" 
 let VKAPIManagerGetAudioNetworkErrorNotification = "VKAPIManagerGetAudioNetworkErrorNotification" // Уведомление о том, что при получении личных аудиозаписей произошла ошибка при подключении к интернету
 let VKAPIManagerGetAudioErrorNotification = "VKAPIManagerGetAudioErrorNotification" // Уведомление о том, что при получении личных аудиозаписей произошла ошибка
 
+let VKAPIManagerDidSearchAudioNotification = "VKAPIManagerDidSearchAudioNotification" // Уведомление о том, что список искомых аудиозаписей был получен
+let VKAPIManagerSearchAudioNetworkErrorNotification = "VKAPIManagerSearchAudioNetworkErrorNotification" // Уведомление о том, что при получении искомых аудиозаписей произошла ошибка при подключении к интернету
+let VKAPIManagerSearchAudioErrorNotification = "VKAPIManagerSearchAudioErrorNotification" // Уведомление о том, что при получении искомых аудиозаписей произошла ошибка
+
 /// Отвечает за взаимодействие с VK
 
 class VKAPIManager {
@@ -86,6 +90,33 @@ class VKAPIManager {
 //        }
 //        request.send()
 //    }
+    
+    // Получение личных аудиозаписей
+    class func audioSearch(search: String) -> Request {
+        let request = VK.API.Audio.search([
+            .q : search, // Поисковый запрос
+            .autoComplete : "1", // Автоматическое исправление возможных ошибок
+            .sort : "2", // Сортировка по популярности
+            .count : "100" // Количество аудиозаписей, которые вернет запрос
+        ])
+        request.successBlock = { response in
+            let result = VKJSONParser.parseAudio(response)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidSearchAudioNotification, object: nil, userInfo: ["Audio": result])
+        }
+        request.errorBlock = { error in
+            if error.domain == "NSURLErrorDomain" && error.code == -1009 { // Если ошибка при подключении к интернету
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerSearchAudioNetworkErrorNotification, object: nil)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerSearchAudioErrorNotification, object: nil)
+            }
+            
+            print("SwiftyVK: audioGet fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
     
 }
 

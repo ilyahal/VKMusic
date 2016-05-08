@@ -1,28 +1,22 @@
 //
-//  MyMusicTableViewController.swift
+//  SearchTableViewController.swift
 //  VkPlaylist
 //
-//  Created by Илья Халяпин on 02.05.16.
+//  Created by Илья Халяпин on 09.05.16.
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
 import UIKit
 
-class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController {
+class SearchTableViewController: MusicFromInternetWithSearchTableViewController {
     
-    private var filteredMusic = [Track]() // Массив для результатов поиска по уже загруженным личным аудиозаписям
-    
-    
+    var currentTextSearchRequest: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if VKAPIManager.isAuthorized {
-            getMusic()
-        }
-        
-        
         // Настройка поисковой панели
-        searchController.searchBar.placeholder = "Поиск в Моей музыке"
+        searchController.searchBar.placeholder = "Поиск"
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -31,29 +25,22 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
         if currentAuthorizationStatus != VKAPIManager.isAuthorized {
             currentAuthorizationStatus = VKAPIManager.isAuthorized
             
-            if VKAPIManager.isAuthorized {
-                getMusic()
-            }
-            
             reloadTableView()
         }
+        
+        pullToRefreshEnable(false)
+        tableView.setContentOffset(CGPointZero, animated: true) // Не прячем строку поиска
     }
     
     
     // MARK: Выполнение запроса на получение личных аудиозаписей
     
-    func getMusic() {
-        RequestManager.sharedInstance.getAudio { success in
+    func searchMusic(search: String) {
+        RequestManager.sharedInstance.searchAudio(search) { success in
             self.reloadTableView()
             
-            if let refreshControl = self.refreshControl {
-                if refreshControl.refreshing { // Если данные обновляются
-                    refreshControl.endRefreshing() // Говорим что обновление завершено
-                }
-            }
-            
             if !success {
-                switch RequestManager.sharedInstance.getAudioError {
+                switch RequestManager.sharedInstance.searchAudioError {
                 case .NetworkError:
                     break
                 case .UnknownError:
@@ -72,52 +59,26 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
         }
     }
     
-    
-    // MARK: Поиск
-    
-    func filterContentForSearchText(searchText: String) {
-        filteredMusic = DataManager.sharedInstance.myMusic.filter { track in
-            return track.title!.lowercaseString.containsString(searchText.lowercaseString) || track.artist!.lowercaseString.containsString(searchText.lowercaseString)
-        }
-    }
-    
-    
-    // MARK: Pull-to-Refresh
-    
-    override func refreshMyMusic() {
-        super.refreshMyMusic()
-        
-        getMusic()
-    }
-    
 }
 
 
 // MARK: UITableViewDataSource
 
-private typealias MyMusicTableViewControllerDataSource = MyMusicTableViewController
-extension MyMusicTableViewControllerDataSource {
+private typealias SearchTableViewControllerDataSource = SearchTableViewController
+extension SearchTableViewControllerDataSource {
     
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getAudioState {
-            case .NotSearchedYet where RequestManager.sharedInstance.getAudioError == .NetworkError:
+            switch RequestManager.sharedInstance.searchAudioState {
+            case .NotSearchedYet where RequestManager.sharedInstance.searchAudioError == .NetworkError:
                 return 1 // Ячейка с сообщением об отсутствии интернет соединения
             case .Loading:
-                if let refreshControl = refreshControl where refreshControl.refreshing {
-                    return 0
-                }
-                
                 return 1 // Ячейка с индикатором загрузки
             case .NoResults:
-                return 1 // Ячейки с сообщением об отсутствии личных аудиозаписей
+                return 1 // Ячейки с сообщением об отсутствии найденных аудиозаписей
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
-                    return filteredMusic.count == 0 ? 1 : filteredMusic.count // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных аудиозаписей
-                }
-                
-                return DataManager.sharedInstance.myMusic.count
+                return DataManager.sharedInstance.searchMusic.count
             default:
                 return 0
             }
@@ -129,55 +90,25 @@ extension MyMusicTableViewControllerDataSource {
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getAudioState {
-            case .NotSearchedYet where RequestManager.sharedInstance.getAudioError == .NetworkError:
+            switch RequestManager.sharedInstance.searchAudioState {
+            case .NotSearchedYet where RequestManager.sharedInstance.searchAudioError == .NetworkError:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath)
                 return cell
             case .NoResults:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
                 
-                cell.messageLabel.text = "Список аудиозаписей пуст"
+                cell.messageLabel.text = "Ничего не найдено"
                 
                 return cell
             case .Loading:
-                if let refreshControl = refreshControl where refreshControl.refreshing {
-                    if DataManager.sharedInstance.myMusic.count != 0 {
-                        let trackCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                        let track = DataManager.sharedInstance.myMusic[indexPath.row]
-                        
-                        trackCell.delegate = self
-                        
-                        trackCell.nameLabel.text = track.title
-                        trackCell.artistLabel.text = track.artist
-                        
-                        return trackCell
-                    }
-                }
-                
-                
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
                 
                 cell.activityIndicator.startAnimating()
                 
                 return cell
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
-                    let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                    
-                    nothingFoundCell.messageLabel.text = "Измените поисковый запрос"
-                    
-                    return nothingFoundCell
-                }
-                
-                
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                var track: Track
-                
-                if searchController.active && searchController.searchBar.text != "" {
-                    track = filteredMusic[indexPath.row]
-                } else {
-                    track = DataManager.sharedInstance.myMusic[indexPath.row]
-                }
+                let track  = DataManager.sharedInstance.searchMusic[indexPath.row]
                 
                 cell.delegate = self
                 
@@ -192,7 +123,7 @@ extension MyMusicTableViewControllerDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
         
-        cell.messageLabel.text = "Для отображения списка личных аудиозаписей необходимо авторизоваться"
+        cell.messageLabel.text = "Для поиска аудиозаписей необходимо авторизоваться"
         
         return cell
     }
@@ -202,15 +133,15 @@ extension MyMusicTableViewControllerDataSource {
 
 // MARK: UITableViewDelegate
 
-private typealias MyMusicTableViewControllerDelegate = MyMusicTableViewController
-extension MyMusicTableViewControllerDelegate {
+private typealias SearchTableViewControllerDelegate = SearchTableViewController
+extension SearchTableViewControllerDelegate {
     
     // Вызывается при тапе по строке таблицы
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
-            let track = DataManager.sharedInstance.myMusic[indexPath.row]
+            let track = DataManager.sharedInstance.searchMusic[indexPath.row]
             let trackURL = NSURL(string: track.url!)
             
             PlayerManager.sharedInstance.playFile(trackURL!)
@@ -222,22 +153,13 @@ extension MyMusicTableViewControllerDelegate {
 
 // MARK: UISearchBarDelegate
 
-private typealias MyMusicTableViewControllerUISearchBarDelegate = MyMusicTableViewController
-extension MyMusicTableViewControllerUISearchBarDelegate {
+private typealias SearchTableViewControllerUISearchBarDelegate = SearchTableViewController
+extension SearchTableViewControllerUISearchBarDelegate {
     
     // Говорит делегату что пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getAudioState {
-            case .Results:
-                if let refreshControl = refreshControl {
-                    return !refreshControl.refreshing
-                }
-                
-                return true
-            default:
-                return false
-            }
+            return true
         }
         
         return false
@@ -246,15 +168,17 @@ extension MyMusicTableViewControllerUISearchBarDelegate {
     // Вызывается когда пользователь начал редактирование поискового текста
     override func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         super.searchBarTextDidBeginEditing(searchBar)
-        
-        pullToRefreshEnable(false)
     }
     
     // Вызывается когда пользователь закончил редактирование поискового текста
     override func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         super.searchBarTextDidEndEditing(searchBar)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        DataManager.sharedInstance.clearSearchMusic()
         
-        pullToRefreshEnable(true)
+        reloadTableView()
     }
     
 }
@@ -262,14 +186,19 @@ extension MyMusicTableViewControllerUISearchBarDelegate {
 
 // MARK: UISearchResultsUpdating
 
-private typealias MyMusicTableViewControllerUISearchResultsUpdating = MyMusicTableViewController
-extension MyMusicTableViewControllerUISearchResultsUpdating {
+private typealias SearchTableViewControllerUISearchResultsUpdating = SearchTableViewController
+extension SearchTableViewControllerUISearchResultsUpdating {
     
     // Вызывается когда поле поиска получает фокус или когда значение поискового запроса изменяется
     override func updateSearchResultsForSearchController(searchController: UISearchController) {
         super.updateSearchResultsForSearchController(searchController)
         
-        filterContentForSearchText(searchController.searchBar.text!)
+        if searchController.searchBar.text!.isEmpty {
+            DataManager.sharedInstance.clearSearchMusic()
+        } else {
+            searchMusic(searchController.searchBar.text!)
+        }
+        
         reloadTableView()
     }
     

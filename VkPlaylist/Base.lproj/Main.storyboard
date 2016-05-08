@@ -25,30 +25,20 @@
             </objects>
             <point key="canvasLocation" x="2541" y="429"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Поиск-->
         <scene sceneID="vk8-Mn-bxB">
             <objects>
-                <tableViewController id="Ngh-Br-Pnh" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jRB-to-Rgr">
+                <tableViewController id="Ngh-Br-Pnh" customClass="SearchTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="jRB-to-Rgr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qtu-MR-iW3">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qtu-MR-iW3" id="Voa-06-k9s">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Ngh-Br-Pnh" id="A0M-1n-cUS"/>
                             <outlet property="delegate" destination="Ngh-Br-Pnh" id="os9-Qr-dvs"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="vXn-jE-4Dr"/>
+                    <navigationItem key="navigationItem" title="Поиск" id="vXn-jE-4Dr"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EzF-Uw-XjE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

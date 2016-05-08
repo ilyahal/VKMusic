@@ -37,6 +37,7 @@
 		BBE853551CDFCCF000872C3B /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */; };
 		BBE853571CDFCE5800872C3B /* LinkToScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853561CDFCE5800872C3B /* LinkToScreen.swift */; };
 		BBE8535A1CDFE4DF00872C3B /* UIImageView+TintImageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853591CDFE4DF00872C3B /* UIImageView+TintImageColor.swift */; };
+		BBE8535C1CDFE89000872C3B /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8535B1CDFE89000872C3B /* SearchTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
 		BBE853561CDFCE5800872C3B /* LinkToScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkToScreen.swift; sourceTree = "<group>"; };
 		BBE853591CDFE4DF00872C3B /* UIImageView+TintImageColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+TintImageColor.swift"; sourceTree = "<group>"; };
+		BBE8535B1CDFE89000872C3B /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -187,6 +189,7 @@
 				BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */,
 				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
 				BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */,
+				BBE8535B1CDFE89000872C3B /* SearchTableViewController.swift */,
 				BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */,
 			);
 			name = ViewControllers;
@@ -241,8 +244,8 @@
 			children = (
 				BBDEC06D1CD6AFD5005B8494 /* VKAPIManager.swift */,
 				BBDEC0791CD748B1005B8494 /* DataManager.swift */,
-				BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */,
 				BBDEC0821CD757E9005B8494 /* RequestManager.swift */,
+				BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */,
 				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,
+				BBE8535C1CDFE89000872C3B /* SearchTableViewController.swift in Sources */,
 				BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */,
 				BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */,
 			);

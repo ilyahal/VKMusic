@@ -32,6 +32,13 @@ class DataManager {
     
     private init() {
         myMusic = [Track]()
+        searchMusic = [Track]()
+    }
+    
+    // Удаляем данные при деавторизации
+    func clearDataInCaseOfDeavtorization() {
+        clearMyMusic()
+        clearSearchMusic()
     }
     
     
@@ -47,6 +54,21 @@ class DataManager {
     // Чистит массив личных аудиозаписей
     func clearMyMusic() {
         myMusic.removeAll()
+    }
+    
+    
+    // MARK: Искомые аудиозаписи
+    
+    private(set) var searchMusic: [Track]
+    
+    // Запоминает новый список искомых аудиозаписей
+    func updateSearchMusic(music: [Track]) {
+        searchMusic = music
+    }
+    
+    // Чистит массив искомых аудиозаписей
+    func clearSearchMusic() {
+        searchMusic.removeAll()
     }
     
 }
