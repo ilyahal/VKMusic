@@ -11,6 +11,7 @@ import SwiftyVK
 
 let VKAPIManagerDidAutorizeNotification = "VKAPIManagerDidAutorizeNotification" // Уведомление о том, что авторизация успешно пройдена
 let VKAPIManagerDidUnautorizeNotification = "VKAPIManagerDidUnautorizeNotification" // Уведомление о том, что была произведена деавторизация
+let VKAPIManagerAutorizationFailedNotification = "VKAPIManagerAutorizationFailedNotification" // Уведомление о том, что при авторизации была ошибка
 
 let VKAPIManagerDidGetAudioNotification = "VKAPIManagerDidGetAudioNotification" // Уведомление о том, что список личных аудиозаписей был получен
 let VKAPIManagerGetAudioNetworkErrorNotification = "VKAPIManagerGetAudioNetworkErrorNotification" // Уведомление о том, что при получении личных аудиозаписей произошла ошибка при подключении к интернету

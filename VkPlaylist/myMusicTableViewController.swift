@@ -9,8 +9,6 @@
 import UIKit
 
 class MyMusicTableViewController: UITableViewController {
-
-    var authorizationNavigationController: UINavigationController? // view controller для авторизации
     
     private var searchController: UISearchController!
     private var filteredMusic = [Track]() // Массив для результатов поиска по уже загруженным личным аудиозаписям
@@ -18,6 +16,7 @@ class MyMusicTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // Настройка кнопки назад на дочерних экранах
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .Plain, target: nil, action: nil)
@@ -48,24 +47,30 @@ class MyMusicTableViewController: UITableViewController {
         
         
         // Регистрация ячеек
-        var cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil) // Ячейка ничего не найдено
+        var cellNib = UINib(nibName: TableViewCellIdentifiers.noAuthorizedCell, bundle: nil) // Ячейка "Необходимо авторизоваться"
+        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.noAuthorizedCell)
+        
+        cellNib = UINib(nibName: TableViewCellIdentifiers.networkErrorCell, bundle: nil) // Ячейка "Ошибка при подключении к интернету"
+        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.networkErrorCell)
+        
+        cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil) // Ячейка "Ничего не найдено"
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
         
-        cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil) // Ячейка загрузка
+        cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil) // Ячейка "Загрузка"
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
-        
-        
-        // Наблюдатели за авторизацией пользователя
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userDidAutorize), name: VKAPIManagerDidAutorizeNotification, object: nil) // Добавляем слушаетля для события успешной авторизации
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userDidUnautorize), name: VKAPIManagerDidUnautorizeNotification, object: nil) // Добавляем слушателя для события деавторизации
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        if !VKAPIManager.isAuthorized {
-            showAuthorizationViewController()
+        if VKAPIManager.isAuthorized {
+            getMusic()
+            pullToRefreshEnable(true)
+        } else {
+            pullToRefreshEnable(false)
         }
+        
+        reloadTableView()
     }
     
     // Заново отрисовать таблицу
@@ -95,14 +100,7 @@ class MyMusicTableViewController: UITableViewController {
             if !success {
                 switch RequestManager.sharedInstance.getAudioError {
                 case .NetworkError:
-                    let alertController = UIAlertController(title: "Ошибка", message: "Проверьте соединение с интернетом!", preferredStyle: .Alert)
-                    
-                    let okAction = UIAlertAction(title: "ОК", style: .Default, handler: nil)
-                    alertController.addAction(okAction)
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.presentViewController(alertController, animated: false, completion: nil)
-                    }
+                    break
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -116,44 +114,6 @@ class MyMusicTableViewController: UITableViewController {
                     break
                 }
             }
-        }
-    }
-    
-    
-    // MARK: Авторизация пользователя
-    
-    // Показать экран с авторизацией пользователя
-    private func showAuthorizationViewController() {
-        if authorizationNavigationController == nil {
-            authorizationNavigationController = storyboard?.instantiateViewControllerWithIdentifier("AuthorizationNavigationController") as? UINavigationController
-            presentViewController(authorizationNavigationController!, animated: true, completion: nil)
-        }
-    }
-    
-    // Скрыть экран с авторизацией пользователя
-    private func hideAuthorizationViewController() {
-        if let _ = authorizationNavigationController {
-            dismissViewControllerAnimated(true, completion: nil)
-            authorizationNavigationController = nil
-        }
-    }
-    
-    // Пользователь авторизовался
-    @objc private func userDidAutorize() {
-        hideAuthorizationViewController()
-        
-        getMusic()
-        reloadTableView()
-    }
-    
-    // Пользователь деавторизовался
-    @objc private func userDidUnautorize() {
-        DataManager.sharedInstance.clearMyMusic()
-        RequestManager.sharedInstance.cancelRequestInCaseOfDeavtorization()
-        
-        reloadTableView()
-        if let refreshControl = refreshControl where refreshControl.refreshing {
-            refreshControl.endRefreshing()
         }
     }
     
@@ -181,8 +141,6 @@ class MyMusicTableViewController: UITableViewController {
         filteredMusic = DataManager.sharedInstance.myMusic.filter { track in
             return track.title!.lowercaseString.containsString(searchText.lowercaseString) || track.artist!.lowercaseString.containsString(searchText.lowercaseString)
         }
-        
-        reloadTableView()
     }
     
     
@@ -191,7 +149,7 @@ class MyMusicTableViewController: UITableViewController {
     private func pullToRefreshEnable(enable: Bool) {
         if enable {
             refreshControl = UIRefreshControl()
-            //refreshControl!.attributedTitle = NSAttributedString(string: "Потяните, чтобы обновить...")
+            //refreshControl!.attributedTitle = NSAttributedString(string: "Потяните, чтобы обновить...") // Все крашится :с
             refreshControl!.addTarget(self, action: #selector(refreshMyMusic), forControlEvents: .ValueChanged) // Добавляем обработчик контроллера обновления
         } else {
             refreshControl?.removeTarget(self, action: #selector(refreshMyMusic), forControlEvents: .ValueChanged)
@@ -201,6 +159,7 @@ class MyMusicTableViewController: UITableViewController {
     
     @objc private func refreshMyMusic() {
         getMusic()
+        //reloadTableView()
     }
     
 }
@@ -213,6 +172,8 @@ extension MyMusicTableViewControllerDataTypes {
     
     // Идентификаторы ячеек
     private struct TableViewCellIdentifiers {
+        static let noAuthorizedCell = "NoAuthorizedCell" // Ячейка с сообщением об отсутствии авторизации
+        static let networkErrorCell = "NetworkErrorCell" // Ячейка с сообщением об ошибке при подключении к интернету
         static let nothingFoundCell = "NothingFoundCell" // Ячейка с сообщением "ничего не найдено"
         static let loadingCell = "LoadingCell" // Ячейка с сообщением о загрузке данных
         static let audioCell = "AudioCell" // Ячейка для вывода аудиозаписи
@@ -255,54 +216,101 @@ extension MyMusicTableViewControllerDataSource {
     
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch RequestManager.sharedInstance.getAudioState {
-        case .NoResults, .Loading:
-            return 1
-        case .Results:
-            if searchController.active && searchController.searchBar.text != "" {
-                return filteredMusic.count
+        if VKAPIManager.isAuthorized {
+            switch RequestManager.sharedInstance.getAudioState {
+            case .NotSearchedYet where RequestManager.sharedInstance.getAudioError == .NetworkError:
+                return 1 // Ячейка с сообщением об отсутствии интернет соединения
+            case .Loading:
+                if let refreshControl = refreshControl where refreshControl.refreshing {
+                    return 0
+                }
+                
+                return 1 // Ячейка с индикатором загрузки
+            case .NoResults:
+                return 1 // Ячейки с сообщением об отсутствии личных аудиозаписей
+            case .Results:
+                if searchController.active && searchController.searchBar.text != "" {
+                    return filteredMusic.count == 0 ? 1 : filteredMusic.count // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных аудиозаписей
+                }
+                
+                return DataManager.sharedInstance.myMusic.count
+            default:
+                return 0
             }
-            
-            return DataManager.sharedInstance.myMusic.count
-        default:
-            return 0
         }
+        
+        return 1 // Ячейка с сообщением о необходимости авторизоваться
     }
     
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch RequestManager.sharedInstance.getAudioState {
-        case .NoResults:
-            let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-            
-            cell.messageLabel.text = "Список аудиозаписей пуст"
-            
-            return cell
-        case .Loading:
-            let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-            
-            cell.activityIndicator.startAnimating()
-            
-            return cell
-        case .Results:
-            let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-            var track: Track
-            
-            if searchController.active && searchController.searchBar.text != "" {
-                track = filteredMusic[indexPath.row]
-            } else {
-                track = DataManager.sharedInstance.myMusic[indexPath.row]
+        if VKAPIManager.isAuthorized {
+            switch RequestManager.sharedInstance.getAudioState {
+            case .NotSearchedYet where RequestManager.sharedInstance.getAudioError == .NetworkError:
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath)
+                return cell
+            case .NoResults:
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+                
+                cell.messageLabel.text = "Список аудиозаписей пуст"
+                
+                return cell
+            case .Loading:
+                if let refreshControl = refreshControl where refreshControl.refreshing {
+                    if DataManager.sharedInstance.myMusic.count != 0 {
+                        let trackCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
+                        let track = DataManager.sharedInstance.myMusic[indexPath.row]
+                        
+                        trackCell.delegate = self
+                        
+                        trackCell.nameLabel.text = track.title
+                        trackCell.artistLabel.text = track.artist
+                        
+                        return trackCell
+                    }
+                }
+                
+                
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
+                
+                cell.activityIndicator.startAnimating()
+                
+                return cell
+            case .Results:
+                if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
+                    let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+                    
+                    nothingFoundCell.messageLabel.text = "Измените поисковый запрос"
+                    
+                    return nothingFoundCell
+                }
+                
+                
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
+                var track: Track
+                
+                if searchController.active && searchController.searchBar.text != "" {
+                    track = filteredMusic[indexPath.row]
+                } else {
+                    track = DataManager.sharedInstance.myMusic[indexPath.row]
+                }
+                
+                cell.delegate = self
+                
+                cell.nameLabel.text = track.title
+                cell.artistLabel.text = track.artist
+                
+                return cell
+            default:
+                return UITableViewCell()
             }
-            
-            cell.delegate = self
-            
-            cell.nameLabel.text = track.title
-            cell.artistLabel.text = track.artist
-            
-            return cell
-        default:
-            return UITableViewCell()
         }
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
+        
+        cell.messageLabel.text = "Для отображения списка личных аудиозаписей необходимо авторизоваться"
+        
+        return cell
     }
     
 }
@@ -321,6 +329,13 @@ extension MyMusicTableViewControllerDelegate {
     // Вызывается при тапе по строке таблицы
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
+            let track = DataManager.sharedInstance.myMusic[indexPath.row]
+            let trackURL = NSURL(string: track.url!)
+            
+            PlayerManager.sharedInstance.playFile(trackURL!)
+        }
     }
     
 }
@@ -332,16 +347,20 @@ extension MyMusicTableViewController: UISearchBarDelegate {
     
     // Говорит делегату что пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        switch RequestManager.sharedInstance.getAudioState {
-        case .NotSearchedYet, .NoResults, .Loading:
-            return false
-        case .Results:
-            if let refreshControl = refreshControl {
-                return !refreshControl.refreshing
+        if VKAPIManager.isAuthorized {
+            switch RequestManager.sharedInstance.getAudioState {
+            case .Results:
+                if let refreshControl = refreshControl {
+                    return !refreshControl.refreshing
+                }
+                
+                return true
+            default:
+                return false
             }
-            
-            return true
         }
+        
+        return false
     }
     
     // Вызывается когда пользователь начал редактирование поискового текста
@@ -366,6 +385,8 @@ extension MyMusicTableViewController: UISearchResultsUpdating {
     // Вызывается когда поле поиска получает фокус или когда значение поискового запроса изменяется
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
+        
+        reloadTableView()
     }
     
 }

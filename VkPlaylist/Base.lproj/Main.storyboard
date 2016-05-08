@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="iyu-ir-HBW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="iyu-ir-HBW">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -124,14 +124,36 @@
                         <sections>
                             <tableViewSection headerTitle="VK.COM" id="gcH-We-VVC">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="fdq-Fu-Usw">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="rj4-5K-0KV">
                                         <rect key="frame" x="0.0" y="113.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rj4-5K-0KV" id="aRO-Yg-TVB">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ow8-Xa-iZN">
+                                                    <rect key="frame" x="215.5" y="7" width="169" height="30"/>
+                                                    <state key="normal" title="Войти в аккаунт vk.com"/>
+                                                    <connections>
+                                                        <action selector="loginTapped:" destination="4gw-wh-h40" eventType="touchUpInside" id="TES-te-VFc"/>
+                                                        <action selector="logoutTapped:" destination="4gw-wh-h40" eventType="touchUpInside" id="WV3-oK-Un7"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ow8-Xa-iZN" firstAttribute="centerY" secondItem="aRO-Yg-TVB" secondAttribute="centerY" id="3cf-d2-Jxr"/>
+                                                <constraint firstItem="ow8-Xa-iZN" firstAttribute="centerX" secondItem="aRO-Yg-TVB" secondAttribute="centerX" id="kmZ-GI-kW0"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="fdq-Fu-Usw">
+                                        <rect key="frame" x="0.0" y="157.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fdq-Fu-Usw" id="BhJ-qT-AK8">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7AB-x9-cWc">
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7AB-x9-cWc">
                                                     <rect key="frame" x="206.5" y="7" width="187" height="30"/>
                                                     <state key="normal" title="Выйти из аккаунта vk.com"/>
                                                     <connections>
@@ -155,6 +177,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Настройки" id="bUS-GK-y3a"/>
                     <connections>
+                        <outlet property="loginButton" destination="ow8-Xa-iZN" id="3ex-Mc-q25"/>
                         <outlet property="logoutButton" destination="7AB-x9-cWc" id="oph-eW-KGP"/>
                     </connections>
                 </tableViewController>
@@ -221,13 +244,7 @@
                             <constraint firstItem="r4K-UJ-qt1" firstAttribute="top" secondItem="G3K-iY-QHX" secondAttribute="bottom" constant="95" id="xyh-Kb-hFU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="SHd-r6-jie">
-                        <barButtonItem key="leftBarButtonItem" image="settings-bar-button-icon" id="X1d-6g-zYJ">
-                            <connections>
-                                <segue destination="4gw-wh-h40" kind="show" identifier="AuthorizationShowSettings" id="ZK7-Tt-xoo"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="SHd-r6-jie"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hJP-BA-wrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -273,7 +290,4 @@
     <resources>
         <image name="settings-bar-button-icon" width="22" height="22"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="Uze-Fb-dMY"/>
-    </inferredMetricsTieBreakers>
 </document>

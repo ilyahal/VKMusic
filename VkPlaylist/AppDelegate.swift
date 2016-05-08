@@ -46,6 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
     }
     
+    // MARK: Авторизация пользователя
+    
+    // Пользователь деавторизовался
+    func userDidUnautorize() {
+        RequestManager.sharedInstance.cancelRequestInCaseOfDeavtorization()
+        DataManager.sharedInstance.clearMyMusic()
+    }
+    
 }
 
 // MARK: VKDelegate
@@ -60,6 +68,8 @@ extension AppDelegate: VKDelegate {
     // Вызывается при возникновении ошибки при авторизации
     func vkAutorizationFailed(error: VK.Error) {
         print("Autorization failed with error: \n\(error)")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerAutorizationFailedNotification, object: error)
     }
     
     // Вызывается при успешной авторизации
@@ -70,6 +80,8 @@ extension AppDelegate: VKDelegate {
     // Вызывается при деавторизации
     func vkDidUnautorize() {
         NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidUnautorizeNotification, object: nil)
+        
+        userDidUnautorize()
     }
     
     // Вызывается для получения настроек места сохранения токена
@@ -79,11 +91,7 @@ extension AppDelegate: VKDelegate {
     
     // Запрашивает родительский view controller, который будет отображать view controller с окном авторизации
     func vkWillPresentView() -> UIViewController {
-        let navigationViewController = window!.rootViewController! as! UINavigationController
-        let myMusicTableViewController = navigationViewController.viewControllers.first as! MyMusicTableViewController
-        let authorizationViewController = myMusicTableViewController.authorizationNavigationController?.viewControllers.first as! AuthorizationViewController
-        
-        return authorizationViewController
+        return window!.rootViewController!
     }
     
 }

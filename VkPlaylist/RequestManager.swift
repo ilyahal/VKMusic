@@ -61,6 +61,24 @@ class RequestManager {
     func getAudio(completion: (Bool) -> Void) {
         getAudioRequestCancel()
         
+        if !Reachability.isConnectedToNetwork() {
+            
+            // Сохраняем данные
+            DataManager.sharedInstance.updateMyMusic([])
+            getAudioState = .NotSearchedYet
+            getAudioError = .NetworkError
+            
+            // Убираем состояние выполнения запроса
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.getAudioRemoveObservers()
+            self.activeRequests[requestKeys.GetAudio.rawValue] = nil
+            
+            completion(false)
+            
+            
+            return
+        }
+        
         // Слушатель для уведомления об успешном завершении получения аудиозаписей
         NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerDidGetAudioNotification, object: nil, queue: NSOperationQueue.mainQueue()) { notification in
             let myMusicResult = notification.userInfo!["Audio"] as! [Track]
