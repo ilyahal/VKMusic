@@ -10,6 +10,9 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
 
+    var authorizationNavigationController: UINavigationController?
+    
+    @IBOutlet weak var loginButton: UIButton! // Кнопка "Войти в аккаунт"
     @IBOutlet private weak var logoutButton: UIButton! // Кнопка "Выход из аккаунта"
     
     override func viewDidLoad() {
@@ -17,13 +20,61 @@ class SettingsTableViewController: UITableViewController {
 
         tableView.tableFooterView = UIView()
         
-        logoutButton.enabled = VKAPIManager.isAuthorized
+        updateAuthorizationButtonsStatus(VKAPIManager.isAuthorized)
+        
+        // Наблюдатели за авторизацией пользователя
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userDidAutorize), name: VKAPIManagerDidAutorizeNotification, object: nil) // Добавляем слушаетля для события успешной авторизации
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userDidUnautorize), name: VKAPIManagerDidUnautorizeNotification, object: nil) // Добавляем слушателя для события деавторизации
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userAutorizationFailed), name: VKAPIManagerAutorizationFailedNotification, object: nil) // Добавляем слушаетля для события успешной авторизации
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // Обновление состояния кнопок авторизации
+    func updateAuthorizationButtonsStatus(state: Bool) {
+        if state {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.loginButton.enabled = false
+                self.logoutButton.enabled = true
+            }
+        } else {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.loginButton.enabled = true
+                self.logoutButton.enabled = false
+            }
+        }
+    }
+    
+    // Вызывается при тапе по кнопке "Войти в аккаунт"
+    @IBAction func loginTapped(sender: UIButton) {
+        loginButton.enabled = false
+        VKAPIManager.autorize()
     }
     
     // Вызывается при тапе по кнопке "Выход из аккаунта"
     @IBAction private func logoutTapped(sender: UIButton) {
+        logoutButton.enabled = false
         VKAPIManager.logout()
-        sender.enabled = false
+    }
+    
+    
+    // MARK: Авторизация пользователя
+    
+    // Пользователь авторизовался
+    @objc private func userDidAutorize() {
+        updateAuthorizationButtonsStatus(true)
+    }
+    
+    // Пользователь деавторизовался
+    @objc private func userDidUnautorize() {
+        updateAuthorizationButtonsStatus(false)
+    }
+    
+    // При авторизации пользователя произошла ошибка
+    @objc private func userAutorizationFailed() {
+        updateAuthorizationButtonsStatus(false)
     }
     
 }

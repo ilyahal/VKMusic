@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,8 +15,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="61.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ничего не найдено" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K9L-AJ-pEY">
-                        <rect key="frame" x="83" y="20.5" width="155" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ничего не найдено" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K9L-AJ-pEY">
+                        <rect key="frame" x="8" y="20.5" width="304" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -23,7 +24,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="K9L-AJ-pEY" firstAttribute="centerY" secondItem="ocQ-0w-kzZ" secondAttribute="centerY" id="4ID-0S-NIr"/>
-                    <constraint firstItem="K9L-AJ-pEY" firstAttribute="centerX" secondItem="ocQ-0w-kzZ" secondAttribute="centerX" id="gON-Yn-ZGe"/>
+                    <constraint firstItem="K9L-AJ-pEY" firstAttribute="leading" secondItem="ocQ-0w-kzZ" secondAttribute="leadingMargin" id="FUd-Jm-Oj4"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="K9L-AJ-pEY" secondAttribute="trailing" id="Xcl-G8-aMe"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
