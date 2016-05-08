@@ -20,7 +20,7 @@ class SettingsTableViewController: UITableViewController {
 
         tableView.tableFooterView = UIView()
         
-        updateAuthorizationButtonsState(VKAPIManager.isAuthorized)
+        updateAuthorizationButtonsStatus(VKAPIManager.isAuthorized)
         
         // Наблюдатели за авторизацией пользователя
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userDidAutorize), name: VKAPIManagerDidAutorizeNotification, object: nil) // Добавляем слушаетля для события успешной авторизации
@@ -33,7 +33,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     // Обновление состояния кнопок авторизации
-    func updateAuthorizationButtonsState(state: Bool) {
+    func updateAuthorizationButtonsStatus(state: Bool) {
         if state {
             dispatch_async(dispatch_get_main_queue()) {
                 self.loginButton.enabled = false
@@ -64,17 +64,17 @@ class SettingsTableViewController: UITableViewController {
     
     // Пользователь авторизовался
     @objc private func userDidAutorize() {
-        updateAuthorizationButtonsState(true)
+        updateAuthorizationButtonsStatus(true)
     }
     
     // Пользователь деавторизовался
     @objc private func userDidUnautorize() {
-        updateAuthorizationButtonsState(false)
+        updateAuthorizationButtonsStatus(false)
     }
     
     // При авторизации пользователя произошла ошибка
     @objc private func userAutorizationFailed() {
-        updateAuthorizationButtonsState(false)
+        updateAuthorizationButtonsStatus(false)
     }
     
 }

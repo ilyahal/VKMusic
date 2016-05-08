@@ -13,9 +13,17 @@ class MyMusicTableViewController: UITableViewController {
     private var searchController: UISearchController!
     private var filteredMusic = [Track]() // Массив для результатов поиска по уже загруженным личным аудиозаписям
     
+    var currentAuthorizationStatus: Bool! // Состояние авторизации пользователя при последнем отображении экрана
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        currentAuthorizationStatus = VKAPIManager.isAuthorized
+        
+        if VKAPIManager.isAuthorized {
+            getMusic()
+        }
         
         
         // Настройка кнопки назад на дочерних экранах
@@ -63,14 +71,18 @@ class MyMusicTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if VKAPIManager.isAuthorized {
-            getMusic()
-            pullToRefreshEnable(true)
-        } else {
-            pullToRefreshEnable(false)
+        if currentAuthorizationStatus != VKAPIManager.isAuthorized {
+            currentAuthorizationStatus = VKAPIManager.isAuthorized
+            
+            if VKAPIManager.isAuthorized {
+                getMusic()
+                pullToRefreshEnable(true)
+            } else {
+                pullToRefreshEnable(false)
+            }
+            
+            reloadTableView()
         }
-        
-        reloadTableView()
     }
     
     // Заново отрисовать таблицу
@@ -159,7 +171,6 @@ class MyMusicTableViewController: UITableViewController {
     
     @objc private func refreshMyMusic() {
         getMusic()
-        //reloadTableView()
     }
     
 }
