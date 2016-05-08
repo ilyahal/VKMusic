@@ -8,18 +8,13 @@
 
 import UIKit
 
-class MyMusicTableViewController: UITableViewController {
+class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController {
     
-    private var searchController: UISearchController!
     private var filteredMusic = [Track]() // Массив для результатов поиска по уже загруженным личным аудиозаписям
-    
-    var currentAuthorizationStatus: Bool! // Состояние авторизации пользователя при последнем отображении экрана
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        currentAuthorizationStatus = VKAPIManager.isAuthorized
         
         if VKAPIManager.isAuthorized {
             getMusic()
@@ -31,43 +26,7 @@ class MyMusicTableViewController: UITableViewController {
         
         
         // Настройка поисковой панели
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.searchBarStyle = .Prominent
         searchController.searchBar.placeholder = "Поиск в Моей музыке"
-        definesPresentationContext = true
-        
-        if VKAPIManager.isAuthorized {
-            searchEnable(true)
-        }
-        
-        
-        // Настройка Pull-To-Refresh
-        if VKAPIManager.isAuthorized {
-            pullToRefreshEnable(true)
-        }
-        
-        
-        // Кастомизация tableView
-        tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
-        
-        
-        // Регистрация ячеек
-        var cellNib = UINib(nibName: TableViewCellIdentifiers.noAuthorizedCell, bundle: nil) // Ячейка "Необходимо авторизоваться"
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.noAuthorizedCell)
-        
-        cellNib = UINib(nibName: TableViewCellIdentifiers.networkErrorCell, bundle: nil) // Ячейка "Ошибка при подключении к интернету"
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.networkErrorCell)
-        
-        cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil) // Ячейка "Ничего не найдено"
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
-        
-        cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil) // Ячейка "Загрузка"
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -78,32 +37,16 @@ class MyMusicTableViewController: UITableViewController {
             
             if VKAPIManager.isAuthorized {
                 getMusic()
-                pullToRefreshEnable(true)
-                searchEnable(true)
-            } else {
-                pullToRefreshEnable(false)
-                searchEnable(false)
             }
             
             reloadTableView()
         }
     }
     
-    // Заново отрисовать таблицу
-    private func reloadTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.tableView.reloadData()
-        }
-    }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
     
     // MARK: Выполнение запроса на получение личных аудиозаписей
     
-    private func getMusic() {
+    func getMusic() {
         RequestManager.sharedInstance.getAudio { success in
             self.reloadTableView()
             
@@ -134,39 +77,9 @@ class MyMusicTableViewController: UITableViewController {
     }
     
     
-    // MARK: Работа с клавиатурой
-    
-    private lazy var tapRecognizer: UITapGestureRecognizer = {
-        var recognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        return recognizer
-    }()
-    
-    // Спрятать клавиатуру у поисковой строки
-    @objc private func dismissKeyboard() {
-        searchController.searchBar.resignFirstResponder()
-        
-        if searchController.active && searchController.searchBar.text!.isEmpty {
-            searchController.active = false
-        }
-    }
-    
-    
     // MARK: Поиск
     
-    func searchEnable(enable: Bool) {
-        if enable {
-            tableView.tableHeaderView = searchController.searchBar
-            tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
-        } else {
-            if searchController.active {
-                searchController.active = false
-            }
-            tableView.tableHeaderView = nil
-            tableView.contentOffset = CGPointZero
-        }
-    }
-    
-    private func filterContentForSearchText(searchText: String) {
+    func filterContentForSearchText(searchText: String) {
         filteredMusic = DataManager.sharedInstance.myMusic.filter { track in
             return track.title!.lowercaseString.containsString(searchText.lowercaseString) || track.artist!.lowercaseString.containsString(searchText.lowercaseString)
         }
@@ -175,63 +88,10 @@ class MyMusicTableViewController: UITableViewController {
     
     // MARK: Pull-to-Refresh
     
-    private func pullToRefreshEnable(enable: Bool) {
-        if enable {
-            refreshControl = UIRefreshControl()
-            //refreshControl!.attributedTitle = NSAttributedString(string: "Потяните, чтобы обновить...") // Все крашится :с
-            refreshControl!.addTarget(self, action: #selector(refreshMyMusic), forControlEvents: .ValueChanged) // Добавляем обработчик контроллера обновления
-        } else {
-            refreshControl?.removeTarget(self, action: #selector(refreshMyMusic), forControlEvents: .ValueChanged)
-            refreshControl = nil
-        }
-    }
-    
-    @objc private func refreshMyMusic() {
+    override func refreshMyMusic() {
+        super.refreshMyMusic()
+        
         getMusic()
-    }
-    
-}
-
-
-// MARK: Типы данных
-
-private typealias MyMusicTableViewControllerDataTypes = MyMusicTableViewController
-extension MyMusicTableViewControllerDataTypes {
-    
-    // Идентификаторы ячеек
-    private struct TableViewCellIdentifiers {
-        static let noAuthorizedCell = "NoAuthorizedCell" // Ячейка с сообщением об отсутствии авторизации
-        static let networkErrorCell = "NetworkErrorCell" // Ячейка с сообщением об ошибке при подключении к интернету
-        static let nothingFoundCell = "NothingFoundCell" // Ячейка с сообщением "ничего не найдено"
-        static let loadingCell = "LoadingCell" // Ячейка с сообщением о загрузке данных
-        static let audioCell = "AudioCell" // Ячейка для вывода аудиозаписи
-    }
-    
-}
-
-
-// MARK: AudioCellDelegate
-
-extension MyMusicTableViewController: AudioCellDelegate {
-    
-    // Вызывается при тапе по кнопке Пауза
-    func pauseTapped(cell: AudioCell) {
-        print("pause" + cell.nameLabel.text!)
-    }
-    
-    // Вызывается при тапе по кнопке Продолжить
-    func resumeTapped(cell: AudioCell) {
-        print("resume" + cell.nameLabel.text!)
-    }
-    
-    // Вызывается при тапе по кнопке Отмена
-    func cancelTapped(cell: AudioCell) {
-        print("cancel" + cell.nameLabel.text!)
-    }
-    
-    // Вызывается при тапе по кнопке Скачать
-    func downloadTapped(cell: AudioCell) {
-        print("download" + cell.nameLabel.text!)
     }
     
 }
@@ -349,11 +209,6 @@ extension MyMusicTableViewControllerDataSource {
 private typealias MyMusicTableViewControllerDelegate = MyMusicTableViewController
 extension MyMusicTableViewControllerDelegate {
     
-    // Высота каждой строки
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 62
-    }
-    
     // Вызывается при тапе по строке таблицы
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -371,7 +226,8 @@ extension MyMusicTableViewControllerDelegate {
 
 // MARK: UISearchBarDelegate
 
-extension MyMusicTableViewController: UISearchBarDelegate {
+private typealias MyMusicTableViewControllerUISearchBarDelegate = MyMusicTableViewController
+extension MyMusicTableViewControllerUISearchBarDelegate {
     
     // Говорит делегату что пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
@@ -392,14 +248,16 @@ extension MyMusicTableViewController: UISearchBarDelegate {
     }
     
     // Вызывается когда пользователь начал редактирование поискового текста
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        view.addGestureRecognizer(tapRecognizer)
+    override func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        super.searchBarTextDidBeginEditing(searchBar)
+        
         pullToRefreshEnable(false)
     }
     
     // Вызывается когда пользователь закончил редактирование поискового текста
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        view.removeGestureRecognizer(tapRecognizer)
+    override func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        super.searchBarTextDidEndEditing(searchBar)
+        
         pullToRefreshEnable(true)
     }
     
@@ -408,12 +266,14 @@ extension MyMusicTableViewController: UISearchBarDelegate {
 
 // MARK: UISearchResultsUpdating
 
-extension MyMusicTableViewController: UISearchResultsUpdating {
+private typealias MyMusicTableViewControllerUISearchResultsUpdating = MyMusicTableViewController
+extension MyMusicTableViewControllerUISearchResultsUpdating {
     
     // Вызывается когда поле поиска получает фокус или когда значение поискового запроса изменяется
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
+    override func updateSearchResultsForSearchController(searchController: UISearchController) {
+        super.updateSearchResultsForSearchController(searchController)
         
+        filterContentForSearchText(searchController.searchBar.text!)
         reloadTableView()
     }
     
