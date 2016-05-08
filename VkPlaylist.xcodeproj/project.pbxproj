@@ -33,6 +33,7 @@
 		BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08C1CD78B5A005B8494 /* Reachability.swift */; };
 		BBE8534E1CDFB59600872C3B /* MusicFromInternetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8534D1CDFB59600872C3B /* MusicFromInternetTableViewController.swift */; };
 		BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8534F1CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift */; };
+		BBE853531CDFCA7000872C3B /* AudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE853521CDFCA7000872C3B /* AudioCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		BBDEC08C1CD78B5A005B8494 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		BBE8534D1CDFB59600872C3B /* MusicFromInternetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicFromInternetTableViewController.swift; sourceTree = "<group>"; };
 		BBE8534F1CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicFromInternetWithSearchTableViewController.swift; sourceTree = "<group>"; };
+		BBE853521CDFCA7000872C3B /* AudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioCell.xib; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -173,11 +175,10 @@
 		BBDEC0751CD6D610005B8494 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				BBE853511CDFC99A00872C3B /* Superclasses */,
 				BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */,
 				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
 				BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */,
-				BBE8534D1CDFB59600872C3B /* MusicFromInternetTableViewController.swift */,
-				BBE8534F1CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -213,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				BBDEC0651CD66DB6005B8494 /* AudioCell.swift */,
+				BBE853521CDFCA7000872C3B /* AudioCell.xib */,
 			);
 			name = AudioCell;
 			sourceTree = "<group>";
@@ -242,6 +244,15 @@
 				BBDEC08C1CD78B5A005B8494 /* Reachability.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		BBE853511CDFC99A00872C3B /* Superclasses */ = {
+			isa = PBXGroup;
+			children = (
+				BBE8534D1CDFB59600872C3B /* MusicFromInternetTableViewController.swift */,
+				BBE8534F1CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift */,
+			);
+			name = Superclasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +317,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBE853531CDFCA7000872C3B /* AudioCell.xib in Resources */,
 				BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */,
 				BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */,
 				BBDEC07C1CD7538B005B8494 /* LoadingCell.xib in Resources */,

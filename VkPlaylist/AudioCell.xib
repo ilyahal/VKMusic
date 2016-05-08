@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AudioCell" rowHeight="62" id="pZz-dZ-7kG" customClass="AudioCell" customModule="VkPlaylist" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pZz-dZ-7kG" id="PLm-lL-9gh">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="61.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Название" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oGw-MS-K57">
+                        <rect key="frame" x="14" y="8" width="484" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Исполнитель" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpk-h6-yJf">
+                        <rect key="frame" x="14" y="28" width="484" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OBw-kS-Gqk">
+                        <rect key="frame" x="541" y="9" width="56" height="30"/>
+                        <state key="normal" title="Отмена"/>
+                        <connections>
+                            <action selector="cancelTapped:" destination="pZz-dZ-7kG" eventType="touchUpInside" id="Agt-dg-N0h"/>
+                        </connections>
+                    </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8W-fA-bMl">
+                        <rect key="frame" x="490" y="9" width="43" height="30"/>
+                        <state key="normal" title="Пауза"/>
+                        <connections>
+                            <action selector="pauseOrResumeTapped:" destination="pZz-dZ-7kG" eventType="touchUpInside" id="b9V-gX-JcC"/>
+                        </connections>
+                    </button>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100% из 1.35MB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CkO-dq-Cj5">
+                        <rect key="frame" x="506.5" y="43.5" width="85.5" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yWo-K1-cjO">
+                        <rect key="frame" x="14" y="51" width="484" height="2"/>
+                    </progressView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2w-eI-UeB">
+                        <rect key="frame" x="525" y="9" width="58" height="30"/>
+                        <state key="normal" title="Скачать"/>
+                        <connections>
+                            <action selector="downloadTapped:" destination="pZz-dZ-7kG" eventType="touchUpInside" id="qG1-5F-ZpG"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="oGw-MS-K57" firstAttribute="top" secondItem="PLm-lL-9gh" secondAttribute="top" constant="8" id="0R9-Am-rUk"/>
+                    <constraint firstItem="n2w-eI-UeB" firstAttribute="top" secondItem="PLm-lL-9gh" secondAttribute="top" constant="9" id="1hT-hP-cXN"/>
+                    <constraint firstItem="OBw-kS-Gqk" firstAttribute="leading" secondItem="t8W-fA-bMl" secondAttribute="trailing" constant="8" id="8nO-V4-0MY"/>
+                    <constraint firstItem="yWo-K1-cjO" firstAttribute="top" secondItem="xpk-h6-yJf" secondAttribute="bottom" constant="6" id="9dT-RH-0Ha"/>
+                    <constraint firstAttribute="trailing" secondItem="oGw-MS-K57" secondAttribute="trailing" constant="102" id="Da7-oi-ykV"/>
+                    <constraint firstAttribute="trailing" secondItem="OBw-kS-Gqk" secondAttribute="trailing" constant="3" id="Hi8-2Y-gyz"/>
+                    <constraint firstItem="xpk-h6-yJf" firstAttribute="top" secondItem="oGw-MS-K57" secondAttribute="bottom" constant="1" id="IiB-8i-Hno"/>
+                    <constraint firstAttribute="trailing" secondItem="xpk-h6-yJf" secondAttribute="trailing" constant="102" id="MqJ-NH-zR3"/>
+                    <constraint firstItem="CkO-dq-Cj5" firstAttribute="centerY" secondItem="yWo-K1-cjO" secondAttribute="centerY" constant="-2" id="PJQ-ae-8pn"/>
+                    <constraint firstAttribute="trailing" secondItem="n2w-eI-UeB" secondAttribute="trailing" constant="17" id="PZp-vh-FzR"/>
+                    <constraint firstAttribute="trailing" secondItem="CkO-dq-Cj5" secondAttribute="trailing" constant="8" id="SL6-us-qkZ"/>
+                    <constraint firstAttribute="trailing" secondItem="yWo-K1-cjO" secondAttribute="trailing" constant="102" id="UGk-TN-4nX"/>
+                    <constraint firstItem="xpk-h6-yJf" firstAttribute="leading" secondItem="PLm-lL-9gh" secondAttribute="leading" constant="14" id="ZbA-OB-kYx"/>
+                    <constraint firstItem="OBw-kS-Gqk" firstAttribute="top" secondItem="PLm-lL-9gh" secondAttribute="top" constant="9" id="e8L-kN-qY9"/>
+                    <constraint firstItem="yWo-K1-cjO" firstAttribute="leading" secondItem="PLm-lL-9gh" secondAttribute="leading" constant="14" id="eGE-bZ-Nfu"/>
+                    <constraint firstItem="oGw-MS-K57" firstAttribute="leading" secondItem="PLm-lL-9gh" secondAttribute="leading" constant="14" id="fel-Qp-BTM"/>
+                    <constraint firstItem="t8W-fA-bMl" firstAttribute="baseline" secondItem="OBw-kS-Gqk" secondAttribute="baseline" id="jFv-aH-f9A"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="artistLabel" destination="xpk-h6-yJf" id="4Qz-PK-2WT"/>
+                <outlet property="cancelButton" destination="OBw-kS-Gqk" id="Zck-kj-SMi"/>
+                <outlet property="downloadButton" destination="n2w-eI-UeB" id="lT7-Dc-1x9"/>
+                <outlet property="nameLabel" destination="oGw-MS-K57" id="xQf-db-F66"/>
+                <outlet property="pauseButton" destination="t8W-fA-bMl" id="T93-9u-tKZ"/>
+                <outlet property="progressBar" destination="yWo-K1-cjO" id="iLK-oI-ZbO"/>
+                <outlet property="progressLabel" destination="CkO-dq-Cj5" id="GgD-Ym-Nlc"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

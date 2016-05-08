@@ -8,14 +8,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadingCell" rowHeight="62" id="oRU-2w-uiJ" customClass="LoadingCell" customModule="VkPlaylist" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oRU-2w-uiJ" id="K5Q-3J-7Zh">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="61.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="61.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="my2-eK-E5w">
-                        <rect key="frame" x="95" y="13" width="130" height="36"/>
+                        <rect key="frame" x="235" y="13" width="130" height="36"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загрузка..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JZ-OE-lfm">
                                 <rect key="frame" x="36" y="8" width="86" height="21"/>
