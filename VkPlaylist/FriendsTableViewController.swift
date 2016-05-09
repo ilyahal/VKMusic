@@ -74,6 +74,17 @@ class FriendsTableViewController: UITableViewController {
         }
     }
     
+    // Подготовка к выполнению перехода
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowFriendAudioSegue" {
+            let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
+            let friend = sender as! Friend
+            
+            ownerMusicTableViewController.id = friend.id
+            ownerMusicTableViewController.name = friend.getFullName()
+        }
+    }
+    
     
     // MARK: Работа с клавиатурой
     
@@ -300,7 +311,7 @@ extension FriendsTableViewControllerDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
         
-        cell.messageLabel.text = "Для отображения списка личных аудиозаписей необходимо авторизоваться"
+        cell.messageLabel.text = "Для отображения списка друзей необходимо авторизоваться"
         
         return cell
     }
@@ -339,6 +350,26 @@ extension FriendsTableViewControllerDelegate {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if VKAPIManager.isAuthorized {
+            if RequestManager.sharedInstance.getFriends.state == .Results {
+                if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == 0 {
+                    return
+                }
+                
+                var friend: Friend
+                
+                if searchController.active && searchController.searchBar.text != "" {
+                    friend = filteredFriends[indexPath.row]
+                } else {
+                    let sectionTitle = nameSectionTitles[indexPath.section]
+                    let sectionNames = names[sectionTitle]
+                    friend = sectionNames![indexPath.row]
+                }
+                
+                performSegueWithIdentifier("ShowFriendAudioSegue", sender: friend)
+            }
+        }
     }
     
 }

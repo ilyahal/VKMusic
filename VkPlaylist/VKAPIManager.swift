@@ -29,6 +29,12 @@ let VKAPIManagerDidGetFriendsNotification = "VKAPIManagerDidGetFriendsNotificati
 let VKAPIManagerGetFriendsNetworkErrorNotification = "VKAPIManagerGetFriendsNetworkErrorNotification" // Уведомление о том, что при получении друзей произошла ошибка при подключении к интернету
 let VKAPIManagerGetFriendsErrorNotification = "VKAPIManagerGetFriendsErrorNotification" // Уведомление о том, что при получении друзей произошла ошибка
 
+// Уведомления о событиях при получения списка друзей
+let VKAPIManagerDidGetAudioForOwnerNotification = "VKAPIManagerDidGetAudioForOwnerNotification" // Уведомление о том, что список аудиозаписей указанного пользователя был получен
+let VKAPIManagerGetAudioForOwnerNetworkErrorNotification = "VKAPIManagerGetAudioForOwnerNetworkErrorNotification" // Уведомление о том, что при получении аудиозаписей указанного пользователя произошла ошибка при подключении к интернету
+let VKAPIManagerGetAudioForOwnerAccessErrorNotification = "VKAPIManagerGetAudioForOwnerAccessErrorNotification" // Уведомление о том, что при получении аудиозаписей указанного пользователя произошла ошибка доступа
+let VKAPIManagerGetAudioForOwnerErrorNotification = "VKAPIManagerGetAudioForOwnerErrorNotification" // Уведомление о том, что при получении аудиозаписей указанного пользователя произошла ошибка
+
 /// Отвечает за взаимодействие с VK
 
 class VKAPIManager {
@@ -129,6 +135,33 @@ class VKAPIManager {
             }
             
             print("SwiftyVK: friendsGet fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
+    
+    
+    // Получение аудиозаписей пользователя с указанным id
+    class func audioGetWithOwnerID(id: Int) -> Request {
+        let request = VK.API.Audio.get([
+            .ownerId: String(id)
+        ])
+        request.successBlock = { response in
+            let result = VKJSONParser.parseAudio(response)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetAudioForOwnerNotification, object: nil, userInfo: ["Audio": result])
+        }
+        request.errorBlock = { error in
+            if error.domain == "NSURLErrorDomain" && error.code == -1009 { // Если ошибка при подключении к интернету
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioForOwnerNetworkErrorNotification, object: nil)
+            } else if error.domain == "APIError" && error.code == 201 { // Если аудиозаписи пользователя закрыты
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioForOwnerAccessErrorNotification, object: nil)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioForOwnerErrorNotification, object: nil)
+            }
+            
+            print("SwiftyVK: audioGet fail \n \(error)")
         }
         request.send()
         

@@ -30,6 +30,7 @@ class DataManager {
         myMusic = DataManagerObject<Track>()
         searchMusic = DataManagerObject<Track>()
         friends = DataManagerObject<Friend>()
+        ownerMusic = DataManagerObject<Track>()
     }
     
     // Удаляем данные при деавторизации
@@ -37,6 +38,7 @@ class DataManager {
         myMusic.clear()
         searchMusic.clear()
         friends.clear()
+        ownerMusic.clear()
     }
     
     
@@ -48,5 +50,8 @@ class DataManager {
     
     // Список друзей
     let friends: DataManagerObject<Friend>
+    
+    // Аудиозаписи пользователя
+    let ownerMusic: DataManagerObject<Track>
     
 }

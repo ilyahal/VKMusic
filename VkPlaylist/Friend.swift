@@ -18,4 +18,24 @@ class Friend {
         self.photo_200_orig = photo_200_orig
         self.first_name = first_name
     }
+    
+    func getFullName() -> String {
+        var userName = ""
+        
+        if let first_name = first_name {
+            userName = first_name
+        }
+        if let last_name = last_name {
+            if !userName.isEmpty {
+                userName += " "
+            }
+            
+            userName += last_name
+        }
+        if userName.isEmpty {
+            userName = "UNKNOWN"
+        }
+        
+        return userName
+    }
 }

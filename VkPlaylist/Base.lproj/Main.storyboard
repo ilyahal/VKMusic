@@ -159,8 +159,8 @@
                                                 <constraint firstAttribute="height" constant="45" id="b5d-lO-Blr"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Имя пользователя" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVi-Xe-aMT">
-                                            <rect key="frame" x="67" y="20" width="147" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;Имя пользователя&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVi-Xe-aMT">
+                                            <rect key="frame" x="67" y="20" width="168" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -186,10 +186,32 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Друзья" id="GCm-dX-ezz"/>
+                    <connections>
+                        <segue destination="WMM-6k-EWz" kind="show" identifier="ShowFriendAudioSegue" id="bot-Aw-jF8"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eV0-qH-H9B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3271" y="3523"/>
+        </scene>
+        <!--<Имя владельца>-->
+        <scene sceneID="7aK-Lh-4fa">
+            <objects>
+                <tableViewController id="WMM-6k-EWz" customClass="OwnerMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="HwJ-cR-hCn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="WMM-6k-EWz" id="IKa-sX-T99"/>
+                            <outlet property="delegate" destination="WMM-6k-EWz" id="pVG-gI-SQO"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="&lt;Имя владельца&gt;" id="Xdx-0k-gRA"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qEW-ff-Jbi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4004" y="3523"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="TUL-NI-Ut4">

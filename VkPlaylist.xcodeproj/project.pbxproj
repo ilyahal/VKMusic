@@ -47,6 +47,10 @@
 		BBE8538F1CE0F0B300872C3B /* FriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8538E1CE0F0B300872C3B /* FriendCell.swift */; };
 		BBE853911CE0F54100872C3B /* TableViewCellIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */; };
 		BBE853951CE1096200872C3B /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853941CE1096200872C3B /* UIImage+Resize.swift */; };
+		BBE853971CE135BD00872C3B /* GetOwnerAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853961CE135BD00872C3B /* GetOwnerAudio.swift */; };
+		BBE853991CE138CF00872C3B /* OwnerMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853981CE138CF00872C3B /* OwnerMusicTableViewController.swift */; };
+		BBE8539D1CE13E1B00872C3B /* AccessErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8539B1CE13E1B00872C3B /* AccessErrorCell.swift */; };
+		BBE8539E1CE13E1B00872C3B /* AccessErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE8539C1CE13E1B00872C3B /* AccessErrorCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +97,10 @@
 		BBE8538E1CE0F0B300872C3B /* FriendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendCell.swift; sourceTree = "<group>"; };
 		BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellIdentifiers.swift; sourceTree = "<group>"; };
 		BBE853941CE1096200872C3B /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
+		BBE853961CE135BD00872C3B /* GetOwnerAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetOwnerAudio.swift; sourceTree = "<group>"; };
+		BBE853981CE138CF00872C3B /* OwnerMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwnerMusicTableViewController.swift; sourceTree = "<group>"; };
+		BBE8539B1CE13E1B00872C3B /* AccessErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessErrorCell.swift; sourceTree = "<group>"; };
+		BBE8539C1CE13E1B00872C3B /* AccessErrorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccessErrorCell.xib; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -184,6 +192,7 @@
 			children = (
 				BB6EF7371CDF6ABA00466C3B /* NoAuthorizedCell */,
 				BB6EF7301CDF63C000466C3B /* NetworkErrorCell */,
+				BBE8539A1CE13DEF00872C3B /* AccessErrorCell */,
 				BBDEC07F1CD754A6005B8494 /* Loading Cell */,
 				BBDEC0841CD760D8005B8494 /* NothingFoundCell */,
 				BBDEC0871CD761A7005B8494 /* AudioCell */,
@@ -195,7 +204,7 @@
 		BBDEC0681CD67A69005B8494 /* Data Objects */ = {
 			isa = PBXGroup;
 			children = (
-				BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */,
+				BBE8539F1CE13EE100872C3B /* Constants */,
 				BBDEC0691CD67A84005B8494 /* Track.swift */,
 				BBE853871CE0E69700872C3B /* Friend.swift */,
 			);
@@ -211,6 +220,7 @@
 				BBE8535B1CDFE89000872C3B /* SearchTableViewController.swift */,
 				BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */,
 				BBE8538B1CE0EE5A00872C3B /* FriendsTableViewController.swift */,
+				BBE853981CE138CF00872C3B /* OwnerMusicTableViewController.swift */,
 				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
 			);
 			name = ViewControllers;
@@ -322,6 +332,7 @@
 				BBE853821CE0DDF200872C3B /* GetAudio.swift */,
 				BBE853841CE0DE2F00872C3B /* SearchAudio.swift */,
 				BBE853891CE0EAE400872C3B /* GetFriends.swift */,
+				BBE853961CE135BD00872C3B /* GetOwnerAudio.swift */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -332,6 +343,23 @@
 				BBE8538E1CE0F0B300872C3B /* FriendCell.swift */,
 			);
 			name = FriendCell;
+			sourceTree = "<group>";
+		};
+		BBE8539A1CE13DEF00872C3B /* AccessErrorCell */ = {
+			isa = PBXGroup;
+			children = (
+				BBE8539B1CE13E1B00872C3B /* AccessErrorCell.swift */,
+				BBE8539C1CE13E1B00872C3B /* AccessErrorCell.xib */,
+			);
+			name = AccessErrorCell;
+			sourceTree = "<group>";
+		};
+		BBE8539F1CE13EE100872C3B /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -402,6 +430,7 @@
 				BBDEC07C1CD7538B005B8494 /* LoadingCell.xib in Resources */,
 				BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */,
 				BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */,
+				BBE8539E1CE13E1B00872C3B /* AccessErrorCell.xib in Resources */,
 				BB6EF7341CDF642100466C3B /* NetworkErrorCell.xib in Resources */,
 				BB6EF73B1CDF6AFA00466C3B /* NoAuthorizedCell.xib in Resources */,
 			);
@@ -466,6 +495,7 @@
 				BBE853811CE0DBE300872C3B /* RequestManagerObject.swift in Sources */,
 				BBDEC0701CD6BEB7005B8494 /* AuthorizationViewController.swift in Sources */,
 				BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */,
+				BBE853991CE138CF00872C3B /* OwnerMusicTableViewController.swift in Sources */,
 				BB75FCC41CDF873900B40BC8 /* MyMusicTableViewController.swift in Sources */,
 				BBE853551CDFCCF000872C3B /* MoreTableViewController.swift in Sources */,
 				BBDEC06E1CD6AFD5005B8494 /* VKAPIManager.swift in Sources */,
@@ -473,9 +503,11 @@
 				BBE8534E1CDFB59600872C3B /* MusicFromInternetTableViewController.swift in Sources */,
 				BBE8535A1CDFE4DF00872C3B /* UIImageView+TintImageColor.swift in Sources */,
 				BBE8538A1CE0EAE400872C3B /* GetFriends.swift in Sources */,
+				BBE853971CE135BD00872C3B /* GetOwnerAudio.swift in Sources */,
 				BBE853911CE0F54100872C3B /* TableViewCellIdentifiers.swift in Sources */,
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
+				BBE8539D1CE13E1B00872C3B /* AccessErrorCell.swift in Sources */,
 				BBDEC0741CD6CE9B005B8494 /* SettingsTableViewController.swift in Sources */,
 				BBE8538C1CE0EE5A00872C3B /* FriendsTableViewController.swift in Sources */,
 				BBE8537D1CE0DAFB00872C3B /* DataManagerObject.swift in Sources */,

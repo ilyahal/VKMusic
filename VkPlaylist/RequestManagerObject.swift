@@ -88,12 +88,14 @@ extension RequestManagerObjectDataTypes {
     enum ErrorRequest {
         case None // Нет ошибок
         case NetworkError // Проблемы при подключении к интернету
+        case AccessError // Проблемы с доступом
         case UnknownError // Неизвестная ошибка
     }
     
     // Ключи аргументов запросов
     enum Argument {
-        case RequestText
+        case RequestText // Поисковый запрос
+        case OwnerID // Идентификатор пользователя
     }
     
 }

@@ -35,19 +35,7 @@ class FriendCell: UITableViewCell {
     func configureForFriend(friend: Friend, withImageCacheStorage imageCache: NSCache) {
         
         // Настройка имени
-        if let first_name = friend.first_name {
-            userNameLabel.text = first_name
-        }
-        if let last_name = friend.last_name {
-            if !userNameLabel.text!.isEmpty {
-                userNameLabel.text! += " "
-            }
-            
-            userNameLabel.text! += last_name
-        }
-        if userNameLabel.text!.isEmpty {
-            userNameLabel.text = "UNKNOWN"
-        }
+        userNameLabel.text = friend.getFullName()
         
         // Настройка фотографии
         userImageView.image = UIImage(named: "friend-photo-placeholder-icon")!
