@@ -10,10 +10,8 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
 
-    var authorizationNavigationController: UINavigationController?
-    
     @IBOutlet weak var loginButton: UIButton! // Кнопка "Войти в аккаунт"
-    @IBOutlet private weak var logoutButton: UIButton! // Кнопка "Выход из аккаунта"
+    @IBOutlet weak var logoutButton: UIButton! // Кнопка "Выход из аккаунта"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +52,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     // Вызывается при тапе по кнопке "Выход из аккаунта"
-    @IBAction private func logoutTapped(sender: UIButton) {
+    @IBAction func logoutTapped(sender: UIButton) {
         logoutButton.enabled = false
         VKAPIManager.logout()
     }
@@ -63,17 +61,17 @@ class SettingsTableViewController: UITableViewController {
     // MARK: Авторизация пользователя
     
     // Пользователь авторизовался
-    @objc private func userDidAutorize() {
+    func userDidAutorize() {
         updateAuthorizationButtonsStatus(true)
     }
     
     // Пользователь деавторизовался
-    @objc private func userDidUnautorize() {
+    func userDidUnautorize() {
         updateAuthorizationButtonsStatus(false)
     }
     
     // При авторизации пользователя произошла ошибка
-    @objc private func userAutorizationFailed() {
+    func userAutorizationFailed() {
         updateAuthorizationButtonsStatus(false)
     }
     

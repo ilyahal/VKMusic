@@ -10,25 +10,28 @@ import UIKit
 
 class MoreTableViewController: UITableViewController {
 
-    var linksToScreens = [LinkToScreen]()
+    private var linksToScreens = [LinkToScreen]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fillLinksToScreensArray()
+        
+        // Настройка кнопки назад на дочерних экранах
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .Plain, target: nil, action: nil)
+        
+        // Кастомизация tableView
+        tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
+    }
+    
+    // Заполнение массива ссылок на экраны
+    func fillLinksToScreensArray() {
         linksToScreens.append(LinkToScreen(title: "Друзья", icon: "icon-UserReverse", segueIdentifier: "ShowFriendsSegue"))
         linksToScreens.append(LinkToScreen(title: "Группы", icon: "icon-MultipleUsersReverse", segueIdentifier: "ShowGroupsSegue"))
         linksToScreens.append(LinkToScreen(title: "Рекомендации", icon: "icon-Recommendation", segueIdentifier: "ShowRecommendationsSegue"))
         linksToScreens.append(LinkToScreen(title: "Популярное", icon: "icon-Favorite", segueIdentifier: "ShowPopularSegue"))
         linksToScreens.append(LinkToScreen(title: "Настройки", icon: "icon-Settings", segueIdentifier: "ShowSettingsSegue"))
-        
-        
-        // Настройка кнопки назад на дочерних экранах
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .Plain, target: nil, action: nil)
-        
-        
-        // Кастомизация tableView
-        tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
     }
 
 }

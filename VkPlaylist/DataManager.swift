@@ -12,8 +12,6 @@ import Foundation
 
 class DataManager {
 
-    /* Паттерн Singleton */
-    
     private struct Static {
         static var onceToken: dispatch_once_t = 0 // Ключ идентифицирующий жизненынный цикл приложения
         static var instance: DataManager? = nil
@@ -27,48 +25,23 @@ class DataManager {
         return Static.instance!
     }
     
-    /* */
-    
     
     private init() {
-        myMusic = [Track]()
-        searchMusic = [Track]()
+        myMusic = DataManagerObject<Track>()
+        searchMusic = DataManagerObject<Track>()
     }
     
     // Удаляем данные при деавторизации
     func clearDataInCaseOfDeavtorization() {
-        clearMyMusic()
-        clearSearchMusic()
+        myMusic.clear()
+        searchMusic.clear()
     }
     
     
-    // MARK: Личные аудиозаписи
+    // Личные аудиозаписи
+    let myMusic: DataManagerObject<Track>
     
-    private(set) var myMusic: [Track]
-    
-    // Запоминает новый список личных аудиозаписей
-    func updateMyMusic(music: [Track]) {
-        myMusic = music
-    }
-    
-    // Чистит массив личных аудиозаписей
-    func clearMyMusic() {
-        myMusic.removeAll()
-    }
-    
-    
-    // MARK: Искомые аудиозаписи
-    
-    private(set) var searchMusic: [Track]
-    
-    // Запоминает новый список искомых аудиозаписей
-    func updateSearchMusic(music: [Track]) {
-        searchMusic = music
-    }
-    
-    // Чистит массив искомых аудиозаписей
-    func clearSearchMusic() {
-        searchMusic.removeAll()
-    }
+    // Искомые аудиозаписи
+    let searchMusic: DataManagerObject<Track>
     
 }

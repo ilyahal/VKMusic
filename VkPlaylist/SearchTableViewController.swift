@@ -10,7 +10,7 @@ import UIKit
 
 class SearchTableViewController: MusicFromInternetWithSearchTableViewController {
     
-    var currentTextSearchRequest: String?
+    private var currentTextSearchRequest: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +36,11 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
     // MARK: Выполнение запроса на получение личных аудиозаписей
     
     func searchMusic(search: String) {
-        RequestManager.sharedInstance.searchAudio(search) { success in
+        RequestManager.sharedInstance.searchAudio.performRequest([.RequestText : search]) { success in
             self.reloadTableView()
             
             if !success {
-                switch RequestManager.sharedInstance.searchAudioError {
+                switch RequestManager.sharedInstance.searchAudio.error {
                 case .NetworkError:
                     break
                 case .UnknownError:
@@ -70,15 +70,15 @@ extension SearchTableViewControllerDataSource {
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.searchAudioState {
-            case .NotSearchedYet where RequestManager.sharedInstance.searchAudioError == .NetworkError:
+            switch RequestManager.sharedInstance.searchAudio.state {
+            case .NotSearchedYet where RequestManager.sharedInstance.searchAudio.error == .NetworkError:
                 return 1 // Ячейка с сообщением об отсутствии интернет соединения
             case .Loading:
                 return 1 // Ячейка с индикатором загрузки
             case .NoResults:
                 return 1 // Ячейки с сообщением об отсутствии найденных аудиозаписей
             case .Results:
-                return DataManager.sharedInstance.searchMusic.count
+                return DataManager.sharedInstance.searchMusic.array.count
             default:
                 return 0
             }
@@ -90,8 +90,8 @@ extension SearchTableViewControllerDataSource {
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.searchAudioState {
-            case .NotSearchedYet where RequestManager.sharedInstance.searchAudioError == .NetworkError:
+            switch RequestManager.sharedInstance.searchAudio.state {
+            case .NotSearchedYet where RequestManager.sharedInstance.searchAudio.error == .NetworkError:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath)
                 return cell
             case .NoResults:
@@ -108,7 +108,7 @@ extension SearchTableViewControllerDataSource {
                 return cell
             case .Results:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                let track  = DataManager.sharedInstance.searchMusic[indexPath.row]
+                let track  = DataManager.sharedInstance.searchMusic.array[indexPath.row]
                 
                 cell.delegate = self
                 
@@ -141,7 +141,7 @@ extension SearchTableViewControllerDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
-            let track = DataManager.sharedInstance.searchMusic[indexPath.row]
+            let track = DataManager.sharedInstance.searchMusic.array[indexPath.row]
             let trackURL = NSURL(string: track.url!)
             
             PlayerManager.sharedInstance.playFile(trackURL!)
@@ -165,18 +165,8 @@ extension SearchTableViewControllerUISearchBarDelegate {
         return false
     }
     
-    // Вызывается когда пользователь начал редактирование поискового текста
-    override func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        super.searchBarTextDidBeginEditing(searchBar)
-    }
-    
-    // Вызывается когда пользователь закончил редактирование поискового текста
-    override func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        super.searchBarTextDidEndEditing(searchBar)
-    }
-    
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        DataManager.sharedInstance.clearSearchMusic()
+        DataManager.sharedInstance.searchMusic.clear()
         
         reloadTableView()
     }
@@ -194,7 +184,7 @@ extension SearchTableViewControllerUISearchResultsUpdating {
         super.updateSearchResultsForSearchController(searchController)
         
         if searchController.searchBar.text!.isEmpty {
-            DataManager.sharedInstance.clearSearchMusic()
+            DataManager.sharedInstance.searchMusic.clear()
         } else {
             searchMusic(searchController.searchBar.text!)
         }

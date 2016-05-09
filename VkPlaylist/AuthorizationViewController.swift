@@ -15,7 +15,7 @@ class AuthorizationViewController: UIViewController {
     }
     
     // Вызывается при тапе по кнопке "Авторизоваться"
-    @IBAction private func authorizationTapped(sender: UIButton) {
+    @IBAction func authorizationTapped(sender: UIButton) {
         if Reachability.isConnectedToNetwork() {
             VKAPIManager.autorize()
         } else {
@@ -24,7 +24,7 @@ class AuthorizationViewController: UIViewController {
     }
     
     // Отображает уведомление с сообщением о проблемах с подключением к интернету
-    private func showNetworkError() {
+    func showNetworkError() {
         let alertController = UIAlertController(title: "Ошибка", message: "Проверьте соединение с интернетом!", preferredStyle: .Alert)
         
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)

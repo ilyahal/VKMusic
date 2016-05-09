@@ -11,8 +11,6 @@ import AVFoundation
 
 class PlayerManager {
     
-    /* Паттерн Singleton */
-    
     private struct Static {
         static var onceToken: dispatch_once_t = 0 // Ключ идентифицирующий жизненынный цикл приложения
         static var instance: PlayerManager? = nil
@@ -25,8 +23,6 @@ class PlayerManager {
         
         return Static.instance!
     }
-    
-    /* */
     
     
     private init() {}

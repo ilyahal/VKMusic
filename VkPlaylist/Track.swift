@@ -7,15 +7,15 @@
 //
 
 class Track {
-    var artist: String?
-    var lyrics_id: Int?
-    var id: Int?
-    var title: String?
-    var date: Int?
-    var duration: Int?
-    var genre_id: Int?
-    var owner_id: Int?
-    var url: String?
+    let artist: String?
+    let lyrics_id: Int?
+    let id: Int?
+    let title: String?
+    let date: Int?
+    let duration: Int?
+    let genre_id: Int?
+    let owner_id: Int?
+    let url: String?
     
     init(artist: String?, lyrics_id: Int?, id: Int?, title: String?, date: Int?, duration: Int?, genre_id: Int?, owner_id: Int?, url: String?) {
         self.artist = artist

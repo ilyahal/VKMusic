@@ -27,7 +27,7 @@ class AudioCell: UITableViewCell {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var downloadButton: UIButton!
     
-    @IBAction private func pauseOrResumeTapped(sender: UIButton) {
+    @IBAction func pauseOrResumeTapped(sender: UIButton) {
         if pauseButton.titleLabel!.text == "Пауза" {
             delegate?.pauseTapped(self)
         } else {
@@ -35,11 +35,11 @@ class AudioCell: UITableViewCell {
         }
     }
     
-    @IBAction private func cancelTapped(sender: UIButton) {
+    @IBAction func cancelTapped(sender: UIButton) {
         delegate?.cancelTapped(self)
     }
 
-    @IBAction private func downloadTapped(sender: UIButton) {
+    @IBAction func downloadTapped(sender: UIButton) {
         delegate?.downloadTapped(self)
     }
     

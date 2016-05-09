@@ -38,16 +38,12 @@ class VKAPIManager {
     // Авторизация пользователя
     class func autorize() {
         VK.logOut()
-        print("SwiftyVK: LogOut")
-        
         VK.autorize()
-        print("SwiftyVK: Autorize")
     }
     
     // Деавторизация пользователя
     class func logout() {
         VK.logOut()
-        print("SwiftyVK: LogOut")
     }
     
     // Авторизован ли пользователь
@@ -78,20 +74,8 @@ class VKAPIManager {
         return request
     }
     
-//    class func audioGetWithUserID(id: Int) {
-//        let request = VK.API.Audio.get([VK.Arg.userId: "\(id)"])
-//        request.successBlock = { response in
-//            let result = VKJSONParser.parseAudio(response)
-//            
-//            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetAudioNotification, object: nil, userInfo: ["Audio": result])
-//        }
-//        request.errorBlock = { error in
-//            print("SwiftyVK: audioGet fail \n \(error)")
-//        }
-//        request.send()
-//    }
     
-    // Получение личных аудиозаписей
+    // Поиск аудиозаписей
     class func audioSearch(search: String) -> Request {
         let request = VK.API.Audio.search([
             .q : search, // Поисковый запрос
