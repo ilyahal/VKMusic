@@ -9,17 +9,25 @@
 import Foundation
 import SwiftyVK
 
+// Уведомления о событиях при авторизации
 let VKAPIManagerDidAutorizeNotification = "VKAPIManagerDidAutorizeNotification" // Уведомление о том, что авторизация успешно пройдена
 let VKAPIManagerDidUnautorizeNotification = "VKAPIManagerDidUnautorizeNotification" // Уведомление о том, что была произведена деавторизация
 let VKAPIManagerAutorizationFailedNotification = "VKAPIManagerAutorizationFailedNotification" // Уведомление о том, что при авторизации была ошибка
 
+// Уведомления о событиях при получения личных аудиозаписей
 let VKAPIManagerDidGetAudioNotification = "VKAPIManagerDidGetAudioNotification" // Уведомление о том, что список личных аудиозаписей был получен
 let VKAPIManagerGetAudioNetworkErrorNotification = "VKAPIManagerGetAudioNetworkErrorNotification" // Уведомление о том, что при получении личных аудиозаписей произошла ошибка при подключении к интернету
 let VKAPIManagerGetAudioErrorNotification = "VKAPIManagerGetAudioErrorNotification" // Уведомление о том, что при получении личных аудиозаписей произошла ошибка
 
+// Уведомления о событиях при получения искомых аудиозаписей
 let VKAPIManagerDidSearchAudioNotification = "VKAPIManagerDidSearchAudioNotification" // Уведомление о том, что список искомых аудиозаписей был получен
 let VKAPIManagerSearchAudioNetworkErrorNotification = "VKAPIManagerSearchAudioNetworkErrorNotification" // Уведомление о том, что при получении искомых аудиозаписей произошла ошибка при подключении к интернету
 let VKAPIManagerSearchAudioErrorNotification = "VKAPIManagerSearchAudioErrorNotification" // Уведомление о том, что при получении искомых аудиозаписей произошла ошибка
+
+// Уведомления о событиях при получения списка друзей
+let VKAPIManagerDidGetFriendsNotification = "VKAPIManagerDidGetFriendsNotification" // Уведомление о том, что список друзей был получен
+let VKAPIManagerGetFriendsNetworkErrorNotification = "VKAPIManagerGetFriendsNetworkErrorNotification" // Уведомление о том, что при получении друзей произошла ошибка при подключении к интернету
+let VKAPIManagerGetFriendsErrorNotification = "VKAPIManagerGetFriendsErrorNotification" // Уведомление о том, что при получении друзей произошла ошибка
 
 /// Отвечает за взаимодействие с VK
 
@@ -95,7 +103,32 @@ class VKAPIManager {
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerSearchAudioErrorNotification, object: nil)
             }
             
-            print("SwiftyVK: audioGet fail \n \(error)")
+            print("SwiftyVK: audioSearch fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
+    
+    
+    // Получение списка друзей
+    class func friendsGet() -> Request {
+        let request = VK.API.Friends.get([
+            .fields : "photo_200_orig"
+        ])
+        request.successBlock = { response in
+            let result = VKJSONParser.parseFriends(response)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetFriendsNotification, object: nil, userInfo: ["Friends": result])
+        }
+        request.errorBlock = { error in
+            if error.domain == "NSURLErrorDomain" && error.code == -1009 { // Если ошибка при подключении к интернету
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetFriendsNetworkErrorNotification, object: nil)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetFriendsErrorNotification, object: nil)
+            }
+            
+            print("SwiftyVK: friendsGet fail \n \(error)")
         }
         request.send()
         
@@ -111,10 +144,10 @@ extension VKJSONParser {
     private class func parseAudio(audio: JSON) -> [Track] {
         var trackList = [Track]()
         
-        let audioList = audio["items"].array
+        let itemsList = audio["items"].array
         
-        if let audioList = audioList {
-            for audio in audioList {
+        if let itemsList = itemsList {
+            for audio in itemsList {
                 let artist = audio["artist"].string
                 let lyrics_id = audio["lyrics_id"].int
                 let id = audio["id"].int
@@ -132,6 +165,28 @@ extension VKJSONParser {
         }
         
         return trackList
+    }
+    
+    // Парсит ответ на получение друзей
+    private class func parseFriends(friends: JSON) -> [Friend] {
+        var friendList = [Friend]()
+        
+        let itemsList = friends["items"].array
+        
+        if let itemsList = itemsList {
+            for item in itemsList {
+                let id = item["id"].int
+                let last_name = item["last_name"].string
+                let photo_200_orig = item["photo_200_orig"].string
+                let first_name = item["first_name"].string
+                
+                let friend = Friend(id: id, last_name: last_name, photo_200_orig: photo_200_orig, first_name: first_name)
+                
+                friendList.append(friend)
+            }
+        }
+        
+        return friendList
     }
     
 }

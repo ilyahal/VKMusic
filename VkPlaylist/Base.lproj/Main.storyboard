@@ -125,52 +125,99 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Ещё" id="AKE-G2-bKW"/>
                     <connections>
-                        <segue destination="a7G-BR-bup" kind="show" identifier="ShowFriendsSegue" id="D6w-4y-9fX"/>
-                        <segue destination="vvd-Gb-wzE" kind="show" identifier="ShowGroupsSegue" id="ffY-62-RMM"/>
                         <segue destination="xkp-KM-EQN" kind="show" identifier="ShowRecommendationsSegue" id="3mf-Qi-kjR"/>
                         <segue destination="PxH-Nj-fS4" kind="show" identifier="ShowPopularSegue" id="bs0-Go-KaB"/>
                         <segue destination="4gw-wh-h40" kind="show" identifier="ShowSettingsSegue" id="r9l-fv-BYq"/>
+                        <segue destination="Pw1-a5-z2D" kind="show" identifier="ShowFriendsSegue" id="ToT-8o-J94"/>
+                        <segue destination="J6P-fh-5CB" kind="show" identifier="ShowGroupsSegue" id="kJh-Pf-AQx"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Cw-yt-OSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2541" y="3523"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="gfY-yE-4mS">
+        <!--Друзья-->
+        <scene sceneID="QRQ-Jz-uGV">
             <objects>
-                <viewController id="a7G-BR-bup" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="JTQ-QB-0lj"/>
-                        <viewControllerLayoutGuide type="bottom" id="g0K-Zf-b0O"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="vD0-88-feS">
+                <tableViewController id="Pw1-a5-z2D" customClass="FriendsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="6YH-FY-P0h">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YVF-Pt-YN2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FriendCell" rowHeight="62" id="XUN-FM-xnc" customClass="FriendCell" customModule="VkPlaylist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="62"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XUN-FM-xnc" id="HCk-Pb-IWR">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="61.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="friend-photo-placeholder-icon" translatesAutoresizingMaskIntoConstraints="NO" id="vrP-f5-s4q">
+                                            <rect key="frame" x="14" y="8.5" width="45" height="45"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="45" id="2Aj-Rx-fTf"/>
+                                                <constraint firstAttribute="height" constant="45" id="b5d-lO-Blr"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Имя пользователя" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVi-Xe-aMT">
+                                            <rect key="frame" x="67" y="20" width="147" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="vrP-f5-s4q" firstAttribute="leading" secondItem="HCk-Pb-IWR" secondAttribute="leading" constant="14" id="0cm-28-fo4"/>
+                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="PVi-Xe-aMT" secondAttribute="trailing" constant="8" id="AeQ-IS-ffs"/>
+                                        <constraint firstItem="PVi-Xe-aMT" firstAttribute="centerY" secondItem="HCk-Pb-IWR" secondAttribute="centerY" id="Ycx-hG-HUe"/>
+                                        <constraint firstItem="vrP-f5-s4q" firstAttribute="centerY" secondItem="HCk-Pb-IWR" secondAttribute="centerY" id="kET-OT-zqc"/>
+                                        <constraint firstItem="PVi-Xe-aMT" firstAttribute="leading" secondItem="vrP-f5-s4q" secondAttribute="trailing" constant="8" id="keK-n9-hdN"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="userImageView" destination="vrP-f5-s4q" id="0GY-rg-SBT"/>
+                                    <outlet property="userNameLabel" destination="PVi-Xe-aMT" id="02e-Us-hLj"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Pw1-a5-z2D" id="VkK-vr-Pzp"/>
+                            <outlet property="delegate" destination="Pw1-a5-z2D" id="2dg-j4-SJ6"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Друзья" id="GCm-dX-ezz"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eV0-qH-H9B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3271" y="3523"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="xZD-4z-1jo">
+        <!--Table View Controller-->
+        <scene sceneID="TUL-NI-Ut4">
             <objects>
-                <viewController id="vvd-Gb-wzE" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Kxv-k7-vpm"/>
-                        <viewControllerLayoutGuide type="bottom" id="CUo-5B-3LL"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Q4l-4N-rIg">
+                <tableViewController id="J6P-fh-5CB" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EJX-bD-EZu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sPm-Hs-yq1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Xn7-ge-drd">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xn7-ge-drd" id="zJi-l2-p03">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="J6P-fh-5CB" id="SwX-Yf-rLQ"/>
+                            <outlet property="delegate" destination="J6P-fh-5CB" id="vqC-Kh-ohO"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dMw-YT-dDn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="4301"/>
+            <point key="canvasLocation" x="3271" y="4299"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="2mB-yL-cQg">
@@ -506,6 +553,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="friend-photo-placeholder-icon" width="45" height="45"/>
         <image name="icon-Download" width="25" height="25"/>
         <image name="icon-More" width="25" height="25"/>
         <image name="icon-MyMusic" width="25" height="25"/>

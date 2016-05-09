@@ -27,6 +27,11 @@ class AudioCell: UITableViewCell {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var downloadButton: UIButton!
     
+    func configureForTrack(track: Track) {
+        nameLabel.text = track.title
+        artistLabel.text = track.artist
+    }
+    
     @IBAction func pauseOrResumeTapped(sender: UIButton) {
         if pauseButton.titleLabel!.text == "Пауза" {
             delegate?.pauseTapped(self)

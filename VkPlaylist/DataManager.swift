@@ -29,12 +29,14 @@ class DataManager {
     private init() {
         myMusic = DataManagerObject<Track>()
         searchMusic = DataManagerObject<Track>()
+        friends = DataManagerObject<Friend>()
     }
     
     // Удаляем данные при деавторизации
     func clearDataInCaseOfDeavtorization() {
         myMusic.clear()
         searchMusic.clear()
+        friends.clear()
     }
     
     
@@ -43,5 +45,8 @@ class DataManager {
     
     // Искомые аудиозаписи
     let searchMusic: DataManagerObject<Track>
+    
+    // Список друзей
+    let friends: DataManagerObject<Friend>
     
 }

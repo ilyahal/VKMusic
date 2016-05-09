@@ -92,7 +92,7 @@ extension SearchTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.searchAudio.state {
             case .NotSearchedYet where RequestManager.sharedInstance.searchAudio.error == .NetworkError:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath)
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
                 return cell
             case .NoResults:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
@@ -112,8 +112,7 @@ extension SearchTableViewControllerDataSource {
                 
                 cell.delegate = self
                 
-                cell.nameLabel.text = track.title
-                cell.artistLabel.text = track.artist
+                cell.configureForTrack(track)
                 
                 return cell
             default:
@@ -165,6 +164,14 @@ extension SearchTableViewControllerUISearchBarDelegate {
         return false
     }
     
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if !searchController.searchBar.text!.isEmpty {
+            searchMusic(searchController.searchBar.text!)
+        }
+
+        reloadTableView()
+    }
+    
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         DataManager.sharedInstance.searchMusic.clear()
         
@@ -183,13 +190,15 @@ extension SearchTableViewControllerUISearchResultsUpdating {
     override func updateSearchResultsForSearchController(searchController: UISearchController) {
         super.updateSearchResultsForSearchController(searchController)
         
-        if searchController.searchBar.text!.isEmpty {
-            DataManager.sharedInstance.searchMusic.clear()
-        } else {
-            searchMusic(searchController.searchBar.text!)
-        }
+        // FIXME: При отправлении запроса с каждым изменением текстового поля программа периодически крашится
         
-        reloadTableView()
+//        DataManager.sharedInstance.searchMusic.clear()
+//        
+//        if !searchController.searchBar.text!.isEmpty {
+//            searchMusic(searchController.searchBar.text!)
+//        }
+//        
+//        reloadTableView()
     }
     
 }

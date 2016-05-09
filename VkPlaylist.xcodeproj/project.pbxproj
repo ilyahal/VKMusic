@@ -35,13 +35,18 @@
 		BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8534F1CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift */; };
 		BBE853531CDFCA7000872C3B /* AudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE853521CDFCA7000872C3B /* AudioCell.xib */; };
 		BBE853551CDFCCF000872C3B /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */; };
-		BBE853571CDFCE5800872C3B /* LinkToScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853561CDFCE5800872C3B /* LinkToScreen.swift */; };
 		BBE8535A1CDFE4DF00872C3B /* UIImageView+TintImageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853591CDFE4DF00872C3B /* UIImageView+TintImageColor.swift */; };
 		BBE8535C1CDFE89000872C3B /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8535B1CDFE89000872C3B /* SearchTableViewController.swift */; };
 		BBE8537D1CE0DAFB00872C3B /* DataManagerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8537C1CE0DAFB00872C3B /* DataManagerObject.swift */; };
 		BBE853811CE0DBE300872C3B /* RequestManagerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853801CE0DBE300872C3B /* RequestManagerObject.swift */; };
 		BBE853831CE0DDF200872C3B /* GetAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853821CE0DDF200872C3B /* GetAudio.swift */; };
 		BBE853851CE0DE2F00872C3B /* SearchAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853841CE0DE2F00872C3B /* SearchAudio.swift */; };
+		BBE853881CE0E69700872C3B /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853871CE0E69700872C3B /* Friend.swift */; };
+		BBE8538A1CE0EAE400872C3B /* GetFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853891CE0EAE400872C3B /* GetFriends.swift */; };
+		BBE8538C1CE0EE5A00872C3B /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8538B1CE0EE5A00872C3B /* FriendsTableViewController.swift */; };
+		BBE8538F1CE0F0B300872C3B /* FriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8538E1CE0F0B300872C3B /* FriendCell.swift */; };
+		BBE853911CE0F54100872C3B /* TableViewCellIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */; };
+		BBE853951CE1096200872C3B /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853941CE1096200872C3B /* UIImage+Resize.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,13 +81,18 @@
 		BBE8534F1CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicFromInternetWithSearchTableViewController.swift; sourceTree = "<group>"; };
 		BBE853521CDFCA7000872C3B /* AudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioCell.xib; sourceTree = "<group>"; };
 		BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
-		BBE853561CDFCE5800872C3B /* LinkToScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkToScreen.swift; sourceTree = "<group>"; };
 		BBE853591CDFE4DF00872C3B /* UIImageView+TintImageColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+TintImageColor.swift"; sourceTree = "<group>"; };
 		BBE8535B1CDFE89000872C3B /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		BBE8537C1CE0DAFB00872C3B /* DataManagerObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerObject.swift; sourceTree = "<group>"; };
 		BBE853801CE0DBE300872C3B /* RequestManagerObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManagerObject.swift; sourceTree = "<group>"; };
 		BBE853821CE0DDF200872C3B /* GetAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAudio.swift; sourceTree = "<group>"; };
 		BBE853841CE0DE2F00872C3B /* SearchAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAudio.swift; sourceTree = "<group>"; };
+		BBE853871CE0E69700872C3B /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		BBE853891CE0EAE400872C3B /* GetFriends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetFriends.swift; sourceTree = "<group>"; };
+		BBE8538B1CE0EE5A00872C3B /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
+		BBE8538E1CE0F0B300872C3B /* FriendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendCell.swift; sourceTree = "<group>"; };
+		BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellIdentifiers.swift; sourceTree = "<group>"; };
+		BBE853941CE1096200872C3B /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -177,6 +187,7 @@
 				BBDEC07F1CD754A6005B8494 /* Loading Cell */,
 				BBDEC0841CD760D8005B8494 /* NothingFoundCell */,
 				BBDEC0871CD761A7005B8494 /* AudioCell */,
+				BBE8538D1CE0F08000872C3B /* FriendCell */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -184,8 +195,9 @@
 		BBDEC0681CD67A69005B8494 /* Data Objects */ = {
 			isa = PBXGroup;
 			children = (
+				BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */,
 				BBDEC0691CD67A84005B8494 /* Track.swift */,
-				BBE853561CDFCE5800872C3B /* LinkToScreen.swift */,
+				BBE853871CE0E69700872C3B /* Friend.swift */,
 			);
 			name = "Data Objects";
 			sourceTree = "<group>";
@@ -195,10 +207,11 @@
 			children = (
 				BBE853511CDFC99A00872C3B /* Superclasses */,
 				BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */,
-				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
 				BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */,
 				BBE8535B1CDFE89000872C3B /* SearchTableViewController.swift */,
 				BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */,
+				BBE8538B1CE0EE5A00872C3B /* FriendsTableViewController.swift */,
+				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -279,6 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				BBE853591CDFE4DF00872C3B /* UIImageView+TintImageColor.swift */,
+				BBE853941CE1096200872C3B /* UIImage+Resize.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -307,8 +321,17 @@
 			children = (
 				BBE853821CE0DDF200872C3B /* GetAudio.swift */,
 				BBE853841CE0DE2F00872C3B /* SearchAudio.swift */,
+				BBE853891CE0EAE400872C3B /* GetFriends.swift */,
 			);
 			name = Requests;
+			sourceTree = "<group>";
+		};
+		BBE8538D1CE0F08000872C3B /* FriendCell */ = {
+			isa = PBXGroup;
+			children = (
+				BBE8538E1CE0F0B300872C3B /* FriendCell.swift */,
+			);
+			name = FriendCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -449,13 +472,18 @@
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
 				BBE8534E1CDFB59600872C3B /* MusicFromInternetTableViewController.swift in Sources */,
 				BBE8535A1CDFE4DF00872C3B /* UIImageView+TintImageColor.swift in Sources */,
+				BBE8538A1CE0EAE400872C3B /* GetFriends.swift in Sources */,
+				BBE853911CE0F54100872C3B /* TableViewCellIdentifiers.swift in Sources */,
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
 				BBDEC0741CD6CE9B005B8494 /* SettingsTableViewController.swift in Sources */,
+				BBE8538C1CE0EE5A00872C3B /* FriendsTableViewController.swift in Sources */,
 				BBE8537D1CE0DAFB00872C3B /* DataManagerObject.swift in Sources */,
-				BBE853571CDFCE5800872C3B /* LinkToScreen.swift in Sources */,
+				BBE853881CE0E69700872C3B /* Friend.swift in Sources */,
 				BBDEC0661CD66DB6005B8494 /* AudioCell.swift in Sources */,
+				BBE8538F1CE0F0B300872C3B /* FriendCell.swift in Sources */,
 				BBDEC0831CD757E9005B8494 /* RequestManager.swift in Sources */,
+				BBE853951CE1096200872C3B /* UIImage+Resize.swift in Sources */,
 				BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */,
 				BBE853831CE0DDF200872C3B /* GetAudio.swift in Sources */,
 				BBDEC06A1CD67A84005B8494 /* Track.swift in Sources */,

@@ -42,7 +42,7 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
     // MARK: Выполнение запроса на получение личных аудиозаписей
     
     func getMusic() {
-        RequestManager.sharedInstance.getAudio.performRequest([:]) { success in
+        RequestManager.sharedInstance.getAudio.performRequest() { success in
             self.reloadTableView()
             
             if let refreshControl = self.refreshControl {
@@ -130,7 +130,7 @@ extension MyMusicTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getAudio.state {
             case .NotSearchedYet where RequestManager.sharedInstance.getAudio.error == .NetworkError:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath)
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
                 return cell
             case .NoResults:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
@@ -145,9 +145,7 @@ extension MyMusicTableViewControllerDataSource {
                         let track = DataManager.sharedInstance.myMusic.array[indexPath.row]
                         
                         trackCell.delegate = self
-                        
-                        trackCell.nameLabel.text = track.title
-                        trackCell.artistLabel.text = track.artist
+                        trackCell.configureForTrack(track)
                         
                         return trackCell
                     }
@@ -179,9 +177,7 @@ extension MyMusicTableViewControllerDataSource {
                 }
                 
                 cell.delegate = self
-                
-                cell.nameLabel.text = track.title
-                cell.artistLabel.text = track.artist
+                cell.configureForTrack(track)
                 
                 return cell
             default:

@@ -36,6 +36,26 @@ class MoreTableViewController: UITableViewController {
 
 }
 
+// MARK: Типы данных
+
+private typealias MoreTableViewControllerDataTypes = MoreTableViewController
+extension MoreTableViewControllerDataTypes {
+    
+    // Ссылки на дочерние экраны
+    class LinkToScreen {
+        let title: String
+        let icon: String
+        let segueIdentifier: String
+        
+        init(title: String, icon: String, segueIdentifier: String) {
+            self.title = title
+            self.icon = icon
+            self.segueIdentifier = segueIdentifier
+        }
+    }
+    
+}
+
 
 // MARK: UITableViewDataSource
 

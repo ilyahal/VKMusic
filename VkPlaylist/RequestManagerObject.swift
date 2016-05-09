@@ -31,6 +31,11 @@ class RequestManagerObject {
     
     
     // Выполнение запроса
+    
+    func performRequest(completion: (Bool) -> Void) {
+        performRequest([:], withCompletionHandler: completion)
+    }
+    
     func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
