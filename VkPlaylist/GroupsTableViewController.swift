@@ -1,20 +1,18 @@
 //
-//  FriendsTableViewController.swift
+//  GroupsTableViewController.swift
 //  VkPlaylist
 //
-//  Created by Илья Халяпин on 09.05.16.
+//  Created by Илья Халяпин on 10.05.16.
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
 import UIKit
 
-class FriendsTableViewController: UITableViewController {
-
-    private var imageCache: NSCache!
-    private var names: [String: [Friend]]!
-    private var nameSectionTitles: [String]!
+class GroupsTableViewController: UITableViewController {
     
-    private var filteredFriends: [Friend]! // Массив для результатов поиска по уже загруженному списку друзей
+    private var imageCache: NSCache!
+    
+    private var filteredGroups: [Group]! // Массив для результатов поиска по уже загруженному списку групп
     
     var searchController: UISearchController!
     
@@ -24,11 +22,9 @@ class FriendsTableViewController: UITableViewController {
         
         if VKAPIManager.isAuthorized {
             imageCache = NSCache()
-            names = [:]
-            nameSectionTitles = []
-            filteredFriends = []
+            filteredGroups = []
             
-            getFriends()
+            getGroups()
         }
         
         
@@ -76,12 +72,12 @@ class FriendsTableViewController: UITableViewController {
     
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowFriendAudioSegue" {
+        if segue.identifier == "ShowGroupAudioSegue" {
             let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
-            let friend = sender as! Friend
+            let group = sender as! Group
             
-            ownerMusicTableViewController.id = friend.id
-            ownerMusicTableViewController.name = friend.getFullName()
+            ownerMusicTableViewController.id = group.id! * -1
+            ownerMusicTableViewController.name = group.name
         }
     }
     
@@ -103,54 +99,14 @@ class FriendsTableViewController: UITableViewController {
     }
     
     
-    // MARK: Выполнение запроса на получение списка друзей
+    // MARK: Выполнение запроса на получение списка групп
     
-    func getFriends() {
-        RequestManager.sharedInstance.getFriends.performRequest() { success in
-            
-            // Распределяем по секциям
-            if RequestManager.sharedInstance.getFriends.state == .Results {
-                for friend in DataManager.sharedInstance.friends.array {
-                    
-                    // Устанавливаем по какому значению будем сортировать
-                    let name: String
-                    if let last_name = friend.last_name {
-                        name = last_name
-                    } else if let first_name = friend.first_name {
-                        name = first_name
-                    } else {
-                        name = "#"
-                    }
-                    
-                    var firstCharacter = String(name.characters.first!)
-                    
-                    let characterSet = NSCharacterSet(charactersInString: "абвгдеёжзийклмнопрстуфхцчшщъыьэюя" + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" + "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-                    if (NSString(string: firstCharacter).rangeOfCharacterFromSet(characterSet.invertedSet).location != NSNotFound){
-                        firstCharacter = "#"
-                    }
-                    
-                    if self.names[String(firstCharacter)] == nil {
-                        self.names[String(firstCharacter)] = []
-                    }
-                    
-                    self.names[String(firstCharacter)]!.append(friend)
-                }
-                
-                self.nameSectionTitles = self.names.keys.sort { (left: String, right: String) -> Bool in
-                    return left.localizedStandardCompare(right) == .OrderedAscending // Сортировка по возрастанию
-                }
-                
-                if self.nameSectionTitles.first == "#" {
-                    self.nameSectionTitles.removeFirst()
-                    self.nameSectionTitles.append("#")
-                }
-            }
-            
+    func getGroups() {
+        RequestManager.sharedInstance.getGroups.performRequest() { success in
             self.reloadTableView()
             
-            
             if !success {
-                switch RequestManager.sharedInstance.getFriends.error {
+                switch RequestManager.sharedInstance.getGroups.error {
                 case .NetworkError:
                     break
                 case .UnknownError:
@@ -186,73 +142,34 @@ class FriendsTableViewController: UITableViewController {
     }
     
     func filterContentForSearchText(searchText: String) {
-        filteredFriends = DataManager.sharedInstance.friends.array.filter { friend in
-            return friend.first_name!.lowercaseString.containsString(searchText.lowercaseString) || friend.last_name!.lowercaseString.containsString(searchText.lowercaseString)
+        filteredGroups = DataManager.sharedInstance.groups.array.filter { group in
+            return group.name!.lowercaseString.containsString(searchText.lowercaseString)
         }
     }
-
+    
 }
 
 // MARK: UITableViewDataSource
 
-private typealias FriendsTableViewControllerDataSource = FriendsTableViewController
-extension FriendsTableViewControllerDataSource {
+private typealias GroupsTableViewControllerDataSource = GroupsTableViewController
+extension GroupsTableViewControllerDataSource {
     
-    // Получение количество секций
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
-            case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
-                    return 1
-                }
-                
-                return nameSectionTitles.count
-            default:
-                return 1
-            }
-        }
-        
-        return 1
-    }
-    
-    // Получение заголовков секций
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
-            case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
-                    return nil
-                }
-                
-                return nameSectionTitles[section]
-            default:
-                return nil
-            }
-        }
-        
-        return nil
-    }
-    
-    // Получение количества строк таблицы в указанной секции
+    // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getFriends.error == .NetworkError:
+            switch RequestManager.sharedInstance.getGroups.state {
+            case .NotSearchedYet where RequestManager.sharedInstance.getGroups.error == .NetworkError:
                 return 1 // Ячейка с сообщением об отсутствии интернет соединения
             case .Loading:
                 return 1 // Ячейка с индикатором загрузки
             case .NoResults:
-                return 1 // Ячейки с сообщением об отсутствии друзей
+                return 1 // Ячейки с сообщением об отсутствии групп
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" {
-                    return filteredFriends.count == 0 ? 1 : filteredFriends.count // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных друзей
+                    return filteredGroups.count == 0 ? 1 : filteredGroups.count // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных друзей
                 }
                 
-                let sectionTitle = nameSectionTitles[section]
-                let sectionNames = names[sectionTitle]
-                
-                return sectionNames!.count
+                return DataManager.sharedInstance.groups.array.count
             default:
                 return 0
             }
@@ -264,14 +181,14 @@ extension FriendsTableViewControllerDataSource {
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getFriends.error == .NetworkError:
+            switch RequestManager.sharedInstance.getGroups.state {
+            case .NotSearchedYet where RequestManager.sharedInstance.getGroups.error == .NetworkError:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
                 return cell
             case .NoResults:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
                 
-                cell.messageLabel.text = "Список друзей пуст"
+                cell.messageLabel.text = "Список групп пуст"
                 
                 return cell
             case .Loading:
@@ -281,7 +198,7 @@ extension FriendsTableViewControllerDataSource {
                 
                 return cell
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == 0 {
+                if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == 0 {
                     let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
                     
                     nothingFoundCell.messageLabel.text = "Измените поисковый запрос"
@@ -290,18 +207,16 @@ extension FriendsTableViewControllerDataSource {
                 }
                 
                 
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.friendCell, forIndexPath: indexPath) as! FriendCell
-                let sectionTitle = nameSectionTitles[indexPath.section]
-                let sectionNames = names[sectionTitle]
-                var friend: Friend
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.groupCell, forIndexPath: indexPath) as! GroupCell
+                var group: Group
                 
                 if searchController.active && searchController.searchBar.text != "" {
-                    friend = filteredFriends[indexPath.row]
+                    group = filteredGroups[indexPath.row]
                 } else {
-                    friend = sectionNames![indexPath.row]
+                    group = DataManager.sharedInstance.groups.array[indexPath.row]
                 }
                 
-                cell.configureForFriend(friend, withImageCacheStorage: imageCache)
+                cell.configureForGroup(group, withImageCacheStorage: imageCache)
                 
                 return cell
             default:
@@ -311,27 +226,9 @@ extension FriendsTableViewControllerDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
         
-        cell.messageLabel.text = "Для отображения списка друзей необходимо авторизоваться"
+        cell.messageLabel.text = "Для отображения списка групп необходимо авторизоваться"
         
         return cell
-    }
-    
-    // Получение массива индексов секций таблицы
-    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
-            case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
-                    return nil
-                }
-                
-                return nameSectionTitles
-            default:
-                return nil
-            }
-        }
-        
-        return nil
     }
     
 }
@@ -339,8 +236,8 @@ extension FriendsTableViewControllerDataSource {
 
 // MARK: UITableViewDelegate
 
-private typealias FriendsTableViewControllerDelegate = FriendsTableViewController
-extension FriendsTableViewControllerDelegate {
+private typealias GroupsTableViewControllerDelegate = GroupsTableViewController
+extension GroupsTableViewControllerDelegate {
     
     
     // Высота каждой строки
@@ -352,22 +249,20 @@ extension FriendsTableViewControllerDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.getFriends.state == .Results {
-                if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == 0 {
+            if RequestManager.sharedInstance.getGroups.state == .Results {
+                if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == 0 {
                     return
                 }
                 
-                var friend: Friend
+                var group: Group
                 
                 if searchController.active && searchController.searchBar.text != "" {
-                    friend = filteredFriends[indexPath.row]
+                    group = filteredGroups[indexPath.row]
                 } else {
-                    let sectionTitle = nameSectionTitles[indexPath.section]
-                    let sectionNames = names[sectionTitle]
-                    friend = sectionNames![indexPath.row]
+                    group = DataManager.sharedInstance.groups.array[indexPath.row]
                 }
                 
-                performSegueWithIdentifier("ShowFriendAudioSegue", sender: friend)
+                performSegueWithIdentifier("ShowGroupAudioSegue", sender: group)
             }
         }
     }
@@ -377,7 +272,7 @@ extension FriendsTableViewControllerDelegate {
 
 // MARK: UISearchBarDelegate
 
-extension FriendsTableViewController: UISearchBarDelegate {
+extension GroupsTableViewController: UISearchBarDelegate {
     
     // Вызывается когда пользователь начал редактирование поискового текста
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
@@ -394,7 +289,7 @@ extension FriendsTableViewController: UISearchBarDelegate {
 
 // MARK: UISearchResultsUpdating
 
-extension FriendsTableViewController: UISearchResultsUpdating {
+extension GroupsTableViewController: UISearchResultsUpdating {
     
     // Вызывается когда поле поиска получает фокус или когда значение поискового запроса изменяется
     func updateSearchResultsForSearchController(searchController: UISearchController) {

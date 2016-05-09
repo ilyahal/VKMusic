@@ -30,6 +30,7 @@ class DataManager {
         myMusic = DataManagerObject<Track>()
         searchMusic = DataManagerObject<Track>()
         friends = DataManagerObject<Friend>()
+        groups = DataManagerObject<Group>()
         ownerMusic = DataManagerObject<Track>()
     }
     
@@ -38,6 +39,7 @@ class DataManager {
         myMusic.clear()
         searchMusic.clear()
         friends.clear()
+        groups.clear()
         ownerMusic.clear()
     }
     
@@ -51,7 +53,10 @@ class DataManager {
     // Список друзей
     let friends: DataManagerObject<Friend>
     
-    // Аудиозаписи пользователя
+    // Список групп
+    let groups: DataManagerObject<Group>
+    
+    // Аудиозаписи владельца
     let ownerMusic: DataManagerObject<Track>
     
 }

@@ -211,24 +211,50 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qEW-ff-Jbi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4004" y="3523"/>
+            <point key="canvasLocation" x="3990" y="3901"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Groups Table View Controller-->
         <scene sceneID="TUL-NI-Ut4">
             <objects>
-                <tableViewController id="J6P-fh-5CB" sceneMemberID="viewController">
+                <tableViewController id="J6P-fh-5CB" customClass="GroupsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EJX-bD-EZu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Xn7-ge-drd">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="62" id="Zof-ZS-NGF" customClass="GroupCell" customModule="VkPlaylist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xn7-ge-drd" id="zJi-l2-p03">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zof-ZS-NGF" id="1ny-5o-rqh">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="61.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="friend-photo-placeholder-icon" translatesAutoresizingMaskIntoConstraints="NO" id="2YF-WP-NLU">
+                                            <rect key="frame" x="14" y="8.5" width="45" height="45"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="45" id="Urg-B1-bpU"/>
+                                                <constraint firstAttribute="width" constant="45" id="pyY-Ln-XSb"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;Название группы&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jf3-1Z-lbr">
+                                            <rect key="frame" x="67" y="20" width="161" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Jf3-1Z-lbr" firstAttribute="leading" secondItem="2YF-WP-NLU" secondAttribute="trailing" constant="8" id="AyX-B1-CIA"/>
+                                        <constraint firstItem="2YF-WP-NLU" firstAttribute="centerY" secondItem="1ny-5o-rqh" secondAttribute="centerY" id="EQ6-Q6-K0v"/>
+                                        <constraint firstItem="2YF-WP-NLU" firstAttribute="leading" secondItem="1ny-5o-rqh" secondAttribute="leading" constant="14" id="HHU-NW-xH6"/>
+                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="Jf3-1Z-lbr" secondAttribute="trailing" constant="8" id="PLF-Wb-LkE"/>
+                                        <constraint firstItem="Jf3-1Z-lbr" firstAttribute="centerY" secondItem="1ny-5o-rqh" secondAttribute="centerY" id="ypU-aJ-UbD"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="groupImageView" destination="2YF-WP-NLU" id="2ZM-pP-0D2"/>
+                                    <outlet property="groupNameLabel" destination="Jf3-1Z-lbr" id="uNk-gf-Zo8"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -236,6 +262,9 @@
                             <outlet property="delegate" destination="J6P-fh-5CB" id="vqC-Kh-ohO"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="WMM-6k-EWz" kind="show" identifier="ShowGroupAudioSegue" id="CzA-rA-5Jw"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMw-YT-dDn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -582,4 +611,7 @@
         <image name="icon-Playlist" width="25" height="25"/>
         <image name="icon-Search" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="CzA-rA-5Jw"/>
+    </inferredMetricsTieBreakers>
 </document>

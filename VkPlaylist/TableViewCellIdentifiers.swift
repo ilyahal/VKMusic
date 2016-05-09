@@ -16,4 +16,5 @@ struct TableViewCellIdentifiers {
     static let loadingCell = "LoadingCell" // Ячейка с сообщением о загрузке данных
     static let audioCell = "AudioCell" // Ячейка для вывода аудиозаписи
     static let friendCell = "FriendCell" // Ячейка для вывода друга
+    static let groupCell = "GroupCell" // Ячейка для вывода группы
 }

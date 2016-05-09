@@ -203,7 +203,7 @@ extension OwnerMusicTableViewControllerDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
-            let track = DataManager.sharedInstance.myMusic.array[indexPath.row]
+            let track = DataManager.sharedInstance.ownerMusic.array[indexPath.row]
             let trackURL = NSURL(string: track.url!)
             
             PlayerManager.sharedInstance.playFile(trackURL!)

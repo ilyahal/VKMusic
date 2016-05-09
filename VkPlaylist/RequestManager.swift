@@ -33,6 +33,7 @@ class RequestManager {
         getAudio = GetAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetAudio)
         searchAudio = SearchAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.SearchAudio)
         getFriends = GetFriends(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetFriends)
+        getGroups = GetGroups(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetGroups)
         getOwnerAudio = GetOwnerAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetOwnerAudio)
     }
     
@@ -50,6 +51,7 @@ class RequestManager {
         getAudio.cancel()
         searchAudio.cancel()
         getFriends.cancel()
+        getGroups.cancel()
         getOwnerAudio.cancel()
     }
     
@@ -60,10 +62,13 @@ class RequestManager {
     // Получение искомых аудиозаписей
     let searchAudio: RequestManagerObject
     
-    // Получение искомых аудиозаписей
+    // Получение списка друзей
     let getFriends: RequestManagerObject
     
-    // Получение искомых аудиозаписей
+    // Получение списка групп
+    let getGroups: RequestManagerObject
+    
+    // Получение списка аудиозаписей
     let getOwnerAudio: RequestManagerObject
     
 }
@@ -79,6 +84,7 @@ extension RequestManagerDataTypes {
         static let GetAudio = "getAudio" // Ключ на получение личных аудиозаписей
         static let SearchAudio = "searchAudio" // Ключ на получение искомых аудиозаписей
         static let GetFriends = "getFriends" // Ключ на получение списка друзей
+        static let GetGroups = "getGroups" // Ключ на получение списка групп
         static let GetOwnerAudio = "getOwnerAudio" // Ключ на получение списка аудиозаписей пользователя
     }
     

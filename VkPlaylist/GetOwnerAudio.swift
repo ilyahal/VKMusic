@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Получение списка личных аудиозаписей
+/// Получение списка аудиозаписей владельца
 
 class GetOwnerAudio: RequestManagerObject {
     
@@ -64,7 +64,7 @@ class GetOwnerAudio: RequestManagerObject {
             completion(false)
         }
         
-        // Слушатель для получения уведомления об ошибке при доступе к аудиозаписям пользователя
+        // Слушатель для получения уведомления об ошибке при доступе к аудиозаписям владельца
         NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerGetAudioForOwnerAccessErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
             
             // Сохраняем данные

@@ -51,6 +51,10 @@
 		BBE853991CE138CF00872C3B /* OwnerMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853981CE138CF00872C3B /* OwnerMusicTableViewController.swift */; };
 		BBE8539D1CE13E1B00872C3B /* AccessErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8539B1CE13E1B00872C3B /* AccessErrorCell.swift */; };
 		BBE8539E1CE13E1B00872C3B /* AccessErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE8539C1CE13E1B00872C3B /* AccessErrorCell.xib */; };
+		BBE853A11CE1481B00872C3B /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853A01CE1481B00872C3B /* Group.swift */; };
+		BBE853A31CE14B1E00872C3B /* GetGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853A21CE14B1E00872C3B /* GetGroups.swift */; };
+		BBE853A61CE14CCF00872C3B /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853A51CE14CCF00872C3B /* GroupCell.swift */; };
+		BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853A71CE14E3300872C3B /* GroupsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +105,10 @@
 		BBE853981CE138CF00872C3B /* OwnerMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwnerMusicTableViewController.swift; sourceTree = "<group>"; };
 		BBE8539B1CE13E1B00872C3B /* AccessErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessErrorCell.swift; sourceTree = "<group>"; };
 		BBE8539C1CE13E1B00872C3B /* AccessErrorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccessErrorCell.xib; sourceTree = "<group>"; };
+		BBE853A01CE1481B00872C3B /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		BBE853A21CE14B1E00872C3B /* GetGroups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetGroups.swift; sourceTree = "<group>"; };
+		BBE853A51CE14CCF00872C3B /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
+		BBE853A71CE14E3300872C3B /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -197,6 +205,7 @@
 				BBDEC0841CD760D8005B8494 /* NothingFoundCell */,
 				BBDEC0871CD761A7005B8494 /* AudioCell */,
 				BBE8538D1CE0F08000872C3B /* FriendCell */,
+				BBE853A41CE14CA100872C3B /* GroupCell */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -207,6 +216,7 @@
 				BBE8539F1CE13EE100872C3B /* Constants */,
 				BBDEC0691CD67A84005B8494 /* Track.swift */,
 				BBE853871CE0E69700872C3B /* Friend.swift */,
+				BBE853A01CE1481B00872C3B /* Group.swift */,
 			);
 			name = "Data Objects";
 			sourceTree = "<group>";
@@ -220,6 +230,7 @@
 				BBE8535B1CDFE89000872C3B /* SearchTableViewController.swift */,
 				BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */,
 				BBE8538B1CE0EE5A00872C3B /* FriendsTableViewController.swift */,
+				BBE853A71CE14E3300872C3B /* GroupsTableViewController.swift */,
 				BBE853981CE138CF00872C3B /* OwnerMusicTableViewController.swift */,
 				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
 			);
@@ -332,6 +343,7 @@
 				BBE853821CE0DDF200872C3B /* GetAudio.swift */,
 				BBE853841CE0DE2F00872C3B /* SearchAudio.swift */,
 				BBE853891CE0EAE400872C3B /* GetFriends.swift */,
+				BBE853A21CE14B1E00872C3B /* GetGroups.swift */,
 				BBE853961CE135BD00872C3B /* GetOwnerAudio.swift */,
 			);
 			name = Requests;
@@ -360,6 +372,14 @@
 				BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */,
 			);
 			name = Constants;
+			sourceTree = "<group>";
+		};
+		BBE853A41CE14CA100872C3B /* GroupCell */ = {
+			isa = PBXGroup;
+			children = (
+				BBE853A51CE14CCF00872C3B /* GroupCell.swift */,
+			);
+			name = GroupCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -505,8 +525,10 @@
 				BBE8538A1CE0EAE400872C3B /* GetFriends.swift in Sources */,
 				BBE853971CE135BD00872C3B /* GetOwnerAudio.swift in Sources */,
 				BBE853911CE0F54100872C3B /* TableViewCellIdentifiers.swift in Sources */,
+				BBE853A31CE14B1E00872C3B /* GetGroups.swift in Sources */,
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
+				BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */,
 				BBE8539D1CE13E1B00872C3B /* AccessErrorCell.swift in Sources */,
 				BBDEC0741CD6CE9B005B8494 /* SettingsTableViewController.swift in Sources */,
 				BBE8538C1CE0EE5A00872C3B /* FriendsTableViewController.swift in Sources */,
@@ -519,6 +541,8 @@
 				BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */,
 				BBE853831CE0DDF200872C3B /* GetAudio.swift in Sources */,
 				BBDEC06A1CD67A84005B8494 /* Track.swift in Sources */,
+				BBE853A61CE14CCF00872C3B /* GroupCell.swift in Sources */,
+				BBE853A11CE1481B00872C3B /* Group.swift in Sources */,
 				BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */,
 				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,

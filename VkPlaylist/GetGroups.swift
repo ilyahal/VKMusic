@@ -1,22 +1,22 @@
 //
-//  GetFriends.swift
+//  GetGroups.swift
 //  VkPlaylist
 //
-//  Created by Илья Халяпин on 09.05.16.
+//  Created by Илья Халяпин on 10.05.16.
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
 import UIKit
 
-/// Получение списка друзей
+/// Получение списка групп
 
-class GetFriends: RequestManagerObject {
+class GetGroups: RequestManagerObject {
     
     override func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
         super.performRequest(parameters, withCompletionHandler: completion)
         
         cancel()
-        DataManager.sharedInstance.friends.clear()
+        DataManager.sharedInstance.groups.clear()
         
         
         if !Reachability.isConnectedToNetwork() {
@@ -29,13 +29,13 @@ class GetFriends: RequestManagerObject {
         }
         
         
-        // Слушатель для уведомления об успешном завершении получения друзей
-        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerDidGetFriendsNotification, object: nil, queue: NSOperationQueue.mainQueue()) { notification in
-            let result = notification.userInfo!["Friends"] as! [Friend]
+        // Слушатель для уведомления об успешном завершении получения групп
+        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerDidGetGroupsNotification, object: nil, queue: NSOperationQueue.mainQueue()) { notification in
+            let result = notification.userInfo!["Groups"] as! [Group]
             
             // Сохраняем данные
-            DataManager.sharedInstance.friends.update(result)
-            self.state = DataManager.sharedInstance.friends.array.count == 0 ? .NoResults : .Results
+            DataManager.sharedInstance.groups.update(result)
+            self.state = DataManager.sharedInstance.groups.array.count == 0 ? .NoResults : .Results
             self.error = .None
             
             // Убираем состояние выполнения запроса
@@ -47,10 +47,10 @@ class GetFriends: RequestManagerObject {
         }
         
         // Слушатель для получения уведомления об ошибке при подключении к интернету
-        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerGetFriendsNetworkErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
+        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerGetGroupsNetworkErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
             
             // Сохраняем данные
-            DataManager.sharedInstance.friends.clear()
+            DataManager.sharedInstance.groups.clear()
             self.state = .NotSearchedYet
             self.error = .NetworkError
             
@@ -63,10 +63,10 @@ class GetFriends: RequestManagerObject {
         }
         
         // Слушатель для уведомления о других ошибках
-        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerGetFriendsErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
+        NSNotificationCenter.defaultCenter().addObserverForName(VKAPIManagerGetGroupsErrorNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
             
             // Сохраняем данные
-            DataManager.sharedInstance.friends.clear()
+            DataManager.sharedInstance.groups.clear()
             self.state = .NotSearchedYet
             self.error = .UnknownError
             
@@ -79,7 +79,7 @@ class GetFriends: RequestManagerObject {
         }
         
         
-        let request = VKAPIManager.friendsGet()
+        let request = VKAPIManager.groupsGet()
         
         state = .Loading
         error = .None
