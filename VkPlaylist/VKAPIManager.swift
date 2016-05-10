@@ -45,6 +45,11 @@ let VKAPIManagerDidGetRecommendationsAudioNotification = "VKAPIManagerDidGetReco
 let VKAPIManagerGetRecommendationsAudioNetworkErrorNotification = "VKAPIManagerGetRecommendationsAudioNetworkErrorNotification" // Уведомление о том, что при получении рекомендуемых аудиозаписей произошла ошибка при подключении к интернету
 let VKAPIManagerGetRecommendationsAudioErrorNotification = "VKAPIManagerGetRecommendationsAudioErrorNotification" // Уведомление о том, что при получении рекомендуемых аудиозаписей произошла ошибка
 
+// Уведомления о событиях при получения популярных аудиозаписей
+let VKAPIManagerDidGetPopularAudioNotification = "VKAPIManagerDidGetPopularAudioNotification" // Уведомление о том, что список популярных аудиозаписей был получен
+let VKAPIManagerGetPopularAudioNetworkErrorNotification = "VKAPIManagerGetPopularAudioNetworkErrorNotification" // Уведомление о том, что при получении популярных аудиозаписей произошла ошибка при подключении к интернету
+let VKAPIManagerGetPopularAudioErrorNotification = "VKAPIManagerGetPopularAudioErrorNotification" // Уведомление о том, что при получении популярных аудиозаписей произошла ошибка
+
 /// Отвечает за взаимодействие с VK
 
 class VKAPIManager {
@@ -231,6 +236,32 @@ class VKAPIManager {
         return request
     }
     
+    
+    // Получение списка популярных аудиозаписей
+    class func audioGetPopular() -> Request {
+        let request = VK.API.Audio.getPopular([
+            .onlyEng : "1", // Только зарубежные
+            .count : "100", // Количество популярных аудиозаписей
+        ])
+        request.successBlock = { response in
+            let result = VKJSONParser.parseAudio(response)
+            print(response)
+            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetPopularAudioNotification, object: nil, userInfo: ["Audio": result])
+        }
+        request.errorBlock = { error in
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету (-1009) или превышен лимит времени на запрос (-1001)
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetPopularAudioNetworkErrorNotification, object: nil)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetPopularAudioErrorNotification, object: nil)
+            }
+            
+            print("SwiftyVK: audioGetPopular fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
+    
 }
 
 private typealias VKJSONParser = VKAPIManager
@@ -240,7 +271,13 @@ extension VKJSONParser {
     private class func parseAudio(audio: JSON) -> [Track] {
         var trackList = [Track]()
         
-        let itemsList = audio["items"].array
+        let itemsList: [JSON]?
+            
+        if let list = audio["items"].array {
+            itemsList = list
+        } else {
+            itemsList = audio.array
+        }
         
         if let itemsList = itemsList {
             for audio in itemsList {

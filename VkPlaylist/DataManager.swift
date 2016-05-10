@@ -33,6 +33,7 @@ class DataManager {
         groups = DataManagerObject<Group>()
         ownerMusic = DataManagerObject<Track>()
         recommendationsMusic = DataManagerObject<Track>()
+        popularMusic = DataManagerObject<Track>()
     }
     
     // Удаляем данные при деавторизации
@@ -43,6 +44,7 @@ class DataManager {
         groups.clear()
         ownerMusic.clear()
         recommendationsMusic.clear()
+        popularMusic.clear()
     }
     
     
@@ -63,5 +65,8 @@ class DataManager {
     
     // Рекомендуемые аудиозаписи
     let recommendationsMusic: DataManagerObject<Track>
+    
+    // Популярные аудиозаписи
+    let popularMusic: DataManagerObject<Track>
     
 }

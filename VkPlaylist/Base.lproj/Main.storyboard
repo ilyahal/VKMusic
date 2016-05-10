@@ -293,7 +293,7 @@
         <!--Популярное-->
         <scene sceneID="FUO-1z-6kc">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="PxH-Nj-fS4" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="PxH-Nj-fS4" customClass="PopularTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="a7q-wB-8yI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

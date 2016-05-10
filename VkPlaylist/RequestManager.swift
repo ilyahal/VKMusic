@@ -36,6 +36,7 @@ class RequestManager {
         getGroups = GetGroups(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetGroups)
         getOwnerAudio = GetOwnerAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetOwnerAudio)
         getRecommendationsAudio = GetRecommendationsAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetRecommendationsAudio)
+        getPopularAudio = GetPopularAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetPopularAudio)
     }
     
     deinit {
@@ -55,6 +56,7 @@ class RequestManager {
         getGroups.cancel()
         getOwnerAudio.cancel()
         getRecommendationsAudio.cancel()
+        getPopularAudio.cancel()
     }
     
     
@@ -76,6 +78,9 @@ class RequestManager {
     // Получение рекомендуемых аудиозаписей
     let getRecommendationsAudio: RequestManagerObject
     
+    // Получение популярных аудиозаписей
+    let getPopularAudio: RequestManagerObject
+    
 }
 
 
@@ -92,6 +97,8 @@ extension RequestManagerDataTypes {
         static let GetGroups = "getGroups" // Ключ на получение списка групп
         static let GetOwnerAudio = "getOwnerAudio" // Ключ на получение списка аудиозаписей пользователя
         static let GetRecommendationsAudio = "getRecommendationsAudio" // Ключ на получение рекомендуемых аудиозаписей
+        static let GetPopularAudio = "getPopularAudio" // Ключ на получение популярных аудиозаписей
+        
     }
     
 }
