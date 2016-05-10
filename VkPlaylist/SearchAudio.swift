@@ -25,6 +25,8 @@ class SearchAudio: RequestManagerObject {
             state = .NotSearchedYet
             error = .NetworkError
             
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            
             completion(false)
             
             return

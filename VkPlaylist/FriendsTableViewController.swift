@@ -298,9 +298,9 @@ extension FriendsTableViewControllerDataSource {
                 
                 let count: Int?
                 
-                if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == indexPath.row {
+                if searchController.active && !searchController.searchBar.text!.isEmpty && filteredFriends.count == indexPath.row {
                     count = filteredFriends.count
-                } else if sectionNames!.count == indexPath.row {
+                } else if searchController.searchBar.text!.isEmpty && sectionNames!.count == indexPath.row {
                     count = friends.count
                 } else {
                     count = nil
