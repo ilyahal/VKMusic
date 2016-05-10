@@ -10,8 +10,6 @@ import UIKit
 
 class GroupsTableViewController: UITableViewController {
     
-    private var toDelete = true
-    
     private var imageCache: NSCache!
     
     private var groups: [Group]!
@@ -63,22 +61,6 @@ class GroupsTableViewController: UITableViewController {
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        toDelete = true
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if toDelete {
-            if !RequestManager.sharedInstance.getGroups.cancel() {
-                RequestManager.sharedInstance.getGroups.dropState()
-            }
-        }
-    }
-    
     // Заново отрисовать таблицу
     func reloadTableView() {
         dispatch_async(dispatch_get_main_queue()) {
@@ -89,8 +71,6 @@ class GroupsTableViewController: UITableViewController {
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowGroupAudioSegue" {
-            toDelete = false
-            
             let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
             let group = sender as! Group
             

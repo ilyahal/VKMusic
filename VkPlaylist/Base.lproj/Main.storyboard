@@ -197,7 +197,7 @@
         <!--<Имя владельца>-->
         <scene sceneID="7aK-Lh-4fa">
             <objects>
-                <tableViewController id="WMM-6k-EWz" customClass="OwnerMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="WMM-6k-EWz" customClass="OwnerMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="HwJ-cR-hCn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

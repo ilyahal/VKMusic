@@ -25,6 +25,18 @@ class MoreTableViewController: UITableViewController {
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if !RequestManager.sharedInstance.getFriends.cancel() {
+            RequestManager.sharedInstance.getFriends.dropState()
+        }
+        
+        if !RequestManager.sharedInstance.getGroups.cancel() {
+            RequestManager.sharedInstance.getGroups.dropState()
+        }
+    }
+    
     // Заполнение массива ссылок на экраны
     func fillLinksToScreensArray() {
         linksToScreens.append(LinkToScreen(title: "Друзья", icon: "icon-UserReverse", segueIdentifier: "ShowFriendsSegue"))

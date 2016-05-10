@@ -10,8 +10,6 @@ import UIKit
 
 class FriendsTableViewController: UITableViewController {
 
-    private var toDelete = true
-    
     private var imageCache: NSCache!
     private var names: [String: [Friend]]!
     private var nameSectionTitles: [String]!
@@ -66,22 +64,6 @@ class FriendsTableViewController: UITableViewController {
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        toDelete = true
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if toDelete {
-            if !RequestManager.sharedInstance.getFriends.cancel() {
-                RequestManager.sharedInstance.getFriends.dropState()
-            }
-        }
-    }
-    
     // Заново отрисовать таблицу
     func reloadTableView() {
         dispatch_async(dispatch_get_main_queue()) {
@@ -92,8 +74,6 @@ class FriendsTableViewController: UITableViewController {
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowFriendAudioSegue" {
-            toDelete = false
-            
             let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
             let friend = sender as! Friend
             
@@ -101,7 +81,6 @@ class FriendsTableViewController: UITableViewController {
             ownerMusicTableViewController.name = friend.getFullName()
         }
     }
-    
     
     // MARK: Работа с клавиатурой
     
