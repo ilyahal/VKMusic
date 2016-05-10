@@ -33,6 +33,7 @@ class RecommendationsTableViewController: MusicFromInternetTableViewController {
         super.viewDidDisappear(animated)
         
         if toDelete {
+            DataManager.sharedInstance.recommendationsMusic.clear()
             if !RequestManager.sharedInstance.getRecommendationsAudio.cancel() {
                 RequestManager.sharedInstance.getRecommendationsAudio.dropState()
             }

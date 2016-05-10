@@ -28,10 +28,12 @@ class MoreTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        DataManager.sharedInstance.friends.clear()
         if !RequestManager.sharedInstance.getFriends.cancel() {
             RequestManager.sharedInstance.getFriends.dropState()
         }
         
+        DataManager.sharedInstance.groups.clear()
         if !RequestManager.sharedInstance.getGroups.cancel() {
             RequestManager.sharedInstance.getGroups.dropState()
         }
