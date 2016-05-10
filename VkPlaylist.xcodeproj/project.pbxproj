@@ -57,6 +57,8 @@
 		BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853A71CE14E3300872C3B /* GroupsTableViewController.swift */; };
 		BBE853AC1CE1D79B00872C3B /* NumberOfRowsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853AA1CE1D79B00872C3B /* NumberOfRowsCell.swift */; };
 		BBE853AD1CE1D79B00872C3B /* NumberOfRowsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE853AB1CE1D79B00872C3B /* NumberOfRowsCell.xib */; };
+		BBE853AF1CE2869600872C3B /* RecommendationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853AE1CE2869600872C3B /* RecommendationsTableViewController.swift */; };
+		BBE853B11CE2899B00872C3B /* GetRecommendationsAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853B01CE2899B00872C3B /* GetRecommendationsAudio.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +115,8 @@
 		BBE853A71CE14E3300872C3B /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		BBE853AA1CE1D79B00872C3B /* NumberOfRowsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberOfRowsCell.swift; sourceTree = "<group>"; };
 		BBE853AB1CE1D79B00872C3B /* NumberOfRowsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NumberOfRowsCell.xib; sourceTree = "<group>"; };
+		BBE853AE1CE2869600872C3B /* RecommendationsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationsTableViewController.swift; sourceTree = "<group>"; };
+		BBE853B01CE2899B00872C3B /* GetRecommendationsAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetRecommendationsAudio.swift; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -237,6 +241,7 @@
 				BBE8538B1CE0EE5A00872C3B /* FriendsTableViewController.swift */,
 				BBE853A71CE14E3300872C3B /* GroupsTableViewController.swift */,
 				BBE853981CE138CF00872C3B /* OwnerMusicTableViewController.swift */,
+				BBE853AE1CE2869600872C3B /* RecommendationsTableViewController.swift */,
 				BBDEC0731CD6CE9B005B8494 /* SettingsTableViewController.swift */,
 			);
 			name = ViewControllers;
@@ -350,6 +355,7 @@
 				BBE853891CE0EAE400872C3B /* GetFriends.swift */,
 				BBE853A21CE14B1E00872C3B /* GetGroups.swift */,
 				BBE853961CE135BD00872C3B /* GetOwnerAudio.swift */,
+				BBE853B01CE2899B00872C3B /* GetRecommendationsAudio.swift */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -544,11 +550,13 @@
 				BBE853A31CE14B1E00872C3B /* GetGroups.swift in Sources */,
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
+				BBE853AF1CE2869600872C3B /* RecommendationsTableViewController.swift in Sources */,
 				BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */,
 				BBE8539D1CE13E1B00872C3B /* AccessErrorCell.swift in Sources */,
 				BBDEC0741CD6CE9B005B8494 /* SettingsTableViewController.swift in Sources */,
 				BBE8538C1CE0EE5A00872C3B /* FriendsTableViewController.swift in Sources */,
 				BBE8537D1CE0DAFB00872C3B /* DataManagerObject.swift in Sources */,
+				BBE853B11CE2899B00872C3B /* GetRecommendationsAudio.swift in Sources */,
 				BBE853881CE0E69700872C3B /* Friend.swift in Sources */,
 				BBDEC0661CD66DB6005B8494 /* AudioCell.swift in Sources */,
 				BBE8538F1CE0F0B300872C3B /* FriendCell.swift in Sources */,

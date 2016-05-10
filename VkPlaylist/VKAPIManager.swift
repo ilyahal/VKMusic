@@ -40,6 +40,11 @@ let VKAPIManagerGetAudioForOwnerNetworkErrorNotification = "VKAPIManagerGetAudio
 let VKAPIManagerGetAudioForOwnerAccessErrorNotification = "VKAPIManagerGetAudioForOwnerAccessErrorNotification" // Уведомление о том, что при получении аудиозаписей указанного пользователя произошла ошибка доступа
 let VKAPIManagerGetAudioForOwnerErrorNotification = "VKAPIManagerGetAudioForOwnerErrorNotification" // Уведомление о том, что при получении аудиозаписей указанного пользователя произошла ошибка
 
+// Уведомления о событиях при получения рекомендуемых аудиозаписей
+let VKAPIManagerDidGetRecommendationsAudioNotification = "VKAPIManagerDidGetRecommendationsAudioNotification" // Уведомление о том, что список рекомендуемых аудиозаписей был получен
+let VKAPIManagerGetRecommendationsAudioNetworkErrorNotification = "VKAPIManagerGetRecommendationsAudioNetworkErrorNotification" // Уведомление о том, что при получении рекомендуемых аудиозаписей произошла ошибка при подключении к интернету
+let VKAPIManagerGetRecommendationsAudioErrorNotification = "VKAPIManagerGetRecommendationsAudioErrorNotification" // Уведомление о том, что при получении рекомендуемых аудиозаписей произошла ошибка
+
 /// Отвечает за взаимодействие с VK
 
 class VKAPIManager {
@@ -125,7 +130,7 @@ class VKAPIManager {
     // Получение списка друзей
     class func friendsGet() -> Request {
         let request = VK.API.Friends.get([
-            .fields : "photo_200_orig"
+            .fields : "photo_200_orig" // Получение фотографии пользователя
         ])
         request.successBlock = { response in
             let result = VKJSONParser.parseFriends(response)
@@ -147,7 +152,7 @@ class VKAPIManager {
     }
     
     
-    // Получение списка друзей
+    // Получение списка групп
     class func groupsGet() -> Request {
         let request = VK.API.Groups.get([
             .extended : "1" // Получение полной информации о группах
@@ -175,7 +180,7 @@ class VKAPIManager {
     // Получение аудиозаписей владельца с указанным id
     class func audioGetWithOwnerID(id: Int) -> Request {
         let request = VK.API.Audio.get([
-            .ownerId: String(id)
+            .ownerId : String(id) // Идентификатор владельца
         ])
         request.successBlock = { response in
             let result = VKJSONParser.parseAudio(response)
@@ -194,6 +199,32 @@ class VKAPIManager {
             }
             
             print("SwiftyVK: audioGetWithOwnerID fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
+    
+    
+    // Получение списка рекомендуемых аудиозаписей
+    class func audioGetRecommendations() -> Request {
+        let request = VK.API.Audio.getRecommendations([
+            .count : "100", // Количество рекомендуемых аудиозаписей
+            .shuffle : "1" // Случайный порядок
+        ])
+        request.successBlock = { response in
+            let result = VKJSONParser.parseAudio(response)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetRecommendationsAudioNotification, object: nil, userInfo: ["Audio": result])
+        }
+        request.errorBlock = { error in
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету (-1009) или превышен лимит времени на запрос (-1001)
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetRecommendationsAudioNetworkErrorNotification, object: nil)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetRecommendationsAudioErrorNotification, object: nil)
+            }
+            
+            print("SwiftyVK: audioGetRecommendations fail \n \(error)")
         }
         request.send()
         

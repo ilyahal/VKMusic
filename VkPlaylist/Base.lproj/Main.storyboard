@@ -213,7 +213,7 @@
             </objects>
             <point key="canvasLocation" x="3990" y="3901"/>
         </scene>
-        <!--Groups Table View Controller-->
+        <!--Группы-->
         <scene sceneID="TUL-NI-Ut4">
             <objects>
                 <tableViewController id="J6P-fh-5CB" customClass="GroupsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
@@ -262,6 +262,7 @@
                             <outlet property="delegate" destination="J6P-fh-5CB" id="vqC-Kh-ohO"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Группы" id="QZE-ss-08a"/>
                     <connections>
                         <segue destination="WMM-6k-EWz" kind="show" identifier="ShowGroupAudioSegue" id="CzA-rA-5Jw"/>
                     </connections>
@@ -270,57 +271,39 @@
             </objects>
             <point key="canvasLocation" x="3271" y="4299"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Рекомендации-->
         <scene sceneID="2mB-yL-cQg">
             <objects>
-                <tableViewController id="xkp-KM-EQN" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="xkp-KM-EQN" customClass="RecommendationsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="0yM-OP-1z3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Fhm-um-DeJ">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fhm-um-DeJ" id="EDN-4Y-p2u">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="xkp-KM-EQN" id="NkJ-z5-5Vw"/>
                             <outlet property="delegate" destination="xkp-KM-EQN" id="4ZR-gI-7w3"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Рекомендации" id="zf6-RU-JWb"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Y2-JN-XXk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3271" y="5066"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Популярное-->
         <scene sceneID="FUO-1z-6kc">
             <objects>
-                <tableViewController id="PxH-Nj-fS4" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="PxH-Nj-fS4" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="a7q-wB-8yI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="oF3-QW-il7">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oF3-QW-il7" id="bgs-Jn-iq5">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="PxH-Nj-fS4" id="bOq-9n-Lgh"/>
                             <outlet property="delegate" destination="PxH-Nj-fS4" id="zJP-3h-bMA"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Популярное" id="B9V-LT-Lfg"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NO9-Na-mEP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
