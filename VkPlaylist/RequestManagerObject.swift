@@ -58,14 +58,18 @@ class RequestManagerObject {
     }
     
     // Отменяет выполенение запроса
-    func cancel() {
+    func cancel() -> Bool {
         if let activeRequest = RequestManager.sharedInstance.activeRequests[key] {
             activeRequest.cancel()
             removeFromActiveRequests()
             
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             dropState()
+            
+            return true
         }
+        
+        return false
     }
     
 }

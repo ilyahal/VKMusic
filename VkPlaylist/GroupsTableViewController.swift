@@ -10,8 +10,11 @@ import UIKit
 
 class GroupsTableViewController: UITableViewController {
     
+    private var toDelete = true
+    
     private var imageCache: NSCache!
     
+    private var groups: [Group]!
     private var filteredGroups: [Group]! // Массив для результатов поиска по уже загруженному списку групп
     
     var searchController: UISearchController!
@@ -22,7 +25,6 @@ class GroupsTableViewController: UITableViewController {
         
         if VKAPIManager.isAuthorized {
             imageCache = NSCache()
-            filteredGroups = []
             
             getGroups()
         }
@@ -56,11 +58,25 @@ class GroupsTableViewController: UITableViewController {
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil) // Ячейка "Загрузка"
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
+        
+        cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством групп
+        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
     
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        imageCache.removeAllObjects()
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        toDelete = true
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if toDelete {
+            if !RequestManager.sharedInstance.getGroups.cancel() {
+                RequestManager.sharedInstance.getGroups.dropState()
+            }
+        }
     }
     
     // Заново отрисовать таблицу
@@ -73,6 +89,8 @@ class GroupsTableViewController: UITableViewController {
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowGroupAudioSegue" {
+            toDelete = false
+            
             let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
             let group = sender as! Group
             
@@ -103,12 +121,12 @@ class GroupsTableViewController: UITableViewController {
     
     func getGroups() {
         RequestManager.sharedInstance.getGroups.performRequest() { success in
+            self.groups = DataManager.sharedInstance.groups.array
+            
             self.reloadTableView()
             
             if !success {
                 switch RequestManager.sharedInstance.getGroups.error {
-                case .NetworkError:
-                    break
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -142,7 +160,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     func filterContentForSearchText(searchText: String) {
-        filteredGroups = DataManager.sharedInstance.groups.array.filter { group in
+        filteredGroups = groups.filter { group in
             return group.name!.lowercaseString.containsString(searchText.lowercaseString)
         }
     }
@@ -166,10 +184,10 @@ extension GroupsTableViewControllerDataSource {
                 return 1 // Ячейки с сообщением об отсутствии групп
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" {
-                    return filteredGroups.count == 0 ? 1 : filteredGroups.count // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных друзей
+                    return filteredGroups.count == 0 ? 1 : filteredGroups.count + 1 // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных друзей
                 }
                 
-                return DataManager.sharedInstance.groups.array.count
+                return groups.count + 1
             default:
                 return 0
             }
@@ -184,38 +202,54 @@ extension GroupsTableViewControllerDataSource {
             switch RequestManager.sharedInstance.getGroups.state {
             case .NotSearchedYet where RequestManager.sharedInstance.getGroups.error == .NetworkError:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
+                
                 return cell
             case .NoResults:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                
                 cell.messageLabel.text = "Список групп пуст"
                 
                 return cell
             case .Loading:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                
                 cell.activityIndicator.startAnimating()
                 
                 return cell
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == 0 {
                     let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                    
                     nothingFoundCell.messageLabel.text = "Измените поисковый запрос"
                     
                     return nothingFoundCell
                 }
                 
                 
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.groupCell, forIndexPath: indexPath) as! GroupCell
+                let count: Int?
+                
+                if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == indexPath.row {
+                    count = filteredGroups.count
+                } else if groups.count == indexPath.row {
+                    count = groups.count
+                } else {
+                    count = nil
+                }
+                
+                if let count = count {
+                    let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+                    numberOfRowsCell.configureForType(.Group, withCount: count)
+                    
+                    return numberOfRowsCell
+                }
+                
+                
                 var group: Group
                 
                 if searchController.active && searchController.searchBar.text != "" {
                     group = filteredGroups[indexPath.row]
                 } else {
-                    group = DataManager.sharedInstance.groups.array[indexPath.row]
+                    group = groups[indexPath.row]
                 }
                 
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.groupCell, forIndexPath: indexPath) as! GroupCell
                 cell.configureForGroup(group, withImageCacheStorage: imageCache)
                 
                 return cell
@@ -225,7 +259,6 @@ extension GroupsTableViewControllerDataSource {
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        
         cell.messageLabel.text = "Для отображения списка групп необходимо авторизоваться"
         
         return cell
@@ -239,9 +272,26 @@ extension GroupsTableViewControllerDataSource {
 private typealias GroupsTableViewControllerDelegate = GroupsTableViewController
 extension GroupsTableViewControllerDelegate {
     
-    
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if VKAPIManager.isAuthorized {
+            if RequestManager.sharedInstance.getGroups.state == .Results {
+                let count: Int?
+                
+                if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == indexPath.row {
+                    count = filteredGroups.count
+                } else if groups.count == indexPath.row {
+                    count = groups.count
+                } else {
+                    count = nil
+                }
+                
+                if let _ = count {
+                    return 44
+                }
+            }
+        }
+        
         return 62
     }
     
@@ -259,7 +309,7 @@ extension GroupsTableViewControllerDelegate {
                 if searchController.active && searchController.searchBar.text != "" {
                     group = filteredGroups[indexPath.row]
                 } else {
-                    group = DataManager.sharedInstance.groups.array[indexPath.row]
+                    group = groups[indexPath.row]
                 }
                 
                 performSegueWithIdentifier("ShowGroupAudioSegue", sender: group)
@@ -282,6 +332,10 @@ extension GroupsTableViewController: UISearchBarDelegate {
     // Вызывается когда пользователь закончил редактирование поискового текста
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         view.removeGestureRecognizer(tapRecognizer)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        filteredGroups.removeAll()
     }
     
 }

@@ -10,7 +10,8 @@ import UIKit
 
 class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController {
     
-    private var filteredMusic = [Track]() // Массив для результатов поиска по уже загруженным личным аудиозаписям
+    private var music: [Track]! // Массив для результатов запроса
+    private var filteredMusic: [Track]! // Массив для результатов поиска по уже загруженным личным аудиозаписям
     
     
     override func viewDidLoad() {
@@ -43,6 +44,8 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
     
     func getMusic() {
         RequestManager.sharedInstance.getAudio.performRequest() { success in
+            self.music = DataManager.sharedInstance.myMusic.array
+            
             self.reloadTableView()
             
             if let refreshControl = self.refreshControl {
@@ -53,8 +56,6 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
             
             if !success {
                 switch RequestManager.sharedInstance.getAudio.error {
-                case .NetworkError:
-                    break
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -75,7 +76,7 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
     // MARK: Поиск
     
     func filterContentForSearchText(searchText: String) {
-        filteredMusic = DataManager.sharedInstance.myMusic.array.filter { track in
+        filteredMusic = music.filter { track in
             return track.title!.lowercaseString.containsString(searchText.lowercaseString) || track.artist!.lowercaseString.containsString(searchText.lowercaseString)
         }
     }
@@ -83,8 +84,8 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
     
     // MARK: Pull-to-Refresh
     
-    override func refreshMyMusic() {
-        super.refreshMyMusic()
+    override func refreshMusic() {
+        super.refreshMusic()
         
         getMusic()
     }
@@ -105,7 +106,7 @@ extension MyMusicTableViewControllerDataSource {
                 return 1 // Ячейка с сообщением об отсутствии интернет соединения
             case .Loading:
                 if let refreshControl = refreshControl where refreshControl.refreshing {
-                    return 0
+                    return music.count + 1
                 }
                 
                 return 1 // Ячейка с индикатором загрузки
@@ -113,10 +114,10 @@ extension MyMusicTableViewControllerDataSource {
                 return 1 // Ячейки с сообщением об отсутствии личных аудиозаписей
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" {
-                    return filteredMusic.count == 0 ? 1 : filteredMusic.count // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных аудиозаписей
+                    return filteredMusic.count == 0 ? 1 : filteredMusic.count + 1 // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных аудиозаписей + ячейка для вывода количество строк
                 }
                 
-                return DataManager.sharedInstance.myMusic.array.count
+                return music.count + 1 // +1 - ячейка для вывода количества строк
             default:
                 return 0
             }
@@ -131,19 +132,26 @@ extension MyMusicTableViewControllerDataSource {
             switch RequestManager.sharedInstance.getAudio.state {
             case .NotSearchedYet where RequestManager.sharedInstance.getAudio.error == .NetworkError:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
+                
                 return cell
             case .NoResults:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                
                 cell.messageLabel.text = "Список аудиозаписей пуст"
                 
                 return cell
             case .Loading:
                 if let refreshControl = refreshControl where refreshControl.refreshing {
-                    if DataManager.sharedInstance.myMusic.array.count != 0 {
-                        let trackCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                        let track = DataManager.sharedInstance.myMusic.array[indexPath.row]
+                    if music.count != 0 {
+                        if music.count == indexPath.row {
+                            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+                            numberOfRowsCell.configureForType(.Audio, withCount: music.count)
+                            
+                            return numberOfRowsCell
+                        }
                         
+                        let track = music[indexPath.row]
+                        
+                        let trackCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
                         trackCell.delegate = self
                         trackCell.configureForTrack(track)
                         
@@ -153,29 +161,44 @@ extension MyMusicTableViewControllerDataSource {
                 
                 
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                
                 cell.activityIndicator.startAnimating()
                 
                 return cell
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
                     let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                    
                     nothingFoundCell.messageLabel.text = "Измените поисковый запрос"
                     
                     return nothingFoundCell
                 }
                 
+                let count: Int?
                 
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
+                if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == indexPath.row {
+                    count = filteredMusic.count
+                } else if music.count == indexPath.row {
+                    count = music.count
+                } else {
+                    count = nil
+                }
+                
+                if let count = count {
+                    let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+                    numberOfRowsCell.configureForType(.Audio, withCount: count)
+                    
+                    return numberOfRowsCell
+                }
+                
+                
                 var track: Track
                 
                 if searchController.active && searchController.searchBar.text != "" {
                     track = filteredMusic[indexPath.row]
                 } else {
-                    track = DataManager.sharedInstance.myMusic.array[indexPath.row]
+                    track = music[indexPath.row]
                 }
                 
+                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
                 cell.delegate = self
                 cell.configureForTrack(track)
                 
@@ -186,7 +209,6 @@ extension MyMusicTableViewControllerDataSource {
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        
         cell.messageLabel.text = "Для отображения списка личных аудиозаписей необходимо авторизоваться"
         
         return cell
@@ -200,12 +222,35 @@ extension MyMusicTableViewControllerDataSource {
 private typealias MyMusicTableViewControllerDelegate = MyMusicTableViewController
 extension MyMusicTableViewControllerDelegate {
     
+    // Высота каждой строки
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if VKAPIManager.isAuthorized {
+            if RequestManager.sharedInstance.getAudio.state == .Results {
+                let count: Int?
+                
+                if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == indexPath.row {
+                    count = filteredMusic.count
+                } else if music.count == indexPath.row {
+                    count = music.count
+                } else {
+                    count = nil
+                }
+                
+                if let _ = count {
+                    return 44
+                }
+            }
+        }
+        
+        return 62
+    }
+    
     // Вызывается при тапе по строке таблицы
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
-            let track = DataManager.sharedInstance.myMusic.array[indexPath.row]
+            let track = music[indexPath.row]
             let trackURL = NSURL(string: track.url!)
             
             PlayerManager.sharedInstance.playFile(trackURL!)
@@ -250,6 +295,10 @@ extension MyMusicTableViewControllerUISearchBarDelegate {
         super.searchBarTextDidEndEditing(searchBar)
         
         pullToRefreshEnable(true)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        filteredMusic.removeAll()
     }
     
 }

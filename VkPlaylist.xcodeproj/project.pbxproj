@@ -55,6 +55,8 @@
 		BBE853A31CE14B1E00872C3B /* GetGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853A21CE14B1E00872C3B /* GetGroups.swift */; };
 		BBE853A61CE14CCF00872C3B /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853A51CE14CCF00872C3B /* GroupCell.swift */; };
 		BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853A71CE14E3300872C3B /* GroupsTableViewController.swift */; };
+		BBE853AC1CE1D79B00872C3B /* NumberOfRowsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE853AA1CE1D79B00872C3B /* NumberOfRowsCell.swift */; };
+		BBE853AD1CE1D79B00872C3B /* NumberOfRowsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE853AB1CE1D79B00872C3B /* NumberOfRowsCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +111,8 @@
 		BBE853A21CE14B1E00872C3B /* GetGroups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetGroups.swift; sourceTree = "<group>"; };
 		BBE853A51CE14CCF00872C3B /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		BBE853A71CE14E3300872C3B /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
+		BBE853AA1CE1D79B00872C3B /* NumberOfRowsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberOfRowsCell.swift; sourceTree = "<group>"; };
+		BBE853AB1CE1D79B00872C3B /* NumberOfRowsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NumberOfRowsCell.xib; sourceTree = "<group>"; };
 		FBA5ABC7E8398154674E824A /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -206,6 +210,7 @@
 				BBDEC0871CD761A7005B8494 /* AudioCell */,
 				BBE8538D1CE0F08000872C3B /* FriendCell */,
 				BBE853A41CE14CA100872C3B /* GroupCell */,
+				BBE853A91CE1D77000872C3B /* NumberOfRowsCell */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -382,6 +387,15 @@
 			name = GroupCell;
 			sourceTree = "<group>";
 		};
+		BBE853A91CE1D77000872C3B /* NumberOfRowsCell */ = {
+			isa = PBXGroup;
+			children = (
+				BBE853AA1CE1D79B00872C3B /* NumberOfRowsCell.swift */,
+				BBE853AB1CE1D79B00872C3B /* NumberOfRowsCell.xib */,
+			);
+			name = NumberOfRowsCell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -446,6 +460,7 @@
 			files = (
 				BBE853531CDFCA7000872C3B /* AudioCell.xib in Resources */,
 				BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */,
+				BBE853AD1CE1D79B00872C3B /* NumberOfRowsCell.xib in Resources */,
 				BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */,
 				BBDEC07C1CD7538B005B8494 /* LoadingCell.xib in Resources */,
 				BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */,
@@ -518,6 +533,7 @@
 				BBE853991CE138CF00872C3B /* OwnerMusicTableViewController.swift in Sources */,
 				BB75FCC41CDF873900B40BC8 /* MyMusicTableViewController.swift in Sources */,
 				BBE853551CDFCCF000872C3B /* MoreTableViewController.swift in Sources */,
+				BBE853AC1CE1D79B00872C3B /* NumberOfRowsCell.swift in Sources */,
 				BBDEC06E1CD6AFD5005B8494 /* VKAPIManager.swift in Sources */,
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
 				BBE8534E1CDFB59600872C3B /* MusicFromInternetTableViewController.swift in Sources */,

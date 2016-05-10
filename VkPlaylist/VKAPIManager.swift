@@ -80,7 +80,7 @@ class VKAPIManager {
             NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetAudioNotification, object: nil, userInfo: ["Audio": result])
         }
         request.errorBlock = { error in
-            if error.domain == "NSURLErrorDomain" && error.code == -1009 { // Если ошибка при подключении к интернету
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету (-1009) или превышен лимит времени на запрос (-1001)
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioNetworkErrorNotification, object: nil)
             } else {
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioErrorNotification, object: nil)
@@ -108,7 +108,7 @@ class VKAPIManager {
             NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidSearchAudioNotification, object: nil, userInfo: ["Audio": result])
         }
         request.errorBlock = { error in
-            if error.domain == "NSURLErrorDomain" && error.code == -1009 { // Если ошибка при подключении к интернету
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerSearchAudioNetworkErrorNotification, object: nil)
             } else {
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerSearchAudioErrorNotification, object: nil)
@@ -133,7 +133,7 @@ class VKAPIManager {
             NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetFriendsNotification, object: nil, userInfo: ["Friends": result])
         }
         request.errorBlock = { error in
-            if error.domain == "NSURLErrorDomain" && error.code == -1009 { // Если ошибка при подключении к интернету
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetFriendsNetworkErrorNotification, object: nil)
             } else {
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetFriendsErrorNotification, object: nil)
@@ -158,7 +158,7 @@ class VKAPIManager {
             NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetGroupsNotification, object: nil, userInfo: ["Groups": result])
         }
         request.errorBlock = { error in
-            if error.domain == "NSURLErrorDomain" && error.code == -1009 { // Если ошибка при подключении к интернету
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetGroupsNetworkErrorNotification, object: nil)
             } else {
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetGroupsErrorNotification, object: nil)
@@ -183,7 +183,7 @@ class VKAPIManager {
             NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetAudioForOwnerNotification, object: nil, userInfo: ["Audio": result])
         }
         request.errorBlock = { error in
-            if error.domain == "NSURLErrorDomain" && error.code == -1009 { // Если ошибка при подключении к интернету
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioForOwnerNetworkErrorNotification, object: nil)
             } else if error.domain == "APIError" && error.code == 201 { // Если аудиозаписи владельца закрыты
                 NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioForOwnerAccessErrorNotification, object: nil)

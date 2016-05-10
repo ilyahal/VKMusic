@@ -10,8 +10,9 @@ import UIKit
 
 class SearchTableViewController: MusicFromInternetWithSearchTableViewController {
     
-    private var currentTextSearchRequest: String?
+    private var music: [Track]! // Массив для результатов запроса
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,12 +38,12 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
     
     func searchMusic(search: String) {
         RequestManager.sharedInstance.searchAudio.performRequest([.RequestText : search]) { success in
+            self.music = DataManager.sharedInstance.searchMusic.array
+            
             self.reloadTableView()
             
             if !success {
                 switch RequestManager.sharedInstance.searchAudio.error {
-                case .NetworkError:
-                    break
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -78,7 +79,7 @@ extension SearchTableViewControllerDataSource {
             case .NoResults:
                 return 1 // Ячейки с сообщением об отсутствии найденных аудиозаписей
             case .Results:
-                return DataManager.sharedInstance.searchMusic.array.count
+                return music.count + 1
             default:
                 return 0
             }
@@ -93,25 +94,38 @@ extension SearchTableViewControllerDataSource {
             switch RequestManager.sharedInstance.searchAudio.state {
             case .NotSearchedYet where RequestManager.sharedInstance.searchAudio.error == .NetworkError:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
+                
                 return cell
             case .NoResults:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                
                 cell.messageLabel.text = "Ничего не найдено"
                 
                 return cell
             case .Loading:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                
                 cell.activityIndicator.startAnimating()
                 
                 return cell
             case .Results:
+                let count: Int?
+                
+                if music.count == indexPath.row {
+                    count = music.count
+                } else {
+                    count = nil
+                }
+                
+                if let count = count {
+                    let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+                    numberOfRowsCell.configureForType(.Audio, withCount: count)
+                    
+                    return numberOfRowsCell
+                }
+                
+                let track = music[indexPath.row]
+                
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                let track  = DataManager.sharedInstance.searchMusic.array[indexPath.row]
-                
                 cell.delegate = self
-                
                 cell.configureForTrack(track)
                 
                 return cell
@@ -121,7 +135,6 @@ extension SearchTableViewControllerDataSource {
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        
         cell.messageLabel.text = "Для поиска аудиозаписей необходимо авторизоваться"
         
         return cell
@@ -135,12 +148,33 @@ extension SearchTableViewControllerDataSource {
 private typealias SearchTableViewControllerDelegate = SearchTableViewController
 extension SearchTableViewControllerDelegate {
     
+    // Высота каждой строки
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if VKAPIManager.isAuthorized {
+            if RequestManager.sharedInstance.searchAudio.state == .Results {
+                let count: Int?
+                
+                if music.count == indexPath.row {
+                    count = music.count
+                } else {
+                    count = nil
+                }
+                
+                if let _ = count {
+                    return 44
+                }
+            }
+        }
+        
+        return 62
+    }
+    
     // Вызывается при тапе по строке таблицы
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
-            let track = DataManager.sharedInstance.searchMusic.array[indexPath.row]
+            let track = music[indexPath.row]
             let trackURL = NSURL(string: track.url!)
             
             PlayerManager.sharedInstance.playFile(trackURL!)
@@ -173,7 +207,11 @@ extension SearchTableViewControllerUISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        music.removeAll()
         DataManager.sharedInstance.searchMusic.clear()
+        if !RequestManager.sharedInstance.searchAudio.cancel() {
+            RequestManager.sharedInstance.searchAudio.dropState()
+        }
         
         reloadTableView()
     }

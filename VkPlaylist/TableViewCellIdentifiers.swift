@@ -17,4 +17,5 @@ struct TableViewCellIdentifiers {
     static let audioCell = "AudioCell" // Ячейка для вывода аудиозаписи
     static let friendCell = "FriendCell" // Ячейка для вывода друга
     static let groupCell = "GroupCell" // Ячейка для вывода группы
+    static let numberOfRowsCell = "NumberOfRowsCell" // Ячейка для вывода количества строк в таблице
 }

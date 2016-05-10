@@ -16,7 +16,7 @@ class GetOwnerAudio: RequestManagerObject {
         super.performRequest(parameters, withCompletionHandler: completion)
         
         cancel()
-        DataManager.sharedInstance.myMusic.clear()
+        DataManager.sharedInstance.ownerMusic.clear()
         
         let ownerID = parameters[.OwnerID]! as! Int
         

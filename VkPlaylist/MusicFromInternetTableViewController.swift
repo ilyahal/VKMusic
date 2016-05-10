@@ -47,6 +47,9 @@ class MusicFromInternetTableViewController: UITableViewController {
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.audioCell, bundle: nil) // Ячейка с аудиозаписью
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.audioCell)
+        
+        cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством строк
+        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -79,14 +82,14 @@ class MusicFromInternetTableViewController: UITableViewController {
         if enable {
             refreshControl = UIRefreshControl()
             //refreshControl!.attributedTitle = NSAttributedString(string: "Потяните, чтобы обновить...") // Все крашится :с
-            refreshControl!.addTarget(self, action: #selector(refreshMyMusic), forControlEvents: .ValueChanged) // Добавляем обработчик контроллера обновления
+            refreshControl!.addTarget(self, action: #selector(refreshMusic), forControlEvents: .ValueChanged) // Добавляем обработчик контроллера обновления
         } else {
-            refreshControl?.removeTarget(self, action: #selector(refreshMyMusic), forControlEvents: .ValueChanged)
+            refreshControl?.removeTarget(self, action: #selector(refreshMusic), forControlEvents: .ValueChanged)
             refreshControl = nil
         }
     }
     
-    func refreshMyMusic() {}
+    func refreshMusic() {}
     
 }
 
