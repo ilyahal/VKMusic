@@ -30,7 +30,16 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
         }
         
         pullToRefreshEnable(false)
-        tableView.setContentOffset(CGPointZero, animated: true) // Не прячем строку поиска
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let music = music where !music.isEmpty {
+            return
+        }
+        
+        tableView.contentOffset = CGPointMake(0, -64) // Отображаем строку поиска
     }
     
     

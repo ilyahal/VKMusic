@@ -32,6 +32,7 @@ class RequestManager {
         
         getAudio = GetAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetAudio)
         searchAudio = SearchAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.SearchAudio)
+        getAlbums = GetAlbums(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetAlbums)
         getFriends = GetFriends(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetFriends)
         getGroups = GetGroups(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetGroups)
         getOwnerAudio = GetOwnerAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetOwnerAudio)
@@ -52,6 +53,7 @@ class RequestManager {
     func cancelRequestInCaseOfDeavtorization() {
         getAudio.cancel()
         searchAudio.cancel()
+        getAlbums.cancel()
         getFriends.cancel()
         getGroups.cancel()
         getOwnerAudio.cancel()
@@ -65,6 +67,9 @@ class RequestManager {
     
     // Получение искомых аудиозаписей
     let searchAudio: RequestManagerObject
+    
+    // Получение альбомов
+    let getAlbums: RequestManagerObject
     
     // Получение друзей
     let getFriends: RequestManagerObject
@@ -93,6 +98,7 @@ extension RequestManagerDataTypes {
     struct requestKeys {
         static let GetAudio = "getAudio" // Ключ на получение личных аудиозаписей
         static let SearchAudio = "searchAudio" // Ключ на получение искомых аудиозаписей
+        static let GetAlbums = "getAlbums" // Ключ на получение списка альбомов
         static let GetFriends = "getFriends" // Ключ на получение списка друзей
         static let GetGroups = "getGroups" // Ключ на получение списка групп
         static let GetOwnerAudio = "getOwnerAudio" // Ключ на получение списка аудиозаписей пользователя

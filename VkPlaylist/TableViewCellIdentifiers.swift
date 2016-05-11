@@ -15,6 +15,7 @@ struct TableViewCellIdentifiers {
     static let nothingFoundCell = "NothingFoundCell" // Ячейка с сообщением "ничего не найдено"
     static let loadingCell = "LoadingCell" // Ячейка с сообщением о загрузке данных
     static let audioCell = "AudioCell" // Ячейка для вывода аудиозаписи
+    static let playlistCell = "PlaylistCell" // Ячейка для вывода плейлиста
     static let friendCell = "FriendCell" // Ячейка для вывода друга
     static let groupCell = "GroupCell" // Ячейка для вывода группы
     static let numberOfRowsCell = "NumberOfRowsCell" // Ячейка для вывода количества строк в таблице

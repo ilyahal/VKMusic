@@ -204,7 +204,7 @@ class VKAPIManager {
         ])
         request.successBlock = { response in
             let result = VKJSONParser.parseAudio(response)
-            print(response)
+            
             NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetPopularAudioNotification, object: nil, userInfo: ["Audio": result])
         }
         request.errorBlock = { error in
@@ -215,6 +215,29 @@ class VKAPIManager {
             }
             
             print("SwiftyVK: audioGetPopular fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
+    
+    
+    // Получение списка альбомов
+    class func audioGetAlbums() -> Request {
+        let request = VK.API.Audio.getAlbums()
+        request.successBlock = { response in
+            let result = VKJSONParser.parseAlbums(response)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetAlbumsNotification, object: nil, userInfo: ["Albums": result])
+        }
+        request.errorBlock = { error in
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету (-1009) или превышен лимит времени на запрос (-1001)
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAlbumsNetworkErrorNotification, object: nil)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAlbumsErrorNotification, object: nil)
+            }
+            
+            print("SwiftyVK: audioGetAlbums fail \n \(error)")
         }
         request.send()
         
@@ -260,6 +283,26 @@ extension VKJSONParser {
         }
         
         return trackList
+    }
+    
+    // Парсит ответ на получение альбомов
+    private class func parseAlbums(albums: JSON) -> [Album] {
+        var albumList = [Album]()
+        
+        let itemsList = albums["items"].array
+        
+        if let itemsList = itemsList {
+            for item in itemsList {
+                let id = item["id"].int
+                let title = item["title"].string
+                
+                let album = Album(id: id, title: title)
+                
+                albumList.append(album)
+            }
+        }
+        
+        return albumList
     }
     
     // Парсит ответ на получение друзей
