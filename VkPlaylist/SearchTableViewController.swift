@@ -207,7 +207,7 @@ extension SearchTableViewControllerUISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        music.removeAll()
+        music?.removeAll()
         DataManager.sharedInstance.searchMusic.clear()
         if !RequestManager.sharedInstance.searchAudio.cancel() {
             RequestManager.sharedInstance.searchAudio.dropState()
