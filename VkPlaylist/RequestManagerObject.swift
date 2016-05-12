@@ -99,6 +99,7 @@ extension RequestManagerObjectDataTypes {
     // Ключи аргументов запросов
     enum Argument {
         case RequestText // Поисковый запрос
+        case AlbumID // Идентификатор альбома
         case OwnerID // Идентификатор пользователя
     }
     

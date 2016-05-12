@@ -91,6 +91,54 @@ class VKAPIManager {
     }
     
     
+    // Получение списка альбомов
+    class func audioGetAlbums() -> Request {
+        let request = VK.API.Audio.getAlbums()
+        request.successBlock = { response in
+            let result = VKJSONParser.parseAlbums(response)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetAlbumsNotification, object: nil, userInfo: ["Albums": result])
+        }
+        request.errorBlock = { error in
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету (-1009) или превышен лимит времени на запрос (-1001)
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAlbumsNetworkErrorNotification, object: nil)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAlbumsErrorNotification, object: nil)
+            }
+            
+            print("SwiftyVK: audioGetAlbums fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
+    
+    
+    // Получение списка аудиозаписей указанного альбома альбомов
+    class func audioGetWithAlbumID(id: Int) -> Request {
+        let request = VK.API.Audio.get([
+            .albumId : String(id) // Идентификатор альбома
+        ])
+        request.successBlock = { response in
+            let result = VKJSONParser.parseAudio(response)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetAudioForAlbumNotification, object: nil, userInfo: ["Audio": result])
+        }
+        request.errorBlock = { error in
+            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioForAlbumNetworkErrorNotification, object: nil)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAudioForAlbumErrorNotification, object: nil)
+            }
+            
+            print("SwiftyVK: audioGetWithAlbumID fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
+    
+    
     // Получение списка друзей
     class func friendsGet() -> Request {
         let request = VK.API.Friends.get([
@@ -215,29 +263,6 @@ class VKAPIManager {
             }
             
             print("SwiftyVK: audioGetPopular fail \n \(error)")
-        }
-        request.send()
-        
-        return request
-    }
-    
-    
-    // Получение списка альбомов
-    class func audioGetAlbums() -> Request {
-        let request = VK.API.Audio.getAlbums()
-        request.successBlock = { response in
-            let result = VKJSONParser.parseAlbums(response)
-            
-            NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerDidGetAlbumsNotification, object: nil, userInfo: ["Albums": result])
-        }
-        request.errorBlock = { error in
-            if error.domain == "NSURLErrorDomain" && (error.code == -1009 || error.code == -1001) { // Если ошибка при подключении к интернету (-1009) или превышен лимит времени на запрос (-1001)
-                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAlbumsNetworkErrorNotification, object: nil)
-            } else {
-                NSNotificationCenter.defaultCenter().postNotificationName(VKAPIManagerGetAlbumsErrorNotification, object: nil)
-            }
-            
-            print("SwiftyVK: audioGetAlbums fail \n \(error)")
         }
         request.send()
         

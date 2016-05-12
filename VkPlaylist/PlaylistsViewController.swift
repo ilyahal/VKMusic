@@ -56,7 +56,10 @@ class PlaylistsViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.contentInset = UIEdgeInsets(top: navigationBar.bounds.height, left: 0, bottom: 0, right: 0)
+        
+        // Кастомизация tableView
+        tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
+        tableView.contentInset = UIEdgeInsets(top: navigationBar.bounds.height, left: 0, bottom: 0, right: 0) // Верхний отступ для контента, что бы первая ячейка не скрывалась под навигационным баром
         
         
         // Регистрация ячеек
@@ -98,12 +101,31 @@ class PlaylistsViewController: UIViewController {
                 reloadTableView()
             }
         }
+        
+        // Необходимо для корректного отображения Refresh Controller
+        if pullToRefreshEnable {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.refreshControl.beginRefreshing()
+                self.refreshControl.endRefreshing()
+            }
+        }
     }
     
     // Заново отрисовать таблицу
     func reloadTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
+        }
+    }
+    
+    // Подготовка к выполнению перехода
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowAlbumAudioSegue" {
+            let albumMusicTableViewController = segue.destinationViewController as! AlbumMusicTableViewController
+            let album = sender as! Album
+            
+            albumMusicTableViewController.id = album.id
+            albumMusicTableViewController.name = album.title
         }
     }
     
@@ -161,11 +183,6 @@ class PlaylistsViewController: UIViewController {
             if !pullToRefreshEnable {
                 tableView.addSubview(self.refreshControl)
                 pullToRefreshEnable = true
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.refreshControl.beginRefreshing()
-                    self.refreshControl.endRefreshing()
-                }
             }
         } else {
             if pullToRefreshEnable {

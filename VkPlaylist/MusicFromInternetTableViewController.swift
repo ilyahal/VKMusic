@@ -26,7 +26,7 @@ class MusicFromInternetTableViewController: UITableViewController {
         
         
         // Кастомизация tableView
-        //tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
+        tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
         
         
         // Регистрация ячеек

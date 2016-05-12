@@ -21,6 +21,16 @@ let VKAPIManagerDidSearchAudioNotification = "VKAPIManagerDidSearchAudioNotifica
 let VKAPIManagerSearchAudioNetworkErrorNotification = "VKAPIManagerSearchAudioNetworkErrorNotification" // Уведомление о том, что при получении искомых аудиозаписей произошла ошибка при подключении к интернету
 let VKAPIManagerSearchAudioErrorNotification = "VKAPIManagerSearchAudioErrorNotification" // Уведомление о том, что при получении искомых аудиозаписей произошла ошибка
 
+// Уведомления о событиях при получения альбомов пользователя
+let VKAPIManagerDidGetAlbumsNotification = "VKAPIManagerDidGetAlbumsNotification" // Уведомление о том, что список популярных альбомов был получен
+let VKAPIManagerGetAlbumsNetworkErrorNotification = "VKAPIManagerGetAlbumsNetworkErrorNotification" // Уведомление о том, что при получении альбомов произошла ошибка при подключении к интернету
+let VKAPIManagerGetAlbumsErrorNotification = "VKAPIManagerGetAlbumsErrorNotification" // Уведомление о том, что при получении альбомов произошла ошибка
+
+// Уведомления о событиях при получения аудиозаписей из указанного альбома
+let VKAPIManagerDidGetAudioForAlbumNotification = "VKAPIManagerDidGetAudioForAlbumNotification" // Уведомление о том, что список популярных альбомов был получен
+let VKAPIManagerGetAudioForAlbumNetworkErrorNotification = "VKAPIManagerGetAudioForAlbumNetworkErrorNotification" // Уведомление о том, что при получении альбомов произошла ошибка при подключении к интернету
+let VKAPIManagerGetAudioForAlbumErrorNotification = "VKAPIManagerGetAudioForAlbumErrorNotification" // Уведомление о том, что при получении альбомов произошла ошибка
+
 // Уведомления о событиях при получения списка друзей
 let VKAPIManagerDidGetFriendsNotification = "VKAPIManagerDidGetFriendsNotification" // Уведомление о том, что список друзей был получен
 let VKAPIManagerGetFriendsNetworkErrorNotification = "VKAPIManagerGetFriendsNetworkErrorNotification" // Уведомление о том, что при получении друзей произошла ошибка при подключении к интернету
@@ -46,8 +56,3 @@ let VKAPIManagerGetRecommendationsAudioErrorNotification = "VKAPIManagerGetRecom
 let VKAPIManagerDidGetPopularAudioNotification = "VKAPIManagerDidGetPopularAudioNotification" // Уведомление о том, что список популярных аудиозаписей был получен
 let VKAPIManagerGetPopularAudioNetworkErrorNotification = "VKAPIManagerGetPopularAudioNetworkErrorNotification" // Уведомление о том, что при получении популярных аудиозаписей произошла ошибка при подключении к интернету
 let VKAPIManagerGetPopularAudioErrorNotification = "VKAPIManagerGetPopularAudioErrorNotification" // Уведомление о том, что при получении популярных аудиозаписей произошла ошибка
-
-// Уведомления о событиях при получения альбомов пользователя
-let VKAPIManagerDidGetAlbumsNotification = "VKAPIManagerDidGetAlbumsNotification" // Уведомление о том, что список популярных альбомов был получен
-let VKAPIManagerGetAlbumsNetworkErrorNotification = "VKAPIManagerGetAlbumsNetworkErrorNotification" // Уведомление о том, что при получении альбомов произошла ошибка при подключении к интернету
-let VKAPIManagerGetAlbumsErrorNotification = "VKAPIManagerGetAlbumsErrorNotification" // Уведомление о том, что при получении альбомов произошла ошибка
