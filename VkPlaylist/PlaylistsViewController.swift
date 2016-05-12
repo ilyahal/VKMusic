@@ -27,6 +27,7 @@ class PlaylistsViewController: UIViewController {
         
         return refreshControl
     }()
+    var pullToRefreshEnable = false
     
     
     override func viewDidLoad() {
@@ -80,6 +81,11 @@ class PlaylistsViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if pullToRefreshEnable {
+            pullToRefreshEnable(false)
+            pullToRefreshEnable(true)
+        }
         
         if currentAuthorizationStatus != VKAPIManager.isAuthorized {
             currentAuthorizationStatus = VKAPIManager.isAuthorized
@@ -157,9 +163,15 @@ class PlaylistsViewController: UIViewController {
     
     func pullToRefreshEnable(enable: Bool) {
         if enable {
-            tableView.addSubview(self.refreshControl)
+            if !pullToRefreshEnable {
+                tableView.addSubview(self.refreshControl)
+                pullToRefreshEnable = true
+            }
         } else {
-            refreshControl.removeFromSuperview()
+            if pullToRefreshEnable {
+                refreshControl.removeFromSuperview()
+                pullToRefreshEnable = false
+            }
         }
     }
     
