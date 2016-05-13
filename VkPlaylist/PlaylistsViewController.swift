@@ -325,12 +325,10 @@ extension PlaylistsViewController: UITableViewDelegate {
         case .Playlists:
             return
         case .Albums:
-            if VKAPIManager.isAuthorized {
-                if RequestManager.sharedInstance.getAlbums.state == .Results {
-                    let album = albums[indexPath.row]
-                    
-                    performSegueWithIdentifier("ShowAlbumAudioSegue", sender: album)
-                }
+            if tableView.cellForRowAtIndexPath(indexPath) is PlaylistCell {
+                let album = albums[indexPath.row]
+                        
+                performSegueWithIdentifier("ShowAlbumAudioSegue", sender: album)
             }
         }
     }

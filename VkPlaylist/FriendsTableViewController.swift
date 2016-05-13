@@ -392,25 +392,19 @@ extension FriendsTableViewControllerDelegate {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.getFriends.state == .Results {
-                if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == 0 {
-                    return
-                }
+        if tableView.cellForRowAtIndexPath(indexPath) is FriendCell {
+            var friend: Friend
                 
-                var friend: Friend
+            if searchController.active && !searchController.searchBar.text!.isEmpty {
+                friend = filteredFriends[indexPath.row]
+            } else {
+                let sectionTitle = nameSectionTitles[indexPath.section]
+                let sectionNames = names[sectionTitle]
                 
-                if searchController.active && searchController.searchBar.text != "" {
-                    friend = filteredFriends[indexPath.row]
-                } else {
-                    let sectionTitle = nameSectionTitles[indexPath.section]
-                    let sectionNames = names[sectionTitle]
-                    
-                    friend = sectionNames![indexPath.row]
-                }
-                
-                performSegueWithIdentifier("ShowFriendAudioSegue", sender: friend)
+                friend = sectionNames![indexPath.row]
             }
+            
+            performSegueWithIdentifier("ShowFriendAudioSegue", sender: friend)
         }
     }
     

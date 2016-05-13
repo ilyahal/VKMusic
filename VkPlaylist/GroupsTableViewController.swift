@@ -278,22 +278,16 @@ extension GroupsTableViewControllerDelegate {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.getGroups.state == .Results {
-                if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == 0 {
-                    return
-                }
+        if tableView.cellForRowAtIndexPath(indexPath) is GroupCell {
+            var group: Group
                 
-                var group: Group
-                
-                if searchController.active && searchController.searchBar.text != "" {
-                    group = filteredGroups[indexPath.row]
-                } else {
-                    group = groups[indexPath.row]
-                }
-                
-                performSegueWithIdentifier("ShowGroupAudioSegue", sender: group)
+            if searchController.active && searchController.searchBar.text != "" {
+                group = filteredGroups[indexPath.row]
+            } else {
+                group = groups[indexPath.row]
             }
+            
+            performSegueWithIdentifier("ShowGroupAudioSegue", sender: group)
         }
     }
     
