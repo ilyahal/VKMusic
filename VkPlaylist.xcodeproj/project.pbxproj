@@ -15,6 +15,14 @@
 		BB0C62EF1CE3E93200C505B1 /* PlaylistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB0C62ED1CE3E93200C505B1 /* PlaylistCell.xib */; };
 		BB0C62F11CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F01CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift */; };
 		BB0C62F31CE4B7CA00C505B1 /* GetAlbumAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */; };
+		BB405E831CF735C8000C1A2A /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E821CF735C8000C1A2A /* CoreDataStack.swift */; };
+		BB405E861CF736E7000C1A2A /* VKPlaylist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB405E841CF736E7000C1A2A /* VKPlaylist.xcdatamodeld */; };
+		BB405E9C1CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E961CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift */; };
+		BB405E9D1CF74332000C1A2A /* TrackInPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E971CF74332000C1A2A /* TrackInPlaylist.swift */; };
+		BB405E9E1CF74332000C1A2A /* OfflineTrack+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E981CF74332000C1A2A /* OfflineTrack+CoreDataProperties.swift */; };
+		BB405E9F1CF74332000C1A2A /* OfflineTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E991CF74332000C1A2A /* OfflineTrack.swift */; };
+		BB405EA01CF74332000C1A2A /* Playlist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E9A1CF74332000C1A2A /* Playlist+CoreDataProperties.swift */; };
+		BB405EA11CF74332000C1A2A /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E9B1CF74332000C1A2A /* Playlist.swift */; };
 		BB6EF7341CDF642100466C3B /* NetworkErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */; };
 		BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */; };
 		BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */; };
@@ -82,6 +90,14 @@
 		BB0C62F01CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumMusicTableViewController.swift; sourceTree = "<group>"; };
 		BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAlbumAudio.swift; sourceTree = "<group>"; };
 		BB0C62F41CE4B81600C505B1 /* Notepad.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Notepad.playground; sourceTree = "<group>"; };
+		BB405E821CF735C8000C1A2A /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		BB405E851CF736E7000C1A2A /* VKPlaylist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VKPlaylist.xcdatamodel; sourceTree = "<group>"; };
+		BB405E961CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TrackInPlaylist+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BB405E971CF74332000C1A2A /* TrackInPlaylist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackInPlaylist.swift; sourceTree = "<group>"; };
+		BB405E981CF74332000C1A2A /* OfflineTrack+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OfflineTrack+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BB405E991CF74332000C1A2A /* OfflineTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineTrack.swift; sourceTree = "<group>"; };
+		BB405E9A1CF74332000C1A2A /* Playlist+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Playlist+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BB405E9B1CF74332000C1A2A /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NetworkErrorCell.xib; sourceTree = "<group>"; };
 		BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkErrorCell.swift; sourceTree = "<group>"; };
 		BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoAuthorizedCell.swift; sourceTree = "<group>"; };
@@ -179,6 +195,19 @@
 			name = PlaylistCell;
 			sourceTree = "<group>";
 		};
+		BB405E891CF742D3000C1A2A /* NSManagedObjects */ = {
+			isa = PBXGroup;
+			children = (
+				BB405E961CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift */,
+				BB405E971CF74332000C1A2A /* TrackInPlaylist.swift */,
+				BB405E981CF74332000C1A2A /* OfflineTrack+CoreDataProperties.swift */,
+				BB405E991CF74332000C1A2A /* OfflineTrack.swift */,
+				BB405E9A1CF74332000C1A2A /* Playlist+CoreDataProperties.swift */,
+				BB405E9B1CF74332000C1A2A /* Playlist.swift */,
+			);
+			name = NSManagedObjects;
+			sourceTree = "<group>";
+		};
 		BB6EF7301CDF63C000466C3B /* NetworkErrorCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,9 +252,11 @@
 				BBDEC0761CD6D629005B8494 /* Views */,
 				BBDEC0751CD6D610005B8494 /* ViewControllers */,
 				BBDEC0681CD67A69005B8494 /* Data Objects */,
+				BB405E891CF742D3000C1A2A /* NSManagedObjects */,
 				BBDEC08F1CD78C74005B8494 /* Managers */,
 				BBDEC0901CD78DFA005B8494 /* Helpers */,
 				BBDEC0531CD66441005B8494 /* AppDelegate.swift */,
+				BB405E841CF736E7000C1A2A /* VKPlaylist.xcdatamodeld */,
 				BBDEC0571CD66441005B8494 /* Main.storyboard */,
 				BBDEC05A1CD66441005B8494 /* Assets.xcassets */,
 				BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */,
@@ -341,6 +372,7 @@
 		BBDEC0901CD78DFA005B8494 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BB405E821CF735C8000C1A2A /* CoreDataStack.swift */,
 				BBDEC08C1CD78B5A005B8494 /* Reachability.swift */,
 			);
 			name = Helpers;
@@ -581,6 +613,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB405EA01CF74332000C1A2A /* Playlist+CoreDataProperties.swift in Sources */,
 				BBE853851CE0DE2F00872C3B /* SearchAudio.swift in Sources */,
 				BB0C62EA1CE3D29C00C505B1 /* PlaylistsViewController.swift in Sources */,
 				BB0C62F11CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift in Sources */,
@@ -589,10 +622,12 @@
 				BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */,
 				BBE853991CE138CF00872C3B /* OwnerMusicTableViewController.swift in Sources */,
 				BB75FCC41CDF873900B40BC8 /* MyMusicTableViewController.swift in Sources */,
+				BB405E9D1CF74332000C1A2A /* TrackInPlaylist.swift in Sources */,
 				BBE853551CDFCCF000872C3B /* MoreTableViewController.swift in Sources */,
 				BBE853B31CE2936700872C3B /* GetPopularAudio.swift in Sources */,
 				BBE853AC1CE1D79B00872C3B /* NumberOfRowsCell.swift in Sources */,
 				BBDEC06E1CD6AFD5005B8494 /* VKAPIManager.swift in Sources */,
+				BB405E831CF735C8000C1A2A /* CoreDataStack.swift in Sources */,
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
 				BBE8534E1CDFB59600872C3B /* MusicFromInternetTableViewController.swift in Sources */,
 				BBE8535A1CDFE4DF00872C3B /* UIImageView+TintImageColor.swift in Sources */,
@@ -601,6 +636,7 @@
 				BBE853911CE0F54100872C3B /* TableViewCellIdentifiers.swift in Sources */,
 				BBE853A31CE14B1E00872C3B /* GetGroups.swift in Sources */,
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,
+				BB405E9E1CF74332000C1A2A /* OfflineTrack+CoreDataProperties.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
 				BBE853AF1CE2869600872C3B /* RecommendationsTableViewController.swift in Sources */,
 				BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */,
@@ -622,14 +658,18 @@
 				BBE853831CE0DDF200872C3B /* GetAudio.swift in Sources */,
 				BBE853B51CE293F800872C3B /* PopularTableViewController.swift in Sources */,
 				BBDEC06A1CD67A84005B8494 /* Track.swift in Sources */,
+				BB405E861CF736E7000C1A2A /* VKPlaylist.xcdatamodeld in Sources */,
 				BBE853A61CE14CCF00872C3B /* GroupCell.swift in Sources */,
 				BBE853A11CE1481B00872C3B /* Group.swift in Sources */,
 				BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */,
+				BB405EA11CF74332000C1A2A /* Playlist.swift in Sources */,
 				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,
 				BBE8535C1CDFE89000872C3B /* SearchTableViewController.swift in Sources */,
 				BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */,
 				BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */,
+				BB405E9F1CF74332000C1A2A /* OfflineTrack.swift in Sources */,
+				BB405E9C1CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift in Sources */,
 				BB0C62EE1CE3E93200C505B1 /* PlaylistCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -791,6 +831,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BB405E841CF736E7000C1A2A /* VKPlaylist.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BB405E851CF736E7000C1A2A /* VKPlaylist.xcdatamodel */,
+			);
+			currentVersion = BB405E851CF736E7000C1A2A /* VKPlaylist.xcdatamodel */;
+			path = VKPlaylist.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BBDEC0481CD66441005B8494 /* Project object */;
 }

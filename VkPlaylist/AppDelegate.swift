@@ -7,22 +7,32 @@
 //
 
 import UIKit
+import CoreData
 import SwiftyVK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    lazy var coreDataStack = CoreDataStack()
     let tintColor =  UIColor(red: 242/255, green: 71/255, blue: 63/255, alpha: 1)
     
 
+    // Вызывается при запуске приложения
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         customizeAppearance()
+        defaultFillDataBase()
         
         // Инициализация SwiftyVK с id приложения и делегатом
         VK.start(appID: VKAPIManager.applicationID, delegate: self)
         
+        
         return true
+    }
+    
+    // Вызывается когда приложение собирается стать завершенным
+    func applicationWillTerminate(application: UIApplication) {
+        coreDataStack.saveContext()
     }
     
     // Вызается при активации приложения из URL
@@ -44,6 +54,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]
+    }
+    
+    // MARK: CoreData
+    
+    func defaultFillDataBase() {
+        let fetchRequest = NSFetchRequest(entityName: "Playlist")
+        let count = coreDataStack.context.countForFetchRequest(fetchRequest, error: nil)
+        
+        if count == NSNotFound {
+            let entity = NSEntityDescription.entityForName("Playlist", inManagedObjectContext: coreDataStack.context)
+            
+            let playlist = Playlist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
+            playlist.date = NSDate()
+            playlist.isVisible = false
+            playlist.title = "Downloads"
+        }
+        
+        coreDataStack.saveContext()
     }
     
     // MARK: Авторизация пользователя
