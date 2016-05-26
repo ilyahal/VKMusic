@@ -13,7 +13,6 @@ class DownloadsTableViewController: UITableViewController {
 
     var coreDataStack: CoreDataStack!
     
-    var playlist: Playlist! = nil
     var fetchedResultsController: NSFetchedResultsController!
     
     
@@ -21,6 +20,8 @@ class DownloadsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         coreDataStack = (UIApplication.sharedApplication().delegate as! AppDelegate).coreDataStack
+        
+        var playlist: Playlist! = nil
         
         var fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         fetchRequest.predicate = NSPredicate(format: "title == \"\(downloadsPlaylistTitle)\"")
@@ -35,12 +36,12 @@ class DownloadsTableViewController: UITableViewController {
             print("Could not fetch \(error), \(error.userInfo)")
         }
         
-        fetchRequest = NSFetchRequest(entityName: "TrackInPlaylist")
+        fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
         fetchRequest.predicate = NSPredicate(format: "playlist == %@", playlist)
         let positionSort = NSSortDescriptor(key: "position", ascending: true)
         fetchRequest.sortDescriptors = [positionSort]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.context, sectionNameKeyPath: nil, cacheName: "downloads")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
         do {
@@ -57,11 +58,43 @@ class DownloadsTableViewController: UITableViewController {
         var cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil) // Ячейка "Ничего не найдено"
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
         
-        cellNib = UINib(nibName: TableViewCellIdentifiers.audioCell, bundle: nil) // Ячейка с аудиозаписью
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.audioCell)
+        cellNib = UINib(nibName: TableViewCellIdentifiers.offlineAudioCell, bundle: nil) // Ячейка с аудиозаписью
+        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.offlineAudioCell)
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством строк
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
+//        fetchRequest.predicate = NSPredicate(format: "title == %@", downloadsPlaylistTitle)
+//        
+//        do {
+//            let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [Playlist]
+//            
+//            if results.count != NSNotFound {
+//                playlist = results.first
+//            } else {
+//                playlist = nil
+//            }
+//        } catch let error as NSError {
+//            playlist = nil
+//            
+//            print("Could not fetch \(error), \(error.userInfo)")
+//        }
+//        
+//        guard let _ = playlist else {
+//            print("Playlist not found!")
+//            return
+//        }
+//        
+//        print(playlist.tracks!.count)
+//        for trackInPlaylist in playlist.tracks!.allObjects as! [TrackInPlaylist] {
+//            print(trackInPlaylist.track!.title!)
+//            print(trackInPlaylist.position!)
+//        }
     }
     
     deinit {
@@ -101,7 +134,8 @@ extension DownloadsTableViewControllerDataSource {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.offlineAudioCell, forIndexPath: indexPath) as! OfflineAudioCell
-        let track = fetchedResultsController.objectAtIndexPath(indexPath) as! OfflineTrack
+        let trackInPlaylist = fetchedResultsController.objectAtIndexPath(indexPath) as! TrackInPlaylist
+        let track = trackInPlaylist.track!
         
         cell.configureForTrack(track)
         
@@ -150,7 +184,8 @@ extension DownloadsTableViewController: NSFetchedResultsControllerDelegate {
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
         case .Update:
             let cell = tableView.cellForRowAtIndexPath(indexPath!) as! OfflineAudioCell
-            let track = fetchedResultsController.objectAtIndexPath(indexPath!) as! OfflineTrack
+            let trackInPlaylist = fetchedResultsController.objectAtIndexPath(indexPath!) as! TrackInPlaylist
+            let track = trackInPlaylist.track!
             
             cell.configureForTrack(track)
         case .Move:

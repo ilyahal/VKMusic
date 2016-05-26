@@ -90,6 +90,105 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
         getMusic()
     }
     
+    
+    // MARK: Загрузка
+    
+    override func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Int? {
+        if let url = downloadTask.originalRequest?.URL?.absoluteString {
+            let array: [Track]!
+            
+            if searchController.active && searchController.searchBar.text != "" {
+                array = filteredMusic
+            } else {
+                array = music
+            }
+            
+            for (index, track) in array.enumerate() {
+                if url == track.url! {
+                    return index
+                }
+            }
+        }
+        return nil
+    }
+    
+}
+
+
+
+// MARK: AudioCellDelegate
+
+private typealias MyMusicTableViewControllerAudioCellDelegate = MyMusicTableViewController
+extension MyMusicTableViewControllerAudioCellDelegate {
+    
+    // Вызывается при тапе по кнопке Пауза
+    override func pauseTapped(cell: AudioCell) {
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let array: [Track]!
+            
+            if searchController.active && searchController.searchBar.text != "" {
+                array = filteredMusic
+            } else {
+                array = music
+            }
+            
+            let track = array[indexPath.row]
+            pauseDownload(track)
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
+        }
+    }
+    
+    // Вызывается при тапе по кнопке Продолжить
+    override func resumeTapped(cell: AudioCell) {
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let array: [Track]!
+            
+            if searchController.active && searchController.searchBar.text != "" {
+                array = filteredMusic
+            } else {
+                array = music
+            }
+            
+            let track = array[indexPath.row]
+            resumeDownload(track)
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
+        }
+    }
+    
+    // Вызывается при тапе по кнопке Отмена
+    override func cancelTapped(cell: AudioCell) {
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let array: [Track]!
+            
+            if searchController.active && searchController.searchBar.text != "" {
+                array = filteredMusic
+            } else {
+                array = music
+            }
+            
+            let track = array[indexPath.row]
+            cancelDownload(track)
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
+        }
+    }
+    
+    // Вызывается при тапе по кнопке Скачать
+    override func downloadTapped(cell: AudioCell) {
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let array: [Track]!
+            
+            if searchController.active && searchController.searchBar.text != "" {
+                array = filteredMusic
+            } else {
+                array = music
+            }
+            
+            let track = array[indexPath.row]
+            startDownload(track)
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
+        }
+    }
+    
 }
 
 
@@ -155,6 +254,26 @@ extension MyMusicTableViewControllerDataSource {
                         trackCell.delegate = self
                         trackCell.configureForTrack(track)
                         
+                        let downloaded = isDownloadedTrack(track)
+                        
+                        var showDownloadControls = false
+                        if let download = activeDownloads[track.url!] {
+                            showDownloadControls = true
+                            
+                            trackCell.progressBar.progress = download.progress
+                            trackCell.progressLabel.text = (download.isDownloading) ? "Загружается..." : "Пауза"
+                            
+                            let title = (download.isDownloading) ? "Пауза" : "Продолжить"
+                            trackCell.pauseButton.setTitle(title, forState: UIControlState.Normal)
+                        }
+                        trackCell.progressBar.hidden = !showDownloadControls
+                        trackCell.progressLabel.hidden = !showDownloadControls
+                        
+                        trackCell.downloadButton.hidden = downloaded || showDownloadControls
+                        
+                        trackCell.pauseButton.hidden = !showDownloadControls
+                        trackCell.cancelButton.hidden = !showDownloadControls
+                        
                         return trackCell
                     }
                 }
@@ -201,6 +320,26 @@ extension MyMusicTableViewControllerDataSource {
                 let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
                 cell.delegate = self
                 cell.configureForTrack(track)
+                
+                let downloaded = isDownloadedTrack(track)
+                
+                var showDownloadControls = false
+                if let download = activeDownloads[track.url!] {
+                    showDownloadControls = true
+                    
+                    cell.progressBar.progress = download.progress
+                    cell.progressLabel.text = (download.isDownloading) ? "Загружается..." : "Пауза"
+                    
+                    let title = (download.isDownloading) ? "Пауза" : "Продолжить"
+                    cell.pauseButton.setTitle(title, forState: UIControlState.Normal)
+                }
+                cell.progressBar.hidden = !showDownloadControls
+                cell.progressLabel.hidden = !showDownloadControls
+                
+                cell.downloadButton.hidden = downloaded || showDownloadControls
+                
+                cell.pauseButton.hidden = !showDownloadControls
+                cell.cancelButton.hidden = !showDownloadControls
                 
                 return cell
             default:

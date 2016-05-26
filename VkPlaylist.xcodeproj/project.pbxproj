@@ -27,6 +27,8 @@
 		BB405EA71CF7523B000C1A2A /* OfflineAudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EA51CF7523B000C1A2A /* OfflineAudioCell.swift */; };
 		BB405EA81CF7523B000C1A2A /* OfflineAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB405EA61CF7523B000C1A2A /* OfflineAudioCell.xib */; };
 		BB405EAA1CF7555E000C1A2A /* EntitiesIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EA91CF7555E000C1A2A /* EntitiesIdentifiers.swift */; };
+		BB405EAE1CF76796000C1A2A /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EAD1CF76796000C1A2A /* DownloadManager.swift */; };
+		BB405EB01CF76817000C1A2A /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EAF1CF76817000C1A2A /* Download.swift */; };
 		BB6EF7341CDF642100466C3B /* NetworkErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */; };
 		BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */; };
 		BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */; };
@@ -106,6 +108,8 @@
 		BB405EA51CF7523B000C1A2A /* OfflineAudioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineAudioCell.swift; sourceTree = "<group>"; };
 		BB405EA61CF7523B000C1A2A /* OfflineAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OfflineAudioCell.xib; sourceTree = "<group>"; };
 		BB405EA91CF7555E000C1A2A /* EntitiesIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesIdentifiers.swift; sourceTree = "<group>"; };
+		BB405EAD1CF76796000C1A2A /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		BB405EAF1CF76817000C1A2A /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NetworkErrorCell.xib; sourceTree = "<group>"; };
 		BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkErrorCell.swift; sourceTree = "<group>"; };
 		BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoAuthorizedCell.swift; sourceTree = "<group>"; };
@@ -308,6 +312,7 @@
 				BB0C62E51CE3751A00C505B1 /* Album.swift */,
 				BBE853871CE0E69700872C3B /* Friend.swift */,
 				BBE853A01CE1481B00872C3B /* Group.swift */,
+				BB405EAF1CF76817000C1A2A /* Download.swift */,
 			);
 			name = "Data Objects";
 			sourceTree = "<group>";
@@ -383,6 +388,7 @@
 				BBE853B61CE298E400872C3B /* VKAPIManager */,
 				BBE8537E1CE0DB3800872C3B /* DataManager */,
 				BBE8537F1CE0DBD300872C3B /* RequestManager */,
+				BB405EAD1CF76796000C1A2A /* DownloadManager.swift */,
 				BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */,
 			);
 			name = Managers;
@@ -661,6 +667,7 @@
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,
 				BB405E9E1CF74332000C1A2A /* OfflineTrack+CoreDataProperties.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
+				BB405EAE1CF76796000C1A2A /* DownloadManager.swift in Sources */,
 				BBE853AF1CE2869600872C3B /* RecommendationsTableViewController.swift in Sources */,
 				BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */,
 				BB0C62F31CE4B7CA00C505B1 /* GetAlbumAudio.swift in Sources */,
@@ -687,6 +694,7 @@
 				BBE853A11CE1481B00872C3B /* Group.swift in Sources */,
 				BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */,
 				BB405EA11CF74332000C1A2A /* Playlist.swift in Sources */,
+				BB405EB01CF76817000C1A2A /* Download.swift in Sources */,
 				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,
 				BBE8535C1CDFE89000872C3B /* SearchTableViewController.swift in Sources */,
