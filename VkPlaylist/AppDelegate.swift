@@ -59,16 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: CoreData
     
     func defaultFillDataBase() {
-        let fetchRequest = NSFetchRequest(entityName: "Playlist")
+        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         let count = coreDataStack.context.countForFetchRequest(fetchRequest, error: nil)
         
-        if count == NSNotFound {
-            let entity = NSEntityDescription.entityForName("Playlist", inManagedObjectContext: coreDataStack.context)
+        if count == 0 {
+            let entity = NSEntityDescription.entityForName(EntitiesIdentifiers.playlist, inManagedObjectContext: coreDataStack.context)
             
             let playlist = Playlist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
             playlist.date = NSDate()
             playlist.isVisible = false
-            playlist.title = "Downloads"
+            playlist.title = downloadsPlaylistTitle
         }
         
         coreDataStack.saveContext()

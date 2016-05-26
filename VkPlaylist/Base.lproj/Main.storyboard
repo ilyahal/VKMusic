@@ -395,21 +395,11 @@
         <!--Root View Controller-->
         <scene sceneID="ORm-hi-4ol">
             <objects>
-                <tableViewController id="SB3-Uu-qB0" sceneMemberID="viewController">
+                <tableViewController id="SB3-Uu-qB0" customClass="DownloadsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QVh-Jq-C1g">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="EWY-rD-Odv">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EWY-rD-Odv" id="foB-sW-axd">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="SB3-Uu-qB0" id="vA8-m1-96y"/>
                             <outlet property="delegate" destination="SB3-Uu-qB0" id="awz-J7-kgd"/>
