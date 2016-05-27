@@ -10,19 +10,25 @@ import UIKit
 
 class RequestManagerObject {
     
+    internal(set) var key: String // Ключ запроса
+    
+    // Состояние при инициализации
     private let defaultState: State
     private let defaultError: ErrorRequest
     
+    // Текущее состояние
     internal(set) var state: State
     internal(set) var error: ErrorRequest
-    internal(set) var key: String
+    
     
     init(defaultState: State, defaultError: ErrorRequest, key: String) {
-        self.defaultState = defaultState
-        self.defaultError = defaultError
-        state = self.defaultState
-        error = self.defaultError
         self.key = key
+        
+        self.defaultState = defaultState
+        state = self.defaultState
+        
+        self.defaultError = defaultError
+        error = self.defaultError
     }
     
     deinit {
@@ -30,14 +36,36 @@ class RequestManagerObject {
     }
     
     
-    // Выполнение запроса
-    
+    // Выполнение запроса без аргументов
     func performRequest(completion: (Bool) -> Void) {
         performRequest([:], withCompletionHandler: completion)
     }
     
+    // Выполнение запроса с аргументами
     func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    // Отменяет выполенение запроса
+    func cancel() -> Bool {
+        if let activeRequest = RequestManager.sharedInstance.activeRequests[key] {
+            activeRequest.cancel() // Отменяем выполнение запроса
+            removeFromActiveRequests() // Удаляем запрос из списка активных
+            
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            dropState() // Сбрасываем до состояние при инициализации
+            
+            return true
+        }
+        
+        return false
+    }
+    
+    // Удаление состояние выполнения запроса
+    func removeActivState() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        removeObservers() // Удаляем слушателей для оповещений о состоянии выполнения запроса
+        removeFromActiveRequests() // Удаляем из списка активных запросов
     }
     
     // Удаляет слушателей для текущего запроса
@@ -45,31 +73,17 @@ class RequestManagerObject {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    // Сбрасывает состояние запроса
+    // Удаление запроса из списка активных
+    func removeFromActiveRequests() {
+        RequestManager.sharedInstance.activeRequests[key] = nil
+    }
+    
+    // Сбрасывание состояния запроса до состояния инициализации
     func dropState() {
         state = defaultState
         error = defaultError
         
         removeObservers()
-    }
-    
-    func removeFromActiveRequests() {
-        RequestManager.sharedInstance.activeRequests[key] = nil
-    }
-    
-    // Отменяет выполенение запроса
-    func cancel() -> Bool {
-        if let activeRequest = RequestManager.sharedInstance.activeRequests[key] {
-            activeRequest.cancel()
-            removeFromActiveRequests()
-            
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            dropState()
-            
-            return true
-        }
-        
-        return false
     }
     
 }
