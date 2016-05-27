@@ -11,44 +11,16 @@ import CoreData
 
 class DownloadsTableViewController: UITableViewController {
 
-    var coreDataStack: CoreDataStack!
-    
-    var fetchedResultsController: NSFetchedResultsController!
+    var downloadsFetchedResultsController: NSFetchedResultsController {
+        return DataManager.sharedInstance.downloadsFetchedResultsController
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        coreDataStack = (UIApplication.sharedApplication().delegate as! AppDelegate).coreDataStack
+        DataManager.sharedInstance.dataManagerDownloadsDelegate = self
         
-        var playlist: Playlist! = nil
-        
-        var fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
-        fetchRequest.predicate = NSPredicate(format: "title == \"\(downloadsPlaylistTitle)\"")
-        
-        do {
-            let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [Playlist]
-            
-            if results.count != NSNotFound {
-                playlist = results.first
-            }
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        
-        fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-        fetchRequest.predicate = NSPredicate(format: "playlist == %@", playlist)
-        let positionSort = NSSortDescriptor(key: "position", ascending: true)
-        fetchRequest.sortDescriptors = [positionSort]
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            print("Error: \(error.localizedDescription)")
-        }
         
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
@@ -63,38 +35,6 @@ class DownloadsTableViewController: UITableViewController {
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством строк
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-//        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
-//        fetchRequest.predicate = NSPredicate(format: "title == %@", downloadsPlaylistTitle)
-//        
-//        do {
-//            let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [Playlist]
-//            
-//            if results.count != NSNotFound {
-//                playlist = results.first
-//            } else {
-//                playlist = nil
-//            }
-//        } catch let error as NSError {
-//            playlist = nil
-//            
-//            print("Could not fetch \(error), \(error.userInfo)")
-//        }
-//        
-//        guard let _ = playlist else {
-//            print("Playlist not found!")
-//            return
-//        }
-//        
-//        print(playlist.tracks!.count)
-//        for trackInPlaylist in playlist.tracks!.allObjects as! [TrackInPlaylist] {
-//            print(trackInPlaylist.track!.title!)
-//            print(trackInPlaylist.position!)
-//        }
     }
     
     deinit {
@@ -117,24 +57,24 @@ private typealias DownloadsTableViewControllerDataSource = DownloadsTableViewCon
 extension DownloadsTableViewControllerDataSource {
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return fetchedResultsController.sections!.count
+        return downloadsFetchedResultsController.sections!.count
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let sectionInfo = fetchedResultsController.sections![section]
+        let sectionInfo = downloadsFetchedResultsController.sections![section]
         
         return sectionInfo.name
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = fetchedResultsController.sections![section]
+        let sectionInfo = downloadsFetchedResultsController.sections![section]
         
         return sectionInfo.numberOfObjects
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.offlineAudioCell, forIndexPath: indexPath) as! OfflineAudioCell
-        let trackInPlaylist = fetchedResultsController.objectAtIndexPath(indexPath) as! TrackInPlaylist
+        let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(indexPath) as! TrackInPlaylist
         let track = trackInPlaylist.track!
         
         cell.configureForTrack(track)
@@ -157,13 +97,13 @@ extension DownloadsTableViewControllerDelegate {
     
 }
 
-extension DownloadsTableViewController: NSFetchedResultsControllerDelegate {
+extension DownloadsTableViewController: DataManagerDownloadsDelegate {
 
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func dataManagerDownloadsControllerWillChangeContent(controller: NSFetchedResultsController) {
         tableView.beginUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+    func dataManagerDownloadsController(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
         let indexSet = NSIndexSet(index: sectionIndex)
         
         switch type {
@@ -176,7 +116,7 @@ extension DownloadsTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func dataManagerDownloadsController(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         switch type {
         case .Insert:
             tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
@@ -184,7 +124,7 @@ extension DownloadsTableViewController: NSFetchedResultsControllerDelegate {
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
         case .Update:
             let cell = tableView.cellForRowAtIndexPath(indexPath!) as! OfflineAudioCell
-            let trackInPlaylist = fetchedResultsController.objectAtIndexPath(indexPath!) as! TrackInPlaylist
+            let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(indexPath!) as! TrackInPlaylist
             let track = trackInPlaylist.track!
             
             cell.configureForTrack(track)
@@ -194,7 +134,7 @@ extension DownloadsTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func dataManagerDownloadsControllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.endUpdates()
     }
     

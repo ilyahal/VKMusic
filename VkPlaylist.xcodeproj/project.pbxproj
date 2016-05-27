@@ -29,6 +29,7 @@
 		BB405EAA1CF7555E000C1A2A /* EntitiesIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EA91CF7555E000C1A2A /* EntitiesIdentifiers.swift */; };
 		BB405EAE1CF76796000C1A2A /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EAD1CF76796000C1A2A /* DownloadManager.swift */; };
 		BB405EB01CF76817000C1A2A /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EAF1CF76817000C1A2A /* Download.swift */; };
+		BB405EB31CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EB21CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift */; };
 		BB6EF7341CDF642100466C3B /* NetworkErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */; };
 		BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */; };
 		BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */; };
@@ -110,6 +111,7 @@
 		BB405EA91CF7555E000C1A2A /* EntitiesIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesIdentifiers.swift; sourceTree = "<group>"; };
 		BB405EAD1CF76796000C1A2A /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		BB405EAF1CF76817000C1A2A /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
+		BB405EB21CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerDownloadsDelegate.swift; sourceTree = "<group>"; };
 		BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NetworkErrorCell.xib; sourceTree = "<group>"; };
 		BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkErrorCell.swift; sourceTree = "<group>"; };
 		BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoAuthorizedCell.swift; sourceTree = "<group>"; };
@@ -227,6 +229,14 @@
 				BB405EA61CF7523B000C1A2A /* OfflineAudioCell.xib */,
 			);
 			name = OfflineAudioCell;
+			sourceTree = "<group>";
+		};
+		BB405EB41CF8BD33000C1A2A /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				BB405EB21CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift */,
+			);
+			name = Delegates;
 			sourceTree = "<group>";
 		};
 		BB6EF7301CDF63C000466C3B /* NetworkErrorCell */ = {
@@ -424,6 +434,7 @@
 		BBE8537E1CE0DB3800872C3B /* DataManager */ = {
 			isa = PBXGroup;
 			children = (
+				BB405EB41CF8BD33000C1A2A /* Delegates */,
 				BBDEC0791CD748B1005B8494 /* DataManager.swift */,
 				BBE8537C1CE0DAFB00872C3B /* DataManagerObject.swift */,
 			);
@@ -664,6 +675,7 @@
 				BB405EAA1CF7555E000C1A2A /* EntitiesIdentifiers.swift in Sources */,
 				BBE853A31CE14B1E00872C3B /* GetGroups.swift in Sources */,
 				BB405EA31CF74957000C1A2A /* DownloadsTableViewController.swift in Sources */,
+				BB405EB31CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift in Sources */,
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,
 				BB405E9E1CF74332000C1A2A /* OfflineTrack+CoreDataProperties.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,

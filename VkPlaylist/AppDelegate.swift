@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         customizeAppearance()
         defaultFillDataBase()
+        DataManager.sharedInstance // Инициализация DataManager
         
         // Инициализация SwiftyVK с id приложения и делегатом
         VK.start(appID: VKAPIManager.applicationID, delegate: self)
