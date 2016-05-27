@@ -392,7 +392,7 @@
             </objects>
             <point key="canvasLocation" x="1816" y="2755"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Загрузки-->
         <scene sceneID="ORm-hi-4ol">
             <objects>
                 <tableViewController id="SB3-Uu-qB0" customClass="DownloadsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
@@ -405,7 +405,7 @@
                             <outlet property="delegate" destination="SB3-Uu-qB0" id="awz-J7-kgd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="j8x-Od-kmB"/>
+                    <navigationItem key="navigationItem" title="Загрузки" id="j8x-Od-kmB"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="soJ-NF-bdG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

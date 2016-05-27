@@ -12,6 +12,18 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     
     var searchController: UISearchController!
     
+    var filteredMusic: [Track]! = [] // Массив для результатов поиска по уже загруженным личным аудиозаписям
+    override var activeArray: [Track] { // Массив аудиозаписей отображаемый на экране
+        let array: [Track]!
+        
+        if searchController.active && searchController.searchBar.text != "" {
+            array = filteredMusic
+        } else {
+            array = music
+        }
+        
+        return array
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +57,25 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     }
     
     
+    // MARK: Получение ячеек для строк таблицы helpers
+    
+    // Текст для ячейки с сообщением о том, что при поиске ничего не найдено
+    var textForNothingFoundRow: String {
+        return "Список пуст"
+    }
+    
+    
+    // MARK: Получение ячеек для строк таблицы
+    
+    // Ячейка для строки с сообщением, что при поиске ничего не было найдено
+    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        nothingFoundCell.messageLabel.text = textForNothingFoundRow
+        
+        return nothingFoundCell
+    }
+    
+    
     // MARK: Работа с клавиатурой
     
     lazy var tapRecognizer: UITapGestureRecognizer = {
@@ -64,6 +95,7 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     
     // MARK: Поиск
     
+    // Управление доступностью поиска
     func searchEnable(enable: Bool) {
         if enable {
             searchController.searchBar.alpha = 1
@@ -77,6 +109,45 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
         }
     }
     
+    // Выполнение поиска
+    func filterContentForSearchText(searchText: String) {
+        filteredMusic = music.filter { track in
+            return track.title!.lowercaseString.containsString(searchText.lowercaseString) || track.artist!.lowercaseString.containsString(searchText.lowercaseString)
+        }
+    }
+    
+}
+
+
+// MARK: UITableViewDataSource
+
+private typealias MusicFromInternetWithSearchTableViewControllerDataSource = MusicFromInternetWithSearchTableViewController
+extension MusicFromInternetWithSearchTableViewControllerDataSource {
+    
+    // Получение ячейки для строки таблицы
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if VKAPIManager.isAuthorized {
+            switch requestManagerStatus {
+            case .Loading:
+                if let refreshControl = refreshControl where refreshControl.refreshing {
+                    if music.count != 0 {
+                        if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
+                            return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                        }
+                    }
+                }
+            case .Results:
+                if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
+                    return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                }
+            default:
+                break
+            }
+        }
+        
+        return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+    }
+    
 }
 
 
@@ -84,14 +155,41 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
 
 extension MusicFromInternetWithSearchTableViewController: UISearchBarDelegate {
     
+    // Говорит делегату что пользователь хочет начать поиск
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        if VKAPIManager.isAuthorized {
+            switch requestManagerStatus {
+            case .Results:
+                if let refreshControl = refreshControl {
+                    return !refreshControl.refreshing
+                }
+                
+                return true
+            default:
+                return false
+            }
+        }
+        
+        return false
+    }
+    
     // Вызывается когда пользователь начал редактирование поискового текста
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         view.addGestureRecognizer(tapRecognizer)
+        
+        pullToRefreshEnable(false)
     }
     
     // Вызывается когда пользователь закончил редактирование поискового текста
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         view.removeGestureRecognizer(tapRecognizer)
+        
+        pullToRefreshEnable(true)
+    }
+    
+    // В поисковой панели была нажата отмена
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        filteredMusic.removeAll()
     }
     
 }
@@ -102,6 +200,9 @@ extension MusicFromInternetWithSearchTableViewController: UISearchBarDelegate {
 extension MusicFromInternetWithSearchTableViewController: UISearchResultsUpdating {
     
     // Вызывается когда поле поиска получает фокус или когда значение поискового запроса изменяется
-    func updateSearchResultsForSearchController(searchController: UISearchController) {}
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+        reloadTableView()
+    }
     
 }

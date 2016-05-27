@@ -10,16 +10,26 @@ import UIKit
 
 class PopularTableViewController: MusicFromInternetTableViewController {
     
-    private var toDelete = true
+    private var toDelete = true // Флаг на отчистку загруженных результатов
     
-    private var music: [Track]! // Массив для результатов запроса
+    override var getRequest: (() -> Void)! {
+        return getPopularAudio
+    }
+    
+    override var requestManagerStatus: RequestManagerObject.State {
+        return RequestManager.sharedInstance.getPopularAudio.state
+    }
+    
+    override var requestManagerError: RequestManagerObject.ErrorRequest {
+        return RequestManager.sharedInstance.getPopularAudio.error
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if VKAPIManager.isAuthorized {
-            getPopularAudio()
+            getRequest()
         }
     }
     
@@ -56,7 +66,7 @@ class PopularTableViewController: MusicFromInternetTableViewController {
             }
             
             if !success {
-                switch RequestManager.sharedInstance.getPopularAudio.error {
+                switch self.requestManagerError {
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -74,158 +84,16 @@ class PopularTableViewController: MusicFromInternetTableViewController {
     }
     
     
-    // MARK: Pull-to-Refresh
+    // MARK: Получение ячеек для строк таблицы helpers
     
-    override func refreshMusic() {
-        super.refreshMusic()
-        
-        getPopularAudio()
+    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
+    override var textForNoResultsRow: String {
+        return "Нет популярных"
     }
     
-}
-
-
-// MARK: UITableViewDataSource
-
-private typealias PopularTableViewControllerDataSource = PopularTableViewController
-extension PopularTableViewControllerDataSource {
-    
-    // Получение количества строк таблицы
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getPopularAudio.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getPopularAudio.error == .NetworkError:
-                return 1 // Ячейка с сообщением об отсутствии интернет соединения
-            case .Loading:
-                if let refreshControl = refreshControl where refreshControl.refreshing {
-                    return music.count + 1
-                }
-                
-                return 1 // Ячейка с индикатором загрузки
-            case .NoResults:
-                return 1 // Ячейки с сообщением об отсутствии популярных аудиозаписей
-            case .Results:
-                return music.count + 1 // +1 - ячейка для вывода количества строк
-            default:
-                return 0
-            }
-        }
-        
-        return 1 // Ячейка с сообщением о необходимости авторизоваться
-    }
-    
-    // Получение ячейки для строки таблицы
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getPopularAudio.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getPopularAudio.error == .NetworkError:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
-                
-                return cell
-            case .NoResults:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                cell.messageLabel.text = "Нет популярных"
-                
-                return cell
-            case .Loading:
-                if let refreshControl = refreshControl where refreshControl.refreshing {
-                    if music.count != 0 {
-                        if music.count == indexPath.row {
-                            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                            numberOfRowsCell.configureForType(.Audio, withCount: music.count)
-                            
-                            return numberOfRowsCell
-                        }
-                        
-                        let track = music[indexPath.row]
-                        
-                        let trackCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                        trackCell.delegate = self
-                        trackCell.configureForTrack(track)
-                        
-                        return trackCell
-                    }
-                }
-                
-                
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                cell.activityIndicator.startAnimating()
-                
-                return cell
-            case .Results:
-                let count: Int?
-                
-                if music.count == indexPath.row {
-                    count = music.count
-                } else {
-                    count = nil
-                }
-                
-                if let count = count {
-                    let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                    numberOfRowsCell.configureForType(.Audio, withCount: count)
-                    
-                    return numberOfRowsCell
-                }
-                
-                
-                let track = music[indexPath.row]
-                
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                cell.delegate = self
-                cell.configureForTrack(track)
-                
-                return cell
-            default:
-                return UITableViewCell()
-            }
-        }
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        cell.messageLabel.text = "Для отображения списка рекомендуемых аудиозаписей необходимо авторизоваться"
-        
-        return cell
-    }
-    
-}
-
-
-// MARK: UITableViewDelegate
-
-private typealias PopularTableViewControllerDelegate = PopularTableViewController
-extension PopularTableViewControllerDelegate {
-    
-    // Высота каждой строки
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.getPopularAudio.state == .Results {
-                let count: Int?
-                
-                if music.count == indexPath.row {
-                    count = music.count
-                } else {
-                    count = nil
-                }
-                
-                if let _ = count {
-                    return 44
-                }
-            }
-        }
-        
-        return 62
-    }
-    
-    // Вызывается при тапе по строке таблицы
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
-            let track = music[indexPath.row]
-            let trackURL = NSURL(string: track.url!)
-            
-            PlayerManager.sharedInstance.playFile(trackURL!)
-        }
+    // Текст для ячейки с сообщением о необходимости авторизоваться
+    override var textForNoAuthorizedRow: String {
+        return "Для отображения списка популярных аудиозаписей необходимо авторизоваться"
     }
     
 }

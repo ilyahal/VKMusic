@@ -10,16 +10,26 @@ import UIKit
 
 class RecommendationsTableViewController: MusicFromInternetTableViewController {
 
-    private var toDelete = true
+    private var toDelete = true // Флаг на отчистку загруженных результатов
     
-    private var music: [Track]! // Массив для результатов запроса
+    override var getRequest: (() -> Void)! {
+        return getRecommendationsAudio
+    }
+    
+    override var requestManagerStatus: RequestManagerObject.State {
+        return RequestManager.sharedInstance.getRecommendationsAudio.state
+    }
+    
+    override var requestManagerError: RequestManagerObject.ErrorRequest {
+        return RequestManager.sharedInstance.getRecommendationsAudio.error
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if VKAPIManager.isAuthorized {
-            getRecommendationsAudio()
+            getRequest()
         }
     }
     
@@ -56,7 +66,7 @@ class RecommendationsTableViewController: MusicFromInternetTableViewController {
             }
             
             if !success {
-                switch RequestManager.sharedInstance.getRecommendationsAudio.error {
+                switch self.requestManagerError {
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -74,158 +84,16 @@ class RecommendationsTableViewController: MusicFromInternetTableViewController {
     }
     
     
-    // MARK: Pull-to-Refresh
+    // MARK: Получение ячеек для строк таблицы helpers
     
-    override func refreshMusic() {
-        super.refreshMusic()
-        
-        getRecommendationsAudio()
-    }
-
-}
-
-
-// MARK: UITableViewDataSource
-
-private typealias RecommendationsTableViewControllerDataSource = RecommendationsTableViewController
-extension RecommendationsTableViewControllerDataSource {
-    
-    // Получение количества строк таблицы
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getRecommendationsAudio.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getRecommendationsAudio.error == .NetworkError:
-                return 1 // Ячейка с сообщением об отсутствии интернет соединения
-            case .Loading:
-                if let refreshControl = refreshControl where refreshControl.refreshing {
-                    return music.count + 1
-                }
-                
-                return 1 // Ячейка с индикатором загрузки
-            case .NoResults:
-                return 1 // Ячейки с сообщением об отсутствии рекомендуемых аудиозаписей
-            case .Results:
-                return music.count + 1 // +1 - ячейка для вывода количества строк
-            default:
-                return 0
-            }
-        }
-        
-        return 1 // Ячейка с сообщением о необходимости авторизоваться
+    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
+    override var textForNoResultsRow: String {
+        return "Нет рекомендаций"
     }
     
-    // Получение ячейки для строки таблицы
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getRecommendationsAudio.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getRecommendationsAudio.error == .NetworkError:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
-                
-                return cell
-            case .NoResults:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                cell.messageLabel.text = "Нет рекомендаций"
-                
-                return cell
-            case .Loading:
-                if let refreshControl = refreshControl where refreshControl.refreshing {
-                    if music.count != 0 {
-                        if music.count == indexPath.row {
-                            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                            numberOfRowsCell.configureForType(.Audio, withCount: music.count)
-                            
-                            return numberOfRowsCell
-                        }
-                        
-                        let track = music[indexPath.row]
-                        
-                        let trackCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                        trackCell.delegate = self
-                        trackCell.configureForTrack(track)
-                        
-                        return trackCell
-                    }
-                }
-                
-                
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                cell.activityIndicator.startAnimating()
-                
-                return cell
-            case .Results:
-                let count: Int?
-                
-                if music.count == indexPath.row {
-                    count = music.count
-                } else {
-                    count = nil
-                }
-                
-                if let count = count {
-                    let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                    numberOfRowsCell.configureForType(.Audio, withCount: count)
-                    
-                    return numberOfRowsCell
-                }
-                
-                
-                let track = music[indexPath.row]
-                
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                cell.delegate = self
-                cell.configureForTrack(track)
-                
-                return cell
-            default:
-                return UITableViewCell()
-            }
-        }
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        cell.messageLabel.text = "Для отображения списка рекомендуемых аудиозаписей необходимо авторизоваться"
-        
-        return cell
+    // Текст для ячейки с сообщением о необходимости авторизоваться
+    override var textForNoAuthorizedRow: String {
+        return "Для отображения списка рекомендуемых аудиозаписей необходимо авторизоваться"
     }
-    
-}
 
-
-// MARK: UITableViewDelegate
-
-private typealias RecommendationsTableViewControllerDelegate = RecommendationsTableViewController
-extension RecommendationsTableViewControllerDelegate {
-    
-    // Высота каждой строки
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.getRecommendationsAudio.state == .Results {
-                let count: Int?
-                
-                if music.count == indexPath.row {
-                    count = music.count
-                } else {
-                    count = nil
-                }
-                
-                if let _ = count {
-                    return 44
-                }
-            }
-        }
-        
-        return 62
-    }
-    
-    // Вызывается при тапе по строке таблицы
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
-            let track = music[indexPath.row]
-            let trackURL = NSURL(string: track.url!)
-            
-            PlayerManager.sharedInstance.playFile(trackURL!)
-        }
-    }
-    
 }

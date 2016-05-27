@@ -10,8 +10,13 @@ import UIKit
 
 class SearchTableViewController: MusicFromInternetWithSearchTableViewController {
     
-    private var music: [Track]! // Массив для результатов запроса
-
+    override var requestManagerStatus: RequestManagerObject.State {
+        return RequestManager.sharedInstance.searchAudio.state
+    }
+    
+    override var requestManagerError: RequestManagerObject.ErrorRequest {
+        return RequestManager.sharedInstance.searchAudio.error
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,11 +53,12 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
     func searchMusic(search: String) {
         RequestManager.sharedInstance.searchAudio.performRequest([.RequestText : search]) { success in
             self.music = DataManager.sharedInstance.searchMusic.array
+            self.filteredMusic = self.music
             
             self.reloadTableView()
             
             if !success {
-                switch RequestManager.sharedInstance.searchAudio.error {
+                switch self.requestManagerError {
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -69,125 +75,17 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
         }
     }
     
-}
-
-
-// MARK: UITableViewDataSource
-
-private typealias SearchTableViewControllerDataSource = SearchTableViewController
-extension SearchTableViewControllerDataSource {
     
-    // Получение количества строк таблицы
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.searchAudio.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.searchAudio.error == .NetworkError:
-                return 1 // Ячейка с сообщением об отсутствии интернет соединения
-            case .Loading:
-                return 1 // Ячейка с индикатором загрузки
-            case .NoResults:
-                return 1 // Ячейки с сообщением об отсутствии найденных аудиозаписей
-            case .Results:
-                return music.count + 1
-            default:
-                return 0
-            }
-        }
-        
-        return 1 // Ячейка с сообщением о необходимости авторизоваться
+    // MARK: Получение ячеек для строк таблицы helpers
+    
+    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
+    override var textForNoResultsRow: String {
+        return "Ничего не найдено"
     }
     
-    // Получение ячейки для строки таблицы
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.searchAudio.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.searchAudio.error == .NetworkError:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
-                
-                return cell
-            case .NoResults:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                cell.messageLabel.text = "Ничего не найдено"
-                
-                return cell
-            case .Loading:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                cell.activityIndicator.startAnimating()
-                
-                return cell
-            case .Results:
-                let count: Int?
-                
-                if music.count == indexPath.row {
-                    count = music.count
-                } else {
-                    count = nil
-                }
-                
-                if let count = count {
-                    let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                    numberOfRowsCell.configureForType(.Audio, withCount: count)
-                    
-                    return numberOfRowsCell
-                }
-                
-                let track = music[indexPath.row]
-                
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
-                cell.delegate = self
-                cell.configureForTrack(track)
-                
-                return cell
-            default:
-                return UITableViewCell()
-            }
-        }
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        cell.messageLabel.text = "Для поиска аудиозаписей необходимо авторизоваться"
-        
-        return cell
-    }
-    
-}
-
-
-// MARK: UITableViewDelegate
-
-private typealias SearchTableViewControllerDelegate = SearchTableViewController
-extension SearchTableViewControllerDelegate {
-    
-    // Высота каждой строки
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.searchAudio.state == .Results {
-                let count: Int?
-                
-                if music.count == indexPath.row {
-                    count = music.count
-                } else {
-                    count = nil
-                }
-                
-                if let _ = count {
-                    return 44
-                }
-            }
-        }
-        
-        return 62
-    }
-    
-    // Вызывается при тапе по строке таблицы
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
-            let track = music[indexPath.row]
-            let trackURL = NSURL(string: track.url!)
-            
-            PlayerManager.sharedInstance.playFile(trackURL!)
-        }
+    // Текст для ячейки с сообщением о необходимости авторизоваться
+    override var textForNoAuthorizedRow: String {
+        return "Для поиска аудиозаписей необходимо авторизоваться"
     }
     
 }
@@ -199,12 +97,19 @@ private typealias SearchTableViewControllerUISearchBarDelegate = SearchTableView
 extension SearchTableViewControllerUISearchBarDelegate {
     
     // Говорит делегату что пользователь хочет начать поиск
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    override func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
         if VKAPIManager.isAuthorized {
             return true
         }
         
         return false
+    }
+    
+    // Вызывается когда пользователь закончил редактирование поискового текста
+    override func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        super.searchBarTextDidEndEditing(searchBar)
+        
+        pullToRefreshEnable(false)
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
@@ -215,7 +120,7 @@ extension SearchTableViewControllerUISearchBarDelegate {
         reloadTableView()
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    override func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         music?.removeAll()
         DataManager.sharedInstance.searchMusic.clear()
         if !RequestManager.sharedInstance.searchAudio.cancel() {

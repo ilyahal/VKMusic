@@ -15,14 +15,29 @@ class MusicFromInternetTableViewController: UITableViewController {
     
     var coreDataStack: CoreDataStack!
     
-    lazy var downloadsSession: NSURLSession = {
+    var music: [Track]! = [] // Массив для результатов запроса
+    var activeArray: [Track] { // Массив аудиозаписей отображаемый на экране
+        return music
+    }
+    
+    var getRequest: (() -> Void)! { // Запрос на получение данных с сервера
+        return nil
+    }
+    var requestManagerStatus: RequestManagerObject.State { // Статус выполнения запроса
+        return RequestManagerObject.State.NotSearchedYet
+    }
+    var requestManagerError: RequestManagerObject.ErrorRequest { // Ошибки при выполнении запроса
+        return RequestManagerObject.ErrorRequest.None
+    }
+    
+    lazy var downloadsSession: NSURLSession = { // Загрузочная сессия
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         return session
     }()
     
-    var activeDownloads = [String: Download]()
-    var downloadsTracks = [Track]()
+    var activeDownloads = [String: Download]() // Активные загрузки
+    var downloadsTracks = [Track]() // Загружаемые треки
     
     
     override func viewDidLoad() {
@@ -90,6 +105,170 @@ class MusicFromInternetTableViewController: UITableViewController {
     }
     
     
+    // MARK: Получение количества строк таблицы
+    
+    // Получение количества строк в таблице при статусе "NotSearchedYet" и ошибкой при подключении к интернету
+    func numberOfRowsForNotSearchedYetStatusWithInternetErrorInTableView(tableView: UITableView, inSection section: Int) -> Int {
+        return 1 // Ячейка с сообщением об отсутствии интернет соединения
+    }
+    
+    // Получение количества строк в таблице при статусе "NotSearchedYet" и ошибкой при подключении к интернету
+    func numberOfRowsForNotSearchedYetStatusWithAccessErrorInTableView(tableView: UITableView, inSection section: Int) -> Int {
+        return 1 // Ячейка с сообщением об отсутствии доступа
+    }
+    
+    // Получение количества строк в таблице при статусе "NotSearchedYet"
+    func numberOfRowsForNotSearchedYetStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+        return 0
+    }
+    
+    // Получение количества строк в таблице при статусе "Loading"
+    func numberOfRowsForLoadingStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+        if let refreshControl = refreshControl where refreshControl.refreshing {
+            return activeArray.count + 1
+        }
+        
+        return 1 // Ячейка с индикатором загрузки
+    }
+    
+    // Получение количества строк в таблице при статусе "NoResults"
+    func numberOfRowsForNoResultsStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+        return 1 // Ячейки с сообщением об отсутствии личных аудиозаписей
+    }
+    
+    // Получение количества строк в таблице при статусе "Results"
+    func numberOfRowsForResultsStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+        return activeArray.count + 1 // +1 - ячейка для вывода количества строк
+    }
+    
+    // Получение количества строк в таблице при статусе "Не авторизован"
+    func numberOfRowsForNoAuthorizedStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+        return 1 // Ячейка с сообщением о необходимости авторизоваться
+    }
+    
+    
+    // MARK: Получение ячеек для строк таблицы helpers
+    
+    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
+    var textForNoResultsRow: String {
+        return "Список пуст"
+    }
+    
+    // Получение количества треков в списке для ячейки с количеством аудиозаписей
+    func getCountForCellForNumberOfAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
+        let count: Int?
+        
+        if activeArray.count == indexPath.row {
+            count = activeArray.count
+        } else {
+            count = nil
+        }
+        
+        return count
+    }
+    
+    // Получение трека для ячейки с треком
+    func getTrackForCellForRowWithAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Track {
+        return activeArray[indexPath.row]
+    }
+    
+    // Текст для ячейки с сообщением о необходимости авторизоваться
+    var textForNoAuthorizedRow: String {
+        return "Необходимо авторизоваться"
+    }
+
+    
+    // MARK: Получение ячеек для строк таблицы
+    
+    // Ячейка для строки когда поиск еще не выполнялся и была получена ошибка при подключении к интернету
+    func getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
+        
+        return cell
+    }
+    
+    // Ячейка для строки когда поиск еще не выполнялся и была получена ошибка доступа
+    func getCellForNotSearchedYetRowWithAccessErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.accessErrorCell, forIndexPath: indexPath) as! AccessErrorCell
+        
+        return cell
+    }
+    
+    // Ячейка для строки когда поиск еще не выполнялся
+    func getCellForNotSearchedYetRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    // Ячейка для строки с сообщением что сервер вернул пустой массив
+    func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        cell.messageLabel.text = textForNoResultsRow
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением о загрузке
+    func getCellForLoadingRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
+        cell.activityIndicator.startAnimating()
+        
+        return cell
+    }
+    
+    // Пытаемся получить ячейку для строки с количеством аудиозаписей
+    func getCellForNumberOfAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+        let count = getCountForCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath)
+        
+        if let count = count {
+            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+            numberOfRowsCell.configureForType(.Audio, withCount: count)
+            
+            return numberOfRowsCell
+        }
+        
+        return nil
+    }
+    
+    // Ячейка для строки с аудиозаписью
+    func getCellForRowWithAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let track = getTrackForCellForRowWithAudioInTableView(tableView, forIndexPath: indexPath)
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.audioCell, forIndexPath: indexPath) as! AudioCell
+        cell.delegate = self
+        cell.configureForTrack(track)
+        
+        let downloaded = isDownloadedTrack(track)
+        
+        var showDownloadControls = false
+        if let download = activeDownloads[track.url!] {
+            showDownloadControls = true
+            
+            cell.progressBar.progress = download.progress
+            cell.progressLabel.text = (download.isDownloading) ? "Загружается..." : "Пауза"
+            
+            let title = (download.isDownloading) ? "Пауза" : "Продолжить"
+            cell.pauseButton.setTitle(title, forState: UIControlState.Normal)
+        }
+        cell.progressBar.hidden = !showDownloadControls
+        cell.progressLabel.hidden = !showDownloadControls
+        
+        cell.downloadButton.hidden = downloaded || showDownloadControls
+        
+        cell.pauseButton.hidden = !showDownloadControls
+        cell.cancelButton.hidden = !showDownloadControls
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением о необходимости авторизоваться
+    func getCellForNoAuthorizedRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
+        cell.messageLabel.text = textForNoAuthorizedRow
+        
+        return cell
+    }
+    
+    
     // MARK: Pull-to-Refresh
     
     func pullToRefreshEnable(enable: Bool) {
@@ -103,7 +282,9 @@ class MusicFromInternetTableViewController: UITableViewController {
         }
     }
     
-    func refreshMusic() {}
+    func refreshMusic() {
+        getRequest()
+    }
     
     
     // MARK: Загрузка helpers
@@ -121,7 +302,15 @@ class MusicFromInternetTableViewController: UITableViewController {
         }
     }
     
+    // Получение индекса трека для загружаемого файла
     func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Int? {
+        if let url = downloadTask.originalRequest?.URL?.absoluteString {
+            for (index, track) in activeArray.enumerate() {
+                if url == track.url! {
+                    return index
+                }
+            }
+        }
         return nil
     }
     
@@ -196,24 +385,110 @@ extension MusicFromInternetTableViewController: AudioCellDelegate {
     
     // Вызывается при тапе по кнопке Пауза
     func pauseTapped(cell: AudioCell) {
-        print("pause" + cell.nameLabel.text!)
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let track = activeArray[indexPath.row]
+            pauseDownload(track)
+            
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
+        }
     }
     
     // Вызывается при тапе по кнопке Продолжить
     func resumeTapped(cell: AudioCell) {
-        print("resume" + cell.nameLabel.text!)
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let track = activeArray[indexPath.row]
+            resumeDownload(track)
+            
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
+        }
     }
     
     // Вызывается при тапе по кнопке Отмена
     func cancelTapped(cell: AudioCell) {
-        print("cancel" + cell.nameLabel.text!)
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let track = activeArray[indexPath.row]
+            cancelDownload(track)
+            
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
+        }
     }
     
     // Вызывается при тапе по кнопке Скачать
     func downloadTapped(cell: AudioCell) {
-        print("download" + cell.nameLabel.text!)
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let track = activeArray[indexPath.row]
+            startDownload(track)
+            
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
+        }
     }
     
+}
+
+
+// MARK: UITableViewDataSource
+
+private typealias MusicFromInternetTableViewControllerDataSource = MusicFromInternetTableViewController
+extension MusicFromInternetTableViewControllerDataSource {
+    
+    // Получение количества строк таблицы
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if VKAPIManager.isAuthorized {
+            switch requestManagerStatus {
+            case .NotSearchedYet where requestManagerError == .NetworkError:
+                return numberOfRowsForNotSearchedYetStatusWithInternetErrorInTableView(tableView, inSection: section)
+            case .NotSearchedYet where requestManagerError == .AccessError:
+                return numberOfRowsForNotSearchedYetStatusWithAccessErrorInTableView(tableView, inSection: section)
+            case .NotSearchedYet:
+                return numberOfRowsForNotSearchedYetStatusInTableView(tableView, inSection: section)
+            case .Loading:
+                return numberOfRowsForLoadingStatusInTableView(tableView, inSection: section)
+            case .NoResults:
+                return numberOfRowsForNoResultsStatusInTableView(tableView, inSection: section)
+            case .Results:
+                return numberOfRowsForResultsStatusInTableView(tableView, inSection: section)
+            }
+        }
+        
+        return numberOfRowsForNoAuthorizedStatusInTableView(tableView, inSection: section)
+    }
+    
+    // Получение ячейки для строки таблицы
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if VKAPIManager.isAuthorized {
+            switch requestManagerStatus {
+            case .NotSearchedYet where requestManagerError == .NetworkError:
+                return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
+            case .NotSearchedYet where requestManagerError == .AccessError:
+                return getCellForNotSearchedYetRowWithAccessErrorInTableView(tableView, forIndexPath: indexPath)
+            case .NotSearchedYet:
+                return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
+            case .NoResults:
+                return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+            case .Loading:
+                if let refreshControl = refreshControl where refreshControl.refreshing {
+                    if music.count != 0 {
+                        if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+                            return numberOfRowsCell
+                        }
+                        
+                        return getCellForRowWithAudioInTableView(tableView, forIndexPath: indexPath)
+                    }
+                }
+                
+                return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
+            case .Results:
+                if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+                    return numberOfRowsCell
+                }
+                
+                return getCellForRowWithAudioInTableView(tableView, forIndexPath: indexPath)
+            }
+        }
+        
+        return getCellForNoAuthorizedRowInTableView(tableView, forIndexPath: indexPath)
+    }
+
 }
 
 
@@ -224,7 +499,35 @@ extension MusicFromInternetTableViewControllerDelegate {
     
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if VKAPIManager.isAuthorized {
+            if requestManagerStatus == .Results {
+                let count: Int?
+                
+                if activeArray.count == indexPath.row {
+                    count = activeArray.count
+                } else {
+                    count = nil
+                }
+                
+                if let _ = count {
+                    return 44
+                }
+            }
+        }
+        
         return 62
+    }
+    
+    // Вызывается при тапе по строке таблицы
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
+            let track = activeArray[indexPath.row]
+            let trackURL = NSURL(string: track.url!)
+            
+            PlayerManager.sharedInstance.playFile(trackURL!)
+        }
     }
     
 }
@@ -234,6 +537,7 @@ extension MusicFromInternetTableViewControllerDelegate {
 
 extension MusicFromInternetTableViewController: NSURLSessionDownloadDelegate {
     
+    // Вызывается когда загрузка была завершена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
         
         // Загруженный трек
@@ -310,6 +614,7 @@ extension MusicFromInternetTableViewController: NSURLSessionDownloadDelegate {
         }
     }
     
+    // Вызывается когда часть данных была загружена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         if let downloadUrl = downloadTask.originalRequest?.URL?.absoluteString, download = activeDownloads[downloadUrl] {
             download.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
