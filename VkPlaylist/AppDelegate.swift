@@ -21,8 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Вызывается при запуске приложения
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         customizeAppearance()
-        defaultFillDataBase()
-        DataManager.sharedInstance // Инициализация DataManager
+        defaultFillDataBase() // Создание плейлиста "Загрузки"
+        //DataManager.sharedInstance // Инициализация DataManager
+        initializeDownloadsTableViewController() // Загрузка загруженных треков
         
         // Инициализация SwiftyVK с id приложения и делегатом
         VK.start(appID: VKAPIManager.applicationID, delegate: self)
@@ -59,6 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: CoreData
     
+    // Создание плейлиста "Загрузки"
     func defaultFillDataBase() {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         let count = coreDataStack.context.countForFetchRequest(fetchRequest, error: nil)
@@ -73,6 +75,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         coreDataStack.saveContext()
+    }
+    
+    // Загрузка загруженных треков
+    func initializeDownloadsTableViewController() {
+        let tabBarController = window!.rootViewController as! UITabBarController
+        let navigationController = tabBarController.viewControllers![1] as! UINavigationController
+        let downloadsTableViewController = navigationController.viewControllers.first as! DownloadsTableViewController
+        downloadsTableViewController.reloadTableView()
     }
     
     // MARK: Авторизация пользователя

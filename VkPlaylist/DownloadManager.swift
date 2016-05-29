@@ -96,8 +96,11 @@ class DownloadManager: NSObject {
     
     // Удалить загрузку из очереди
     func deleteFromQueueDownload(download: Download) {
-        download.inQueue = false
-        downloadUpdated(download)
+        if download.inQueue {
+            download.inQueue = false
+            
+            downloadUpdated(download)
+        }
         
         for (index, downloadInQueue) in queue.enumerate() {
             if downloadInQueue.url == download.url {
