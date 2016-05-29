@@ -323,10 +323,6 @@ extension MusicFromInternetTableViewController: AudioCellDelegate {
         if let indexPath = tableView.indexPathForCell(cell) {
             let track = activeArray[indexPath.row]
             DownloadManager.sharedInstance.pauseDownloadTrack(track)
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
-            }
         }
     }
     
@@ -335,10 +331,6 @@ extension MusicFromInternetTableViewController: AudioCellDelegate {
         if let indexPath = tableView.indexPathForCell(cell) {
             let track = activeArray[indexPath.row]
             DownloadManager.sharedInstance.resumeDownloadTrack(track)
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
-            }
         }
     }
     
@@ -347,10 +339,6 @@ extension MusicFromInternetTableViewController: AudioCellDelegate {
         if let indexPath = tableView.indexPathForCell(cell) {
             let track = activeArray[indexPath.row]
             DownloadManager.sharedInstance.cancelDownloadTrack(track)
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
-            }
         }
     }
     
@@ -359,10 +347,6 @@ extension MusicFromInternetTableViewController: AudioCellDelegate {
         if let indexPath = tableView.indexPathForCell(cell) {
             let track = activeArray[indexPath.row]
             DownloadManager.sharedInstance.downloadTrack(track)
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row, inSection: 0)], withRowAnimation: .None)
-            }
         }
     }
     
@@ -480,8 +464,19 @@ extension MusicFromInternetTableViewControllerDelegate {
 
 extension MusicFromInternetTableViewController: DownloadManagerDelegate {
     
-    // Вызывается когда для загрузки было обновлено состояние
-    func DownloadManagerUpdateStateTrackDownload(download: Download) {
+    // Вызывается когда была начата новая загрузка
+    func downloadManagerStartTrackDownload(download: Download) {
+        
+        // Обновляем ячейку
+        if let trackIndex = trackIndexForDownload(download) {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
+            })
+        }
+    }
+    
+    // Вызывается когда состояние загрузки было изменено
+    func downloadManagerUpdateStateTrackDownload(download: Download) {
        
         // Обновляем ячейку
         if let trackIndex = trackIndexForDownload(download) {
@@ -491,8 +486,19 @@ extension MusicFromInternetTableViewController: DownloadManagerDelegate {
         }
     }
     
+    // Вызывается когда загрузка была отменена
+    func downloadManagerCancelTrackDownload(download: Download) {
+        
+        // Обновляем ячейку
+        if let trackIndex = trackIndexForDownload(download) {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
+            })
+        }
+    }
+    
     // Вызывается когда загрузка была завершена
-    func DownloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+    func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
         
         // Обновляем ячейку
         if let trackIndex = trackIndexForDownloadTask(downloadTask) {
@@ -503,7 +509,7 @@ extension MusicFromInternetTableViewController: DownloadManagerDelegate {
     }
     
     // Вызывается когда часть данных была загружена
-    func DownloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+    func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         if let downloadUrl = downloadTask.originalRequest?.URL?.absoluteString, download = activeDownloads[downloadUrl] {
             if let trackIndex = trackIndexForDownloadTask(downloadTask), let audioCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: trackIndex, inSection: 0)) as? AudioCell {
                 download.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
@@ -511,7 +517,7 @@ extension MusicFromInternetTableViewController: DownloadManagerDelegate {
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     audioCell.progressBar.progress = download.progress
-                    audioCell.progressLabel.text =  String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
+                    audioCell.progressLabel.text =  download.progress == 1 ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
                 })
             }
         }

@@ -100,7 +100,7 @@ class DataManager: NSObject {
     }
     
     
-    var downloadsPlaylist: Playlist? {
+    var downloadsPlaylistObject: Playlist? {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         fetchRequest.predicate = NSPredicate(format: "title == \"\(downloadsPlaylistTitle)\"")
         
@@ -124,7 +124,7 @@ class DataManager: NSObject {
     // Запрос на получение загруженных треков
     var downloadsFetchRequest: NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-        fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylist!)
+        fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylistObject!)
         let positionSort = NSSortDescriptor(key: "position", ascending: true)
         fetchRequest.sortDescriptors = [positionSort]
         
@@ -136,7 +136,7 @@ class DataManager: NSObject {
     func isDownloadedTrack(track: Track) -> Bool {
         for section in downloadsFetchedResultsController.sections! {
             for trackInPlaylist in section.objects as! [TrackInPlaylist] {
-                if trackInPlaylist.track!.id == track.id {
+                if trackInPlaylist.track.id == track.id && trackInPlaylist.track.ownerID == track.owner_id {
                     return true
                 }
             }
@@ -163,15 +163,14 @@ class DataManager: NSObject {
             
             // Смещаем все треки в плейлисте "Загрузки" на один вперед
             let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-            fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylist!)
+            fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylistObject!)
             
             do {
                 let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [TrackInPlaylist]
                 
                 if results.count != NSNotFound {
                     for trackInPlaylist in results {
-                        print("trackInPlaylist \(trackInPlaylist)\ntrackInPlaylist.position \(trackInPlaylist.position)\n\n")
-                        trackInPlaylist.position = trackInPlaylist.position!.integerValue + 1
+                        trackInPlaylist.position += 1
                     }
                 }
             } catch let error as NSError {
@@ -183,25 +182,27 @@ class DataManager: NSObject {
             var entity = NSEntityDescription.entityForName(EntitiesIdentifiers.offlineTrack, inManagedObjectContext: coreDataStack.context) // Сущность оффлайн трека
             
             let offlineTrack = OfflineTrack(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context) // Загруженный трек
-            offlineTrack.artist = toWrite.track.artist
-            offlineTrack.duration = toWrite.track.duration
+            offlineTrack.artist = toWrite.track.artist!
+            offlineTrack.duration = toWrite.track.duration!
             offlineTrack.file = toWrite.file
-            offlineTrack.id = toWrite.track.id
+            offlineTrack.id = toWrite.track.id!
+            offlineTrack.ownerID = toWrite.track.owner_id!
             offlineTrack.lyrics = "" // TODO: Текст песни загружать с вк
-            offlineTrack.title = toWrite.track.title
+            offlineTrack.title = toWrite.track.title!
             
             
             // Добавляем загруженный трек в плейлист "Загрузки"
             entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Сущность трека в плейлисте
             
             let trackInPlaylist = TrackInPlaylist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
-            trackInPlaylist.playlist = downloadsPlaylist!
+            trackInPlaylist.playlist = downloadsPlaylistObject!
             trackInPlaylist.track = offlineTrack
             trackInPlaylist.position = 0
             
             
             // Сохраняем изменения
             coreDataStack.saveContext()
+            
             
             isWriteNow = false
             tryStartWriteFromDownloadedTrackQueue()

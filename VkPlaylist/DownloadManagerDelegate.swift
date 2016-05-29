@@ -11,13 +11,19 @@ import Foundation
 // Методы отвечающие за оповещения о процессе загрузки файлов
 protocol DownloadManagerDelegate: class {
     
-    // 
-    func DownloadManagerUpdateStateTrackDownload(download: Download)
+    // Вызывается когда была начата новая загрузка
+    func downloadManagerStartTrackDownload(download: Download)
+    
+    // Вызывается когда состояние загрузки было изменено
+    func downloadManagerUpdateStateTrackDownload(download: Download)
+    
+    // Вызывается когда загрузка была отменена
+    func downloadManagerCancelTrackDownload(download: Download)
     
     // Вызывается когда загрузка была завершена
-    func DownloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL)
+    func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL)
     
     // Вызывается когда часть данных была загружена
-    func DownloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)
+    func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)
     
 }

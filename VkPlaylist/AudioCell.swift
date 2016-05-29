@@ -8,13 +8,6 @@
 
 import UIKit
 
-protocol AudioCellDelegate {
-    func pauseTapped(cell: AudioCell)
-    func resumeTapped(cell: AudioCell)
-    func cancelTapped(cell: AudioCell)
-    func downloadTapped(cell: AudioCell)
-}
-
 class AudioCell: UITableViewCell {
     
     var delegate: AudioCellDelegate?
@@ -26,6 +19,18 @@ class AudioCell: UITableViewCell {
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var downloadButton: UIButton!
+    
+    override func prepareForReuse() {
+        nameLabel.text = nil
+        artistLabel.text = nil
+        cancelButton.hidden = true
+        pauseButton.hidden = true
+        progressLabel.text = nil
+        progressLabel.hidden = true
+        progressBar.progress = 0
+        progressBar.hidden = true
+        downloadButton.hidden = true
+    }
     
     func configureForTrack(track: Track) {
         nameLabel.text = track.title

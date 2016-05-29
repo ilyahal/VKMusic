@@ -8,14 +8,6 @@
 
 import UIKit
 
-protocol ActiveDownloadCellDelegate {
-    
-    func pauseTapped(cell: ActiveDownloadCell)
-    func resumeTapped(cell: ActiveDownloadCell)
-    func cancelTapped(cell: ActiveDownloadCell)
-    
-}
-
 class ActiveDownloadCell: UITableViewCell {
 
     var delegate: ActiveDownloadCellDelegate?

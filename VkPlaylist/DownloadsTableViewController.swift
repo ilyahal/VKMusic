@@ -23,7 +23,7 @@ class DownloadsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        DataManager.sharedInstance.dataManagerDownloadsDelegate = self
+        DataManager.sharedInstance.dataManagerDownloadsDelegate = self
 //        DownloadManager.sharedInstance.addDelegate(self)
         
         
@@ -105,7 +105,7 @@ class DownloadsTableViewController: UITableViewController {
     // Ячейка для строки с загруженным треком
     func getCellForOfflineAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as! TrackInPlaylist
-        let track = trackInPlaylist.track!
+        let track = trackInPlaylist.track
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.offlineAudioCell, forIndexPath: indexPath) as! OfflineAudioCell
         cell.configureForTrack(track)
@@ -283,9 +283,9 @@ extension DownloadsTableViewController: DataManagerDownloadsDelegate {
 
     // Контроллер начал изменять контент
     func dataManagerDownloadsControllerWillChangeContent() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.tableView.beginUpdates()
-        }
+//        dispatch_async(dispatch_get_main_queue()) {
+//            self.tableView.beginUpdates()
+//        }
     }
     
     // Контроллер совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
@@ -295,36 +295,38 @@ extension DownloadsTableViewController: DataManagerDownloadsDelegate {
 //            return
 //        }
         
-        switch type {
-        case .Insert:
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: newIndexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
-            }
-        case .Delete:
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
-            }
-        case .Update:
-            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath!.row, inSection: activeDownloads.isEmpty ? 0 : 1)) as! OfflineAudioCell
-            let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(indexPath!) as! TrackInPlaylist
-            let track = trackInPlaylist.track!
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                cell.configureForTrack(track)
-            }
-        case .Move:
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: newIndexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
-            }
-        }
+//        switch type {
+//        case .Insert:
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: newIndexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
+//            }
+//        case .Delete:
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
+//            }
+//        case .Update:
+//            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath!.row, inSection: activeDownloads.isEmpty ? 0 : 1)) as! OfflineAudioCell
+//            let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(indexPath!) as! TrackInPlaylist
+//            let track = trackInPlaylist.track!
+//            
+//            dispatch_async(dispatch_get_main_queue()) {
+//                cell.configureForTrack(track)
+//            }
+//        case .Move:
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
+//                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: newIndexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
+//            }
+//        }
     }
     
     // Контроллер закончил изменять контент
     func dataManagerDownloadsControllerDidChangeContent() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.tableView.endUpdates()
-        }
+//        dispatch_async(dispatch_get_main_queue()) {
+//            self.tableView.endUpdates()
+//        }
+        
+        reloadTableView()
     }
     
 }

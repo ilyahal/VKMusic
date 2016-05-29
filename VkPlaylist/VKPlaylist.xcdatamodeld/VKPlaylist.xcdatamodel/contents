@@ -6,6 +6,7 @@
         <attribute name="file" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="lyrics" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ownerID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="playlists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackInPlaylist" inverseName="track" inverseEntity="TrackInPlaylist" syncable="YES"/>
     </entity>
@@ -21,8 +22,8 @@
         <relationship name="track" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OfflineTrack" inverseName="playlists" inverseEntity="OfflineTrack" syncable="YES"/>
     </entity>
     <elements>
+        <element name="OfflineTrack" positionX="-27" positionY="147" width="128" height="165"/>
         <element name="Playlist" positionX="-29" positionY="-36" width="128" height="103"/>
-        <element name="OfflineTrack" positionX="-27" positionY="147" width="128" height="148"/>
         <element name="TrackInPlaylist" positionX="-243" positionY="45" width="128" height="88"/>
     </elements>
 </model>

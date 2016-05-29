@@ -55,8 +55,15 @@ class DownloadManager: NSObject {
     
     var activeDownloads = [String: Download]() { // Активные загрузки (в очереди и загружаемые сейчас)
         didSet {
+            
             // Устанавливаем значение бейджа вкладки "Загрузки"
-            ((UIApplication.sharedApplication().delegate as! AppDelegate).window!.rootViewController as! UITabBarController).tabBar.items![1].badgeValue = activeDownloads.count == 0 ? nil : "\(activeDownloads.count)"
+            dispatch_async(dispatch_get_main_queue(), {
+                let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let tabBarController = delegate.window!.rootViewController as! UITabBarController
+                let count = self.activeDownloads.count
+                
+                tabBarController.tabBar.items![1].badgeValue = count == 0 ? nil : "\(count)"
+            })
         }
     }
     var downloadsTracks = [Track]() // Загружаемые треки (в очереди и загружаемые сейчас)
@@ -90,6 +97,7 @@ class DownloadManager: NSObject {
     // Удалить загрузку из очереди
     func deleteFromQueueDownload(download: Download) {
         download.inQueue = false
+        downloadUpdated(download)
         
         for (index, downloadInQueue) in queue.enumerate() {
             if downloadInQueue.url == download.url {
@@ -98,8 +106,6 @@ class DownloadManager: NSObject {
                 return
             }
         }
-        
-        downloadUpdated(download)
     }
     
     
@@ -115,9 +121,9 @@ class DownloadManager: NSObject {
             activeDownloads[download.url] = download // Добавляем загрузку трека в список активных загрузок
             downloadsTracks.append(track) // Добавляем трек в список загружаемых
             
-            queue.append(download) // Добавляем загрузку в очередь
+            downloadStarted(download)
             
-            downloadUpdated(download)
+            queue.append(download) // Добавляем загрузку в очередь
         }
     }
     
@@ -135,7 +141,7 @@ class DownloadManager: NSObject {
             popTrackForDownloadTask(download.downloadTask!) // Удаляем трек из списка загружаемых
             activeDownloads[urlString] = nil // Удаляем загрузку трека из списка активных загрузок
             
-            downloadUpdated(download)
+            downloadCanceled(download)
         }
     }
     
@@ -168,15 +174,17 @@ class DownloadManager: NSObject {
             if let resumeData = download.resumeData {
                 download.downloadTask = downloadsSession.downloadTaskWithResumeData(resumeData)
                 download.inQueue = true
-                queue.append(download) // Добавляем загрузку в очередь
                 
                 downloadUpdated(download)
+                
+                queue.append(download) // Добавляем загрузку в очередь
             } else if let url = NSURL(string: download.url) {
                 download.downloadTask = downloadsSession.downloadTaskWithURL(url)
                 download.inQueue = true
-                queue.append(download) // Добавляем загрузку в очередь
                 
                 downloadUpdated(download)
+                
+                queue.append(download) // Добавляем загрузку в очередь
             }
         }
     }
@@ -212,9 +220,21 @@ class DownloadManager: NSObject {
         return nil
     }
     
+    func downloadStarted(download: Download) {
+        delegates.forEach { delegate in
+            delegate.downloadManagerStartTrackDownload(download)
+        }
+    }
+    
     func downloadUpdated(download: Download) {
         delegates.forEach { delegate in
-            delegate.DownloadManagerUpdateStateTrackDownload(download)
+            delegate.downloadManagerUpdateStateTrackDownload(download)
+        }
+    }
+    
+    func downloadCanceled(download: Download) {
+        delegates.forEach { delegate in
+            delegate.downloadManagerCancelTrackDownload(download)
         }
     }
     
@@ -227,30 +247,31 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
     
     // Вызывается когда загрузка была завершена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+        var track: Track! = nil // Загруженный трек
         
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
+            activeDownloads[url] = nil // Удаляем загрузку трека из списка активных загрузок
+            track = popTrackForDownloadTask(downloadTask)! // Извлекаем трек из списка загружаемых треков
+            
             downloadsNow -= 1
             tryStartDownloadFromQueue()
-            
-            activeDownloads[url] = nil // Удаляем загрузку трека из списка активных загрузок
         }
         
-        // Загруженный трек
-        let track = popTrackForDownloadTask(downloadTask)! // Извлекаем трек из списка загружаемых треков
         let file = NSData(contentsOfURL: location)! // Загруженный файл
+        
         
         DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, file: file))
         
         
         delegates.forEach { delegate in
-            delegate.DownloadManagerURLSession(session, downloadTask: downloadTask, didFinishDownloadingToURL: location)
+            delegate.downloadManagerURLSession(session, downloadTask: downloadTask, didFinishDownloadingToURL: location)
         }
     }
     
     // Вызывается когда часть данных была загружена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         delegates.forEach { delegate in
-            delegate.DownloadManagerURLSession(session, downloadTask: downloadTask, didWriteData: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
+            delegate.downloadManagerURLSession(session, downloadTask: downloadTask, didWriteData: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
         }
     }
     

@@ -295,9 +295,10 @@ extension VKJSONParser {
                 let id = audio["id"].int
                 let title = audio["title"].string
                 let duration = audio["duration"].int
+                let owner_id = audio["owner_id"].int
                 let url = audio["url"].string
                 
-                let track = Track(artist: artist, lyrics_id: lyrics_id, id: id, title: title, duration: duration, url: url)
+                let track = Track(artist: artist, lyrics_id: lyrics_id, id: id, title: title, duration: duration, owner_id: owner_id, url: url)
                 
                 trackList.append(track)
             }

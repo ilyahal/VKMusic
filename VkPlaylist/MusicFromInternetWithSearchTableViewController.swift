@@ -55,6 +55,13 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
         }
     }
     
+    deinit{
+        if let superView = searchController.view.superview
+        {
+            superView.removeFromSuperview()
+        }
+    }
+    
     
     // MARK: Получение ячеек для строк таблицы helpers
     

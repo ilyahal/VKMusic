@@ -14,9 +14,9 @@ import CoreData
 
 extension Playlist {
 
-    @NSManaged var date: NSDate?
-    @NSManaged var isVisible: NSNumber?
-    @NSManaged var title: String?
+    @NSManaged var date: NSDate
+    @NSManaged var isVisible: Bool
+    @NSManaged var title: String
     @NSManaged var tracks: NSSet?
 
 }

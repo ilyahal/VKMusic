@@ -17,7 +17,7 @@ class FriendsTableViewController: UITableViewController {
     private var friends: [Friend]!
     private var filteredFriends: [Friend]! // Массив для результатов поиска по уже загруженному списку друзей
     
-    var searchController: UISearchController!
+    let searchController = UISearchController(searchResultsController: nil)
     
     
     override func viewDidLoad() {
@@ -32,7 +32,6 @@ class FriendsTableViewController: UITableViewController {
         
         
         // Настройка поисковой панели
-        searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         
@@ -62,6 +61,13 @@ class FriendsTableViewController: UITableViewController {
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством друзей
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
+    }
+    
+    deinit{
+        if let superView = searchController.view.superview
+        {
+            superView.removeFromSuperview()
+        }
     }
     
     // Заново отрисовать таблицу

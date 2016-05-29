@@ -15,7 +15,7 @@ class GroupsTableViewController: UITableViewController {
     private var groups: [Group]!
     private var filteredGroups: [Group]! // Массив для результатов поиска по уже загруженному списку групп
     
-    var searchController: UISearchController!
+    let searchController = UISearchController(searchResultsController: nil)
     
     
     override func viewDidLoad() {
@@ -29,7 +29,6 @@ class GroupsTableViewController: UITableViewController {
         
         
         // Настройка поисковой панели
-        searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         
@@ -59,6 +58,13 @@ class GroupsTableViewController: UITableViewController {
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством групп
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
+    }
+    
+    deinit{
+        if let superView = searchController.view.superview
+        {
+            superView.removeFromSuperview()
+        }
     }
     
     // Заново отрисовать таблицу
