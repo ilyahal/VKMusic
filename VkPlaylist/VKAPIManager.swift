@@ -67,7 +67,6 @@ class VKAPIManager {
     class func audioSearch(search: String) -> Request {
         let request = VK.API.Audio.search([
             .q : search, // Поисковый запрос
-            .autoComplete : "1", // Автоматическое исправление возможных ошибок
             .sort : "2", // Сортировка по популярности
             .count : "100" // Количество аудиозаписей, которые вернет запрос
         ])

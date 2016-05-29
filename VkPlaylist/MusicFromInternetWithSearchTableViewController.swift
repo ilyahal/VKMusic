@@ -10,7 +10,7 @@ import UIKit
 
 class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableViewController {
     
-    var searchController: UISearchController!
+    let searchController = UISearchController(searchResultsController: nil)
     
     var filteredMusic: [Track]! = [] // Массив для результатов поиска по уже загруженным личным аудиозаписям
     override var activeArray: [Track] { // Массив аудиозаписей отображаемый на экране
@@ -30,7 +30,6 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
         
         
         // Настройка поисковой панели
-        searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         

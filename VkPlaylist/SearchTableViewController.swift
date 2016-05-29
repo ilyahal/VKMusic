@@ -48,7 +48,7 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
     }
     
     
-    // MARK: Выполнение запроса на получение личных аудиозаписей
+    // MARK: Выполнение запроса на получение искомых аудиозаписей
     
     func searchMusic(search: String) {
         RequestManager.sharedInstance.searchAudio.performRequest([.RequestText : search]) { success in
@@ -91,6 +91,32 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
 }
 
 
+// MARK: UITableViewDataSource
+
+private typealias SearchTableViewControllerDataSource = SearchTableViewController
+extension SearchTableViewControllerDataSource {
+    
+    // Получение ячейки для строки таблицы
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if VKAPIManager.isAuthorized {
+            switch requestManagerStatus {
+            case .Loading:
+                return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
+            case .Results:
+                if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
+                    return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                }
+            default:
+                break
+            }
+        }
+        
+        return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+    }
+    
+}
+
+
 // MARK: UISearchBarDelegate
 
 private typealias SearchTableViewControllerUISearchBarDelegate = SearchTableViewController
@@ -121,7 +147,9 @@ extension SearchTableViewControllerUISearchBarDelegate {
     }
     
     override func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        music?.removeAll()
+        music.removeAll()
+        filteredMusic.removeAll()
+        
         DataManager.sharedInstance.searchMusic.clear()
         if !RequestManager.sharedInstance.searchAudio.cancel() {
             RequestManager.sharedInstance.searchAudio.dropState()
@@ -140,7 +168,6 @@ extension SearchTableViewControllerUISearchResultsUpdating {
     
     // Вызывается когда поле поиска получает фокус или когда значение поискового запроса изменяется
     override func updateSearchResultsForSearchController(searchController: UISearchController) {
-        super.updateSearchResultsForSearchController(searchController)
         
         // FIXME: При отправлении запроса с каждым изменением текстового поля программа периодически крашится
         

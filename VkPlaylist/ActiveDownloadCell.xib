@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="KGk-i7-Jjw" customClass="ActiveDownloadCell" customModule="VkPlaylist" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="61.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Название" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rX-qk-jax">
+                        <rect key="frame" x="14" y="8" width="484" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Исполнитель" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdL-Bh-RwC">
+                        <rect key="frame" x="14" y="28.5" width="89" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAF-f9-WfF">
+                        <rect key="frame" x="484" y="3" width="43" height="30"/>
+                        <state key="normal" title="Пауза"/>
+                        <connections>
+                            <action selector="pauseOrResumeTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="BAb-cL-CJw"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100% из 1.35MB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="umK-ES-m7y">
+                        <rect key="frame" x="506.5" y="43.5" width="85.5" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gXa-vy-gZp">
+                        <rect key="frame" x="14" y="51.5" width="484" height="2"/>
+                    </progressView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SxW-jI-rZw">
+                        <rect key="frame" x="535" y="3" width="56" height="30"/>
+                        <state key="normal" title="Отмена"/>
+                        <connections>
+                            <action selector="cancelTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="CRx-x2-FU1"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="umK-ES-m7y" secondAttribute="trailing" constant="8" id="2t3-ad-hk2"/>
+                    <constraint firstItem="gXa-vy-gZp" firstAttribute="top" secondItem="gdL-Bh-RwC" secondAttribute="bottom" constant="6" id="3uF-AE-Yyg"/>
+                    <constraint firstAttribute="trailing" secondItem="SxW-jI-rZw" secondAttribute="trailing" constant="9" id="GIe-wN-9IC"/>
+                    <constraint firstItem="SxW-jI-rZw" firstAttribute="leading" secondItem="lAF-f9-WfF" secondAttribute="trailing" constant="8" id="Jko-q5-JjK"/>
+                    <constraint firstItem="3rX-qk-jax" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Nkb-Sl-ctY"/>
+                    <constraint firstItem="gXa-vy-gZp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="Nwh-rV-PJd"/>
+                    <constraint firstItem="SxW-jI-rZw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="ROs-o4-WPQ"/>
+                    <constraint firstAttribute="trailing" secondItem="3rX-qk-jax" secondAttribute="trailing" constant="102" id="TZJ-jE-hTC"/>
+                    <constraint firstItem="gdL-Bh-RwC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="gMY-pA-Ccz"/>
+                    <constraint firstItem="3rX-qk-jax" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="iOj-vm-vIX"/>
+                    <constraint firstItem="gdL-Bh-RwC" firstAttribute="top" secondItem="3rX-qk-jax" secondAttribute="bottom" constant="1" id="lhN-ze-7yw"/>
+                    <constraint firstItem="umK-ES-m7y" firstAttribute="centerY" secondItem="gXa-vy-gZp" secondAttribute="centerY" constant="-2" id="nQu-dn-rJL"/>
+                    <constraint firstAttribute="trailing" secondItem="gXa-vy-gZp" secondAttribute="trailing" constant="102" id="nlr-Vf-dGR"/>
+                    <constraint firstItem="lAF-f9-WfF" firstAttribute="baseline" secondItem="SxW-jI-rZw" secondAttribute="baseline" id="w7U-Mp-c9g"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="artistLabel" destination="gdL-Bh-RwC" id="LhQ-Hm-lNp"/>
+                <outlet property="cancelButton" destination="SxW-jI-rZw" id="dZ3-eQ-6VC"/>
+                <outlet property="nameLabel" destination="3rX-qk-jax" id="0FC-X0-yIf"/>
+                <outlet property="pauseButton" destination="lAF-f9-WfF" id="gX9-XK-1lA"/>
+                <outlet property="progressBar" destination="gXa-vy-gZp" id="L1r-p2-zi4"/>
+                <outlet property="progressLabel" destination="umK-ES-m7y" id="TKt-qc-JJT"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

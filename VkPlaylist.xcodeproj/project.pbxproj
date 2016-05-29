@@ -30,6 +30,9 @@
 		BB405EAE1CF76796000C1A2A /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EAD1CF76796000C1A2A /* DownloadManager.swift */; };
 		BB405EB01CF76817000C1A2A /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EAF1CF76817000C1A2A /* Download.swift */; };
 		BB405EB31CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EB21CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift */; };
+		BB405EB71CF8CD6D000C1A2A /* DownloadManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EB61CF8CD6D000C1A2A /* DownloadManagerDelegate.swift */; };
+		BB405EBC1CFA3FEA000C1A2A /* ActiveDownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EBA1CFA3FEA000C1A2A /* ActiveDownloadCell.swift */; };
+		BB405EBD1CFA3FEA000C1A2A /* ActiveDownloadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB405EBB1CFA3FEA000C1A2A /* ActiveDownloadCell.xib */; };
 		BB6EF7341CDF642100466C3B /* NetworkErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */; };
 		BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */; };
 		BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */; };
@@ -112,6 +115,9 @@
 		BB405EAD1CF76796000C1A2A /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		BB405EAF1CF76817000C1A2A /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		BB405EB21CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerDownloadsDelegate.swift; sourceTree = "<group>"; };
+		BB405EB61CF8CD6D000C1A2A /* DownloadManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManagerDelegate.swift; sourceTree = "<group>"; };
+		BB405EBA1CFA3FEA000C1A2A /* ActiveDownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveDownloadCell.swift; sourceTree = "<group>"; };
+		BB405EBB1CFA3FEA000C1A2A /* ActiveDownloadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActiveDownloadCell.xib; sourceTree = "<group>"; };
 		BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NetworkErrorCell.xib; sourceTree = "<group>"; };
 		BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkErrorCell.swift; sourceTree = "<group>"; };
 		BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoAuthorizedCell.swift; sourceTree = "<group>"; };
@@ -239,6 +245,32 @@
 			name = Delegates;
 			sourceTree = "<group>";
 		};
+		BB405EB51CF8CD57000C1A2A /* DownloadManager */ = {
+			isa = PBXGroup;
+			children = (
+				BB405EB81CF8CE72000C1A2A /* Delegates */,
+				BB405EAD1CF76796000C1A2A /* DownloadManager.swift */,
+			);
+			name = DownloadManager;
+			sourceTree = "<group>";
+		};
+		BB405EB81CF8CE72000C1A2A /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				BB405EB61CF8CD6D000C1A2A /* DownloadManagerDelegate.swift */,
+			);
+			name = Delegates;
+			sourceTree = "<group>";
+		};
+		BB405EB91CFA3362000C1A2A /* ActiveDownloadCell */ = {
+			isa = PBXGroup;
+			children = (
+				BB405EBA1CFA3FEA000C1A2A /* ActiveDownloadCell.swift */,
+				BB405EBB1CFA3FEA000C1A2A /* ActiveDownloadCell.xib */,
+			);
+			name = ActiveDownloadCell;
+			sourceTree = "<group>";
+		};
 		BB6EF7301CDF63C000466C3B /* NetworkErrorCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +336,7 @@
 				BBDEC07F1CD754A6005B8494 /* Loading Cell */,
 				BBDEC0841CD760D8005B8494 /* NothingFoundCell */,
 				BBDEC0871CD761A7005B8494 /* AudioCell */,
+				BB405EB91CFA3362000C1A2A /* ActiveDownloadCell */,
 				BB405EA41CF7521B000C1A2A /* OfflineAudioCell */,
 				BB0C62EB1CE3E8FF00C505B1 /* PlaylistCell */,
 				BBE8538D1CE0F08000872C3B /* FriendCell */,
@@ -398,7 +431,7 @@
 				BBE853B61CE298E400872C3B /* VKAPIManager */,
 				BBE8537E1CE0DB3800872C3B /* DataManager */,
 				BBE8537F1CE0DBD300872C3B /* RequestManager */,
-				BB405EAD1CF76796000C1A2A /* DownloadManager.swift */,
+				BB405EB51CF8CD57000C1A2A /* DownloadManager */,
 				BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */,
 			);
 			name = Managers;
@@ -588,6 +621,7 @@
 				BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */,
 				BBDEC07C1CD7538B005B8494 /* LoadingCell.xib in Resources */,
 				BB405EA81CF7523B000C1A2A /* OfflineAudioCell.xib in Resources */,
+				BB405EBD1CFA3FEA000C1A2A /* ActiveDownloadCell.xib in Resources */,
 				BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */,
 				BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */,
 				BBE8539E1CE13E1B00872C3B /* AccessErrorCell.xib in Resources */,
@@ -652,10 +686,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB405EA01CF74332000C1A2A /* Playlist+CoreDataProperties.swift in Sources */,
+				BB405EBC1CFA3FEA000C1A2A /* ActiveDownloadCell.swift in Sources */,
 				BBE853851CE0DE2F00872C3B /* SearchAudio.swift in Sources */,
 				BB0C62EA1CE3D29C00C505B1 /* PlaylistsViewController.swift in Sources */,
 				BB0C62F11CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift in Sources */,
 				BBE853811CE0DBE300872C3B /* RequestManagerObject.swift in Sources */,
+				BB405EB71CF8CD6D000C1A2A /* DownloadManagerDelegate.swift in Sources */,
 				BBDEC0701CD6BEB7005B8494 /* AuthorizationViewController.swift in Sources */,
 				BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */,
 				BBE853991CE138CF00872C3B /* OwnerMusicTableViewController.swift in Sources */,

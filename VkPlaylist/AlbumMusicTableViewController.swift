@@ -51,6 +51,8 @@ class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewControl
         super.viewDidDisappear(animated)
         
         if toDelete {
+            DownloadManager.sharedInstance.deleteDelegate(self)
+            
             DataManager.sharedInstance.albumMusic.clear()
             if !RequestManager.sharedInstance.getAlbumAudio.cancel() {
                 RequestManager.sharedInstance.getAlbumAudio.dropState()

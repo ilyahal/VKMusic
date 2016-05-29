@@ -52,10 +52,6 @@ class DataManager: NSObject {
         } catch let error as NSError {
             print("Error: \(error.localizedDescription)")
         }
-        
-        
-        // Делегат обрабатывающий события изменения загруженного контента
-        dataManagerDownloadsDelegate = nil
     }
     
     
@@ -104,33 +100,112 @@ class DataManager: NSObject {
     }
     
     
-    var downloadsFetchedResultsController: NSFetchedResultsController!
-    weak var dataManagerDownloadsDelegate: DataManagerDownloadsDelegate?
-    
-    var downloadsFetchRequest: NSFetchRequest {
-        // Получение ссылка на плейлист "Загрузки"
-        var playlist: Playlist! = nil
-        
-        var fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
+    var downloadsPlaylist: Playlist? {
+        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         fetchRequest.predicate = NSPredicate(format: "title == \"\(downloadsPlaylistTitle)\"")
         
         do {
             let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [Playlist]
             
             if results.count != NSNotFound {
-                playlist = results.first
+                return results.first
             }
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
         
-        // Получение списка загруженных аудиозаписей
-        fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-        fetchRequest.predicate = NSPredicate(format: "playlist == %@", playlist)
+        return nil
+    }
+    
+    
+    var downloadsFetchedResultsController: NSFetchedResultsController!
+    weak var dataManagerDownloadsDelegate: DataManagerDownloadsDelegate?
+    
+    // Запрос на получение загруженных треков
+    var downloadsFetchRequest: NSFetchRequest {
+        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
+        fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylist!)
         let positionSort = NSSortDescriptor(key: "position", ascending: true)
         fetchRequest.sortDescriptors = [positionSort]
         
         return fetchRequest
+    }
+    
+    
+    // Загружен ли указанный трек
+    func isDownloadedTrack(track: Track) -> Bool {
+        for section in downloadsFetchedResultsController.sections! {
+            for trackInPlaylist in section.objects as! [TrackInPlaylist] {
+                if trackInPlaylist.track!.id == track.id {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    var toSaveDownloadedTrackQueue = [(track: Track, file: NSData)]() { // Очередь на запись скаченных треков
+        didSet {
+            tryStartWriteFromDownloadedTrackQueue()
+        }
+    }
+    var isWriteNow = false // Записывается ли загруженный трек в базу данных сейчас
+    
+    // Попытка записать трек в базу данных
+    func tryStartWriteFromDownloadedTrackQueue() {
+        if !toSaveDownloadedTrackQueue.isEmpty && !isWriteNow {
+            isWriteNow = true
+            
+            let toWrite = toSaveDownloadedTrackQueue.first!
+            toSaveDownloadedTrackQueue.removeFirst()
+            
+            
+            // Смещаем все треки в плейлисте "Загрузки" на один вперед
+            let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
+            fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylist!)
+            
+            do {
+                let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [TrackInPlaylist]
+                
+                if results.count != NSNotFound {
+                    for trackInPlaylist in results {
+                        print("trackInPlaylist \(trackInPlaylist)\ntrackInPlaylist.position \(trackInPlaylist.position)\n\n")
+                        trackInPlaylist.position = trackInPlaylist.position!.integerValue + 1
+                    }
+                }
+            } catch let error as NSError {
+                print("Could not fetch \(error), \(error.userInfo)")
+            }
+            
+            
+            // Записываем трек в базу данных
+            var entity = NSEntityDescription.entityForName(EntitiesIdentifiers.offlineTrack, inManagedObjectContext: coreDataStack.context) // Сущность оффлайн трека
+            
+            let offlineTrack = OfflineTrack(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context) // Загруженный трек
+            offlineTrack.artist = toWrite.track.artist
+            offlineTrack.duration = toWrite.track.duration
+            offlineTrack.file = toWrite.file
+            offlineTrack.id = toWrite.track.id
+            offlineTrack.lyrics = "" // TODO: Текст песни загружать с вк
+            offlineTrack.title = toWrite.track.title
+            
+            
+            // Добавляем загруженный трек в плейлист "Загрузки"
+            entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Сущность трека в плейлисте
+            
+            let trackInPlaylist = TrackInPlaylist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
+            trackInPlaylist.playlist = downloadsPlaylist!
+            trackInPlaylist.track = offlineTrack
+            trackInPlaylist.position = 0
+            
+            
+            // Сохраняем изменения
+            coreDataStack.saveContext()
+            
+            isWriteNow = false
+            tryStartWriteFromDownloadedTrackQueue()
+        }
     }
     
 }
@@ -139,19 +214,15 @@ class DataManager: NSObject {
 extension DataManager: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        dataManagerDownloadsDelegate?.dataManagerDownloadsControllerWillChangeContent(controller)
-    }
-    
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-        dataManagerDownloadsDelegate?.dataManagerDownloadsController(controller, didChangeSection: sectionInfo, atIndex: sectionIndex, forChangeType: type)
+        dataManagerDownloadsDelegate?.dataManagerDownloadsControllerWillChangeContent()
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        dataManagerDownloadsDelegate?.dataManagerDownloadsController(controller, didChangeObject: anObject, atIndexPath: indexPath, forChangeType: type, newIndexPath: newIndexPath)
+        dataManagerDownloadsDelegate?.dataManagerDownloadsControllerDidChangeObject(anObject, atIndexPath: indexPath, forChangeType: type, newIndexPath: newIndexPath)
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        dataManagerDownloadsDelegate?.dataManagerDownloadsControllerDidChangeContent(controller)
+        dataManagerDownloadsDelegate?.dataManagerDownloadsControllerDidChangeContent()
     }
     
 }

@@ -52,6 +52,8 @@ class OwnerMusicTableViewController: MusicFromInternetWithSearchTableViewControl
         super.viewDidDisappear(animated)
         
         if toDelete {
+            DownloadManager.sharedInstance.deleteDelegate(self)
+            
             DataManager.sharedInstance.ownerMusic.clear()
             if !RequestManager.sharedInstance.getOwnerAudio.cancel() {
                 RequestManager.sharedInstance.getOwnerAudio.dropState()
