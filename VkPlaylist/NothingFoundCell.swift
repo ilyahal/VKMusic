@@ -12,4 +12,8 @@ class NothingFoundCell: UITableViewCell {
 
     @IBOutlet weak var messageLabel: UILabel!
     
+    override func prepareForReuse() {
+        messageLabel.text = nil
+    }
+    
 }

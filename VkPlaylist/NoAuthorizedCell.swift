@@ -11,5 +11,9 @@ import UIKit
 class NoAuthorizedCell: UITableViewCell {
     
     @IBOutlet weak var messageLabel: UILabel!
+    
+    override func prepareForReuse() {
+        messageLabel.text = nil
+    }
 
 }

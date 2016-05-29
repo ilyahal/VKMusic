@@ -13,6 +13,11 @@ class NumberOfRowsCell: UITableViewCell {
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     
+    override func prepareForReuse() {
+        countLabel.text = nil
+        nameLabel.text = nil
+    }
+    
     func configureForType(type: Type, withCount count: Int) {
         countLabel.text = String(count)
         

@@ -13,6 +13,11 @@ class OfflineAudioCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
     
+    override func prepareForReuse() {
+        nameLabel.text = nil
+        artistLabel.text = nil
+    }
+    
     func configureForTrack(track: OfflineTrack) {
         nameLabel.text = track.title
         artistLabel.text = track.artist

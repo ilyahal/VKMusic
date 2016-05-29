@@ -12,4 +12,8 @@ class PlaylistCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    override func prepareForReuse() {
+        titleLabel.text = nil
+    }
+    
 }

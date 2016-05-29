@@ -515,9 +515,12 @@ extension MusicFromInternetTableViewController: DownloadManagerDelegate {
                 download.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
                 let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
                 
+                let isCompleted = download.progress == 1
                 dispatch_async(dispatch_get_main_queue(), {
+                    audioCell.cancelButton.hidden = isCompleted
+                    audioCell.pauseButton.hidden = isCompleted
                     audioCell.progressBar.progress = download.progress
-                    audioCell.progressLabel.text =  download.progress == 1 ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
+                    audioCell.progressLabel.text =  isCompleted ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
                 })
             }
         }

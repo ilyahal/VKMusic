@@ -14,7 +14,7 @@ import CoreData
 
 extension TrackInPlaylist {
 
-    @NSManaged var position: Int
+    @NSManaged var position: Int32
     @NSManaged var playlist: Playlist
     @NSManaged var track: OfflineTrack
 

@@ -15,9 +15,9 @@ import CoreData
 extension OfflineTrack {
 
     @NSManaged var artist: String
-    @NSManaged var duration: Int
-    @NSManaged var id: Int
-    @NSManaged var ownerID: Int
+    @NSManaged var duration: Int32
+    @NSManaged var id: Int32
+    @NSManaged var ownerID: Int32
     @NSManaged var lyrics: String?
     @NSManaged var title: String
     @NSManaged var file: NSData

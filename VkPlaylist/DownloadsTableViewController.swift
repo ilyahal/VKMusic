@@ -15,8 +15,16 @@ class DownloadsTableViewController: UITableViewController {
         return DataManager.sharedInstance.downloadsFetchedResultsController
     }
     
+    var downloadedCount: Int { // Количество загруженных треков
+        return downloadsFetchedResultsController.sections!.first!.numberOfObjects
+    }
+    
     var activeDownloads: [String: Download] { // Активные загрузки
         return DownloadManager.sharedInstance.activeDownloads
+    }
+    
+    var activeDownloadsCount: Int { // Количество активных загрузок
+        return activeDownloads.count
     }
     
     
@@ -74,18 +82,23 @@ class DownloadsTableViewController: UITableViewController {
     
     // MARK: Получение ячеек для строк таблицы helpers
     
-    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
-    var textForNothingFoundRow: String {
+    // Текст для ячейки с сообщением о том, что нет загружаемых треков
+    var textForNoActiveDownloadsRow: String {
+        return "Нет активных загрузок"
+    }
+    
+    // Текст для ячейки с сообщением о том, что нет загруженных треков
+    var textForNoDownloadedRow: String {
         return "Нет загруженных треков"
     }
     
     
     // MARK: Получение ячеек для строк таблицы
     
-    // Ячейка для строки с загруженным треком
-    func getCellForNothingFoundInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    // Ячейка для строки с сообщением об отсутствии загружаемых треков
+    func getCellForNoActiveDownloadsInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-        cell.messageLabel.text = textForNothingFoundRow
+        cell.messageLabel.text = textForNoActiveDownloadsRow
         
         return cell
     }
@@ -110,6 +123,14 @@ class DownloadsTableViewController: UITableViewController {
         }
         
         cell.pauseButton.hidden = !showPauseButton
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением об отсутствии загруженных треков
+    func getCellForNoDownloadedInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        cell.messageLabel.text = textForNoDownloadedRow
         
         return cell
     }
@@ -193,18 +214,10 @@ private typealias DownloadsTableViewControllerDataSource = DownloadsTableViewCon
 extension DownloadsTableViewControllerDataSource {
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if activeDownloads.isEmpty {
-            return 1 // Секция с загруженными треками
-        }
-        
         return 2 // Секции с загружаемыми и загруженными треками
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if activeDownloads.isEmpty {
-            return nil
-        }
-        
         switch section {
         case 0:
             return "Активные загрузки"
@@ -216,15 +229,9 @@ extension DownloadsTableViewControllerDataSource {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let downloadedCount = downloadsFetchedResultsController.sections!.first!.numberOfObjects == 0 ? 1 : downloadsFetchedResultsController.sections!.first!.numberOfObjects
-        
-        if activeDownloads.isEmpty {
-            return downloadedCount == 0 ? 1 : downloadedCount
-        }
-        
         switch section {
         case 0:
-            return activeDownloads.count
+            return activeDownloadsCount == 0 ? 1 : activeDownloadsCount
         case 1:
             return downloadedCount == 0 ? 1 : downloadedCount
         default:
@@ -233,22 +240,16 @@ extension DownloadsTableViewControllerDataSource {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let downloadedCount = downloadsFetchedResultsController.sections!.first!.numberOfObjects
-        
-        if activeDownloads.isEmpty {
-            if downloadedCount == 0 {
-                return getCellForNothingFoundInTableView(tableView, forIndexPath: indexPath)
-            }
-            
-            return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
-        }
-        
         switch indexPath.section {
         case 0:
+            if activeDownloadsCount == 0 {
+                return getCellForNoActiveDownloadsInTableView(tableView, forIndexPath: indexPath)
+            }
+            
             return getCellForActiveDownloadTrackInTableView(tableView, forIndexPath: indexPath)
         case 1:
             if downloadedCount == 0 {
-                return getCellForNothingFoundInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNoDownloadedInTableView(tableView, forIndexPath: indexPath)
             }
             
             return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
@@ -268,6 +269,40 @@ extension DownloadsTableViewControllerDelegate {
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 62
+    }
+    
+    // Возможно ли редактировать ячейку
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if indexPath.section == 1 {
+            if downloadedCount != 0 {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    // Обработка удаления ячейки
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as! TrackInPlaylist
+            let track = trackInPlaylist.track
+            
+            if DataManager.sharedInstance.deleteTrack(track) {
+                if downloadedCount == 0 {
+                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                } else {
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                }
+            } else {
+                let alertController = UIAlertController(title: "Ошибка", message: "При удалении файла произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(okAction)
+                
+                presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
     }
     
 }
@@ -335,13 +370,9 @@ extension DownloadsTableViewController: DownloadManagerDelegate {
     // Вызывается когда была начата новая загрузка
     func downloadManagerStartTrackDownload(download: Download) {
         if let trackIndex = trackIndexForDownload(download) {
-            if tableView.numberOfSections == 1 {
-                reloadTableView()
-            } else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .Fade)
-                })
-            }
+            dispatch_async(dispatch_get_main_queue(), {
+                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .Fade)
+            })
         }
     }
     
@@ -374,9 +405,12 @@ extension DownloadsTableViewController: DownloadManagerDelegate {
                 download.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
                 let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
                 
+                let isCompleted = download.progress == 1
                 dispatch_async(dispatch_get_main_queue(), {
+                    activeDownloadCell.cancelButton.hidden = isCompleted
+                    activeDownloadCell.pauseButton.hidden = isCompleted
                     activeDownloadCell.progressBar.progress = download.progress
-                    activeDownloadCell.progressLabel.text =  download.progress == 1 ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
+                    activeDownloadCell.progressLabel.text =  isCompleted ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
                 })
             }
         }

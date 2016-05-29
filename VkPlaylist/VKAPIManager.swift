@@ -292,10 +292,10 @@ extension VKJSONParser {
             for audio in itemsList {
                 let artist = audio["artist"].string
                 let lyrics_id = audio["lyrics_id"].int
-                let id = audio["id"].int
+                let id = audio["id"].int32
                 let title = audio["title"].string
-                let duration = audio["duration"].int
-                let owner_id = audio["owner_id"].int
+                let duration = audio["duration"].int32
+                let owner_id = audio["owner_id"].int32
                 let url = audio["url"].string
                 
                 let track = Track(artist: artist, lyrics_id: lyrics_id, id: id, title: title, duration: duration, owner_id: owner_id, url: url)

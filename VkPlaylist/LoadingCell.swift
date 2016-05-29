@@ -11,5 +11,9 @@ import UIKit
 class LoadingCell: UITableViewCell {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    override func prepareForReuse() {
+        activityIndicator.stopAnimating()
+    }
 
 }

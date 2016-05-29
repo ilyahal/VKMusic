@@ -24,10 +24,11 @@ class AudioCell: UITableViewCell {
         nameLabel.text = nil
         artistLabel.text = nil
         cancelButton.hidden = true
+        pauseButton.setTitle("Пауза", forState: .Normal)
         pauseButton.hidden = true
         progressLabel.text = nil
         progressLabel.hidden = true
-        progressBar.progress = 0
+        progressBar.progress = 0.0
         progressBar.hidden = true
         downloadButton.hidden = true
     }

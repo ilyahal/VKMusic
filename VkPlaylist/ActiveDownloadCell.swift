@@ -19,6 +19,14 @@ class ActiveDownloadCell: UITableViewCell {
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     
+    override func prepareForReuse() {
+        nameLabel.text = nil
+        artistLabel.text = nil
+        pauseButton.setTitle("Пауза", forState: .Normal)
+        progressLabel.text = nil
+        progressBar.progress = 0.0
+    }
+    
     func configureForTrack(track: Track) {
         nameLabel.text = track.title
         artistLabel.text = track.artist
@@ -34,11 +42,6 @@ class ActiveDownloadCell: UITableViewCell {
     
     @IBAction func cancelTapped(sender: UIButton) {
         delegate?.cancelTapped(self)
-    }
-    
-    override func prepareForReuse() {
-        nameLabel.text = nil
-        artistLabel.text = nil
     }
     
 }

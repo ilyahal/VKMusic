@@ -9,13 +9,13 @@
 class Track {
     let artist: String?
     let lyrics_id: Int?
-    let id: Int?
+    let id: Int32?
     let title: String?
-    let duration: Int?
-    let owner_id: Int?
+    let duration: Int32?
+    let owner_id: Int32?
     let url: String?
     
-    init(artist: String?, lyrics_id: Int?, id: Int?, title: String?, duration: Int?, owner_id: Int?, url: String?) {
+    init(artist: String?, lyrics_id: Int?, id: Int32?, title: String?, duration: Int32?, owner_id: Int32?, url: String?) {
         self.artist = artist
         self.lyrics_id = lyrics_id
         self.id = id
