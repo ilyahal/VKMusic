@@ -24,11 +24,15 @@ class DownloadManager: NSObject {
     }
     
     
-    private override init() {}
+    private override init() {
+        super.init()
+        
+        _ = downloadsSession
+    }
     
     
-    lazy var downloadsSession: NSURLSession = {
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+    lazy var downloadsSession: NSURLSession = { // Сессия для загрузки данных
+        let configuration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("bgSessionConfiguration")
         let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         
         return session
@@ -241,6 +245,24 @@ class DownloadManager: NSObject {
         }
     }
     
+}
+
+
+// MARK: NSURLSessionDelegate
+
+extension DownloadManager: NSURLSessionDelegate {
+    
+    // Вызывается когда все загрузки выполняемые в фоне были завершены
+    func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let completionHandler = appDelegate.backgroundSessionCompletionHandler {
+                appDelegate.backgroundSessionCompletionHandler = nil
+                dispatch_async(dispatch_get_main_queue(), {
+                    completionHandler()
+                })
+            }
+        }
+    }
 }
 
 

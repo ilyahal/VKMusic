@@ -14,8 +14,11 @@ import SwiftyVK
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    lazy var coreDataStack = CoreDataStack()
     let tintColor =  UIColor(red: 242/255, green: 71/255, blue: 63/255, alpha: 1)
+    
+    lazy var coreDataStack = CoreDataStack()
+    
+    var backgroundSessionCompletionHandler: (() -> Void)?
     
 
     // Вызывается при запуске приложения
@@ -44,6 +47,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         VK.processURL(url, options: options)
         
         return true
+    }
+    
+    // Вызывается когда событие относящаеся к URL сессии ожидает обработки
+    func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: () -> Void) {
+        backgroundSessionCompletionHandler = completionHandler
     }
 
     // MARK: - Кастомизация приложения
