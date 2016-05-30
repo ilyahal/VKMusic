@@ -110,7 +110,7 @@ class DataManager: NSObject {
     }
     
     
-    var downloadsPlaylistObject: Playlist? {
+    var downloadsPlaylistObject: Playlist! {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         fetchRequest.predicate = NSPredicate(format: "title == \"\(downloadsPlaylistTitle)\"")
         
@@ -123,8 +123,8 @@ class DataManager: NSObject {
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
-        
-        return nil
+        // TODO: Если плейлиста нет - создать заново
+        abort()
     }
     
     
@@ -152,7 +152,7 @@ class DataManager: NSObject {
     // Запрос на получение загруженных треков
     var downloadsFetchRequest: NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-        fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylistObject!)
+        fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylistObject)
         let positionSort = NSSortDescriptor(key: "position", ascending: true)
         fetchRequest.sortDescriptors = [positionSort]
         
@@ -190,19 +190,8 @@ class DataManager: NSObject {
             
             
             // Смещаем все треки в плейлисте "Загрузки" на один вперед
-            let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-            fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylistObject!)
-            
-            do {
-                let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [TrackInPlaylist]
-                
-                if results.count != NSNotFound {
-                    for trackInPlaylist in results {
-                        trackInPlaylist.position += 1
-                    }
-                }
-            } catch let error as NSError {
-                print("Could not fetch \(error), \(error.userInfo)")
+            for trackInPlaylist in downloadsPlaylistObject.tracks!.allObjects as! [TrackInPlaylist] {
+                trackInPlaylist.position += 1
             }
             
             
@@ -223,7 +212,7 @@ class DataManager: NSObject {
             entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Сущность трека в плейлисте
             
             let trackInPlaylist = TrackInPlaylist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
-            trackInPlaylist.playlist = downloadsPlaylistObject!
+            trackInPlaylist.playlist = downloadsPlaylistObject
             trackInPlaylist.track = offlineTrack
             trackInPlaylist.position = 0
             
@@ -239,73 +228,29 @@ class DataManager: NSObject {
     
     // Удаление трека
     func deleteTrack(track: OfflineTrack) -> Bool {
-        let id = track.id
-        let ownerID = track.ownerID
         
-        
-        // Получаем ссылку на удаляемый трек
-        let track: OfflineTrack!
-        
-        var fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.offlineTrack)
-        let IDPredicate = NSPredicate(format: "id == \(id)")
-        let ownerIDPredicate = NSPredicate(format: "ownerID == \(ownerID)")
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [IDPredicate, ownerIDPredicate])
-        
-        do {
-            let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [OfflineTrack]
+        // Во всех плейлистах сдвигаем треки находящиеся после удаляемого на 1
+        for trackInPlaylist in track.playlists!.allObjects as! [TrackInPlaylist] {
+            let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
+            let playlistPredicate = NSPredicate(format: "playlist == %@", trackInPlaylist.playlist)
+            let positionPredicate = NSPredicate(format: "position > \(trackInPlaylist.position)")
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [playlistPredicate, positionPredicate])
             
-            if results.count != NSNotFound {
-                track = results.first
-            } else {
-                track = nil
-            }
-        } catch let error as NSError {
-            track = nil
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        
-        guard let _ = track else {
-            print("Track not found!")
-            return false
-        }
-        
-        
-        // Получаем массив вхождений трека в плейлисты
-        fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-        fetchRequest.predicate = NSPredicate(format: "track == %@", track)
-        
-        do {
-            let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [TrackInPlaylist]
-            
-            if results.count != NSNotFound {
-                for trackInPlaylist in results {
-                    
-                    // Все треки находящиеся в этом плейлисте после удаляемого трека сдвигаем на одну позицию вниз
-                    let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-                    let playlistPredicate = NSPredicate(format: "playlist == %@", trackInPlaylist.playlist)
-                    let positionPredicate = NSPredicate(format: "position > \(trackInPlaylist.position)")
-                    fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [playlistPredicate, positionPredicate])
-                    
-                    do {
-                        let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [TrackInPlaylist]
-                        
-                        if results.count != NSNotFound {
-                            for trackInPlaylist in results {
-                                trackInPlaylist.position -= 1
-                            }
-                        }
-                    } catch let error as NSError {
-                        print("Could not fetch \(error), \(error.userInfo)")
-                        return false
+            do {
+                let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [TrackInPlaylist]
+                
+                if results.count != NSNotFound {
+                    for trackInPlaylist in results {
+                        trackInPlaylist.position -= 1
                     }
-                    
-                    // Удаляем вхождение трека в плейлист
-                    coreDataStack.context.deleteObject(trackInPlaylist)
                 }
+            } catch let error as NSError {
+                print("Could not fetch \(error), \(error.userInfo)")
+                return false
             }
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-            return false
+            
+            // Удаляем вхождение трека в плейлист
+            coreDataStack.context.deleteObject(trackInPlaylist)
         }
         
         // Удаляем трек
@@ -382,6 +327,12 @@ class DataManager: NSObject {
         }
         
         coreDataStack.saveContext()
+    }
+    
+    // Получение треков из указанного плейлиста
+    func getTracksForPlaylist(playlist: Playlist) -> [TrackInPlaylist] {
+        let tracksInPlaylist = playlist.tracks!.allObjects as! [TrackInPlaylist]
+        return tracksInPlaylist.sort({ $0.position > $1.position })
     }
     
 }

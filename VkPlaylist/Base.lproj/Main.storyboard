@@ -120,6 +120,7 @@
                         <outlet property="segmentedControl" destination="3Ce-2s-hR4" id="7gN-Zf-eBb"/>
                         <outlet property="tableView" destination="ZEL-n5-aj3" id="Z5j-j9-Kae"/>
                         <segue destination="d08-qv-bL9" kind="show" identifier="ShowAlbumAudioSegue" id="uOc-FM-m52"/>
+                        <segue destination="lTe-XD-VCn" kind="show" identifier="ShowPlaylistAudioSegue" id="uZ6-Ly-O9q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpt-kD-kF2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -170,7 +171,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Cw-yt-OSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2541" y="3523"/>
+            <point key="canvasLocation" x="2541" y="5051"/>
         </scene>
         <!--Add Playlist View Controller-->
         <scene sceneID="2cj-wq-FiP">
@@ -241,7 +242,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfq-WC-DK1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3990" y="1988"/>
+            <point key="canvasLocation" x="3990" y="2755"/>
+        </scene>
+        <!--<Название плейлиста>-->
+        <scene sceneID="zJo-Zi-imR">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="lTe-XD-VCn" customClass="PlaylistMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="43e-nz-9Kd"/>
+                        <viewControllerLayoutGuide type="bottom" id="Bs3-VD-WW9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1aN-Yq-Fh3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lyH-yb-MRy">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lyH-yb-MRy" firstAttribute="top" secondItem="43e-nz-9Kd" secondAttribute="bottom" constant="-64" id="JDC-6z-72H"/>
+                            <constraint firstItem="lyH-yb-MRy" firstAttribute="leading" secondItem="1aN-Yq-Fh3" secondAttribute="leading" id="TPJ-mF-OlK"/>
+                            <constraint firstAttribute="trailing" secondItem="lyH-yb-MRy" secondAttribute="trailing" id="ctK-3P-TUH"/>
+                            <constraint firstItem="Bs3-VD-WW9" firstAttribute="top" secondItem="lyH-yb-MRy" secondAttribute="bottom" id="uvJ-NT-czW"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <navigationItem key="navigationItem" title="&lt;Название плейлиста&gt;" id="G96-f0-kk1"/>
+                    <connections>
+                        <outlet property="tableView" destination="lyH-yb-MRy" id="jUD-os-iAh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rMI-4V-fgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3271" y="3530"/>
         </scene>
         <!--<Название Альбома>-->
         <scene sceneID="bXA-aR-QhH">
@@ -260,7 +296,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vcd-9a-KRt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="2755"/>
+            <point key="canvasLocation" x="3271" y="4297"/>
         </scene>
         <!--Друзья-->
         <scene sceneID="QRQ-Jz-uGV">
@@ -318,7 +354,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eV0-qH-H9B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="3523"/>
+            <point key="canvasLocation" x="3271" y="5051"/>
         </scene>
         <!--<Имя владельца>-->
         <scene sceneID="7aK-Lh-4fa">
@@ -337,7 +373,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qEW-ff-Jbi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3990" y="3901"/>
+            <point key="canvasLocation" x="3990" y="5429"/>
         </scene>
         <!--Группы-->
         <scene sceneID="TUL-NI-Ut4">
@@ -395,7 +431,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMw-YT-dDn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="4299"/>
+            <point key="canvasLocation" x="3271" y="5827"/>
         </scene>
         <!--Рекомендации-->
         <scene sceneID="2mB-yL-cQg">
@@ -414,7 +450,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Y2-JN-XXk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="5066"/>
+            <point key="canvasLocation" x="3271" y="6594"/>
         </scene>
         <!--Популярное-->
         <scene sceneID="FUO-1z-6kc">
@@ -433,7 +469,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NO9-Na-mEP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="5829"/>
+            <point key="canvasLocation" x="3271" y="7357"/>
         </scene>
         <!--Ещё-->
         <scene sceneID="sO5-Eb-5St">
@@ -450,7 +486,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bRL-3J-BNo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1816" y="3523"/>
+            <point key="canvasLocation" x="1816" y="5051"/>
         </scene>
         <!--Плейлисты-->
         <scene sceneID="qIX-bg-FeM">
@@ -575,7 +611,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mdJ-LD-1bg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="6593"/>
+            <point key="canvasLocation" x="3271" y="8121"/>
         </scene>
         <!--Authorization View Controller-->
         <scene sceneID="dQe-ys-bPt">
@@ -717,7 +753,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xdb-fP-D8R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="1988"/>
+            <point key="canvasLocation" x="3271" y="2755"/>
         </scene>
     </scenes>
     <resources>

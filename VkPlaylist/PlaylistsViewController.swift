@@ -84,6 +84,9 @@ class PlaylistsViewController: UIViewController {
         cellNib = UINib(nibName: TableViewCellIdentifiers.playlistCell, bundle: nil) // Ячейка с плейлистом
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.playlistCell)
         
+        cellNib = UINib(nibName: TableViewCellIdentifiers.albumCell, bundle: nil) // Ячейка с альбомом
+        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.albumCell)
+        
         cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством строк
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
@@ -141,6 +144,11 @@ class PlaylistsViewController: UIViewController {
             
             albumMusicTableViewController.id = album.id
             albumMusicTableViewController.name = album.title
+        } else if segue.identifier == "ShowPlaylistAudioSegue" {
+            let playlistMusicViewController = segue.destinationViewController as! PlaylistMusicViewController
+            let playlist = sender as! Playlist
+            
+            playlistMusicViewController.playlist = playlist
         }
     }
     
@@ -341,7 +349,7 @@ class PlaylistsViewController: UIViewController {
     func getCellForAlbumRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let album = albums[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.playlistCell, forIndexPath: indexPath) as! PlaylistCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.albumCell, forIndexPath: indexPath) as! AlbumCell
         cell.titleLabel.text = album.title
         
         return cell
@@ -467,11 +475,13 @@ extension PlaylistsViewController: UITableViewDelegate {
         
         switch selected {
         case .Playlists:
-            return
-        case .Albums:
             if tableView.cellForRowAtIndexPath(indexPath) is PlaylistCell {
+                let playlist = playlists[indexPath.row]
+                performSegueWithIdentifier("ShowPlaylistAudioSegue", sender: playlist)
+            }
+        case .Albums:
+            if tableView.cellForRowAtIndexPath(indexPath) is AlbumCell {
                 let album = albums[indexPath.row]
-                        
                 performSegueWithIdentifier("ShowAlbumAudioSegue", sender: album)
             }
         }

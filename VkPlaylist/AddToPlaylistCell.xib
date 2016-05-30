@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -26,41 +27,53 @@
                         <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jTq-O5-Uma" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
-                        <rect key="frame" x="566" y="13.5" width="26" height="26"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KQO-12-SoB">
+                        <rect key="frame" x="547.5" y="0.0" width="52.5" height="52.5"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jTq-O5-Uma" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
+                                <rect key="frame" x="18.5" y="13.5" width="26" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="J83-6D-K6H"/>
+                                    <constraint firstAttribute="width" constant="26" id="bxY-qy-PNV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="-3" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="+"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="13"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="addButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uWM-Id-PaY"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <constraints>
-                            <constraint firstAttribute="width" constant="26" id="scG-q2-MDp"/>
-                            <constraint firstAttribute="height" constant="26" id="tOq-Ev-mCx"/>
+                            <constraint firstItem="jTq-O5-Uma" firstAttribute="centerY" secondItem="KQO-12-SoB" secondAttribute="centerY" id="DOj-Nm-EKv"/>
+                            <constraint firstAttribute="width" secondItem="KQO-12-SoB" secondAttribute="height" multiplier="1:1" id="KdY-IP-ltN"/>
+                            <constraint firstAttribute="trailing" secondItem="jTq-O5-Uma" secondAttribute="trailing" constant="8" id="nlM-ad-lCX"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                        <inset key="contentEdgeInsets" minX="0.0" minY="-3" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="+"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="1"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                <real key="value" value="13"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                        <connections>
-                            <action selector="addButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ki3-bN-7s4"/>
-                        </connections>
-                    </button>
+                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="jTq-O5-Uma" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9cj-uR-mPK" secondAttribute="trailing" constant="8" id="06s-PE-zkd"/>
                     <constraint firstItem="9cj-uR-mPK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="8Ld-aF-Rln"/>
-                    <constraint firstAttribute="trailing" secondItem="jTq-O5-Uma" secondAttribute="trailing" constant="8" id="EBd-aa-igB"/>
-                    <constraint firstItem="jTq-O5-Uma" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Al5-4A-MMK" secondAttribute="trailing" constant="8" id="HQM-Qb-1Iz"/>
                     <constraint firstItem="9cj-uR-mPK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="KYa-bz-Gi5"/>
-                    <constraint firstItem="jTq-O5-Uma" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ofi-pD-uiD"/>
+                    <constraint firstItem="KQO-12-SoB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="NsA-ET-xeL"/>
+                    <constraint firstItem="KQO-12-SoB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Al5-4A-MMK" secondAttribute="trailing" id="U0m-Ei-0M3"/>
+                    <constraint firstAttribute="trailing" secondItem="KQO-12-SoB" secondAttribute="trailing" id="WaV-6F-qDS"/>
+                    <constraint firstAttribute="bottom" secondItem="KQO-12-SoB" secondAttribute="bottom" id="bGi-36-p15"/>
                     <constraint firstItem="Al5-4A-MMK" firstAttribute="top" secondItem="9cj-uR-mPK" secondAttribute="bottom" constant="1" id="sL1-X9-n1N"/>
                     <constraint firstItem="Al5-4A-MMK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="upJ-Mm-Ghi"/>
+                    <constraint firstItem="KQO-12-SoB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9cj-uR-mPK" secondAttribute="trailing" id="vb9-wI-6Zk"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="addButton" destination="jTq-O5-Uma" id="wcL-ws-odC"/>
+                <outlet property="addButtonContainer" destination="KQO-12-SoB" id="L3L-GU-h9c"/>
                 <outlet property="artistLabel" destination="Al5-4A-MMK" id="mtS-9h-pLW"/>
                 <outlet property="nameLabel" destination="9cj-uR-mPK" id="LSd-Cz-ufa"/>
             </connections>

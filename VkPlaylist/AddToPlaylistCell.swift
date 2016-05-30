@@ -14,14 +14,19 @@ class AddToPlaylistCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
+    @IBOutlet weak var addButtonContainer: UIView!
     @IBOutlet weak var addButton: AddToPlaylistButton!
+    
+    var tapGestureRecognizer: UITapGestureRecognizer!
     
     override func prepareForReuse() {
         nameLabel.text = nil
         artistLabel.text = nil
-        addButton.setTitle("+", forState: .Normal)
         addButton.cornerRadius = 13
         addButton.borderWidth = 1
+        
+        addButtonContainer.removeGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer = nil
     }
     
     func configureForName(name: String, andArtist artist: String, isAdded: Bool) {
@@ -39,10 +44,13 @@ class AddToPlaylistCell: UITableViewCell {
             addButton.titleLabel!.text = "+" // Для ускорения отображения
             addButton.setTitle("+", forState: .Normal)
         }
+        
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(addButtonTapped))
+        addButtonContainer.addGestureRecognizer(tapGestureRecognizer)
     }
     
     // Вызывается при нажатии по кнопке "+"
-    @IBAction func addButtonTapped(sender: AddToPlaylistButton) {
+    @IBAction func addButtonTapped(sender: AnyObject) {
         if addButton.titleForState(.Normal) == "+" {
             delegate?.addTapped(self)
         }
