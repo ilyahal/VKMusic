@@ -108,7 +108,13 @@
                             <constraint firstAttribute="trailing" secondItem="Gqb-bi-dxc" secondAttribute="trailing" id="lZb-yD-6EF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Плейлисты" id="gCZ-2A-nyP"/>
+                    <navigationItem key="navigationItem" title="Плейлисты" id="gCZ-2A-nyP">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ps0-fe-O6z">
+                            <connections>
+                                <segue destination="sML-Kp-cds" kind="presentation" identifier="ShowAddPlaylistViewControllerSegue" id="XlX-rV-IOg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="navigationBar" destination="Gqb-bi-dxc" id="tzv-Sv-Els"/>
                         <outlet property="segmentedControl" destination="3Ce-2s-hR4" id="7gN-Zf-eBb"/>
@@ -165,6 +171,77 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Cw-yt-OSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2541" y="3523"/>
+        </scene>
+        <!--Add Playlist View Controller-->
+        <scene sceneID="2cj-wq-FiP">
+            <objects>
+                <viewController id="9rM-Vk-5eS" customClass="AddPlaylistViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ytc-Ig-ygq"/>
+                        <viewControllerLayoutGuide type="bottom" id="K4F-ai-jVI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UJ4-0U-SJg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Название плейлиста" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3HN-OZ-L93">
+                                <rect key="frame" x="8" y="64" width="584" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Raz-aY-LDp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="playlistTitleTextFieldValueChanged:" destination="9rM-Vk-5eS" eventType="editingChanged" id="gdF-AH-dhE"/>
+                                </connections>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AwO-Bx-sXH">
+                                <rect key="frame" x="0.0" y="108" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="7gK-w1-gdv"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gPh-RW-fHd">
+                                <rect key="frame" x="0.0" y="109" width="600" height="491"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="3HN-OZ-L93" secondAttribute="trailing" constant="8" id="2TI-Ta-9i4"/>
+                            <constraint firstItem="3HN-OZ-L93" firstAttribute="top" secondItem="Ytc-Ig-ygq" secondAttribute="bottom" id="5Rd-G6-YsH"/>
+                            <constraint firstAttribute="trailing" secondItem="gPh-RW-fHd" secondAttribute="trailing" id="DVk-eS-NqY"/>
+                            <constraint firstItem="K4F-ai-jVI" firstAttribute="top" secondItem="gPh-RW-fHd" secondAttribute="bottom" id="FYT-Fd-59b"/>
+                            <constraint firstItem="gPh-RW-fHd" firstAttribute="top" secondItem="AwO-Bx-sXH" secondAttribute="bottom" id="Fal-fJ-PED"/>
+                            <constraint firstItem="AwO-Bx-sXH" firstAttribute="top" secondItem="3HN-OZ-L93" secondAttribute="bottom" id="Znw-uu-rDu"/>
+                            <constraint firstItem="3HN-OZ-L93" firstAttribute="leading" secondItem="UJ4-0U-SJg" secondAttribute="leading" constant="8" id="eug-02-jpu"/>
+                            <constraint firstItem="gPh-RW-fHd" firstAttribute="leading" secondItem="UJ4-0U-SJg" secondAttribute="leading" id="fqB-pr-BTl"/>
+                            <constraint firstItem="AwO-Bx-sXH" firstAttribute="leading" secondItem="UJ4-0U-SJg" secondAttribute="leading" id="h7E-Ej-gCe"/>
+                            <constraint firstAttribute="trailing" secondItem="AwO-Bx-sXH" secondAttribute="trailing" id="odk-Rm-7Gk"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="HGm-T4-mNB">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="6wD-fU-Bht">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="9rM-Vk-5eS" id="OUS-LZ-LnP"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="faL-R4-1Sj">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="9rM-Vk-5eS" id="kNS-dV-Wqr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="playlistTitleTextField" destination="3HN-OZ-L93" id="i0G-ir-iNU"/>
+                        <outlet property="saveButton" destination="faL-R4-1Sj" id="I0C-VW-AdX"/>
+                        <outlet property="tableView" destination="gPh-RW-fHd" id="YCH-cr-aAo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bfq-WC-DK1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3990" y="1988"/>
         </scene>
         <!--<Название Альбома>-->
         <scene sceneID="bXA-aR-QhH">
@@ -623,6 +700,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bn5-h0-tRI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1004" y="429"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0mk-Km-AS8">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="sML-Kp-cds" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="E6M-Se-rJD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="9rM-Vk-5eS" kind="relationship" relationship="rootViewController" id="pnN-RE-34y"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xdb-fP-D8R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3271" y="1988"/>
         </scene>
     </scenes>
     <resources>

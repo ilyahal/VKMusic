@@ -55,14 +55,14 @@ class DownloadsTableViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        DataManager.sharedInstance.dataManagerDownloadsDelegate = self
+        DataManager.sharedInstance.addDataManagerDownloadsDelegate(self)
         DownloadManager.sharedInstance.addDelegate(self)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        DataManager.sharedInstance.dataManagerDownloadsDelegate = nil
+        DataManager.sharedInstance.deleteDataManagerDownloadsDelegate(self)
         DownloadManager.sharedInstance.deleteDelegate(self)
     }
     
@@ -271,6 +271,11 @@ extension DownloadsTableViewControllerDelegate {
         return 62
     }
     
+    // Вызывается при тапе по строке таблицы
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
     // Возможно ли редактировать ячейку
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if indexPath.section == 1 {
@@ -288,13 +293,7 @@ extension DownloadsTableViewControllerDelegate {
             let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as! TrackInPlaylist
             let track = trackInPlaylist.track
             
-            if DataManager.sharedInstance.deleteTrack(track) {
-                if downloadedCount == 0 {
-                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                } else {
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                }
-            } else {
+            if !DataManager.sharedInstance.deleteTrack(track) {
                 let alertController = UIAlertController(title: "Ошибка", message: "При удалении файла произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
                 
                 let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -313,50 +312,13 @@ extension DownloadsTableViewControllerDelegate {
 extension DownloadsTableViewController: DataManagerDownloadsDelegate {
 
     // Контроллер начал изменять контент
-    func dataManagerDownloadsControllerWillChangeContent() {
-//        dispatch_async(dispatch_get_main_queue()) {
-//            self.tableView.beginUpdates()
-//        }
-    }
+    func dataManagerDownloadsControllerWillChangeContent() {}
     
     // Контроллер совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
-    func dataManagerDownloadsControllerDidChangeObject(anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-//        if activeDownloads.isEmpty {
-//            reloadTableView()
-//            return
-//        }
-        
-//        switch type {
-//        case .Insert:
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: newIndexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
-//            }
-//        case .Delete:
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
-//            }
-//        case .Update:
-//            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath!.row, inSection: activeDownloads.isEmpty ? 0 : 1)) as! OfflineAudioCell
-//            let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(indexPath!) as! TrackInPlaylist
-//            let track = trackInPlaylist.track!
-//            
-//            dispatch_async(dispatch_get_main_queue()) {
-//                cell.configureForTrack(track)
-//            }
-//        case .Move:
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
-//                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: newIndexPath!.row, inSection: self.activeDownloads.isEmpty ? 0 : 1)], withRowAnimation: .Fade)
-//            }
-//        }
-    }
+    func dataManagerDownloadsControllerDidChangeObject(anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {}
     
     // Контроллер закончил изменять контент
     func dataManagerDownloadsControllerDidChangeContent() {
-//        dispatch_async(dispatch_get_main_queue()) {
-//            self.tableView.endUpdates()
-//        }
-        
         reloadTableView()
     }
     

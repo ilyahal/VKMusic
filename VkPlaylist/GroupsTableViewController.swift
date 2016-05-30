@@ -134,14 +134,18 @@ class GroupsTableViewController: UITableViewController {
     
     func searchEnable(enable: Bool) {
         if enable {
-            searchController.searchBar.alpha = 1
-            tableView.tableHeaderView = searchController.searchBar
-            tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+            if tableView.tableHeaderView == nil {
+                searchController.searchBar.alpha = 1
+                tableView.tableHeaderView = searchController.searchBar
+                tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+            }
         } else {
-            searchController.searchBar.alpha = 0
-            searchController.active = false
-            tableView.tableHeaderView = nil
-            tableView.contentOffset = CGPointZero
+            if let _ = tableView.tableHeaderView {
+                searchController.searchBar.alpha = 0
+                searchController.active = false
+                tableView.tableHeaderView = nil
+                tableView.contentOffset = CGPointZero
+            }
         }
     }
     

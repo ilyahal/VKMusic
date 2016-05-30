@@ -36,6 +36,19 @@ class NumberOfRowsCell: UITableViewCell {
                     name = "аудиозаписей"
                 }
             }
+        case .Playlist:
+            if count >= 11 && count <= 14 {
+                name = "плейлистов"
+            } else {
+                switch count % 10 {
+                case 1:
+                    name = "плейлист"
+                case 2, 3, 4:
+                    name = "плейлиста"
+                default:
+                    name = "плейлистов"
+                }
+            }
         case .Album:
             if count >= 11 && count <= 14 {
                 name = "альбомов"
@@ -89,6 +102,7 @@ private typealias NumberOfRowsCellDataType = NumberOfRowsCell
 extension NumberOfRowsCellDataType {
     enum Type {
         case Audio // Ячейка с количеством аудиозаписей
+        case Playlist // Ячейка с количеством плейлистов
         case Album // Ячейка с количеством альбомов
         case Friend // Ячейка с количеством друзей
         case Group // Ячейка с количеством групп

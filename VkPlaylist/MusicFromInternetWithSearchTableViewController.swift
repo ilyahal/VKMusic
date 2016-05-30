@@ -14,15 +14,11 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     
     var filteredMusic: [Track]! = [] // Массив для результатов поиска по уже загруженным личным аудиозаписям
     override var activeArray: [Track] { // Массив аудиозаписей отображаемый на экране
-        let array: [Track]!
-        
         if searchController.active && searchController.searchBar.text != "" {
-            array = filteredMusic
+            return filteredMusic
         } else {
-            array = music
+            return music
         }
-        
-        return array
     }
 
     override func viewDidLoad() {
@@ -104,14 +100,18 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     // Управление доступностью поиска
     func searchEnable(enable: Bool) {
         if enable {
-            searchController.searchBar.alpha = 1
-            tableView.tableHeaderView = searchController.searchBar
-            tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+            if tableView.tableHeaderView == nil {
+                searchController.searchBar.alpha = 1
+                tableView.tableHeaderView = searchController.searchBar
+                tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+            }
         } else {
-            searchController.searchBar.alpha = 0
-            searchController.active = false
-            tableView.tableHeaderView = nil
-            tableView.contentOffset = CGPointZero
+            if let _ = tableView.tableHeaderView {
+                searchController.searchBar.alpha = 0
+                searchController.active = false
+                tableView.tableHeaderView = nil
+                tableView.contentOffset = CGPointZero
+            }
         }
     }
     

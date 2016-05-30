@@ -52,6 +52,16 @@ class DataManager: NSObject {
         } catch let error as NSError {
             print("Error: \(error.localizedDescription)")
         }
+        
+        
+        playlistsFetchedResultsController = NSFetchedResultsController(fetchRequest: playlistsFetchRequest, managedObjectContext: coreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+        playlistsFetchedResultsController.delegate = self
+        
+        do {
+            try playlistsFetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("Error: \(error.localizedDescription)")
+        }
     }
     
     
@@ -118,8 +128,26 @@ class DataManager: NSObject {
     }
     
     
+    // MARK: Загруженные треки
+    
     var downloadsFetchedResultsController: NSFetchedResultsController!
-    weak var dataManagerDownloadsDelegate: DataManagerDownloadsDelegate?
+    private var dataManagerDownloadsDelegates = [DataManagerDownloadsDelegate]()
+    
+    // Добавление нового делегата
+    func addDataManagerDownloadsDelegate(delegate: DataManagerDownloadsDelegate) {
+        if let _ = dataManagerDownloadsDelegates.indexOf({ $0 === delegate}) {
+            return
+        }
+        
+        dataManagerDownloadsDelegates.append(delegate)
+    }
+    
+    // Удаление делегата
+    func deleteDataManagerDownloadsDelegate(delegate: DataManagerDownloadsDelegate) {
+        if let index = dataManagerDownloadsDelegates.indexOf({ $0 === delegate}) {
+            dataManagerDownloadsDelegates.removeAtIndex(index)
+        }
+    }
     
     // Запрос на получение загруженных треков
     var downloadsFetchRequest: NSFetchRequest {
@@ -289,21 +317,112 @@ class DataManager: NSObject {
         return true
     }
     
+    
+    // MARK: Плейлисты
+    
+    var playlistsFetchedResultsController: NSFetchedResultsController!
+    private var dataManagerPlaylistsDelegates = [DataManagerPlaylistsDelegate]()
+    
+    // Добавление нового делегата
+    func addDataManagerPlaylistsDelegate(delegate: DataManagerPlaylistsDelegate) {
+        if let _ = dataManagerPlaylistsDelegates.indexOf({ $0 === delegate}) {
+            return
+        }
+        
+        dataManagerPlaylistsDelegates.append(delegate)
+    }
+    
+    // Удаление делегата
+    func deleteDataManagerPlaylistsDelegate(delegate: DataManagerPlaylistsDelegate) {
+        if let index = dataManagerPlaylistsDelegates.indexOf({ $0 === delegate}) {
+            dataManagerPlaylistsDelegates.removeAtIndex(index)
+        }
+    }
+    
+    // Запрос на получение плейлистов
+    var playlistsFetchRequest: NSFetchRequest {
+        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
+        fetchRequest.predicate = NSPredicate(format: "isVisible == \(true)")
+        let dateSort = NSSortDescriptor(key: "date", ascending: false)
+        fetchRequest.sortDescriptors = [dateSort]
+        
+        return fetchRequest
+    }
+    
+    
+    // Существует ли плейлист с указанным именем
+    func isExistsPlaylistWithTitle(title: String) -> Bool {
+        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
+        fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+        
+        let count = coreDataStack.context.countForFetchRequest(fetchRequest, error: nil)
+        
+        if count == 1 {
+            return true
+        }
+        
+        return false
+    }
+    
+    // Создание нового плейлиста с указанным именем и списком треков
+    func createPlaylistWithTitle(title: String, andTracks tracks: [OfflineTrack]) {
+        var entity = NSEntityDescription.entityForName(EntitiesIdentifiers.playlist, inManagedObjectContext: coreDataStack.context) // Объект плейлист
+        
+        let playlist = Playlist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
+        playlist.date = NSDate()
+        playlist.isVisible = true
+        playlist.title = title
+        
+        entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Объект трек в плейлисте
+        for (index, track) in tracks.enumerate() {
+            let trackInPlaylist = TrackInPlaylist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
+            trackInPlaylist.playlist = playlist
+            trackInPlaylist.track = track
+            trackInPlaylist.position = Int32(index)
+        }
+        
+        coreDataStack.saveContext()
+    }
+    
 }
 
 
 extension DataManager: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        dataManagerDownloadsDelegate?.dataManagerDownloadsControllerWillChangeContent()
+        if controller == downloadsFetchedResultsController {
+            dataManagerDownloadsDelegates.forEach { delegate in
+                delegate.dataManagerDownloadsControllerWillChangeContent()
+            }
+        } else if controller == playlistsFetchedResultsController {
+            dataManagerPlaylistsDelegates.forEach { delegate in
+                delegate.dataManagerPlaylistsControllerWillChangeContent()
+            }
+        }
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        dataManagerDownloadsDelegate?.dataManagerDownloadsControllerDidChangeObject(anObject, atIndexPath: indexPath, forChangeType: type, newIndexPath: newIndexPath)
+        if controller == downloadsFetchedResultsController {
+            dataManagerDownloadsDelegates.forEach { delegate in
+                delegate.dataManagerDownloadsControllerDidChangeObject(anObject, atIndexPath: indexPath, forChangeType: type, newIndexPath: newIndexPath)
+            }
+        } else if controller == playlistsFetchedResultsController {
+            dataManagerPlaylistsDelegates.forEach { delegate in
+                delegate.dataManagerPlaylistsControllerDidChangeObject(anObject, atIndexPath: indexPath, forChangeType: type, newIndexPath: newIndexPath)
+            }
+        }
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        dataManagerDownloadsDelegate?.dataManagerDownloadsControllerDidChangeContent()
+        if controller == downloadsFetchedResultsController {
+            dataManagerDownloadsDelegates.forEach { delegate in
+                delegate.dataManagerDownloadsControllerDidChangeContent()
+            }
+        } else if controller == playlistsFetchedResultsController {
+            dataManagerPlaylistsDelegates.forEach { delegate in
+                delegate.dataManagerPlaylistsControllerDidChangeContent()
+            }
+        }
     }
     
 }

@@ -148,15 +148,11 @@ class MusicFromInternetTableViewController: UITableViewController {
     
     // Получение количества треков в списке для ячейки с количеством аудиозаписей
     func getCountForCellForNumberOfAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
-        let count: Int?
-        
         if activeArray.count == indexPath.row {
-            count = activeArray.count
+            return activeArray.count
         } else {
-            count = nil
+            return nil
         }
-        
-        return count
     }
     
     // Получение трека для ячейки с треком

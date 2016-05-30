@@ -7,12 +7,24 @@
 //
 
 import UIKit
+import CoreData
 
 class PlaylistsViewController: UIViewController {
     
-    private var selected = SelectedType.Playlists
+    private var selected = SelectedType.Playlists {
+        didSet {
+            if VKAPIManager.isAuthorized && selected == .Albums {
+                pullToRefreshEnable(true)
+                return
+            }
+            
+            pullToRefreshEnable(false)
+        }
+    }
     
-    private var playlists: [Album]! // Массив для оффлайн плейлистов
+    var playlists: [Playlist] { // Массив для оффлайн плейлистов
+        return DataManager.sharedInstance.playlistsFetchedResultsController.sections!.first!.objects as! [Playlist]
+    }
     private var albums: [Album]! // Массив для альбомов ВК
 
     var currentAuthorizationStatus: Bool! // Состояние авторизации пользователя при последнем отображении экрана
@@ -33,7 +45,7 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: Загрузка локальных плейлистов из бд
+        DataManager.sharedInstance.addDataManagerPlaylistsDelegate(self)
         if VKAPIManager.isAuthorized {
             getAlbums()
         }
@@ -44,12 +56,6 @@ class PlaylistsViewController: UIViewController {
         // Настройка навигационной панели, содержащей segmented control
         navigationBar.barTintColor = UIColor.whiteColor()
         navigationBar.tintColor = (UIApplication.sharedApplication().delegate! as! AppDelegate).tintColor
-        
-        
-        // Настройка Pull-To-Refresh
-        if VKAPIManager.isAuthorized {
-            pullToRefreshEnable(true)
-        }
         
         
         // Настройка table view
@@ -118,6 +124,15 @@ class PlaylistsViewController: UIViewController {
         }
     }
     
+    // Попытка выполнить переход
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if identifier == "ShowAddPlaylistViewControllerSegue" && selected == .Albums {
+            return false
+        }
+        
+        return true
+    }
+    
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowAlbumAudioSegue" {
@@ -183,6 +198,11 @@ class PlaylistsViewController: UIViewController {
             if !pullToRefreshEnable {
                 tableView.addSubview(self.refreshControl)
                 pullToRefreshEnable = true
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.refreshControl.beginRefreshing()
+                    self.refreshControl.endRefreshing()
+                }
             }
         } else {
             if pullToRefreshEnable {
@@ -195,11 +215,150 @@ class PlaylistsViewController: UIViewController {
     func refreshAlbums() {
         getAlbums()
     }
+    
+    
+    // MARK: Получение количества строк таблицы
+    
+    // Получение количества строк в таблице при статусе "NotSearchedYet" и ошибкой при подключении к интернету
+    func numberOfRowsForNotSearchedYetStatusWithInternetErrorInTableView(tableView: UITableView, inSection section: Int) -> Int {
+        return 1 // Ячейка с сообщением об отсутствии интернет соединения
+    }
+    
+    
+    // MARK: Получение ячеек для строк таблицы helpers
+    
+    // Текст для ячейки с сообщением о том, что нет плейлистов
+    var textForNoPlaylistsRow: String {
+        return "Нет плейлистов"
+    }
+    
+    // Получение количества плейлистов в списке для ячейки с количеством плейлистов
+    func getCountForCellForNumberOfPlaylistsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
+        if playlists.count == indexPath.row {
+            return playlists.count
+        } else {
+            return nil
+        }
+    }
+    
+    // Текст для ячейки с сообщением о необходимости авторизоваться
+    var textForNoAuthorizedRow: String {
+        return "Необходимо авторизоваться"
+    }
+    
+    // Текст для ячейки с сообщением о том, что нет альбомов
+    var textForNoAlbumsRow: String {
+        return "Нет альбомов"
+    }
+    
+    // Получение количества треков в списке для ячейки с количеством альбомов
+    func getCountForCellForNumberOfAlbumsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
+        if albums.count == indexPath.row {
+            return albums.count
+        } else {
+            return nil
+        }
+    }
+    
+    
+    // MARK: Получение ячеек для строк таблицы
+    
+    // Ячейка для строки с сообщением что нет плейлистов
+    func getCellForNoPlaylistsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        cell.messageLabel.text = textForNoPlaylistsRow
+        
+        return cell
+    }
+    
+    // Ячейка для строки с плейлистом
+    func getCellForPlaylistRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let playlist = playlists[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.playlistCell, forIndexPath: indexPath) as! PlaylistCell
+        cell.titleLabel.text = playlist.title
+        
+        return cell
+    }
+    
+    // Пытаемся получить ячейку для строки с количеством плейлистов
+    func getCellForNumberOfPlaylistsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+        let count = getCountForCellForNumberOfPlaylistsRowInTableView(tableView, forIndexPath: indexPath)
+        
+        if let count = count {
+            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+            numberOfRowsCell.configureForType(.Playlist, withCount: count)
+            
+            return numberOfRowsCell
+        }
+        
+        return nil
+    }
+    
+    // Ячейка для строки когда поиск еще не выполнялся и была получена ошибка при подключении к интернету
+    func getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
+        
+        return cell
+    }
+    
+    // Ячейка для строки когда поиск еще не выполнялся
+    func getCellForNotSearchedYetRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    // Ячейка для строки с сообщением что сервер вернул пустой массив
+    func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        cell.messageLabel.text = textForNoAlbumsRow
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением о загрузке
+    func getCellForLoadingRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
+        cell.activityIndicator.startAnimating()
+        
+        return cell
+    }
+    
+    // Пытаемся получить ячейку для строки с количеством альбомов
+    func getCellForNumberOfAlbumsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+        let count = getCountForCellForNumberOfAlbumsRowInTableView(tableView, forIndexPath: indexPath)
+        
+        if let count = count {
+            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+            numberOfRowsCell.configureForType(.Album, withCount: count)
+            
+            return numberOfRowsCell
+        }
+        
+        return nil
+    }
+    
+    // Ячейка для строки с альбомом
+    func getCellForAlbumRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let album = albums[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.playlistCell, forIndexPath: indexPath) as! PlaylistCell
+        cell.titleLabel.text = album.title
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением о необходимости авторизоваться
+    func getCellForNoAuthorizedRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
+        cell.messageLabel.text = textForNoAuthorizedRow
+        
+        return cell
+    }
 
 }
 
 
-// MARK: UITableViewDataSource
+// MARK: Типы данных
 
 private typealias PlaylistsViewControllerDataTypes = PlaylistsViewController
 extension PlaylistsViewControllerDataTypes {
@@ -218,20 +377,28 @@ extension PlaylistsViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch selected {
         case .Playlists:
-            return 0
+            if playlists.count == 0 {
+                return 1
+            } else {
+                return playlists.count + 1
+            }
         case .Albums:
             if VKAPIManager.isAuthorized {
                 switch RequestManager.sharedInstance.getAlbums.state {
                 case .NotSearchedYet where RequestManager.sharedInstance.getAlbums.error == .NetworkError:
                     return 1 // Ячейка с сообщением об отсутствии интернет соединения
+                case .NotSearchedYet:
+                    return 0
                 case .Loading:
+                    if refreshControl.refreshing {
+                        return albums.count + 1
+                    }
+                    
                     return 1 // Ячейка с индикатором загрузки
                 case .NoResults:
                     return 1 // Ячейки с сообщением об отсутствии альбомов
                 case .Results:
                     return albums.count + 1 // +1 - ячейка для вывода количества строк
-                default:
-                    return 0
                 }
             }
             
@@ -242,75 +409,52 @@ extension PlaylistsViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch selected {
         case .Playlists:
-            return UITableViewCell()
+            if playlists.count == 0 {
+                return getCellForNoPlaylistsRowInTableView(tableView, forIndexPath: indexPath)
+            }
+            
+            if let numberOfRowsCell = getCellForNumberOfPlaylistsRowInTableView(tableView, forIndexPath: indexPath) {
+                return numberOfRowsCell
+            }
+            
+            return getCellForPlaylistRowInTableView(tableView, forIndexPath: indexPath)
         case .Albums:
             if VKAPIManager.isAuthorized {
                 switch RequestManager.sharedInstance.getAlbums.state {
                 case .NotSearchedYet where RequestManager.sharedInstance.getAlbums.error == .NetworkError:
-                    let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
-                    
-                    return cell
+                    return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
+                case .NotSearchedYet:
+                    return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
                 case .NoResults:
-                    let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                    cell.messageLabel.text = "Альбомы отсутствуют"
-                    
-                    return cell
+                    return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
                 case .Loading:
                     if refreshControl.refreshing {
-                        if albums.count != 0 {
-                            if albums.count == indexPath.row {
-                                let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                                numberOfRowsCell.configureForType(.Album, withCount: albums.count)
-                                
-                                return numberOfRowsCell
-                            }
-                            
-                            let album = albums[indexPath.row]
-                            
-                            let albumCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.playlistCell, forIndexPath: indexPath) as! PlaylistCell
-                            albumCell.titleLabel.text = album.title
-                            
-                            return albumCell
+                        if albums.count == 0 {
+                            return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
                         }
-                    }
-                    
-                    
-                    let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                    cell.activityIndicator.startAnimating()
-                    
-                    return cell
-                case .Results:
-                    let count: Int?
-                    
-                    if albums.count == indexPath.row {
-                        count = albums.count
-                    } else {
-                        count = nil
-                    }
-                    
-                    if let count = count {
-                        let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                        numberOfRowsCell.configureForType(.Album, withCount: count)
                         
+                        if let numberOfRowsCell = getCellForNumberOfPlaylistsRowInTableView(tableView, forIndexPath: indexPath) {
+                            return numberOfRowsCell
+                        }
+                            
+                        return getCellForAlbumRowInTableView(tableView, forIndexPath: indexPath)
+                    }
+                    
+                    return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
+                case .Results:
+                    if albums.count == 0 {
+                        return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+                    }
+                    
+                    if let numberOfRowsCell = getCellForNumberOfAlbumsRowInTableView(tableView, forIndexPath: indexPath) {
                         return numberOfRowsCell
                     }
                     
-                    
-                    let album = albums[indexPath.row]
-                    
-                    let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.playlistCell, forIndexPath: indexPath) as! PlaylistCell
-                    cell.titleLabel.text = album.title
-                    
-                    return cell
-                default:
-                    return UITableViewCell()
+                    return getCellForAlbumRowInTableView(tableView, forIndexPath: indexPath)
                 }
             }
             
-            let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-            cell.messageLabel.text = "Для отображения списка альбомов необходимо авторизоваться"
-            
-            return cell
+            return getCellForNoAuthorizedRowInTableView(tableView, forIndexPath: indexPath)
         }
     }
     
@@ -330,6 +474,26 @@ extension PlaylistsViewController: UITableViewDelegate {
                         
                 performSegueWithIdentifier("ShowAlbumAudioSegue", sender: album)
             }
+        }
+    }
+    
+}
+
+
+// MARK: DataManagerPlaylistsDelegate
+
+extension PlaylistsViewController: DataManagerPlaylistsDelegate {
+    
+    // Контроллер начал изменять контент
+    func dataManagerPlaylistsControllerWillChangeContent() {}
+    
+    // Контроллер совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
+    func dataManagerPlaylistsControllerDidChangeObject(anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {}
+    
+    // Контроллер закончил изменять контент
+    func dataManagerPlaylistsControllerDidChangeContent() {
+        if selected == .Playlists {
+            reloadTableView()
         }
     }
     

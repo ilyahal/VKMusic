@@ -18,6 +18,7 @@ struct TableViewCellIdentifiers {
     static let activeDownloadCell = "ActiveDownloadCell" // Ячейка для вывода загружаемой аудиозаписи
     static let offlineAudioCell = "OfflineAudioCell" // Ячейка для вывода оффлайн аудиозаписи
     static let playlistCell = "PlaylistCell" // Ячейка для вывода плейлиста
+    static let addToPlaylistCell = "AddToPlaylistCell" // Ячейка для вывода аудиозаписи добавляемой в плейлист
     static let friendCell = "FriendCell" // Ячейка для вывода друга
     static let groupCell = "GroupCell" // Ячейка для вывода группы
     static let numberOfRowsCell = "NumberOfRowsCell" // Ячейка для вывода количества строк в таблице
