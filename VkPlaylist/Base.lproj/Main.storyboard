@@ -208,9 +208,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Плейлисты" id="gCZ-2A-nyP">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ps0-fe-O6z">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="xai-IA-lYD">
                             <connections>
-                                <segue destination="sML-Kp-cds" kind="presentation" identifier="ShowAddPlaylistViewControllerSegue" id="XlX-rV-IOg"/>
+                                <action selector="addButtonTapped:" destination="lhN-RF-2LM" id="yU2-fj-T8l"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -220,6 +220,7 @@
                         <outlet property="tableView" destination="ZEL-n5-aj3" id="Z5j-j9-Kae"/>
                         <segue destination="lTe-XD-VCn" kind="show" identifier="ShowPlaylistAudioSegue" id="uZ6-Ly-O9q"/>
                         <segue destination="3dV-4s-2HG" kind="show" identifier="ShowAlbumAudioSegue" id="sH0-FW-TLd"/>
+                        <segue destination="sML-Kp-cds" kind="presentation" identifier="ShowAddPlaylistViewControllerSegue" id="lU0-4t-blG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpt-kD-kF2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -323,7 +324,7 @@
                                     <constraint firstAttribute="height" constant="44" id="Raz-aY-LDp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <connections>
                                     <action selector="playlistTitleTextFieldValueChanged:" destination="9rM-Vk-5eS" eventType="editingChanged" id="gdF-AH-dhE"/>
                                 </connections>
@@ -429,7 +430,16 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="&lt;Название плейлиста&gt;" id="G96-f0-kk1"/>
+                    <navigationItem key="navigationItem" title="&lt;Название плейлиста&gt;" id="G96-f0-kk1">
+                        <barButtonItem key="rightBarButtonItem" image="icon-Edit" id="iDP-Ee-iUd">
+                            <connections>
+                                <action selector="editButtonTapped:" destination="lTe-XD-VCn" id="zEa-gv-etd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="editButton" destination="iDP-Ee-iUd" id="hfA-I4-p6S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMI-4V-fgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1097,6 +1107,7 @@
     <resources>
         <image name="friend-photo-placeholder-icon" width="45" height="45"/>
         <image name="icon-Download" width="25" height="25"/>
+        <image name="icon-Edit" width="22" height="22"/>
         <image name="icon-More" width="25" height="25"/>
         <image name="icon-MyMusic" width="25" height="25"/>
         <image name="icon-Playlist" width="25" height="25"/>

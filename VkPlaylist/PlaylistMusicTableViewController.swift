@@ -10,6 +10,8 @@ import UIKit
 
 class PlaylistMusicTableViewController: UITableViewController {
     
+    weak var playlistMusicViewController: PlaylistMusicViewController!
+    
     var playlist: Playlist!
     
     var tracks: [TrackInPlaylist]!
@@ -34,13 +36,14 @@ class PlaylistMusicTableViewController: UITableViewController {
         // Настройка поисковой панели
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
-        tableView.tableHeaderView = searchController.searchBar
         
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.searchBarStyle = .Prominent
         searchController.searchBar.placeholder = "Поиск"
         definesPresentationContext = true
+        
+        searchEnable(tracks.count != 0)
         
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
@@ -97,6 +100,23 @@ class PlaylistMusicTableViewController: UITableViewController {
     
     
     // MARK: Поиск
+    
+    func searchEnable(enable: Bool) {
+        if enable {
+            if tableView.tableHeaderView == nil {
+                searchController.searchBar.alpha = 1
+                tableView.tableHeaderView = searchController.searchBar
+                tableView.hideSearchBar()
+            }
+        } else {
+            if let _ = tableView.tableHeaderView {
+                searchController.searchBar.alpha = 0
+                searchController.active = false
+                tableView.tableHeaderView = nil
+                tableView.contentOffset = CGPointZero
+            }
+        }
+    }
     
     // Выполнение поиска
     func filterContentForSearchText(searchText: String) {
@@ -201,6 +221,48 @@ extension PlaylistMusicTableViewController {
         return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
     }
     
+    // Возможно ли редактировать ячейку
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return tableView.cellForRowAtIndexPath(indexPath) is OfflineAudioCell
+    }
+    
+    // Обработка удаления ячейки
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let trackInPlaylist = activeArray[indexPath.row]
+            
+            if DataManager.sharedInstance.deleteTrackFromPlaylist(trackInPlaylist) {
+                tracks.removeAtIndex(tracks.indexOf(trackInPlaylist)!)
+                if let index = filteredMusic?.indexOf(trackInPlaylist) {
+                    filteredMusic.removeAtIndex(index)
+                }
+                
+                reloadTableView()
+            } else {
+                let alertController = UIAlertController(title: "Ошибка", message: "При удалении аудиозаписи из плейлиста произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(okAction)
+                
+                presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    // Возможно ли перемещать ячейку
+    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return tableView.cellForRowAtIndexPath(indexPath) is OfflineAudioCell
+    }
+    
+    // Обработка после перемещения ячейки
+    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+        let trackToMove = tracks[fromIndexPath.row]
+        
+        if fromIndexPath.row != toIndexPath.row {
+            DataManager.sharedInstance.moveTrackInPlaylist(trackToMove, fromPosition: Int32(fromIndexPath.row), toNewPosition: Int32(toIndexPath.row))
+        }
+    }
+    
 }
 
 
@@ -225,6 +287,15 @@ extension PlaylistMusicTableViewControllerDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    // Определяется куда переместить ячейку с укзанного NSIndexPath при перемещении в указанный NSIndexPath
+    override func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
+        if proposedDestinationIndexPath.row == activeArray.count {
+            return sourceIndexPath
+        } else {
+            return proposedDestinationIndexPath
+        }
+    }
+    
 }
 
 
@@ -234,7 +305,9 @@ extension PlaylistMusicTableViewController: UISearchBarDelegate {
     
     // Говорит делегату что пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if tracks.count != 0 {
+        if tracks.count != 0 && !editing {
+            playlistMusicViewController.editButton.enabled = false
+            
             return true
         }
         
@@ -254,6 +327,8 @@ extension PlaylistMusicTableViewController: UISearchBarDelegate {
     // В поисковой панели была нажата отмена
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         filteredMusic.removeAll()
+        
+        playlistMusicViewController.editButton.enabled = true
     }
     
 }

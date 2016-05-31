@@ -32,6 +32,7 @@ class AddPlaylistViewController: UIViewController {
         doneToolBar.setItems([flexSpace, doneButton], animated: true)
         
         playlistTitleTextField.inputAccessoryView = doneToolBar
+        playlistTitleTextField.delegate = self
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -75,4 +76,18 @@ class AddPlaylistViewController: UIViewController {
         playlistTitleTextField.resignFirstResponder()
     }
 
+}
+
+
+// MARK: UITextFieldDelegate
+
+extension AddPlaylistViewController: UITextFieldDelegate {
+    
+    // Была нажата кнопка готово
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return false
+    }
+    
 }

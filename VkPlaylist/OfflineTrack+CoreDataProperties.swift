@@ -21,6 +21,6 @@ extension OfflineTrack {
     @NSManaged var lyrics: String? // Слова
     @NSManaged var title: String // Название
     @NSManaged var file: NSData // Файл
-    @NSManaged var playlists: NSSet? // Плейлисты в которых содержится трек (TrackInPlaylist)
+    @NSManaged var playlists: NSSet // Плейлисты в которых содержится трек (TrackInPlaylist)
 
 }

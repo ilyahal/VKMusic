@@ -126,15 +126,6 @@ class PlaylistsViewController: UIViewController {
         }
     }
     
-    // Попытка выполнить переход
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if identifier == "ShowAddPlaylistViewControllerSegue" && selected == .Albums {
-            return false
-        }
-        
-        return true
-    }
-    
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowAlbumAudioSegue" {
@@ -150,6 +141,9 @@ class PlaylistsViewController: UIViewController {
         }
     }
     
+    
+    // MARK: Обработка пользовательских событий
+    
     @IBAction func segmentChanged(sender: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -163,6 +157,23 @@ class PlaylistsViewController: UIViewController {
         reloadTableView()
     }
     
+    
+    // MARK: Кнопки на навигационной панели
+    
+    // Кнопка +
+    @IBAction func addButtonTapped(sender: UIBarButtonItem) {
+        switch selected {
+        case .Playlists:
+            performSegueWithIdentifier("ShowAddPlaylistViewControllerSegue", sender: nil)
+        case .Albums:
+            let alertController = UIAlertController(title: nil, message: "Добавление альбомов будет доступно позже..", preferredStyle: .Alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(okAction)
+            
+            presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
     
     // MARK: Выполнение запроса на получение альбомов ВК
     
@@ -220,14 +231,6 @@ class PlaylistsViewController: UIViewController {
     
     func refreshAlbums() {
         getAlbums()
-    }
-    
-    
-    // MARK: Получение количества строк таблицы
-    
-    // Получение количества строк в таблице при статусе "NotSearchedYet" и ошибкой при подключении к интернету
-    func numberOfRowsForNotSearchedYetStatusWithInternetErrorInTableView(tableView: UITableView, inSection section: Int) -> Int {
-        return 1 // Ячейка с сообщением об отсутствии интернет соединения
     }
     
     
@@ -378,6 +381,8 @@ extension PlaylistsViewControllerDataTypes {
 }
 
 
+// MARK: UITableViewDataSource
+
 extension PlaylistsViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -464,10 +469,44 @@ extension PlaylistsViewController: UITableViewDataSource {
         }
     }
     
+    // Возможно ли редактировать ячейку
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        switch selected {
+        case .Playlists:
+            if tableView.cellForRowAtIndexPath(indexPath) is PlaylistCell {
+                return true
+            }
+        case .Albums:
+            return false
+        }
+        
+        return false
+    }
+    
+    // Обработка удаления ячейки
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let playlist = playlists[indexPath.row]
+            
+            if !DataManager.sharedInstance.deletePlaylist(playlist) {
+                let alertController = UIAlertController(title: "Ошибка", message: "При удалении плейлиста произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(okAction)
+                
+                presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
 }
+
+
+// MARK: UITableViewDelegate
 
 extension PlaylistsViewController: UITableViewDelegate {
     
+    // Вызывается при тапе по строке таблицы
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         

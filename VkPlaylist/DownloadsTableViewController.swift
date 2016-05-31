@@ -256,24 +256,6 @@ extension DownloadsTableViewControllerDataSource {
         }
     }
     
-}
-
-
-// MARK: UITableViewDelegate
-
-private typealias DownloadsTableViewControllerDelegate = DownloadsTableViewController
-extension DownloadsTableViewControllerDelegate {
-    
-    // Высота каждой строки
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 62
-    }
-    
-    // Вызывается при тапе по строке таблицы
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-    
     // Возможно ли редактировать ячейку
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if indexPath.section == 1 {
@@ -300,6 +282,24 @@ extension DownloadsTableViewControllerDelegate {
                 presentViewController(alertController, animated: true, completion: nil)
             }
         }
+    }
+    
+}
+
+
+// MARK: UITableViewDelegate
+
+private typealias DownloadsTableViewControllerDelegate = DownloadsTableViewController
+extension DownloadsTableViewControllerDelegate {
+    
+    // Высота каждой строки
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 62
+    }
+    
+    // Вызывается при тапе по строке таблицы
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
 }

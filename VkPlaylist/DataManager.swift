@@ -253,7 +253,7 @@ class DataManager: NSObject {
             
             
             // Смещаем все треки в плейлисте "Загрузки" на один вперед
-            for trackInPlaylist in downloadsPlaylistObject.tracks!.allObjects as! [TrackInPlaylist] {
+            for trackInPlaylist in downloadsPlaylistObject.tracks.allObjects as! [TrackInPlaylist] {
                 // FIXME: Периодически вылетает
                 trackInPlaylist.position += 1
             }
@@ -293,28 +293,11 @@ class DataManager: NSObject {
     // Удаление трека
     func deleteTrack(track: OfflineTrack) -> Bool {
         
-        // Во всех плейлистах сдвигаем треки находящиеся после удаляемого на 1
-        for trackInPlaylist in track.playlists!.allObjects as! [TrackInPlaylist] {
-            let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
-            let playlistPredicate = NSPredicate(format: "playlist == %@", trackInPlaylist.playlist)
-            let positionPredicate = NSPredicate(format: "position > \(trackInPlaylist.position)")
-            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [playlistPredicate, positionPredicate])
-            
-            do {
-                let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [TrackInPlaylist]
-                
-                if results.count != NSNotFound {
-                    for trackInPlaylist in results {
-                        trackInPlaylist.position -= 1
-                    }
-                }
-            } catch let error as NSError {
-                print("Could not fetch \(error), \(error.userInfo)")
+        // Удаляем все вхождения трека в плейлисты
+        for trackInPlaylist in track.playlists.allObjects as! [TrackInPlaylist] {
+            guard deleteTrackFromPlaylist(trackInPlaylist) else {
                 return false
             }
-            
-            // Удаляем вхождение трека в плейлист
-            coreDataStack.context.deleteObject(trackInPlaylist)
         }
         
         // Удаляем трек
@@ -352,8 +335,8 @@ class DataManager: NSObject {
     var playlistsFetchRequest: NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         fetchRequest.predicate = NSPredicate(format: "isVisible == \(true)")
-        let dateSort = NSSortDescriptor(key: "position", ascending: true)  // Сортировка плейлистов по позиции
-        fetchRequest.sortDescriptors = [dateSort]
+        let positionSort = NSSortDescriptor(key: "position", ascending: true)  // Сортировка плейлистов по позиции
+        fetchRequest.sortDescriptors = [positionSort]
         
         return fetchRequest
     }
@@ -389,10 +372,80 @@ class DataManager: NSObject {
         coreDataStack.saveContext()
     }
     
+    // Удаление плейлиста
+    func deletePlaylist(playlist: Playlist) -> Bool {
+        
+        // Удаляем все вхождения треков в плейлист
+        for trackInPlaylist in playlist.tracks.allObjects as! [TrackInPlaylist] {
+            coreDataStack.context.deleteObject(trackInPlaylist)
+        }
+        
+        // Сдвигаем все плейлисты находящиеся после этого на 1 назад
+        for _playlist in playlistsFetchedResultsController.sections!.first!.objects as! [Playlist] {
+            if _playlist.position > playlist.position {
+                _playlist.position -= 1
+            }
+        }
+        
+        // Удаляем плейлист
+        coreDataStack.context.deleteObject(playlist)
+        
+        coreDataStack.saveContext()
+        
+        return true
+    }
+    
+    
+    // MARK: Треки в плейлисте
+    
     // Получение треков из указанного плейлиста
     func getTracksForPlaylist(playlist: Playlist) -> [TrackInPlaylist] {
-        let tracksInPlaylist = playlist.tracks!.allObjects as! [TrackInPlaylist]
-        return tracksInPlaylist.sort({ $0.position > $1.position })
+        let tracksInPlaylist = playlist.tracks.allObjects as! [TrackInPlaylist]
+        return tracksInPlaylist.sort({ $0.position < $1.position })
+    }
+    
+    // Удаление трека из плейлиста
+    func deleteTrackFromPlaylist(trackInPlaylist: TrackInPlaylist) -> Bool {
+        
+        // Сдвигаем все треки находящиеся в плейлисте после удаляемого
+        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
+            if _trackInPlaylist.position > trackInPlaylist.position {
+                _trackInPlaylist.position -= 1
+            }
+        }
+        
+        // Удаляем вхождение трека в плейлист
+        coreDataStack.context.deleteObject(trackInPlaylist)
+        
+        coreDataStack.saveContext()
+        
+        return true
+    }
+    
+    // Перемещение трека в плейлисте
+    func moveTrackInPlaylist(trackInPlaylist: TrackInPlaylist, fromPosition sourcePosition: Int32, toNewPosition newPosition: Int32) {
+        
+        // Получаем перемещаемый трек и помещаем на позицию -1
+        trackInPlaylist.position = -1
+        
+        // Перемещаем все треки стоящие после позиции перемещаемого на один назад
+        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
+            if _trackInPlaylist.position > sourcePosition {
+                _trackInPlaylist.position -= 1
+            }
+        }
+        
+        // Перемещаем все треки стоящие начиная с новой позиции на один вперед
+        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
+            if _trackInPlaylist.position >= newPosition {
+                _trackInPlaylist.position += 1
+            }
+        }
+        
+        // Перемещаем трек на новую позицию
+        trackInPlaylist.position = newPosition
+        
+        coreDataStack.saveContext()
     }
     
 }
@@ -400,6 +453,7 @@ class DataManager: NSObject {
 
 extension DataManager: NSFetchedResultsControllerDelegate {
     
+    // Контроллер начал изменять контент
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         if controller == downloadsFetchedResultsController {
             dataManagerDownloadsDelegates.forEach { delegate in
@@ -412,6 +466,7 @@ extension DataManager: NSFetchedResultsControllerDelegate {
         }
     }
     
+    // Контроллер изменил объект
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         if controller == downloadsFetchedResultsController {
             dataManagerDownloadsDelegates.forEach { delegate in
@@ -424,6 +479,7 @@ extension DataManager: NSFetchedResultsControllerDelegate {
         }
     }
     
+    // Контроллер завершил изменение контента
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         if controller == downloadsFetchedResultsController {
             dataManagerDownloadsDelegates.forEach { delegate in
