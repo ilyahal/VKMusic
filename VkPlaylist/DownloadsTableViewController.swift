@@ -31,10 +31,8 @@ class DownloadsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
-        
         
         // Регистрация ячеек
         var cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil) // Ячейка "Ничего не найдено"
@@ -59,8 +57,8 @@ class DownloadsTableViewController: UITableViewController {
         DownloadManager.sharedInstance.addDelegate(self)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         
         DataManager.sharedInstance.deleteDataManagerDownloadsDelegate(self)
         DownloadManager.sharedInstance.deleteDelegate(self)

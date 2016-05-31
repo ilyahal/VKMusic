@@ -13,7 +13,6 @@ class OwnerMusicTableViewController: MusicFromInternetWithSearchTableViewControl
     private var toDelete = true // Флаг на отчистку загруженных результатов
     
     var id: Int! // Идентификатор владельца, чьи аудиозаписи загружаются
-    var name: String? // Имя владельца
     
     override var getRequest: (() -> Void)! {
         return getOwnerMusic
@@ -35,20 +34,17 @@ class OwnerMusicTableViewController: MusicFromInternetWithSearchTableViewControl
             getRequest()
         }
         
-        // Настройка навигационной панели
-        title = name
-        
         // Настройка поисковой панели
         searchController.searchBar.placeholder = "Поиск"
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         toDelete = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
         if toDelete {

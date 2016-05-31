@@ -12,8 +12,7 @@ class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewControl
 
     private var toDelete = true // Флаг на отчистку загруженных результатов
     
-    var id: Int! // Идентификатор альбома, чьи аудиозаписи загружаются
-    var name: String? // Название альбома
+    var album: Album!
     
     override var getRequest: (() -> Void)! {
         return getAlbumMusic
@@ -34,20 +33,17 @@ class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewControl
             getRequest()
         }
         
-        // Настройка навигационной панели
-        title = name
-        
         // Настройка поисковой панели
         searchController.searchBar.placeholder = "Поиск"
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         toDelete = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
         if toDelete {
@@ -64,7 +60,7 @@ class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewControl
     // MARK: Выполнение запроса на получение аудиозаписей альбома
     
     func getAlbumMusic() {
-        RequestManager.sharedInstance.getAlbumAudio.performRequest([.AlbumID : id]) { success in
+        RequestManager.sharedInstance.getAlbumAudio.performRequest([.AlbumID : album.id!]) { success in
             self.music = DataManager.sharedInstance.albumMusic.array
             
             self.reloadTableView()

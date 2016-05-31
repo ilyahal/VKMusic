@@ -25,8 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         customizeAppearance()
         defaultFillDataBase() // Создание плейлиста "Загрузки"
-        //DataManager.sharedInstance // Инициализация DataManager
-        initializeDownloadsTableViewController() // Загрузка загруженных треков
         
         // Инициализация SwiftyVK с id приложения и делегатом
         VK.start(appID: VKAPIManager.applicationID, delegate: self)
@@ -53,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: () -> Void) {
         backgroundSessionCompletionHandler = completionHandler
     }
+    
 
     // MARK: - Кастомизация приложения
     
@@ -65,6 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]
     }
+    
     
     // MARK: CoreData
     
@@ -85,13 +85,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         coreDataStack.saveContext()
     }
     
-    // Загрузка загруженных треков
-    func initializeDownloadsTableViewController() {
-        let tabBarController = window!.rootViewController as! UITabBarController
-        let navigationController = tabBarController.viewControllers![1] as! UINavigationController
-        let downloadsTableViewController = navigationController.viewControllers.first as! DownloadsTableViewController
-        downloadsTableViewController.reloadTableView()
-    }
     
     // MARK: Авторизация пользователя
     
@@ -102,6 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
 }
+
 
 // MARK: VKDelegate
 

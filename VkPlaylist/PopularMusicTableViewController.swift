@@ -1,5 +1,5 @@
 //
-//  PopularTableViewController.swift
+//  PopularMusicTableViewController.swift
 //  VkPlaylist
 //
 //  Created by Илья Халяпин on 11.05.16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PopularTableViewController: MusicFromInternetTableViewController {
+class PopularMusicTableViewController: MusicFromInternetTableViewController {
     
     private var toDelete = true // Флаг на отчистку загруженных результатов
     
@@ -33,13 +33,13 @@ class PopularTableViewController: MusicFromInternetTableViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         toDelete = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
         if toDelete {

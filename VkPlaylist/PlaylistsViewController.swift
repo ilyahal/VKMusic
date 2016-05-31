@@ -52,21 +52,18 @@ class PlaylistsViewController: UIViewController {
         
         currentAuthorizationStatus = VKAPIManager.isAuthorized
         
-        
         // Настройка навигационной панели, содержащей segmented control
         navigationBar.barTintColor = UIColor.whiteColor()
         navigationBar.tintColor = (UIApplication.sharedApplication().delegate! as! AppDelegate).tintColor
-        
         
         // Настройка table view
         tableView.dataSource = self
         tableView.delegate = self
         
-        
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
         tableView.contentInset = UIEdgeInsets(top: navigationBar.bounds.height, left: 0, bottom: 0, right: 0) // Верхний отступ для контента, что бы первая ячейка не скрывалась под навигационным баром
-        
+        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
         
         // Регистрация ячеек
         var cellNib = UINib(nibName: TableViewCellIdentifiers.noAuthorizedCell, bundle: nil) // Ячейка "Необходимо авторизоваться"
@@ -139,11 +136,10 @@ class PlaylistsViewController: UIViewController {
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowAlbumAudioSegue" {
-            let albumMusicTableViewController = segue.destinationViewController as! AlbumMusicTableViewController
+            let albumMusicViewController = segue.destinationViewController as! AlbumMusicViewController
             let album = sender as! Album
             
-            albumMusicTableViewController.id = album.id
-            albumMusicTableViewController.name = album.title
+            albumMusicViewController.album = album
         } else if segue.identifier == "ShowPlaylistAudioSegue" {
             let playlistMusicViewController = segue.destinationViewController as! PlaylistMusicViewController
             let playlist = sender as! Playlist

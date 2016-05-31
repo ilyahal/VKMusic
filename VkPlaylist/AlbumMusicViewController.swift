@@ -1,23 +1,23 @@
 //
-//  PlaylistMusicViewController.swift
+//  AlbumMusicViewController.swift
 //  VkPlaylist
 //
-//  Created by Илья Халяпин on 30.05.16.
+//  Created by Илья Халяпин on 31.05.16.
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
 import UIKit
 
-class PlaylistMusicViewController: UIViewController {
+class AlbumMusicViewController: UIViewController {
 
-    var playlist: Playlist!
-    
+    var album: Album!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Настройка навигационной панели
-        title = playlist.title
+        title = album.title
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -27,10 +27,10 @@ class PlaylistMusicViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowPlaylistMusicTableViewControllerInContainerSegue" {
-            let playlistMusicTableViewController = segue.destinationViewController as! PlaylistMusicTableViewController
-            playlistMusicTableViewController.playlist = playlist
+        if segue.identifier == "ShowAlbumMusicTableViewControllerInContainerSegue" {
+            let albumMusicTableViewController = segue.destinationViewController as! AlbumMusicTableViewController
+            albumMusicTableViewController.album = album
         }
     }
-    
+
 }

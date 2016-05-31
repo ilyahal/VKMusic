@@ -25,26 +25,12 @@ class MoreTableViewController: UITableViewController {
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        DataManager.sharedInstance.friends.clear()
-        if !RequestManager.sharedInstance.getFriends.cancel() {
-            RequestManager.sharedInstance.getFriends.dropState()
-        }
-        
-        DataManager.sharedInstance.groups.clear()
-        if !RequestManager.sharedInstance.getGroups.cancel() {
-            RequestManager.sharedInstance.getGroups.dropState()
-        }
-    }
-    
     // Заполнение массива ссылок на экраны
     func fillLinksToScreensArray() {
-        linksToScreens.append(LinkToScreen(title: "Друзья", icon: "icon-UserReverse", segueIdentifier: "ShowFriendsSegue"))
-        linksToScreens.append(LinkToScreen(title: "Группы", icon: "icon-MultipleUsersReverse", segueIdentifier: "ShowGroupsSegue"))
-        linksToScreens.append(LinkToScreen(title: "Рекомендации", icon: "icon-Recommendation", segueIdentifier: "ShowRecommendationsSegue"))
-        linksToScreens.append(LinkToScreen(title: "Популярное", icon: "icon-Favorite", segueIdentifier: "ShowPopularSegue"))
+        linksToScreens.append(LinkToScreen(title: "Друзья", icon: "icon-UserReverse", segueIdentifier: "ShowFriendsViewControllerSegue"))
+        linksToScreens.append(LinkToScreen(title: "Группы", icon: "icon-MultipleUsersReverse", segueIdentifier: "ShowGroupsViewControllerSegue"))
+        linksToScreens.append(LinkToScreen(title: "Рекомендации", icon: "icon-Recommendation", segueIdentifier: "ShowRecommendationsMusicViewControllerSegue"))
+        linksToScreens.append(LinkToScreen(title: "Популярное", icon: "icon-Favorite", segueIdentifier: "ShowPopularMusicViewControllerSegue"))
         linksToScreens.append(LinkToScreen(title: "Настройки", icon: "icon-Settings", segueIdentifier: "ShowSettingsSegue"))
     }
 

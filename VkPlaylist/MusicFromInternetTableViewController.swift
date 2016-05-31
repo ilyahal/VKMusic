@@ -39,16 +39,13 @@ class MusicFromInternetTableViewController: UITableViewController {
         
         DownloadManager.sharedInstance.addDelegate(self)
         
-        
         // Настройка Pull-To-Refresh
         if VKAPIManager.isAuthorized {
             pullToRefreshEnable(true)
         }
         
-        
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
-        
         
         // Регистрация ячеек
         var cellNib = UINib(nibName: TableViewCellIdentifiers.noAuthorizedCell, bundle: nil) // Ячейка "Необходимо авторизоваться"
@@ -424,16 +421,10 @@ extension MusicFromInternetTableViewControllerDelegate {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if VKAPIManager.isAuthorized {
             if requestManagerStatus == .Results {
-                let count: Int?
-                
-                if activeArray.count == indexPath.row {
-                    count = activeArray.count
-                } else {
-                    count = nil
-                }
-                
-                if let _ = count {
-                    return 44
+                if activeArray.count != 0 {
+                    if activeArray.count == indexPath.row {
+                        return 44
+                    }
                 }
             }
         }

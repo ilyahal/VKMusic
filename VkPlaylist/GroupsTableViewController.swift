@@ -10,10 +10,20 @@ import UIKit
 
 class GroupsTableViewController: UITableViewController {
     
+    private var toDelete = true // Флаг на отчистку загруженных результатов
+    
     private var imageCache: NSCache!
     
     private var groups: [Group]!
     private var filteredGroups: [Group]! // Массив для результатов поиска по уже загруженному списку групп
+    
+    var activeArray: [Group] {
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredGroups
+        } else {
+            return groups
+        }
+    }
     
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -26,7 +36,6 @@ class GroupsTableViewController: UITableViewController {
             
             getGroups()
         }
-        
         
         // Настройка поисковой панели
         searchController.searchResultsUpdater = self
@@ -42,6 +51,8 @@ class GroupsTableViewController: UITableViewController {
             searchEnable(true)
         }
         
+        // Кастомизация tableView
+        tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
         
         // Регистрация ячеек
         var cellNib = UINib(nibName: TableViewCellIdentifiers.noAuthorizedCell, bundle: nil) // Ячейка "Необходимо авторизоваться"
@@ -60,7 +71,35 @@ class GroupsTableViewController: UITableViewController {
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
     
-    deinit{
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let _ = tableView.tableHeaderView {
+            if tableView.contentOffset.y == 0 {
+                tableView.hideSearchBar()
+            }
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        toDelete = true
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if toDelete {
+            imageCache?.removeAllObjects()
+            DataManager.sharedInstance.groups.clear()
+            if !RequestManager.sharedInstance.getGroups.cancel() {
+                RequestManager.sharedInstance.getGroups.dropState()
+            }
+        }
+    }
+    
+    deinit {
         if let superView = searchController.view.superview
         {
             superView.removeFromSuperview()
@@ -76,12 +115,14 @@ class GroupsTableViewController: UITableViewController {
     
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowGroupAudioSegue" {
-            let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
+        if segue.identifier == "ShowGroupAudioViewControllerSegue" {
+            let ownerMusicViewController = segue.destinationViewController as! OwnerMusicViewController
             let group = sender as! Group
             
-            ownerMusicTableViewController.id = group.id! * -1
-            ownerMusicTableViewController.name = group.name
+            ownerMusicViewController.id = group.id! * -1
+            ownerMusicViewController.name = group.name
+            
+            toDelete = false
         }
     }
     
@@ -137,7 +178,7 @@ class GroupsTableViewController: UITableViewController {
             if tableView.tableHeaderView == nil {
                 searchController.searchBar.alpha = 1
                 tableView.tableHeaderView = searchController.searchBar
-                tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+                tableView.hideSearchBar()
             }
         } else {
             if let _ = tableView.tableHeaderView {
@@ -155,6 +196,104 @@ class GroupsTableViewController: UITableViewController {
         }
     }
     
+    
+    // MARK: Получение ячеек для строк таблицы helpers
+    
+    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
+    var textForNoResultsRow: String {
+        return "Список групп пуст"
+    }
+    
+    // Текст для ячейки с сообщением о том, что при поиске ничего не найдено
+    var textForNothingFoundRow: String {
+        return "Измените поисковый запрос"
+    }
+    
+    // Получение количества групп в списке для ячейки с количеством групп
+    func getCountForCellForNumberOfGroupsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
+        if activeArray.count == indexPath.row {
+            return activeArray.count
+        } else {
+            return nil
+        }
+    }
+    
+    // Текст для ячейки с сообщением о необходимости авторизоваться
+    var textForNoAuthorizedRow: String {
+        return "Необходимо авторизоваться"
+    }
+    
+    
+    // MARK: Получение ячеек для строк таблицы
+    
+    // Ячейка для строки когда поиск еще не выполнялся и была получена ошибка при подключении к интернету
+    func getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
+        
+        return cell
+    }
+    
+    // Ячейка для строки когда поиск еще не выполнялся
+    func getCellForNotSearchedYetRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    // Ячейка для строки с сообщением что сервер вернул пустой массив
+    func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        cell.messageLabel.text = textForNoResultsRow
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением, что при поиске ничего не было найдено
+    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        nothingFoundCell.messageLabel.text = textForNothingFoundRow
+        
+        return nothingFoundCell
+    }
+    
+    // Ячейка для строки с сообщением о загрузке
+    func getCellForLoadingRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
+        cell.activityIndicator.startAnimating()
+        
+        return cell
+    }
+    
+    // Пытаемся получить ячейку для строки с количеством групп
+    func getCellForNumberOfGroupsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+        let count = getCountForCellForNumberOfGroupsRowInTableView(tableView, forIndexPath: indexPath)
+        
+        if let count = count {
+            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+            numberOfRowsCell.configureForType(.Group, withCount: count)
+            
+            return numberOfRowsCell
+        }
+        
+        return nil
+    }
+    
+    // Ячейка для строки с группой
+    func getCellForRowWithGroupInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let group = activeArray[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.groupCell, forIndexPath: indexPath) as! GroupCell
+        cell.configureForGroup(group, withImageCacheStorage: imageCache)
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением о необходимости авторизоваться
+    func getCellForNoAuthorizedRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
+        cell.messageLabel.text = textForNoAuthorizedRow
+        
+        return cell
+    }
+    
 }
 
 // MARK: UITableViewDataSource
@@ -168,18 +307,14 @@ extension GroupsTableViewControllerDataSource {
             switch RequestManager.sharedInstance.getGroups.state {
             case .NotSearchedYet where RequestManager.sharedInstance.getGroups.error == .NetworkError:
                 return 1 // Ячейка с сообщением об отсутствии интернет соединения
+            case .NotSearchedYet:
+                return 0
             case .Loading:
                 return 1 // Ячейка с индикатором загрузки
             case .NoResults:
                 return 1 // Ячейки с сообщением об отсутствии групп
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
-                    return filteredGroups.count == 0 ? 1 : filteredGroups.count + 1 // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных друзей
-                }
-                
-                return groups.count + 1
-            default:
-                return 0
+                return activeArray.count + 1
             }
         }
         
@@ -191,67 +326,24 @@ extension GroupsTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getGroups.state {
             case .NotSearchedYet where RequestManager.sharedInstance.getGroups.error == .NetworkError:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
-                
-                return cell
+                return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
+            case .NotSearchedYet:
+                return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
             case .NoResults:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                cell.messageLabel.text = "Список групп пуст"
-                
-                return cell
+                return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
             case .Loading:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                cell.activityIndicator.startAnimating()
-                
-                return cell
+                return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == 0 {
-                    let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                    nothingFoundCell.messageLabel.text = "Измените поисковый запрос"
-                    
-                    return nothingFoundCell
-                }
-                
-                
-                let count: Int?
-                
-                if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == indexPath.row {
-                    count = filteredGroups.count
-                } else if groups.count == indexPath.row {
-                    count = groups.count
-                } else {
-                    count = nil
-                }
-                
-                if let count = count {
-                    let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                    numberOfRowsCell.configureForType(.Group, withCount: count)
-                    
+                    return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                } else if let numberOfRowsCell = getCellForNumberOfGroupsRowInTableView(tableView, forIndexPath: indexPath) {
                     return numberOfRowsCell
                 }
-                
-                
-                var group: Group
-                
-                if searchController.active && searchController.searchBar.text != "" {
-                    group = filteredGroups[indexPath.row]
-                } else {
-                    group = groups[indexPath.row]
-                }
-                
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.groupCell, forIndexPath: indexPath) as! GroupCell
-                cell.configureForGroup(group, withImageCacheStorage: imageCache)
-                
-                return cell
-            default:
-                return UITableViewCell()
+                return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
             }
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        cell.messageLabel.text = "Для отображения списка групп необходимо авторизоваться"
-        
-        return cell
+        return getCellForNoAuthorizedRowInTableView(tableView, forIndexPath: indexPath)
     }
     
 }
@@ -266,18 +358,10 @@ extension GroupsTableViewControllerDelegate {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if VKAPIManager.isAuthorized {
             if RequestManager.sharedInstance.getGroups.state == .Results {
-                let count: Int?
-                
-                if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == indexPath.row {
-                    count = filteredGroups.count
-                } else if groups.count == indexPath.row {
-                    count = groups.count
-                } else {
-                    count = nil
-                }
-                
-                if let _ = count {
-                    return 44
+                if activeArray.count != 0 {
+                    if activeArray.count == indexPath.row {
+                        return 44
+                    }
                 }
             }
         }
@@ -285,19 +369,12 @@ extension GroupsTableViewControllerDelegate {
         return 62
     }
     
+    // Вызывается при тапе по строке таблицы
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if tableView.cellForRowAtIndexPath(indexPath) is GroupCell {
-            var group: Group
-                
-            if searchController.active && searchController.searchBar.text != "" {
-                group = filteredGroups[indexPath.row]
-            } else {
-                group = groups[indexPath.row]
-            }
-            
-            performSegueWithIdentifier("ShowGroupAudioSegue", sender: group)
+            performSegueWithIdentifier("ShowGroupAudioViewControllerSegue", sender: activeArray[indexPath.row])
         }
     }
     
@@ -307,6 +384,15 @@ extension GroupsTableViewControllerDelegate {
 // MARK: UISearchBarDelegate
 
 extension GroupsTableViewController: UISearchBarDelegate {
+    
+    // Говорит делегату что пользователь хочет начать поиск
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        if groups.count != 0 {
+            return true
+        }
+        
+        return false
+    }
     
     // Вызывается когда пользователь начал редактирование поискового текста
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
@@ -318,6 +404,7 @@ extension GroupsTableViewController: UISearchBarDelegate {
         view.removeGestureRecognizer(tapRecognizer)
     }
     
+    // В поисковой панели была нажата отмена
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         filteredGroups.removeAll()
     }

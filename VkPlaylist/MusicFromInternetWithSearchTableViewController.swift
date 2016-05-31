@@ -24,7 +24,6 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         // Настройка поисковой панели
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -49,9 +48,15 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
                 searchEnable(false)
             }
         }
+        
+        if let _ = tableView.tableHeaderView {
+            if tableView.contentOffset.y == 0 {
+                tableView.hideSearchBar()
+            }
+        }
     }
     
-    deinit{
+    deinit {
         if let superView = searchController.view.superview
         {
             superView.removeFromSuperview()
@@ -103,7 +108,7 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
             if tableView.tableHeaderView == nil {
                 searchController.searchBar.alpha = 1
                 tableView.tableHeaderView = searchController.searchBar
-                tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+                tableView.hideSearchBar()
             }
         } else {
             if let _ = tableView.tableHeaderView {

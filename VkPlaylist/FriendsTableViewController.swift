@@ -10,12 +10,23 @@ import UIKit
 
 class FriendsTableViewController: UITableViewController {
 
+    private var toDelete = true // Флаг на отчистку загруженных результатов
+    
     private var imageCache: NSCache!
+    
     private var names: [String: [Friend]]!
     private var nameSectionTitles: [String]!
     
     private var friends: [Friend]!
     private var filteredFriends: [Friend]! // Массив для результатов поиска по уже загруженному списку друзей
+    
+    var activeArray: [Friend] {
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredFriends
+        } else {
+            return friends
+        }
+    }
     
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -29,7 +40,6 @@ class FriendsTableViewController: UITableViewController {
             
             getFriends()
         }
-        
         
         // Настройка поисковой панели
         searchController.searchResultsUpdater = self
@@ -45,6 +55,8 @@ class FriendsTableViewController: UITableViewController {
             searchEnable(true)
         }
         
+        // Кастомизация tableView
+        tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
         
         // Регистрация ячеек
         var cellNib = UINib(nibName: TableViewCellIdentifiers.noAuthorizedCell, bundle: nil) // Ячейка "Необходимо авторизоваться"
@@ -63,7 +75,35 @@ class FriendsTableViewController: UITableViewController {
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
     
-    deinit{
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let _ = tableView.tableHeaderView {
+            if tableView.contentOffset.y == 0 {
+                tableView.hideSearchBar()
+            }
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        toDelete = true
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if toDelete {
+            imageCache?.removeAllObjects()
+            DataManager.sharedInstance.friends.clear()
+            if !RequestManager.sharedInstance.getFriends.cancel() {
+                RequestManager.sharedInstance.getFriends.dropState()
+            }
+        }
+    }
+    
+    deinit {
         if let superView = searchController.view.superview
         {
             superView.removeFromSuperview()
@@ -79,12 +119,14 @@ class FriendsTableViewController: UITableViewController {
     
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowFriendAudioSegue" {
-            let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
+        if segue.identifier == "ShowFriendAudioViewControllerSegue" {
+            let ownerMusicViewController = segue.destinationViewController as! OwnerMusicViewController
             let friend = sender as! Friend
             
-            ownerMusicTableViewController.id = friend.id
-            ownerMusicTableViewController.name = friend.getFullName()
+            ownerMusicViewController.id = friend.id
+            ownerMusicViewController.name = friend.getFullName()
+            
+            toDelete = false
         }
     }
     
@@ -154,7 +196,6 @@ class FriendsTableViewController: UITableViewController {
             
             self.reloadTableView()
             
-            
             if !success {
                 switch RequestManager.sharedInstance.getFriends.error {
                 case .UnknownError:
@@ -181,7 +222,7 @@ class FriendsTableViewController: UITableViewController {
             if tableView.tableHeaderView == nil {
                 searchController.searchBar.alpha = 1
                 tableView.tableHeaderView = searchController.searchBar
-                tableView.contentOffset = CGPointMake(0, CGRectGetHeight(searchController.searchBar.frame)) // Прячем строку поиска
+                tableView.hideSearchBar()
             }
         } else {
             if let _ = tableView.tableHeaderView {
@@ -197,6 +238,126 @@ class FriendsTableViewController: UITableViewController {
         filteredFriends = friends.filter { friend in
             return friend.first_name!.lowercaseString.containsString(searchText.lowercaseString) || friend.last_name!.lowercaseString.containsString(searchText.lowercaseString)
         }
+    }
+    
+    
+    // MARK: Получение ячеек для строк таблицы helpers
+    
+    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
+    var textForNoResultsRow: String {
+        return "Список друзей пуст"
+    }
+    
+    // Текст для ячейки с сообщением о том, что при поиске ничего не найдено
+    var textForNothingFoundRow: String {
+        return "Измените поисковый запрос"
+    }
+    
+    // Получение количества друзей в списке для ячейки с количеством друзей
+    func getCountForCellForNumberOfFriendsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
+        if activeArray.count == indexPath.row {
+            return activeArray.count
+        } else {
+            return nil
+        }
+    }
+    
+    // Текст для ячейки с сообщением о необходимости авторизоваться
+    var textForNoAuthorizedRow: String {
+        return "Необходимо авторизоваться"
+    }
+    
+    
+    // MARK: Получение ячеек для строк таблицы
+    
+    // Ячейка для строки когда поиск еще не выполнялся и была получена ошибка при подключении к интернету
+    func getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
+        
+        return cell
+    }
+    
+    // Ячейка для строки когда поиск еще не выполнялся
+    func getCellForNotSearchedYetRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    // Ячейка для строки с сообщением что сервер вернул пустой массив
+    func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        cell.messageLabel.text = textForNoResultsRow
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением, что при поиске ничего не было найдено
+    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        nothingFoundCell.messageLabel.text = textForNothingFoundRow
+        
+        return nothingFoundCell
+    }
+    
+    // Ячейка для строки с сообщением о загрузке
+    func getCellForLoadingRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
+        cell.activityIndicator.startAnimating()
+        
+        return cell
+    }
+    
+    // Пытаемся получить ячейку для строки с количеством друзей
+    func getCellForNumberOfFriendsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+        let sectionTitle = nameSectionTitles[indexPath.section]
+        let sectionNames = names[sectionTitle]
+        
+        let count: Int?
+        
+        if searchController.active && !searchController.searchBar.text!.isEmpty && filteredFriends.count == indexPath.row {
+            count = filteredFriends.count
+        } else if searchController.searchBar.text!.isEmpty && sectionNames!.count == indexPath.row {
+            count = friends.count
+        } else {
+            count = nil
+        }
+        
+        //let count = getCountForCellForNumberOfFriendsRowInTableView(tableView, forIndexPath: indexPath)
+        
+        if let count = count {
+            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+            numberOfRowsCell.configureForType(.Friend, withCount: count)
+            
+            return numberOfRowsCell
+        }
+        
+        return nil
+    }
+    
+    // Ячейка для строки с другом
+    func getCellForRowWithGroupInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let sectionTitle = nameSectionTitles[indexPath.section]
+        let sectionNames = names[sectionTitle]
+        
+        var friend: Friend
+        
+        if searchController.active && searchController.searchBar.text != "" {
+            friend = filteredFriends[indexPath.row]
+        } else {
+            friend = sectionNames![indexPath.row]
+        }
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.friendCell, forIndexPath: indexPath) as! FriendCell
+        cell.configureForFriend(friend, withImageCacheStorage: imageCache)
+        
+        return cell
+    }
+    
+    // Ячейка для строки с сообщением о необходимости авторизоваться
+    func getCellForNoAuthorizedRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
+        cell.messageLabel.text = textForNoAuthorizedRow
+        
+        return cell
     }
 
 }
@@ -280,71 +441,24 @@ extension FriendsTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getFriends.state {
             case .NotSearchedYet where RequestManager.sharedInstance.getFriends.error == .NetworkError:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
-                
-                return cell
+               return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
+            case .NotSearchedYet:
+                return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
             case .NoResults:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                cell.messageLabel.text = "Список друзей пуст"
-                
-                return cell
+                return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
             case .Loading:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
-                cell.activityIndicator.startAnimating()
-                
-                return cell
+                return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == 0 {
-                    let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-                    nothingFoundCell.messageLabel.text = "Измените поисковый запрос"
-                    
-                    return nothingFoundCell
-                }
-                
-                
-                let sectionTitle = nameSectionTitles[indexPath.section]
-                let sectionNames = names[sectionTitle]
-                
-                
-                let count: Int?
-                
-                if searchController.active && !searchController.searchBar.text!.isEmpty && filteredFriends.count == indexPath.row {
-                    count = filteredFriends.count
-                } else if searchController.searchBar.text!.isEmpty && sectionNames!.count == indexPath.row {
-                    count = friends.count
-                } else {
-                    count = nil
-                }
-                
-                if let count = count {
-                    let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
-                    numberOfRowsCell.configureForType(.Friend, withCount: count)
-                    
+                    return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                } else if let numberOfRowsCell = getCellForNumberOfFriendsRowInTableView(tableView, forIndexPath: indexPath) {
                     return numberOfRowsCell
                 }
-                
-                
-                var friend: Friend
-                
-                if searchController.active && searchController.searchBar.text != "" {
-                    friend = filteredFriends[indexPath.row]
-                } else {
-                    friend = sectionNames![indexPath.row]
-                }
-                
-                let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.friendCell, forIndexPath: indexPath) as! FriendCell
-                cell.configureForFriend(friend, withImageCacheStorage: imageCache)
-                
-                return cell
-            default:
-                return UITableViewCell()
+                return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
             }
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        cell.messageLabel.text = "Для отображения списка друзей необходимо авторизоваться"
-        
-        return cell
+        return getCellForNoAuthorizedRowInTableView(tableView, forIndexPath: indexPath)
     }
     
     // Получение массива индексов секций таблицы
@@ -414,7 +528,7 @@ extension FriendsTableViewControllerDelegate {
                 friend = sectionNames![indexPath.row]
             }
             
-            performSegueWithIdentifier("ShowFriendAudioSegue", sender: friend)
+            performSegueWithIdentifier("ShowFriendAudioViewControllerSegue", sender: friend)
         }
     }
     
@@ -424,6 +538,15 @@ extension FriendsTableViewControllerDelegate {
 // MARK: UISearchBarDelegate
 
 extension FriendsTableViewController: UISearchBarDelegate {
+    
+    // Говорит делегату что пользователь хочет начать поиск
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        if friends.count != 0 {
+            return true
+        }
+        
+        return false
+    }
     
     // Вызывается когда пользователь начал редактирование поискового текста
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
@@ -435,6 +558,7 @@ extension FriendsTableViewController: UISearchBarDelegate {
         view.removeGestureRecognizer(tapRecognizer)
     }
     
+    // В поисковой панели была нажата отмена
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         filteredFriends.removeAll()
     }
