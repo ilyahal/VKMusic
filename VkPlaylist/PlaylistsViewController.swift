@@ -95,7 +95,9 @@ class PlaylistsViewController: UIViewController {
             currentAuthorizationStatus = VKAPIManager.isAuthorized
             
             if VKAPIManager.isAuthorized {
-                pullToRefreshEnable(true)
+                if selected == .Albums {
+                    pullToRefreshEnable(true)
+                }
                 
                 getAlbums()
             } else {

@@ -7,13 +7,15 @@
 //
 
 class Track {
-    let artist: String?
-    let lyrics_id: Int?
-    let id: Int32?
-    let title: String?
-    let duration: Int32?
-    let owner_id: Int32?
-    let url: String?
+    
+    let artist: String? // Исполнитель
+    let lyrics_id: Int? // Идентификатор слов
+    let id: Int32? // Идентификатор
+    let title: String? // Название
+    let duration: Int32? // Продолжительность
+    let owner_id: Int32? // Идентификатор владельца
+    let url: String? // Ссылка
+    
     
     init(artist: String?, lyrics_id: Int?, id: Int32?, title: String?, duration: Int32?, owner_id: Int32?, url: String?) {
         self.artist = artist
@@ -24,4 +26,5 @@ class Track {
         self.owner_id = owner_id
         self.url = url
     }
+    
 }

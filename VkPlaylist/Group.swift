@@ -7,13 +7,16 @@
 //
 
 class Group {
-    let id: Int?
-    let name: String?
-    let photo_200: String?
+    
+    let id: Int? // Идентификатор
+    let name: String? // Название
+    let photo_200: String? // Фотография
+    
     
     init(id: Int?, name: String?, photo_200: String?) {
         self.id = id
         self.name = name
         self.photo_200 = photo_200
     }
+    
 }

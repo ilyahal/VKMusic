@@ -55,18 +55,8 @@ class AddPlaylistViewController: UIViewController {
         view.endEditing(true)
         
         let title = playlistTitleTextField.text!
-        
-        if DataManager.sharedInstance.isExistsPlaylistWithTitle(playlistTitleTextField.text!) {
-            let alertController = UIAlertController(title: "Ошибка", message: "Плейлист с таким названием уже существует, необходимо выбрать другое название!", preferredStyle: .Alert)
-            
-            let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alertController.addAction(okAction)
-            
-            presentViewController(alertController, animated: true, completion: nil)
-            return
-        }
-        
         let tracks = addPlaylistMusicTableViewController.selectedTracks.map {$1} // Массив выбранных треков
+        
         DataManager.sharedInstance.createPlaylistWithTitle(title, andTracks: tracks)
         
         dismissViewControllerAnimated(true, completion: nil)

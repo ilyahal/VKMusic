@@ -7,11 +7,14 @@
 //
 
 class Album {
-    let id: Int?
-    let title: String?
+    
+    let id: Int? // Идентификатор
+    let title: String? // Название
+    
     
     init(id: Int?, title: String?) {
         self.id = id
         self.title = title
     }
+    
 }

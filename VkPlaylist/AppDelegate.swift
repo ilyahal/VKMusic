@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Вызывается при запуске приложения
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         customizeAppearance()
-        defaultFillDataBase() // Создание плейлиста "Загрузки"
+        DataManager.sharedInstance
         
         // Инициализация SwiftyVK с id приложения и делегатом
         VK.start(appID: VKAPIManager.applicationID, delegate: self)
@@ -63,26 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]
-    }
-    
-    
-    // MARK: CoreData
-    
-    // Создание плейлиста "Загрузки"
-    func defaultFillDataBase() {
-        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
-        let count = coreDataStack.context.countForFetchRequest(fetchRequest, error: nil)
-        
-        if count == 0 {
-            let entity = NSEntityDescription.entityForName(EntitiesIdentifiers.playlist, inManagedObjectContext: coreDataStack.context)
-            
-            let playlist = Playlist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
-            playlist.date = NSDate()
-            playlist.isVisible = false
-            playlist.title = downloadsPlaylistTitle
-        }
-        
-        coreDataStack.saveContext()
     }
     
     

@@ -11,8 +11,9 @@
         <relationship name="playlists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackInPlaylist" inverseName="track" inverseEntity="TrackInPlaylist" syncable="YES"/>
     </entity>
     <entity name="Playlist" representedClassName=".Playlist" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="isVisible" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="position" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackInPlaylist" inverseName="playlist" inverseEntity="TrackInPlaylist" syncable="YES"/>
     </entity>
@@ -23,7 +24,7 @@
     </entity>
     <elements>
         <element name="OfflineTrack" positionX="-27" positionY="147" width="128" height="165"/>
-        <element name="Playlist" positionX="-29" positionY="-36" width="128" height="103"/>
+        <element name="Playlist" positionX="-29" positionY="-36" width="128" height="120"/>
         <element name="TrackInPlaylist" positionX="-243" positionY="45" width="128" height="88"/>
     </elements>
 </model>

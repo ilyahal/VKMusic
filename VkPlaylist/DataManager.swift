@@ -40,10 +40,19 @@ class DataManager: NSObject {
         recommendationsMusic = DataManagerObject<Track>()
         popularMusic = DataManagerObject<Track>()
         
-        
         super.init()
         
+         // Регестрируем дефолтные значения для ключей в NSUserDefaults
+        registerDefaults()
         
+        // Дефолтное наполнение базы данных
+        if isDatabaseEmpty {
+            defaultFillDataBase()
+        }
+        
+        downloadsPlaylistObject = getDownloadsPlaylistObject
+        
+        // Контроллер следящий за загруженными треками
         downloadsFetchedResultsController = NSFetchedResultsController(fetchRequest: downloadsFetchRequest, managedObjectContext: coreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
         downloadsFetchedResultsController.delegate = self
         
@@ -53,7 +62,7 @@ class DataManager: NSObject {
             print("Error: \(error.localizedDescription)")
         }
         
-        
+        // Контроллер следящий за плейлистами
         playlistsFetchedResultsController = NSFetchedResultsController(fetchRequest: playlistsFetchRequest, managedObjectContext: coreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
         playlistsFetchedResultsController.delegate = self
         
@@ -96,7 +105,7 @@ class DataManager: NSObject {
     let popularMusic: DataManagerObject<Track>
     
     
-    // Удаляем данные при деавторизации
+    // Удаление данные при деавторизации
     func clearDataInCaseOfDeavtorization() {
         myMusic.clear()
         searchMusic.clear()
@@ -110,9 +119,61 @@ class DataManager: NSObject {
     }
     
     
-    var downloadsPlaylistObject: Playlist! {
+    // NSUserDefaults
+    
+    // Регестрируем дефолтные значения для ключей в NSUserDefaults
+    func registerDefaults() {
+        let dictionary = [
+            "FirstTime": true, // Флаг на первый запуск программы
+            "PlaylistID": 0 // Идентификатор плейлиста
+        ]
+        
+        NSUserDefaults.standardUserDefaults().registerDefaults(dictionary) // Записываем дефолтные значения для указанных ключей
+    }
+    
+    // Получение идентификатора для нового плейлиста
+    func nextPlaylistID() -> Int32 {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        let playlistID = userDefaults.integerForKey("PlaylistID") // Получение идентификатора для нового плейлиста
+        userDefaults.setInteger(playlistID + 1, forKey: "PlaylistID") // Установка нового идентификатора для следующего плейлиста
+        userDefaults.synchronize() // Принудительно синхронизируем данные
+        
+        return Int32(playlistID)
+    }
+    
+    
+    // MARK: Core Data helpers
+    
+    // Проверка базы данных на пустоту
+    var isDatabaseEmpty: Bool {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
-        fetchRequest.predicate = NSPredicate(format: "title == \"\(downloadsPlaylistTitle)\"")
+        let count = coreDataStack.context.countForFetchRequest(fetchRequest, error: nil)
+        
+        if count == 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    // Создание плейлиста "Загрузки"
+    func defaultFillDataBase() {
+        let entity = NSEntityDescription.entityForName(EntitiesIdentifiers.playlist, inManagedObjectContext: coreDataStack.context)
+            
+        let playlist = Playlist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
+        playlist.id = nextPlaylistID()
+        playlist.isVisible = false
+        playlist.position = -1
+        playlist.title = downloadsPlaylistTitle
+        
+        coreDataStack.saveContext()
+    }
+    
+    // Получение плейлиста загрузки
+    var getDownloadsPlaylistObject: Playlist! {
+        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
+        fetchRequest.predicate = NSPredicate(format: "id == \(0)")
         
         do {
             let results = try coreDataStack.context.executeFetchRequest(fetchRequest) as! [Playlist]
@@ -126,6 +187,8 @@ class DataManager: NSObject {
         // TODO: Если плейлиста нет - создать заново
         abort()
     }
+    
+    var downloadsPlaylistObject: Playlist!
     
     
     // MARK: Загруженные треки
@@ -153,7 +216,7 @@ class DataManager: NSObject {
     var downloadsFetchRequest: NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
         fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylistObject)
-        let positionSort = NSSortDescriptor(key: "position", ascending: true)
+        let positionSort = NSSortDescriptor(key: "position", ascending: true) // Сортировка треков в плейлисте по позиции
         fetchRequest.sortDescriptors = [positionSort]
         
         return fetchRequest
@@ -191,6 +254,7 @@ class DataManager: NSObject {
             
             // Смещаем все треки в плейлисте "Загрузки" на один вперед
             for trackInPlaylist in downloadsPlaylistObject.tracks!.allObjects as! [TrackInPlaylist] {
+                // FIXME: Периодически вылетает
                 trackInPlaylist.position += 1
             }
             
@@ -288,36 +352,32 @@ class DataManager: NSObject {
     var playlistsFetchRequest: NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         fetchRequest.predicate = NSPredicate(format: "isVisible == \(true)")
-        let dateSort = NSSortDescriptor(key: "date", ascending: false)
+        let dateSort = NSSortDescriptor(key: "position", ascending: true)  // Сортировка плейлистов по позиции
         fetchRequest.sortDescriptors = [dateSort]
         
         return fetchRequest
     }
     
     
-    // Существует ли плейлист с указанным именем
-    func isExistsPlaylistWithTitle(title: String) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
-        fetchRequest.predicate = NSPredicate(format: "title == %@", title)
-        
-        let count = coreDataStack.context.countForFetchRequest(fetchRequest, error: nil)
-        
-        if count == 1 {
-            return true
-        }
-        
-        return false
-    }
-    
     // Создание нового плейлиста с указанным именем и списком треков
     func createPlaylistWithTitle(title: String, andTracks tracks: [OfflineTrack]) {
+        
+        // Смещаем все плейлисты на один вперед
+        for playlist in playlistsFetchedResultsController.sections!.first!.objects as! [Playlist] {
+            playlist.position += 1
+        }
+        
+        // Сохраняем новый плейлист
         var entity = NSEntityDescription.entityForName(EntitiesIdentifiers.playlist, inManagedObjectContext: coreDataStack.context) // Объект плейлист
         
         let playlist = Playlist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
-        playlist.date = NSDate()
+        playlist.id = nextPlaylistID()
         playlist.isVisible = true
+        playlist.position = 0
         playlist.title = title
         
+        
+        // Добавляем аудиозаписи в плейлист
         entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Объект трек в плейлисте
         for (index, track) in tracks.enumerate() {
             let trackInPlaylist = TrackInPlaylist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)

@@ -7,10 +7,12 @@
 //
 
 class Friend {
-    let id: Int?
-    let last_name: String?
-    let photo_200_orig: String?
-    let first_name: String?
+    
+    let id: Int? // Идентификатор
+    let last_name: String? // Фамилия
+    let photo_200_orig: String? // Фотография
+    let first_name: String? // Имя
+    
     
     init(id: Int?, last_name: String?, photo_200_orig: String?, first_name: String?) {
         self.id = id
@@ -19,6 +21,7 @@ class Friend {
         self.first_name = first_name
     }
     
+    // Получение полного имени пользователя
     func getFullName() -> String {
         var userName = ""
         
@@ -38,4 +41,5 @@ class Friend {
         
         return userName
     }
+    
 }

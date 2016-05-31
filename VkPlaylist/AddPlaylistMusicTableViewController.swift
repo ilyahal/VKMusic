@@ -254,8 +254,10 @@ extension AddPlaylistMusicTableViewControllerDelegate {
     
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if activeArray.count == indexPath.row {
-            return 44
+        if activeArray.count != 0 {
+            if activeArray.count == indexPath.row {
+                return 44
+            }
         }
         
         return 53
@@ -322,6 +324,10 @@ extension AddPlaylistMusicTableViewController: DataManagerDownloadsDelegate {
     // Контроллер закончил изменять контент
     func dataManagerDownloadsControllerDidChangeContent() {
         if activeArray == downloadedTracks {
+            if tableView.tableHeaderView == nil {
+                searchEnable(true)
+            }
+            
             reloadTableView()
         }
     }

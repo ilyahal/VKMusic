@@ -496,7 +496,7 @@ extension FriendsTableViewControllerDelegate {
                 
                 let count: Int?
                 
-                if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == indexPath.row {
+                if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == indexPath.row && filteredFriends.count != 0 {
                     count = filteredFriends.count
                 } else if sectionNames!.count == indexPath.row {
                     count = sectionNames!.count
