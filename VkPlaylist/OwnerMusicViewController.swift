@@ -22,7 +22,7 @@ class OwnerMusicViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowOwnerMusicTableViewControllerInContainerSegue" {
+        if segue.identifier == SegueIdentifiers.showOwnerMusicTableViewControllerInContainerSegue {
             let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
             ownerMusicTableViewController.id = id
         }

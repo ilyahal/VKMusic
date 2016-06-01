@@ -115,7 +115,7 @@ class GroupsTableViewController: UITableViewController {
     
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowGroupAudioViewControllerSegue" {
+        if segue.identifier == SegueIdentifiers.showGroupAudioViewControllerSegue {
             let ownerMusicViewController = segue.destinationViewController as! OwnerMusicViewController
             let group = sender as! Group
             
@@ -374,7 +374,7 @@ extension GroupsTableViewControllerDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if tableView.cellForRowAtIndexPath(indexPath) is GroupCell {
-            performSegueWithIdentifier("ShowGroupAudioViewControllerSegue", sender: activeArray[indexPath.row])
+            performSegueWithIdentifier(SegueIdentifiers.showGroupAudioViewControllerSegue, sender: activeArray[indexPath.row])
         }
     }
     

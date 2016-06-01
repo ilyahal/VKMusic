@@ -41,11 +41,11 @@ class EditPlaylistMusicTableViewController: UITableViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowAddPlaylistMusicTableViewControllerSegue" {
+        if segue.identifier == SegueIdentifiers.showAddPlaylistMusicViewControllerSegue {
             let navigationController = segue.destinationViewController as! UINavigationController
-            let addPlaylistMusicTableViewController = navigationController.viewControllers.first as! AddPlaylistMusicTableViewController
+            let addPlaylistMusicViewController = navigationController.viewControllers.first as! AddPlaylistMusicViewController
             
-            addPlaylistMusicTableViewController.delegate = self
+            addPlaylistMusicViewController.delegate = self
         }
     }
     
@@ -148,7 +148,7 @@ extension EditPlaylistMusicTableViewControllerDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if indexPath.row == 0 {
-            performSegueWithIdentifier("ShowAddPlaylistMusicTableViewControllerSegue", sender: nil)
+            performSegueWithIdentifier(SegueIdentifiers.showAddPlaylistMusicViewControllerSegue, sender: nil)
         }
     }
     

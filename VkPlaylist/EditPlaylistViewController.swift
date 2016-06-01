@@ -40,7 +40,7 @@ class EditPlaylistViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowEditPlaylistMusicTableViewControllerInContainerSegue" {
+        if segue.identifier == SegueIdentifiers.showEditPlaylistMusicTableViewControllerInContainerSegue {
             let editPlaylistMusicTableViewController = segue.destinationViewController as! EditPlaylistMusicTableViewController
             editPlaylistMusicTableViewController.playlistToEdit = playlistToEdit
             

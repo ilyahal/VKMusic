@@ -27,7 +27,7 @@ class AlbumMusicViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowAlbumMusicTableViewControllerInContainerSegue" {
+        if segue.identifier == SegueIdentifiers.showAlbumMusicTableViewControllerInContainerSegue {
             let albumMusicTableViewController = segue.destinationViewController as! AlbumMusicTableViewController
             albumMusicTableViewController.album = album
         }

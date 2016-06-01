@@ -119,7 +119,7 @@ class FriendsTableViewController: UITableViewController {
     
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowFriendAudioViewControllerSegue" {
+        if segue.identifier == SegueIdentifiers.showFriendAudioViewControllerSegue {
             let ownerMusicViewController = segue.destinationViewController as! OwnerMusicViewController
             let friend = sender as! Friend
             
@@ -528,7 +528,7 @@ extension FriendsTableViewControllerDelegate {
                 friend = sectionNames![indexPath.row]
             }
             
-            performSegueWithIdentifier("ShowFriendAudioViewControllerSegue", sender: friend)
+            performSegueWithIdentifier(SegueIdentifiers.showFriendAudioViewControllerSegue, sender: friend)
         }
     }
     

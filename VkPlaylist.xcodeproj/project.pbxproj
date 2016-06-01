@@ -14,9 +14,10 @@
 		BB0C62E81CE37CF500C505B1 /* GetAlbums.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62E71CE37CF500C505B1 /* GetAlbums.swift */; };
 		BB0C62EA1CE3D29C00C505B1 /* PlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62E91CE3D29C00C505B1 /* PlaylistsViewController.swift */; };
 		BB0C62EE1CE3E93200C505B1 /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62EC1CE3E93200C505B1 /* PlaylistCell.swift */; };
-		BB0C62EF1CE3E93200C505B1 /* PlaylistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB0C62ED1CE3E93200C505B1 /* PlaylistCell.xib */; };
 		BB0C62F11CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F01CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift */; };
 		BB0C62F31CE4B7CA00C505B1 /* GetAlbumAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */; };
+		BB3F40EF1CFF190B0018262C /* SegueIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */; };
+		BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */; };
 		BB405E831CF735C8000C1A2A /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E821CF735C8000C1A2A /* CoreDataStack.swift */; };
 		BB405E861CF736E7000C1A2A /* VKPlaylist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB405E841CF736E7000C1A2A /* VKPlaylist.xcdatamodeld */; };
 		BB405E9C1CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E961CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift */; };
@@ -39,13 +40,11 @@
 		BB405EC11CFAEEB5000C1A2A /* AudioCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EC01CFAEEB5000C1A2A /* AudioCellDelegate.swift */; };
 		BB405EC31CFBA4C1000C1A2A /* EditPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EC21CFBA4C1000C1A2A /* EditPlaylistViewController.swift */; };
 		BB405ECC1CFC2FA5000C1A2A /* AddToPlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405ECA1CFC2FA5000C1A2A /* AddToPlaylistCell.swift */; };
-		BB405ECD1CFC2FA5000C1A2A /* AddToPlaylistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB405ECB1CFC2FA5000C1A2A /* AddToPlaylistCell.xib */; };
 		BB405ECF1CFC3168000C1A2A /* AddToPlaylistButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405ECE1CFC3168000C1A2A /* AddToPlaylistButton.swift */; };
 		BB405ED11CFC3560000C1A2A /* AddToPlaylistCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405ED01CFC3560000C1A2A /* AddToPlaylistCellDelegate.swift */; };
 		BB405ED31CFC4B98000C1A2A /* DataManagerPlaylistsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405ED21CFC4B98000C1A2A /* DataManagerPlaylistsDelegate.swift */; };
 		BB405EF91CFC9697000C1A2A /* PlaylistMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EF81CFC9697000C1A2A /* PlaylistMusicViewController.swift */; };
 		BB405EFD1CFCBA7A000C1A2A /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405EFB1CFCBA7A000C1A2A /* AlbumCell.swift */; };
-		BB405EFE1CFCBA7A000C1A2A /* AlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB405EFC1CFCBA7A000C1A2A /* AlbumCell.xib */; };
 		BB6EF7341CDF642100466C3B /* NetworkErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */; };
 		BB6EF7361CDF64BC00466C3B /* NetworkErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */; };
 		BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */; };
@@ -123,10 +122,11 @@
 		BB0C62E71CE37CF500C505B1 /* GetAlbums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAlbums.swift; sourceTree = "<group>"; };
 		BB0C62E91CE3D29C00C505B1 /* PlaylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistsViewController.swift; sourceTree = "<group>"; };
 		BB0C62EC1CE3E93200C505B1 /* PlaylistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistCell.swift; sourceTree = "<group>"; };
-		BB0C62ED1CE3E93200C505B1 /* PlaylistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaylistCell.xib; sourceTree = "<group>"; };
 		BB0C62F01CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumMusicTableViewController.swift; sourceTree = "<group>"; };
 		BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAlbumAudio.swift; sourceTree = "<group>"; };
 		BB0C62F41CE4B81600C505B1 /* Notepad.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Notepad.playground; sourceTree = "<group>"; };
+		BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifiers.swift; sourceTree = "<group>"; };
+		BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlaylistMusicViewController.swift; sourceTree = "<group>"; };
 		BB405E821CF735C8000C1A2A /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		BB405E851CF736E7000C1A2A /* VKPlaylist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VKPlaylist.xcdatamodel; sourceTree = "<group>"; };
 		BB405E961CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TrackInPlaylist+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -149,13 +149,11 @@
 		BB405EC01CFAEEB5000C1A2A /* AudioCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCellDelegate.swift; sourceTree = "<group>"; };
 		BB405EC21CFBA4C1000C1A2A /* EditPlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPlaylistViewController.swift; sourceTree = "<group>"; };
 		BB405ECA1CFC2FA5000C1A2A /* AddToPlaylistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddToPlaylistCell.swift; sourceTree = "<group>"; };
-		BB405ECB1CFC2FA5000C1A2A /* AddToPlaylistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddToPlaylistCell.xib; sourceTree = "<group>"; };
 		BB405ECE1CFC3168000C1A2A /* AddToPlaylistButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddToPlaylistButton.swift; sourceTree = "<group>"; };
 		BB405ED01CFC3560000C1A2A /* AddToPlaylistCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddToPlaylistCellDelegate.swift; sourceTree = "<group>"; };
 		BB405ED21CFC4B98000C1A2A /* DataManagerPlaylistsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerPlaylistsDelegate.swift; sourceTree = "<group>"; };
 		BB405EF81CFC9697000C1A2A /* PlaylistMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistMusicViewController.swift; sourceTree = "<group>"; };
 		BB405EFB1CFCBA7A000C1A2A /* AlbumCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
-		BB405EFC1CFCBA7A000C1A2A /* AlbumCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumCell.xib; sourceTree = "<group>"; };
 		BB6EF7331CDF642100466C3B /* NetworkErrorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NetworkErrorCell.xib; sourceTree = "<group>"; };
 		BB6EF7351CDF64BC00466C3B /* NetworkErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkErrorCell.swift; sourceTree = "<group>"; };
 		BB6EF7381CDF6AFA00466C3B /* NoAuthorizedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoAuthorizedCell.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 			isa = PBXGroup;
 			children = (
 				BB0C62EC1CE3E93200C505B1 /* PlaylistCell.swift */,
-				BB0C62ED1CE3E93200C505B1 /* PlaylistCell.xib */,
 			);
 			name = PlaylistCell;
 			sourceTree = "<group>";
@@ -327,7 +324,6 @@
 			isa = PBXGroup;
 			children = (
 				BB405ECA1CFC2FA5000C1A2A /* AddToPlaylistCell.swift */,
-				BB405ECB1CFC2FA5000C1A2A /* AddToPlaylistCell.xib */,
 				BB405ED01CFC3560000C1A2A /* AddToPlaylistCellDelegate.swift */,
 			);
 			name = AddToPlaylistCell;
@@ -337,7 +333,6 @@
 			isa = PBXGroup;
 			children = (
 				BB405EFB1CFCBA7A000C1A2A /* AlbumCell.swift */,
-				BB405EFC1CFCBA7A000C1A2A /* AlbumCell.xib */,
 			);
 			name = AlbumCell;
 			sourceTree = "<group>";
@@ -448,6 +443,7 @@
 				BB0C62E91CE3D29C00C505B1 /* PlaylistsViewController.swift */,
 				BB405EC21CFBA4C1000C1A2A /* EditPlaylistViewController.swift */,
 				BB05DF861CFEC460001F65CB /* EditPlaylistMusicTableViewController.swift */,
+				BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */,
 				BBEF4EF11CFDAD0B003642D0 /* AddPlaylistMusicTableViewController.swift */,
 				BB405EF81CFC9697000C1A2A /* PlaylistMusicViewController.swift */,
 				BBEF4EE11CFD62F3003642D0 /* PlaylistMusicTableViewController.swift */,
@@ -613,6 +609,7 @@
 			children = (
 				BBE853901CE0F54100872C3B /* TableViewCellIdentifiers.swift */,
 				BB405EA91CF7555E000C1A2A /* EntitiesIdentifiers.swift */,
+				BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -707,12 +704,9 @@
 			files = (
 				BBE853531CDFCA7000872C3B /* AudioCell.xib in Resources */,
 				BBDEC05E1CD66441005B8494 /* LaunchScreen.storyboard in Resources */,
-				BB0C62EF1CE3E93200C505B1 /* PlaylistCell.xib in Resources */,
 				BBE853AD1CE1D79B00872C3B /* NumberOfRowsCell.xib in Resources */,
-				BB405ECD1CFC2FA5000C1A2A /* AddToPlaylistCell.xib in Resources */,
 				BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */,
 				BBDEC07C1CD7538B005B8494 /* LoadingCell.xib in Resources */,
-				BB405EFE1CFCBA7A000C1A2A /* AlbumCell.xib in Resources */,
 				BB405EA81CF7523B000C1A2A /* OfflineAudioCell.xib in Resources */,
 				BB405EBD1CFA3FEA000C1A2A /* ActiveDownloadCell.xib in Resources */,
 				BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */,
@@ -838,6 +832,7 @@
 				BBE853881CE0E69700872C3B /* Friend.swift in Sources */,
 				BB0C62E61CE3751A00C505B1 /* Album.swift in Sources */,
 				BBDEC0661CD66DB6005B8494 /* AudioCell.swift in Sources */,
+				BB3F40EF1CFF190B0018262C /* SegueIdentifiers.swift in Sources */,
 				BBE8538F1CE0F0B300872C3B /* FriendCell.swift in Sources */,
 				BBDEC0831CD757E9005B8494 /* RequestManager.swift in Sources */,
 				BB0C62E81CE37CF500C505B1 /* GetAlbums.swift in Sources */,
@@ -859,6 +854,7 @@
 				BB405EA11CF74332000C1A2A /* Playlist.swift in Sources */,
 				BB405EB01CF76817000C1A2A /* Download.swift in Sources */,
 				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
+				BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* AuthorizationButton.swift in Sources */,
 				BBE8535C1CDFE89000872C3B /* SearchTableViewController.swift in Sources */,
 				BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */,

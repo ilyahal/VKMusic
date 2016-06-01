@@ -59,9 +59,6 @@ class AddPlaylistMusicTableViewController: UITableViewController {
         var cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil) // Ячейка "Ничего не найдено"
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
         
-        cellNib = UINib(nibName: TableViewCellIdentifiers.addToPlaylistCell, bundle: nil) // Ячейка с активной загрузкой
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.addToPlaylistCell)
-        
         cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством строк
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
@@ -98,14 +95,6 @@ class AddPlaylistMusicTableViewController: UITableViewController {
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
         }
-    }
-    
-    
-    // MARK: Кнопки на навигационной панели
-    
-    // Была нажата кнопка готово
-    @IBAction func doneButtonTapped(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
     }
     
     

@@ -26,11 +26,11 @@ class PlaylistMusicViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowPlaylistMusicTableViewControllerInContainerSegue" {
+        if segue.identifier == SegueIdentifiers.showPlaylistMusicTableViewControllerInContainerSegue {
             let playlistMusicTableViewController = segue.destinationViewController as! PlaylistMusicTableViewController
             playlistMusicTableViewController.playlistMusicViewController = self
             playlistMusicTableViewController.playlist = playlist
-        } else if segue.identifier == "ShowAddPlaylistMusicTableViewControllerForEditSegue" {
+        } else if segue.identifier == SegueIdentifiers.showEditPlaylistMusicTableViewControllerForEditSegue {
             let navigationController = segue.destinationViewController as! UINavigationController
             let editPlaylistViewController = navigationController.viewControllers.first as! EditPlaylistViewController
             

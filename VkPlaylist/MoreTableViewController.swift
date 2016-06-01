@@ -27,11 +27,11 @@ class MoreTableViewController: UITableViewController {
     
     // Заполнение массива ссылок на экраны
     func fillLinksToScreensArray() {
-        linksToScreens.append(LinkToScreen(title: "Друзья", icon: "icon-UserReverse", segueIdentifier: "ShowFriendsViewControllerSegue"))
-        linksToScreens.append(LinkToScreen(title: "Группы", icon: "icon-MultipleUsersReverse", segueIdentifier: "ShowGroupsViewControllerSegue"))
-        linksToScreens.append(LinkToScreen(title: "Рекомендации", icon: "icon-Recommendation", segueIdentifier: "ShowRecommendationsMusicViewControllerSegue"))
-        linksToScreens.append(LinkToScreen(title: "Популярное", icon: "icon-Favorite", segueIdentifier: "ShowPopularMusicViewControllerSegue"))
-        linksToScreens.append(LinkToScreen(title: "Настройки", icon: "icon-Settings", segueIdentifier: "ShowSettingsSegue"))
+        linksToScreens.append(LinkToScreen(title: "Друзья", icon: "icon-UserReverse", segueIdentifier: SegueIdentifiers.showFriendsViewControllerSegue))
+        linksToScreens.append(LinkToScreen(title: "Группы", icon: "icon-MultipleUsersReverse", segueIdentifier: SegueIdentifiers.showGroupsViewControllerSegue))
+        linksToScreens.append(LinkToScreen(title: "Рекомендации", icon: "icon-Recommendation", segueIdentifier: SegueIdentifiers.showRecommendationsMusicViewControllerSegue))
+        linksToScreens.append(LinkToScreen(title: "Популярное", icon: "icon-Favorite", segueIdentifier: SegueIdentifiers.showPopularMusicViewControllerSegue))
+        linksToScreens.append(LinkToScreen(title: "Настройки", icon: "icon-Settings", segueIdentifier: SegueIdentifiers.showSettingsSegue))
     }
 
 }

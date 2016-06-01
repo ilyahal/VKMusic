@@ -62,7 +62,6 @@ class PlaylistsViewController: UIViewController {
         
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
-        tableView.contentInset = UIEdgeInsets(top: navigationBar.bounds.height, left: 0, bottom: 0, right: 0) // Верхний отступ для контента, что бы первая ячейка не скрывалась под навигационным баром
         tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
         
         // Регистрация ячеек
@@ -77,12 +76,6 @@ class PlaylistsViewController: UIViewController {
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil) // Ячейка "Загрузка"
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
-        
-        cellNib = UINib(nibName: TableViewCellIdentifiers.playlistCell, bundle: nil) // Ячейка с плейлистом
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.playlistCell)
-        
-        cellNib = UINib(nibName: TableViewCellIdentifiers.albumCell, bundle: nil) // Ячейка с альбомом
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.albumCell)
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством строк
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
@@ -128,12 +121,12 @@ class PlaylistsViewController: UIViewController {
     
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowAlbumAudioSegue" {
+        if segue.identifier == SegueIdentifiers.showAlbumAudioSegue {
             let albumMusicViewController = segue.destinationViewController as! AlbumMusicViewController
             let album = sender as! Album
             
             albumMusicViewController.album = album
-        } else if segue.identifier == "ShowPlaylistAudioSegue" {
+        } else if segue.identifier == SegueIdentifiers.showPlaylistAudioSegue {
             let playlistMusicViewController = segue.destinationViewController as! PlaylistMusicViewController
             let playlist = sender as! Playlist
             
@@ -164,7 +157,7 @@ class PlaylistsViewController: UIViewController {
     @IBAction func addButtonTapped(sender: UIBarButtonItem) {
         switch selected {
         case .Playlists:
-            performSegueWithIdentifier("ShowAddPlaylistViewControllerSegue", sender: nil)
+            performSegueWithIdentifier(SegueIdentifiers.showEditPlaylistViewControllerForAddSegue, sender: nil)
         case .Albums:
             let alertController = UIAlertController(title: nil, message: "Добавление альбомов будет доступно позже..", preferredStyle: .Alert)
             
@@ -514,12 +507,12 @@ extension PlaylistsViewController: UITableViewDelegate {
         case .Playlists:
             if tableView.cellForRowAtIndexPath(indexPath) is PlaylistCell {
                 let playlist = playlists[indexPath.row]
-                performSegueWithIdentifier("ShowPlaylistAudioSegue", sender: playlist)
+                performSegueWithIdentifier(SegueIdentifiers.showPlaylistAudioSegue, sender: playlist)
             }
         case .Albums:
             if tableView.cellForRowAtIndexPath(indexPath) is AlbumCell {
                 let album = albums[indexPath.row]
-                performSegueWithIdentifier("ShowAlbumAudioSegue", sender: album)
+                performSegueWithIdentifier(SegueIdentifiers.showAlbumAudioSegue, sender: album)
             }
         }
     }
