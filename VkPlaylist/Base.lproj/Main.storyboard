@@ -306,10 +306,10 @@
             </objects>
             <point key="canvasLocation" x="3271" y="5051"/>
         </scene>
-        <!--Add Playlist View Controller-->
+        <!--Edit Playlist View Controller-->
         <scene sceneID="2cj-wq-FiP">
             <objects>
-                <viewController id="9rM-Vk-5eS" customClass="AddPlaylistViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9rM-Vk-5eS" customClass="EditPlaylistViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ytc-Ig-ygq"/>
                         <viewControllerLayoutGuide type="bottom" id="K4F-ai-jVI"/>
@@ -325,9 +325,6 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="playlistTitleTextFieldValueChanged:" destination="9rM-Vk-5eS" eventType="editingChanged" id="gdF-AH-dhE"/>
-                                </connections>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AwO-Bx-sXH">
                                 <rect key="frame" x="0.0" y="108" width="600" height="1"/>
@@ -339,7 +336,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LrG-mh-6nQ">
                                 <rect key="frame" x="0.0" y="109" width="600" height="491"/>
                                 <connections>
-                                    <segue destination="Jx5-fu-1Mz" kind="embed" identifier="ShowAddPlaylistMusicTableViewControllerInContainerSegue" id="SVV-cN-Puu"/>
+                                    <segue destination="ddI-GD-bER" kind="embed" identifier="ShowEditPlaylistMusicTableViewControllerInContainerSegue" id="RCD-fc-YI7"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -363,28 +360,28 @@
                                 <action selector="cancelButtonTapped:" destination="9rM-Vk-5eS" id="OUS-LZ-LnP"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="faL-R4-1Sj">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="faL-R4-1Sj">
                             <connections>
                                 <action selector="saveButtonTapped:" destination="9rM-Vk-5eS" id="kNS-dV-Wqr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addPlaylistTableViewControllerContainer" destination="LrG-mh-6nQ" id="Tqy-d3-lVn"/>
+                        <outlet property="editPlaylistTableViewControllerContainer" destination="LrG-mh-6nQ" id="XRM-kL-Z8X"/>
                         <outlet property="playlistTitleTextField" destination="3HN-OZ-L93" id="i0G-ir-iNU"/>
                         <outlet property="saveButton" destination="faL-R4-1Sj" id="I0C-VW-AdX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfq-WC-DK1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3990" y="2755"/>
+            <point key="canvasLocation" x="5428" y="3147"/>
         </scene>
         <!--Add Playlist Music Table View Controller-->
         <scene sceneID="yqe-BY-5F3">
             <objects>
                 <tableViewController id="Jx5-fu-1Mz" customClass="AddPlaylistMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="mUn-fA-mvp">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="491"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -392,10 +389,83 @@
                             <outlet property="delegate" destination="Jx5-fu-1Mz" id="Ug8-IC-GDc"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="pgU-Mw-UUH">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="fGp-zw-Y2h">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="Jx5-fu-1Mz" id="LVV-dF-D2Q"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qgW-jk-l9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4709" y="2809"/>
+            <point key="canvasLocation" x="7611" y="3147"/>
+        </scene>
+        <!--Edit Playlist Music Table View Controller-->
+        <scene sceneID="pmL-oC-Ax4">
+            <objects>
+                <tableViewController id="ddI-GD-bER" customClass="EditPlaylistMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="XW7-9B-HEA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="491"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddAudioCell" rowHeight="53" id="civ-x4-Jyu">
+                                <rect key="frame" x="0.0" y="28" width="600" height="53"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="civ-x4-Jyu" id="sAh-X3-EJc">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="52.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Добавить аудиозаписи" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3d-OQ-2S6">
+                                            <rect key="frame" x="52.5" y="17.5" width="165" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xj2-qi-qpS" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
+                                            <rect key="frame" x="18" y="14" width="26" height="26"/>
+                                            <color key="backgroundColor" red="0.069000579416751862" green="0.8473244309425354" blue="0.080847389996051788" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="26" id="aQK-Bw-XKz"/>
+                                                <constraint firstAttribute="height" constant="26" id="gd3-gQ-dAt"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <inset key="contentEdgeInsets" minX="0.0" minY="-3" maxX="0.0" maxY="0.0"/>
+                                            <state key="normal" title="+">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="13"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="e3d-OQ-2S6" firstAttribute="leading" secondItem="Xj2-qi-qpS" secondAttribute="trailing" constant="8" id="LQl-3j-i5R"/>
+                                        <constraint firstItem="e3d-OQ-2S6" firstAttribute="centerY" secondItem="sAh-X3-EJc" secondAttribute="centerY" id="Nyo-IW-2vU"/>
+                                        <constraint firstItem="Xj2-qi-qpS" firstAttribute="centerY" secondItem="sAh-X3-EJc" secondAttribute="centerY" id="W6e-06-5oj"/>
+                                        <constraint firstItem="Xj2-qi-qpS" firstAttribute="leading" secondItem="sAh-X3-EJc" secondAttribute="leading" constant="18" id="gGh-WD-ojp"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ddI-GD-bER" id="zBs-29-lqm"/>
+                            <outlet property="delegate" destination="ddI-GD-bER" id="KHH-Jl-kHx"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="g5J-zm-JE2" kind="presentation" identifier="ShowAddPlaylistMusicTableViewControllerSegue" id="g3C-bU-tAf"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oZ0-Fs-8A9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6147" y="3201.5"/>
         </scene>
         <!--<Название плейлиста>-->
         <scene sceneID="zJo-Zi-imR">
@@ -433,13 +503,10 @@
                     <navigationItem key="navigationItem" title="&lt;Название плейлиста&gt;" id="G96-f0-kk1">
                         <barButtonItem key="rightBarButtonItem" image="icon-Edit" id="iDP-Ee-iUd">
                             <connections>
-                                <action selector="editButtonTapped:" destination="lTe-XD-VCn" id="zEa-gv-etd"/>
+                                <segue destination="sML-Kp-cds" kind="presentation" identifier="ShowAddPlaylistMusicTableViewControllerForEditSegue" id="oyl-4o-mbN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="editButton" destination="iDP-Ee-iUd" id="hfA-I4-p6S"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMI-4V-fgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1101,7 +1168,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xdb-fP-D8R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="2755"/>
+            <point key="canvasLocation" x="4709" y="3147"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hNw-5G-Ajh">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="g5J-zm-JE2" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XTK-mM-I2d">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Jx5-fu-1Mz" kind="relationship" relationship="rootViewController" id="MSz-4C-6EC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gTB-rk-hBL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6880" y="3147"/>
         </scene>
     </scenes>
     <resources>
@@ -1114,6 +1199,7 @@
         <image name="icon-Search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="lU0-4t-blG"/>
         <segue reference="fOU-GI-PYh"/>
     </inferredMetricsTieBreakers>
 </document>

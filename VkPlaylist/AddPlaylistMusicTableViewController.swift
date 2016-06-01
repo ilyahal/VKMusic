@@ -11,6 +11,8 @@ import CoreData
 
 class AddPlaylistMusicTableViewController: UITableViewController {
 
+    weak var delegate: AddPlaylistMusicDelegate?
+    
     var downloadsFetchedResultsController: NSFetchedResultsController {
         return DataManager.sharedInstance.downloadsFetchedResultsController
     }
@@ -96,6 +98,14 @@ class AddPlaylistMusicTableViewController: UITableViewController {
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
         }
+    }
+    
+    
+    // MARK: Кнопки на навигационной панели
+    
+    // Была нажата кнопка готово
+    @IBAction func doneButtonTapped(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -345,6 +355,7 @@ extension AddPlaylistMusicTableViewController: AddToPlaylistCellDelegate {
             let trackInPlaylist = activeArray[indexPath.row]
             let track = trackInPlaylist.track
             
+            delegate?.addPlaylistMusicDelegateAddTrack(track)
             selectedTracks["\(track.id)_\(track.ownerID)"] = track
             
             dispatch_async(dispatch_get_main_queue(), {

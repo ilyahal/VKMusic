@@ -22,16 +22,16 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Исполнитель" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Al5-4A-MMK">
-                        <rect key="frame" x="14" y="28.5" width="89" height="17"/>
+                        <rect key="frame" x="14" y="28" width="89" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KQO-12-SoB">
-                        <rect key="frame" x="547.5" y="0.0" width="52.5" height="52.5"/>
+                        <rect key="frame" x="547" y="0.0" width="52.5" height="52.5"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jTq-O5-Uma" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
-                                <rect key="frame" x="18.5" y="13.5" width="26" height="26"/>
+                                <rect key="frame" x="18" y="13" width="26" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="J83-6D-K6H"/>
                                     <constraint firstAttribute="width" constant="26" id="bxY-qy-PNV"/>
@@ -58,23 +58,32 @@
                             <constraint firstAttribute="trailing" secondItem="jTq-O5-Uma" secondAttribute="trailing" constant="8" id="nlM-ad-lCX"/>
                         </constraints>
                     </view>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✓" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9S-rJ-lye">
+                        <rect key="frame" x="531.5" y="16" width="16" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="N9S-rJ-lye" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="4zD-O1-2nP"/>
+                    <constraint firstItem="N9S-rJ-lye" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Al5-4A-MMK" secondAttribute="trailing" id="6pX-hu-ISH"/>
                     <constraint firstItem="9cj-uR-mPK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="8Ld-aF-Rln"/>
+                    <constraint firstItem="N9S-rJ-lye" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9cj-uR-mPK" secondAttribute="trailing" id="CSd-YI-suk"/>
                     <constraint firstItem="9cj-uR-mPK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="KYa-bz-Gi5"/>
                     <constraint firstItem="KQO-12-SoB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="NsA-ET-xeL"/>
-                    <constraint firstItem="KQO-12-SoB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Al5-4A-MMK" secondAttribute="trailing" id="U0m-Ei-0M3"/>
                     <constraint firstAttribute="trailing" secondItem="KQO-12-SoB" secondAttribute="trailing" id="WaV-6F-qDS"/>
                     <constraint firstAttribute="bottom" secondItem="KQO-12-SoB" secondAttribute="bottom" id="bGi-36-p15"/>
+                    <constraint firstItem="KQO-12-SoB" firstAttribute="leading" secondItem="N9S-rJ-lye" secondAttribute="trailing" id="q1D-Gg-DTn"/>
                     <constraint firstItem="Al5-4A-MMK" firstAttribute="top" secondItem="9cj-uR-mPK" secondAttribute="bottom" constant="1" id="sL1-X9-n1N"/>
                     <constraint firstItem="Al5-4A-MMK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="upJ-Mm-Ghi"/>
-                    <constraint firstItem="KQO-12-SoB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9cj-uR-mPK" secondAttribute="trailing" id="vb9-wI-6Zk"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="addButton" destination="jTq-O5-Uma" id="wcL-ws-odC"/>
                 <outlet property="addButtonContainer" destination="KQO-12-SoB" id="L3L-GU-h9c"/>
                 <outlet property="artistLabel" destination="Al5-4A-MMK" id="mtS-9h-pLW"/>
+                <outlet property="isAddedLabel" destination="N9S-rJ-lye" id="SFA-iW-3tA"/>
                 <outlet property="nameLabel" destination="9cj-uR-mPK" id="LSd-Cz-ufa"/>
             </connections>
             <point key="canvasLocation" x="219" y="470.5"/>

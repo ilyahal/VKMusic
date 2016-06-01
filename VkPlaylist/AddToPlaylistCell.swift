@@ -14,16 +14,19 @@ class AddToPlaylistCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
+    @IBOutlet weak var isAddedLabel: UILabel!
     @IBOutlet weak var addButtonContainer: UIView!
     @IBOutlet weak var addButton: AddToPlaylistButton!
     
     var tapGestureRecognizer: UITapGestureRecognizer!
     
+    override func drawRect(rect: CGRect) {
+        isAddedLabel.textColor = (UIApplication.sharedApplication().delegate as! AppDelegate).tintColor
+    }
+    
     override func prepareForReuse() {
         nameLabel.text = nil
         artistLabel.text = nil
-        addButton.cornerRadius = 13
-        addButton.borderWidth = 1
         
         addButtonContainer.removeGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer = nil
@@ -33,17 +36,7 @@ class AddToPlaylistCell: UITableViewCell {
         nameLabel.text = name
         artistLabel.text = artist
         
-        if isAdded {
-            addButton.borderWidth = 0
-            addButton.cornerRadius = 0
-            addButton.titleLabel!.text = "✓" // Для ускорения отображения
-            addButton.setTitle("✓", forState: .Normal)
-        } else {
-            addButton.borderWidth = 1
-            addButton.cornerRadius = 13
-            addButton.titleLabel!.text = "+" // Для ускорения отображения
-            addButton.setTitle("+", forState: .Normal)
-        }
+        isAddedLabel.hidden = !isAdded
         
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(addButtonTapped))
         addButtonContainer.addGestureRecognizer(tapGestureRecognizer)
@@ -51,8 +44,6 @@ class AddToPlaylistCell: UITableViewCell {
     
     // Вызывается при нажатии по кнопке "+"
     @IBAction func addButtonTapped(sender: AnyObject) {
-        if addButton.titleForState(.Normal) == "+" {
-            delegate?.addTapped(self)
-        }
+        delegate?.addTapped(self)
     }
 }

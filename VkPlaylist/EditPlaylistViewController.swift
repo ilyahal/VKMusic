@@ -1,5 +1,5 @@
 //
-//  AddPlaylistViewController.swift
+//  EditPlaylistViewController.swift
 //  VkPlaylist
 //
 //  Created by Илья Халяпин on 30.05.16.
@@ -8,13 +8,15 @@
 
 import UIKit
 
-class AddPlaylistViewController: UIViewController {
+class EditPlaylistViewController: UIViewController {
+    
+    var playlistToEdit: Playlist?
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var playlistTitleTextField: UITextField!
-    @IBOutlet weak var addPlaylistTableViewControllerContainer: UIView!
+    @IBOutlet weak var editPlaylistTableViewControllerContainer: UIView!
     
-    weak var addPlaylistMusicTableViewController: AddPlaylistMusicTableViewController!
+    weak var editPlaylistMusicTableViewController: EditPlaylistMusicTableViewController!
     
     
     override func viewDidLoad() {
@@ -33,12 +35,16 @@ class AddPlaylistViewController: UIViewController {
         
         playlistTitleTextField.inputAccessoryView = doneToolBar
         playlistTitleTextField.delegate = self
+        
+        playlistTitleTextField.text = playlistToEdit?.title
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowAddPlaylistMusicTableViewControllerInContainerSegue" {
-            let addPlaylistMusicTableViewController = segue.destinationViewController as! AddPlaylistMusicTableViewController
-            self.addPlaylistMusicTableViewController = addPlaylistMusicTableViewController
+        if segue.identifier == "ShowEditPlaylistMusicTableViewControllerInContainerSegue" {
+            let editPlaylistMusicTableViewController = segue.destinationViewController as! EditPlaylistMusicTableViewController
+            editPlaylistMusicTableViewController.playlistToEdit = playlistToEdit
+            
+            self.editPlaylistMusicTableViewController = editPlaylistMusicTableViewController
         }
     }
     
@@ -55,21 +61,20 @@ class AddPlaylistViewController: UIViewController {
     @IBAction func saveButtonTapped(sender: UIBarButtonItem) {
         view.endEditing(true)
         
-        let title = playlistTitleTextField.text!
-        let tracks = addPlaylistMusicTableViewController.selectedTracks.map {$1} // Массив выбранных треков
+        let title = playlistTitleTextField.text! == "" ? "Новый плейлист" : playlistTitleTextField.text!
+        let tracks = editPlaylistMusicTableViewController.tracks
         
-        DataManager.sharedInstance.createPlaylistWithTitle(title, andTracks: tracks)
-        
+        if let playlistToEdit = playlistToEdit {
+            DataManager.sharedInstance.updatePlaylist(playlistToEdit, withTitle: title, andTracks: tracks)
+        } else {
+            DataManager.sharedInstance.createPlaylistWithTitle(title, andTracks: tracks)
+        }
+            
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     
     // MARK: Обработка пользовательских событий
-
-    // Вызывается когда содержание текстового поля было изменено
-    @IBAction func playlistTitleTextFieldValueChanged(sender: UITextField) {
-        saveButton.enabled = !playlistTitleTextField.text!.isEmpty
-    }
     
     // Нажата кнопка готово на тулбаре клавиатуры для ввода названия плейлиста
     func donePressed(sender: UIBarButtonItem) {
@@ -81,7 +86,7 @@ class AddPlaylistViewController: UIViewController {
 
 // MARK: UITextFieldDelegate
 
-extension AddPlaylistViewController: UITextFieldDelegate {
+extension EditPlaylistViewController: UITextFieldDelegate {
     
     // Была нажата кнопка готово
     func textFieldShouldReturn(textField: UITextField) -> Bool {

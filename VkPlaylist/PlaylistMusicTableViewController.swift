@@ -62,6 +62,10 @@ class PlaylistMusicTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        tracks = DataManager.sharedInstance.getTracksForPlaylist(playlist)
+        searchEnable(tracks.count != 0)
+        reloadTableView()
+        
         if tableView.contentOffset.y == 0 {
             tableView.hideSearchBar()
         }
@@ -249,20 +253,6 @@ extension PlaylistMusicTableViewController {
         }
     }
     
-    // Возможно ли перемещать ячейку
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return tableView.cellForRowAtIndexPath(indexPath) is OfflineAudioCell
-    }
-    
-    // Обработка после перемещения ячейки
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        let trackToMove = tracks[fromIndexPath.row]
-        
-        if fromIndexPath.row != toIndexPath.row {
-            DataManager.sharedInstance.moveTrackInPlaylist(trackToMove, fromPosition: Int32(fromIndexPath.row), toNewPosition: Int32(toIndexPath.row))
-        }
-    }
-    
 }
 
 
@@ -287,15 +277,6 @@ extension PlaylistMusicTableViewControllerDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    // Определяется куда переместить ячейку с укзанного NSIndexPath при перемещении в указанный NSIndexPath
-    override func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
-        if proposedDestinationIndexPath.row == activeArray.count {
-            return sourceIndexPath
-        } else {
-            return proposedDestinationIndexPath
-        }
-    }
-    
 }
 
 
@@ -305,9 +286,7 @@ extension PlaylistMusicTableViewController: UISearchBarDelegate {
     
     // Говорит делегату что пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if tracks.count != 0 && !editing {
-            playlistMusicViewController.editButton.enabled = false
-            
+        if tracks.count != 0 && !editing {            
             return true
         }
         
@@ -327,8 +306,6 @@ extension PlaylistMusicTableViewController: UISearchBarDelegate {
     // В поисковой панели была нажата отмена
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         filteredMusic.removeAll()
-        
-        playlistMusicViewController.editButton.enabled = true
     }
     
 }

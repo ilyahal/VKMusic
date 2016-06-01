@@ -342,6 +342,16 @@ class DataManager: NSObject {
     }
     
     
+    func getPlaylistTitle(playlist: Playlist) -> String {
+        for _playlist in playlistsFetchedResultsController.sections!.first!.objects as! [Playlist] {
+            if _playlist.id == playlist.id {
+                return _playlist.title
+            }
+        }
+        
+        return ""
+    }
+    
     // Создание нового плейлиста с указанным именем и списком треков
     func createPlaylistWithTitle(title: String, andTracks tracks: [OfflineTrack]) {
         
@@ -351,17 +361,37 @@ class DataManager: NSObject {
         }
         
         // Сохраняем новый плейлист
-        var entity = NSEntityDescription.entityForName(EntitiesIdentifiers.playlist, inManagedObjectContext: coreDataStack.context) // Объект плейлист
+        let entity = NSEntityDescription.entityForName(EntitiesIdentifiers.playlist, inManagedObjectContext: coreDataStack.context) // Объект плейлист
         
         let playlist = Playlist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
         playlist.id = nextPlaylistID()
         playlist.isVisible = true
         playlist.position = 0
+        
+        updatePlaylist(playlist, withTitle: title, andTracks: tracks)
+        
+        coreDataStack.saveContext()
+    }
+    
+    // Удаление всех треков в плейлисте
+    func clearPlaylist(playlist: Playlist) {
+        
+        // Удаляем все вхождения треков в плейлист
+        for trackInPlaylist in playlist.tracks.allObjects as! [TrackInPlaylist] {
+            coreDataStack.context.deleteObject(trackInPlaylist)
+        }
+        
+        coreDataStack.saveContext()
+    }
+    
+    func updatePlaylist(playlist: Playlist, withTitle title: String, andTracks tracks: [OfflineTrack]) {
+        
         playlist.title = title
         
+        clearPlaylist(playlist)
         
         // Добавляем аудиозаписи в плейлист
-        entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Объект трек в плейлисте
+        let entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Объект трек в плейлисте
         for (index, track) in tracks.enumerate() {
             let trackInPlaylist = TrackInPlaylist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
             trackInPlaylist.playlist = playlist
@@ -375,10 +405,7 @@ class DataManager: NSObject {
     // Удаление плейлиста
     func deletePlaylist(playlist: Playlist) -> Bool {
         
-        // Удаляем все вхождения треков в плейлист
-        for trackInPlaylist in playlist.tracks.allObjects as! [TrackInPlaylist] {
-            coreDataStack.context.deleteObject(trackInPlaylist)
-        }
+        clearPlaylist(playlist)
         
         // Сдвигаем все плейлисты находящиеся после этого на 1 назад
         for _playlist in playlistsFetchedResultsController.sections!.first!.objects as! [Playlist] {
@@ -422,31 +449,31 @@ class DataManager: NSObject {
         return true
     }
     
-    // Перемещение трека в плейлисте
-    func moveTrackInPlaylist(trackInPlaylist: TrackInPlaylist, fromPosition sourcePosition: Int32, toNewPosition newPosition: Int32) {
-        
-        // Получаем перемещаемый трек и помещаем на позицию -1
-        trackInPlaylist.position = -1
-        
-        // Перемещаем все треки стоящие после позиции перемещаемого на один назад
-        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
-            if _trackInPlaylist.position > sourcePosition {
-                _trackInPlaylist.position -= 1
-            }
-        }
-        
-        // Перемещаем все треки стоящие начиная с новой позиции на один вперед
-        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
-            if _trackInPlaylist.position >= newPosition {
-                _trackInPlaylist.position += 1
-            }
-        }
-        
-        // Перемещаем трек на новую позицию
-        trackInPlaylist.position = newPosition
-        
-        coreDataStack.saveContext()
-    }
+//    // Перемещение трека в плейлисте
+//    func moveTrackInPlaylist(trackInPlaylist: TrackInPlaylist, fromPosition sourcePosition: Int32, toNewPosition newPosition: Int32) {
+//        
+//        // Получаем перемещаемый трек и помещаем на позицию -1
+//        trackInPlaylist.position = -1
+//        
+//        // Перемещаем все треки стоящие после позиции перемещаемого на один назад
+//        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
+//            if _trackInPlaylist.position > sourcePosition {
+//                _trackInPlaylist.position -= 1
+//            }
+//        }
+//        
+//        // Перемещаем все треки стоящие начиная с новой позиции на один вперед
+//        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
+//            if _trackInPlaylist.position >= newPosition {
+//                _trackInPlaylist.position += 1
+//            }
+//        }
+//        
+//        // Перемещаем трек на новую позицию
+//        trackInPlaylist.position = newPosition
+//        
+//        coreDataStack.saveContext()
+//    }
     
 }
 

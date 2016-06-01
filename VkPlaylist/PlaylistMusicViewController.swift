@@ -12,31 +12,15 @@ class PlaylistMusicViewController: UIViewController {
 
     var playlist: Playlist!
     
-    weak var playlistMusicTableViewController: PlaylistMusicTableViewController!
-    
-    var isEditingNow: Bool {
-        get {
-            return playlistMusicTableViewController.editing
-        }
-        set {
-            playlistMusicTableViewController.editing = newValue
-        }
-    }
-    
-    var doneButtonItem: UIBarButtonItem!
-    @IBOutlet var editButton: UIBarButtonItem!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        doneButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(doneButtonTapped)) // Создаем кнопку используя системную иконку
-
-        // Настройка навигационной панели
-        title = playlist.title
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Настройка навигационной панели
+        title = DataManager.sharedInstance.getPlaylistTitle(playlist)
         
         tabBarController!.tabBar.hidden = true
     }
@@ -46,28 +30,11 @@ class PlaylistMusicViewController: UIViewController {
             let playlistMusicTableViewController = segue.destinationViewController as! PlaylistMusicTableViewController
             playlistMusicTableViewController.playlistMusicViewController = self
             playlistMusicTableViewController.playlist = playlist
+        } else if segue.identifier == "ShowAddPlaylistMusicTableViewControllerForEditSegue" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let editPlaylistViewController = navigationController.viewControllers.first as! EditPlaylistViewController
             
-            self.playlistMusicTableViewController = playlistMusicTableViewController
-        }
-    }
-    
-    func swapEditing() {
-        isEditingNow = !isEditingNow
-        navigationItem.setRightBarButtonItems([isEditingNow ? doneButtonItem : editButton], animated: true)
-        
-        playlistMusicTableViewController.searchController.searchBar.alpha = isEditingNow ? 0.5 : 1
-    }
-    
-    
-    // MARK: Кнопки на навигационной панели
-    
-    func doneButtonTapped(sender: UIBarButtonItem) {
-        swapEditing()
-    }
-    
-    @IBAction func editButtonTapped(sender: UIBarButtonItem) {
-        if playlistMusicTableViewController.tracks.count != 0 {
-            swapEditing()
+            editPlaylistViewController.playlistToEdit = playlist
         }
     }
     
