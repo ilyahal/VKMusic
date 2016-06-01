@@ -18,6 +18,7 @@
 		BB0C62F31CE4B7CA00C505B1 /* GetAlbumAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */; };
 		BB3F40EF1CFF190B0018262C /* SegueIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */; };
 		BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */; };
+		BB3F40F31CFF6B5A0018262C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F21CFF6B5A0018262C /* Functions.swift */; };
 		BB405E831CF735C8000C1A2A /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E821CF735C8000C1A2A /* CoreDataStack.swift */; };
 		BB405E861CF736E7000C1A2A /* VKPlaylist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB405E841CF736E7000C1A2A /* VKPlaylist.xcdatamodeld */; };
 		BB405E9C1CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB405E961CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift */; };
@@ -127,6 +128,7 @@
 		BB0C62F41CE4B81600C505B1 /* Notepad.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Notepad.playground; sourceTree = "<group>"; };
 		BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifiers.swift; sourceTree = "<group>"; };
 		BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlaylistMusicViewController.swift; sourceTree = "<group>"; };
+		BB3F40F21CFF6B5A0018262C /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		BB405E821CF735C8000C1A2A /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		BB405E851CF736E7000C1A2A /* VKPlaylist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VKPlaylist.xcdatamodel; sourceTree = "<group>"; };
 		BB405E961CF74332000C1A2A /* TrackInPlaylist+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TrackInPlaylist+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 			children = (
 				BB405E821CF735C8000C1A2A /* CoreDataStack.swift */,
 				BBDEC08C1CD78B5A005B8494 /* Reachability.swift */,
+				BB3F40F21CFF6B5A0018262C /* Functions.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				BB405ECC1CFC2FA5000C1A2A /* AddToPlaylistCell.swift in Sources */,
 				BB405EAA1CF7555E000C1A2A /* EntitiesIdentifiers.swift in Sources */,
 				BBE853A31CE14B1E00872C3B /* GetGroups.swift in Sources */,
+				BB3F40F31CFF6B5A0018262C /* Functions.swift in Sources */,
 				BB405EA31CF74957000C1A2A /* DownloadsTableViewController.swift in Sources */,
 				BB405EB31CF8BC09000C1A2A /* DataManagerDownloadsDelegate.swift in Sources */,
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,

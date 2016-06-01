@@ -45,6 +45,8 @@ class MyMusicTableViewController: MusicFromInternetWithSearchTableViewController
             }
             
             reloadTableView()
+            
+            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
         }
     }
     

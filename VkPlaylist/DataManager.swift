@@ -402,6 +402,32 @@ class DataManager: NSObject {
         coreDataStack.saveContext()
     }
     
+    // Перемещение плейлиста
+    func movePlaylist(playlist: Playlist, fromPosition sourcePosition: Int32, toNewPosition newPosition: Int32) {
+        
+        // Получаем перемещаемый плейлист и помещаем на позицию -1
+        playlist.position = -1
+        
+        // Перемещаем все плейлисты стоящие после позиции перемещаемого на один назад
+        for _playlist in playlistsFetchedResultsController.sections!.first!.objects as! [Playlist] {
+            if _playlist.position > sourcePosition {
+                _playlist.position -= 1
+            }
+        }
+        
+        // Перемещаем все плейлисты стоящие начиная с новой позиции на один вперед
+        for _playlist in playlistsFetchedResultsController.sections!.first!.objects as! [Playlist] {
+            if _playlist.position >= newPosition {
+                _playlist.position += 1
+            }
+        }
+        
+        // Перемещаем плейлист на новую позицию
+        playlist.position = newPosition
+        
+        coreDataStack.saveContext()
+    }
+    
     // Удаление плейлиста
     func deletePlaylist(playlist: Playlist) -> Bool {
         
@@ -448,32 +474,6 @@ class DataManager: NSObject {
         
         return true
     }
-    
-//    // Перемещение трека в плейлисте
-//    func moveTrackInPlaylist(trackInPlaylist: TrackInPlaylist, fromPosition sourcePosition: Int32, toNewPosition newPosition: Int32) {
-//        
-//        // Получаем перемещаемый трек и помещаем на позицию -1
-//        trackInPlaylist.position = -1
-//        
-//        // Перемещаем все треки стоящие после позиции перемещаемого на один назад
-//        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
-//            if _trackInPlaylist.position > sourcePosition {
-//                _trackInPlaylist.position -= 1
-//            }
-//        }
-//        
-//        // Перемещаем все треки стоящие начиная с новой позиции на один вперед
-//        for _trackInPlaylist in trackInPlaylist.playlist.tracks.allObjects as! [TrackInPlaylist] {
-//            if _trackInPlaylist.position >= newPosition {
-//                _trackInPlaylist.position += 1
-//            }
-//        }
-//        
-//        // Перемещаем трек на новую позицию
-//        trackInPlaylist.position = newPosition
-//        
-//        coreDataStack.saveContext()
-//    }
     
 }
 

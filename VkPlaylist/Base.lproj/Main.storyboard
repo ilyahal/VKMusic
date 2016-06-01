@@ -177,8 +177,51 @@
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddPlaylistCell" rowHeight="53" id="av2-jB-4I2">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="53"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="av2-jB-4I2" id="9TU-H6-Clc">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="52.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Добавить плейлист" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eka-G4-eot">
+                                                    <rect key="frame" x="52" y="18" width="140" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GK2-As-faB" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
+                                                    <rect key="frame" x="18" y="14" width="26" height="26"/>
+                                                    <color key="backgroundColor" red="0.069000579419999999" green="0.84732443089999998" blue="0.080847390000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="26" id="enc-Z5-oBe"/>
+                                                        <constraint firstAttribute="width" constant="26" id="uQ4-MP-7cL"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <inset key="contentEdgeInsets" minX="0.0" minY="-3" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="+">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="13"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="GK2-As-faB" firstAttribute="centerY" secondItem="9TU-H6-Clc" secondAttribute="centerY" id="29r-d0-v10"/>
+                                                <constraint firstItem="GK2-As-faB" firstAttribute="leading" secondItem="9TU-H6-Clc" secondAttribute="leading" constant="18" id="JGV-Rd-1TJ"/>
+                                                <constraint firstItem="Eka-G4-eot" firstAttribute="centerY" secondItem="9TU-H6-Clc" secondAttribute="centerY" id="R0k-Q6-9Qo"/>
+                                                <constraint firstItem="Eka-G4-eot" firstAttribute="leading" secondItem="GK2-As-faB" secondAttribute="trailing" constant="8" id="WHj-31-IuA"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PlaylistCell" id="Mkd-fS-PlY" customClass="PlaylistCell" customModule="VkPlaylist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="145" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mkd-fS-PlY" id="n1P-zZ-F9w">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -201,8 +244,51 @@
                                             <outlet property="titleLabel" destination="2yo-GH-Goh" id="fKS-o3-k5b"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddAlbumCell" rowHeight="53" id="jAF-mB-ieE">
+                                        <rect key="frame" x="0.0" y="189" width="600" height="53"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jAF-mB-ieE" id="LAn-qZ-KfR">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="52.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Добавить альбом" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jCG-pS-fb1">
+                                                    <rect key="frame" x="52" y="18" width="125" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgI-3x-jsa" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
+                                                    <rect key="frame" x="18" y="14" width="26" height="26"/>
+                                                    <color key="backgroundColor" red="0.069000579419999999" green="0.84732443089999998" blue="0.080847390000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="26" id="D7v-ei-R6g"/>
+                                                        <constraint firstAttribute="width" constant="26" id="oFi-ZW-egZ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <inset key="contentEdgeInsets" minX="0.0" minY="-3" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="+">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="13"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="vgI-3x-jsa" firstAttribute="centerY" secondItem="LAn-qZ-KfR" secondAttribute="centerY" id="8GP-gg-skk"/>
+                                                <constraint firstItem="vgI-3x-jsa" firstAttribute="leading" secondItem="LAn-qZ-KfR" secondAttribute="leading" constant="18" id="TS2-VV-0uq"/>
+                                                <constraint firstItem="jCG-pS-fb1" firstAttribute="leading" secondItem="vgI-3x-jsa" secondAttribute="trailing" constant="8" id="Z5i-xD-ekf"/>
+                                                <constraint firstItem="jCG-pS-fb1" firstAttribute="centerY" secondItem="LAn-qZ-KfR" secondAttribute="centerY" id="hl5-k5-ffx"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AlbumCell" id="tHg-Mf-2aS" customClass="AlbumCell" customModule="VkPlaylist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="242" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tHg-Mf-2aS" id="lFK-uv-BXe">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -258,13 +344,7 @@
                             <constraint firstAttribute="trailing" secondItem="Gqb-bi-dxc" secondAttribute="trailing" id="lZb-yD-6EF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Плейлисты" id="gCZ-2A-nyP">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="xai-IA-lYD">
-                            <connections>
-                                <action selector="addButtonTapped:" destination="lhN-RF-2LM" id="yU2-fj-T8l"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Плейлисты" id="gCZ-2A-nyP"/>
                     <connections>
                         <outlet property="navigationBar" destination="Gqb-bi-dxc" id="tzv-Sv-Els"/>
                         <outlet property="segmentedControl" destination="3Ce-2s-hR4" id="7gN-Zf-eBb"/>
@@ -1370,7 +1450,7 @@
         <image name="icon-Search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="oyl-4o-mbN"/>
+        <segue reference="lU0-4t-blG"/>
         <segue reference="fOU-GI-PYh"/>
     </inferredMetricsTieBreakers>
 </document>

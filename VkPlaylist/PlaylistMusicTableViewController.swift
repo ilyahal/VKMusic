@@ -65,6 +65,7 @@ class PlaylistMusicTableViewController: UITableViewController {
         tracks = DataManager.sharedInstance.getTracksForPlaylist(playlist)
         searchEnable(tracks.count != 0)
         reloadTableView()
+        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
         
         if tableView.contentOffset.y == 0 {
             tableView.hideSearchBar()

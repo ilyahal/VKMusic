@@ -25,9 +25,21 @@ class PlaylistsViewController: UIViewController {
     var playlists: [Playlist] { // Массив для оффлайн плейлистов
         return DataManager.sharedInstance.playlistsFetchedResultsController.sections!.first!.objects as! [Playlist]
     }
-    private var albums: [Album]! // Массив для альбомов ВК
-
+    
+    private var albums = [Album]() // Массив для альбомов ВК
+    var requestManagerStatus: RequestManagerObject.State {
+        return RequestManager.sharedInstance.getAlbums.state
+    }
+    var requestManagerError: RequestManagerObject.ErrorRequest {
+        return RequestManager.sharedInstance.getAlbums.error
+    }
+    
     var currentAuthorizationStatus: Bool! // Состояние авторизации пользователя при последнем отображении экрана
+    
+    var doneButton: UIBarButtonItem!
+    var editButton: UIBarButtonItem!
+    
+    var editTapped = false
     
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -52,6 +64,13 @@ class PlaylistsViewController: UIViewController {
         
         currentAuthorizationStatus = VKAPIManager.isAuthorized
         
+        // Создание кнопок для навигационной панели
+        editButton = UIBarButtonItem(image: UIImage(named: "icon-Edit"), style: .Plain, target: self, action: #selector(editButtonTapped)) // Создаем кнопку редактировать
+        doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(doneButtonTapped)) // Создаем кнопку готово
+        
+        // Настройка навигационной панели
+        navigationItem.setRightBarButtonItems([editButton], animated: false)
+        
         // Настройка навигационной панели, содержащей segmented control
         navigationBar.barTintColor = UIColor.whiteColor()
         navigationBar.tintColor = (UIApplication.sharedApplication().delegate! as! AppDelegate).tintColor
@@ -63,6 +82,7 @@ class PlaylistsViewController: UIViewController {
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
         tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
+        tableView.allowsSelectionDuringEditing = true
         
         // Регистрация ячеек
         var cellNib = UINib(nibName: TableViewCellIdentifiers.noAuthorizedCell, bundle: nil) // Ячейка "Необходимо авторизоваться"
@@ -121,7 +141,11 @@ class PlaylistsViewController: UIViewController {
     
     // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == SegueIdentifiers.showAlbumAudioSegue {
+        if segue.identifier == SegueIdentifiers.showEditPlaylistViewControllerForAddSegue {
+            afterDelay(1) { _ in
+                self.endEditing()
+            }
+        } else if segue.identifier == SegueIdentifiers.showAlbumAudioSegue {
             let albumMusicViewController = segue.destinationViewController as! AlbumMusicViewController
             let album = sender as! Album
             
@@ -134,15 +158,41 @@ class PlaylistsViewController: UIViewController {
         }
     }
     
+    func startEditing() {
+        tableView.editing = false
+        
+        navigationItem.setRightBarButtonItems([doneButton], animated: true)
+        
+        tableView.editing = true
+        editTapped = true
+        
+        reloadTableView()
+    }
+    
+    func endEditing() {
+        navigationItem.setRightBarButtonItems([editButton], animated: true)
+        
+        tableView.editing = false
+        editTapped = false
+        
+        reloadTableView()
+    }
+    
     
     // MARK: Обработка пользовательских событий
     
     @IBAction func segmentChanged(sender: UISegmentedControl) {
+        endEditing()
+        
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             selected = .Playlists
         case 1:
             selected = .Albums
+            
+            if requestManagerStatus != .Results {
+                navigationItem.setRightBarButtonItems(nil, animated: true)
+            }
         default:
             return
         }
@@ -153,20 +203,16 @@ class PlaylistsViewController: UIViewController {
     
     // MARK: Кнопки на навигационной панели
     
-    // Кнопка +
-    @IBAction func addButtonTapped(sender: UIBarButtonItem) {
-        switch selected {
-        case .Playlists:
-            performSegueWithIdentifier(SegueIdentifiers.showEditPlaylistViewControllerForAddSegue, sender: nil)
-        case .Albums:
-            let alertController = UIAlertController(title: nil, message: "Добавление альбомов будет доступно позже..", preferredStyle: .Alert)
-            
-            let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alertController.addAction(okAction)
-            
-            presentViewController(alertController, animated: true, completion: nil)
-        }
+    // Кнопка изменить была нажата
+    func editButtonTapped(sender: AnyObject?) {
+        startEditing()
     }
+    
+    // Кнопка готово была нажата
+    func doneButtonTapped(sender: AnyObject?) {
+        endEditing()
+    }
+    
     
     // MARK: Выполнение запроса на получение альбомов ВК
     
@@ -175,6 +221,17 @@ class PlaylistsViewController: UIViewController {
             self.albums = DataManager.sharedInstance.albums.array
             
             if self.selected == .Albums {
+                if self.tableView.editing {
+                    self.tableView.editing = self.requestManagerStatus == .Results
+                    self.navigationItem.setRightBarButtonItems(self.requestManagerStatus == .Results ? [self.doneButton] : nil, animated: true)
+                    
+                    if self.editTapped {
+                        self.editTapped = self.requestManagerStatus == .Results
+                    }
+                } else {
+                    self.navigationItem.setRightBarButtonItems(self.requestManagerStatus == .Results ? [self.editButton] : nil, animated: true)
+                }
+                
                 self.reloadTableView()
             }
             
@@ -183,7 +240,7 @@ class PlaylistsViewController: UIViewController {
             }
             
             if !success {
-                switch RequestManager.sharedInstance.getAlbums.error {
+                switch self.requestManagerError {
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -265,6 +322,20 @@ class PlaylistsViewController: UIViewController {
     
     // MARK: Получение ячеек для строк таблицы
     
+    // Ячейка для строки с приглашением создать плейлист
+    func getCellForAddPlaylistRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.addPlaylistCell, forIndexPath: indexPath)
+        
+        return cell
+    }
+    
+    // Ячейка для строки с приглашением создать альбом
+    func getCellForAddAlbumRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.addAlbumCell, forIndexPath: indexPath)
+        
+        return cell
+    }
+    
     // Ячейка для строки с сообщением что нет плейлистов
     func getCellForNoPlaylistsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
@@ -275,7 +346,7 @@ class PlaylistsViewController: UIViewController {
     
     // Ячейка для строки с плейлистом
     func getCellForPlaylistRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let playlist = playlists[indexPath.row]
+        let playlist = playlists[indexPath.row - (editTapped ? 1 : 0)]
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.playlistCell, forIndexPath: indexPath) as! PlaylistCell
         cell.titleLabel.text = playlist.title
@@ -341,7 +412,7 @@ class PlaylistsViewController: UIViewController {
     
     // Ячейка для строки с альбомом
     func getCellForAlbumRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let album = albums[indexPath.row]
+        let album = albums[indexPath.row - (editTapped ? 1 : 0)]
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.albumCell, forIndexPath: indexPath) as! AlbumCell
         cell.titleLabel.text = album.title
@@ -381,15 +452,11 @@ extension PlaylistsViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch selected {
         case .Playlists:
-            if playlists.count == 0 {
-                return 1
-            } else {
-                return playlists.count + 1
-            }
+            return playlists.count + 1
         case .Albums:
             if VKAPIManager.isAuthorized {
-                switch RequestManager.sharedInstance.getAlbums.state {
-                case .NotSearchedYet where RequestManager.sharedInstance.getAlbums.error == .NetworkError:
+                switch requestManagerStatus {
+                case .NotSearchedYet where requestManagerError == .NetworkError:
                     return 1 // Ячейка с сообщением об отсутствии интернет соединения
                 case .NotSearchedYet:
                     return 0
@@ -413,19 +480,27 @@ extension PlaylistsViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch selected {
         case .Playlists:
-            if playlists.count == 0 {
-                return getCellForNoPlaylistsRowInTableView(tableView, forIndexPath: indexPath)
+            if tableView.editing {
+                if indexPath.row == 0 {
+                    return getCellForAddPlaylistRowInTableView(tableView, forIndexPath: indexPath)
+                }
+                
+                return getCellForPlaylistRowInTableView(tableView, forIndexPath: indexPath)
+            } else {
+                if playlists.count == 0 {
+                    return getCellForNoPlaylistsRowInTableView(tableView, forIndexPath: indexPath)
+                }
+                
+                if let numberOfRowsCell = getCellForNumberOfPlaylistsRowInTableView(tableView, forIndexPath: indexPath) {
+                    return numberOfRowsCell
+                }
+                
+                return getCellForPlaylistRowInTableView(tableView, forIndexPath: indexPath)
             }
-            
-            if let numberOfRowsCell = getCellForNumberOfPlaylistsRowInTableView(tableView, forIndexPath: indexPath) {
-                return numberOfRowsCell
-            }
-            
-            return getCellForPlaylistRowInTableView(tableView, forIndexPath: indexPath)
         case .Albums:
             if VKAPIManager.isAuthorized {
-                switch RequestManager.sharedInstance.getAlbums.state {
-                case .NotSearchedYet where RequestManager.sharedInstance.getAlbums.error == .NetworkError:
+                switch requestManagerStatus {
+                case .NotSearchedYet where requestManagerError == .NetworkError:
                     return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
                 case .NotSearchedYet:
                     return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
@@ -433,28 +508,44 @@ extension PlaylistsViewController: UITableViewDataSource {
                     return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
                 case .Loading:
                     if refreshControl.refreshing {
-                        if albums.count == 0 {
-                            return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
-                        }
-                        
-                        if let numberOfRowsCell = getCellForNumberOfPlaylistsRowInTableView(tableView, forIndexPath: indexPath) {
-                            return numberOfRowsCell
-                        }
+                        if tableView.editing {
+                            if editTapped {
+                                return getCellForAddAlbumRowInTableView(tableView, forIndexPath: indexPath)
+                            }
                             
-                        return getCellForAlbumRowInTableView(tableView, forIndexPath: indexPath)
+                            return getCellForAlbumRowInTableView(tableView, forIndexPath: indexPath)
+                        } else {
+                            if albums.count == 0 {
+                                return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+                            }
+                            
+                            if let numberOfRowsCell = getCellForNumberOfPlaylistsRowInTableView(tableView, forIndexPath: indexPath) {
+                                return numberOfRowsCell
+                            }
+                                
+                            return getCellForAlbumRowInTableView(tableView, forIndexPath: indexPath)
+                        }
                     }
                     
                     return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
                 case .Results:
-                    if albums.count == 0 {
-                        return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+                    if editTapped {
+                        if indexPath.row == 0 {
+                            return getCellForAddAlbumRowInTableView(tableView, forIndexPath: indexPath)
+                        }
+                        
+                        return getCellForAlbumRowInTableView(tableView, forIndexPath: indexPath)
+                    } else {
+                        if albums.count == 0 {
+                            return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+                        }
+                        
+                        if let numberOfRowsCell = getCellForNumberOfAlbumsRowInTableView(tableView, forIndexPath: indexPath) {
+                            return numberOfRowsCell
+                        }
+                        
+                        return getCellForAlbumRowInTableView(tableView, forIndexPath: indexPath)
                     }
-                    
-                    if let numberOfRowsCell = getCellForNumberOfAlbumsRowInTableView(tableView, forIndexPath: indexPath) {
-                        return numberOfRowsCell
-                    }
-                    
-                    return getCellForAlbumRowInTableView(tableView, forIndexPath: indexPath)
                 }
             }
             
@@ -464,31 +555,70 @@ extension PlaylistsViewController: UITableViewDataSource {
     
     // Возможно ли редактировать ячейку
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        switch selected {
-        case .Playlists:
-            if tableView.cellForRowAtIndexPath(indexPath) is PlaylistCell {
-                return true
+        if editTapped {
+            return indexPath.row != 0
+        } else {
+            switch selected {
+            case .Playlists:
+                return indexPath.row != playlists.count
+            case .Albums:
+                return indexPath.row != albums.count
             }
-        case .Albums:
-            return false
         }
-        
-        return false
     }
     
     // Обработка удаления ячейки
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            let playlist = playlists[indexPath.row]
-            
-            if !DataManager.sharedInstance.deletePlaylist(playlist) {
-                let alertController = UIAlertController(title: "Ошибка", message: "При удалении плейлиста произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
+            switch selected {
+            case .Playlists:
+                
+                let playlist = playlists[indexPath.row - (editTapped ? 1 : 0)]
+                
+                if !DataManager.sharedInstance.deletePlaylist(playlist) {
+                    let alertController = UIAlertController(title: "Ошибка", message: "При удалении плейлиста произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
+                    
+                    let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                    alertController.addAction(okAction)
+                    
+                    presentViewController(alertController, animated: true, completion: nil)
+                }
+            case .Albums:
+                let alertController = UIAlertController(title: nil, message: "Удаление альбомов будет доступно позже..", preferredStyle: .Alert)
                 
                 let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
                 alertController.addAction(okAction)
                 
                 presentViewController(alertController, animated: true, completion: nil)
             }
+        }
+    }
+    
+    // Возможно ли перемещать ячейку
+    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        switch selected {
+        case .Playlists:
+            if editTapped {
+                return indexPath.row != 0
+            }
+            
+            return false
+        default:
+            return false
+        }
+    }
+    
+    // Обработка после перемещения ячейки
+    func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+        switch selected {
+        case .Playlists:
+            if fromIndexPath.row != toIndexPath.row {
+                let playlistToMove = playlists[fromIndexPath.row - 1]
+                
+                DataManager.sharedInstance.movePlaylist(playlistToMove, fromPosition: Int32(fromIndexPath.row - 1), toNewPosition: Int32(toIndexPath.row - 1))
+            }
+        default:
+            break
         }
     }
     
@@ -505,15 +635,46 @@ extension PlaylistsViewController: UITableViewDelegate {
         
         switch selected {
         case .Playlists:
-            if tableView.cellForRowAtIndexPath(indexPath) is PlaylistCell {
-                let playlist = playlists[indexPath.row]
-                performSegueWithIdentifier(SegueIdentifiers.showPlaylistAudioSegue, sender: playlist)
+            if editTapped {
+                if indexPath.row == 0 {
+                    performSegueWithIdentifier(SegueIdentifiers.showEditPlaylistViewControllerForAddSegue, sender: nil)
+                }
+            } else {
+                if indexPath.row != playlists.count {
+                    let playlist = playlists[indexPath.row]
+                    performSegueWithIdentifier(SegueIdentifiers.showPlaylistAudioSegue, sender: playlist)
+                }
             }
         case .Albums:
-            if tableView.cellForRowAtIndexPath(indexPath) is AlbumCell {
-                let album = albums[indexPath.row]
-                performSegueWithIdentifier(SegueIdentifiers.showAlbumAudioSegue, sender: album)
+            if editTapped {
+                if indexPath.row == 0 {
+                    let alertController = UIAlertController(title: nil, message: "Добавление альбомов будет доступно позже..", preferredStyle: .Alert)
+        
+                    let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                    alertController.addAction(okAction)
+        
+                    presentViewController(alertController, animated: true, completion: nil)
+                }
+            } else {
+                if indexPath.row != albums.count {
+                    let album = albums[indexPath.row]
+                    performSegueWithIdentifier(SegueIdentifiers.showAlbumAudioSegue, sender: album)
+                }
             }
+        }
+    }
+    
+    // Определяется куда переместить ячейку с укзанного NSIndexPath при перемещении в указанный NSIndexPath
+    func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
+        switch selected {
+        case .Playlists:
+            if proposedDestinationIndexPath.row == 0 {
+                return sourceIndexPath
+            } else {
+                return proposedDestinationIndexPath
+            }
+        case .Albums:
+            return proposedDestinationIndexPath
         }
     }
     
