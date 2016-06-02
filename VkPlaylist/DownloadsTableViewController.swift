@@ -69,6 +69,9 @@ class DownloadsTableViewController: UITableViewController {
         
         cellNib = UINib(nibName: TableViewCellIdentifiers.offlineAudioCell, bundle: nil) // Ячейка с аудиозаписью
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.offlineAudioCell)
+        
+        cellNib = UINib(nibName: TableViewCellIdentifiers.numberOfRowsCell, bundle: nil) // Ячейка с количеством строк
+        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.numberOfRowsCell)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -187,6 +190,28 @@ class DownloadsTableViewController: UITableViewController {
         return "Измените поисковый запрос"
     }
     
+    /// Получение количества треков в списке для ячейки с количеством аудиозаписей
+    func numberOfAudioForIndexPath(indexPath: NSIndexPath) -> Int? {
+        if isSearched {
+            if filteredDownloaded.count != 0 && filteredDownloaded.count == indexPath.row {
+                return filteredDownloaded.count
+            } else {
+                return nil
+            }
+        } else {
+            switch indexPath.section {
+            case 1:
+                if downloaded.count != 0 && downloaded.count == indexPath.row {
+                    return downloaded.count
+                } else {
+                    return nil
+                }
+            default:
+                return nil
+            }
+        }
+    }
+    
     
     // MARK: Получение ячеек для строк таблицы
     
@@ -250,6 +275,20 @@ class DownloadsTableViewController: UITableViewController {
         return cell
     }
     
+    /// Попытка получить ячейку для строки с количеством аудиозаписей
+    func getCellForNumberOfAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+        let count = numberOfAudioForIndexPath(indexPath)
+        
+        if let count = count {
+            let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
+            numberOfRowsCell.configureForType(.Audio, withCount: count)
+            
+            return numberOfRowsCell
+        }
+        
+        return nil
+    }
+    
 }
 
 
@@ -282,17 +321,13 @@ extension DownloadsTableViewControllerDataSource {
     // Количество строк в секциях
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearched {
-            if filteredDownloaded.count == 0 {
-                return 1
-            } else {
-                return filteredDownloaded.count
-            }
+            return filteredDownloaded.count + 1
         } else {
             switch section {
             case 0:
                 return activeDownloads.count == 0 ? 1 : activeDownloads.count
             case 1:
-                return downloaded.count == 0 ? 1 : downloaded.count
+                return downloaded.count + 1
             default:
                 return 0
             }
@@ -305,6 +340,10 @@ extension DownloadsTableViewControllerDataSource {
             if filteredDownloaded.count == 0 {
                 return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
             } else {
+                if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+                    return numberOfRowsCell
+                }
+                
                 return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
             }
         } else {
@@ -319,6 +358,10 @@ extension DownloadsTableViewControllerDataSource {
                 if downloaded.count == 0 {
                     return getCellForNoDownloadedInTableView(tableView, forIndexPath: indexPath)
                 } else {
+                    if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+                        return numberOfRowsCell
+                    }
+                    
                     return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
                 }
             default:
@@ -330,12 +373,10 @@ extension DownloadsTableViewControllerDataSource {
     // Возможно ли редактировать ячейку
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if isSearched {
-            return filteredDownloaded.count != 0
+            return filteredDownloaded.count != indexPath.row
         } else {
             if indexPath.section == 1 {
-                if downloaded.count != 0 {
-                    return true
-                }
+                return downloaded.count != indexPath.row
             }
             
             return false
@@ -369,6 +410,25 @@ extension DownloadsTableViewControllerDelegate {
     
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if isSearched {
+            if filteredDownloaded.count != 0 {
+                if filteredDownloaded.count == indexPath.row {
+                    return 44
+                }
+            }
+        } else {
+            switch indexPath.section {
+            case 1:
+                if downloaded.count != 0 {
+                    if downloaded.count == indexPath.row {
+                        return 44
+                    }
+                }
+            default:
+                break
+            }
+        }
+        
         return 62
     }
     
