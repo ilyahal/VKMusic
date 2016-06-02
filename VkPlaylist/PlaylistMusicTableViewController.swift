@@ -24,7 +24,7 @@ class PlaylistMusicTableViewController: UITableViewController {
     
     /// Массив аудиозаписей, отображаемый на экране
     var activeArray: [TrackInPlaylist] {
-        if searchController.active && searchController.searchBar.text != "" {
+        if isSearched {
             return filteredMusic
         } else {
             return tracks
@@ -33,6 +33,10 @@ class PlaylistMusicTableViewController: UITableViewController {
     
     /// Поисковый контроллер
     let searchController = UISearchController(searchResultsController: nil)
+    /// Выполняется ли сейчас поиск
+    var isSearched: Bool {
+        return searchController.active && !searchController.searchBar.text!.isEmpty
+    }
     
     
     override func viewDidLoad() {
@@ -79,8 +83,7 @@ class PlaylistMusicTableViewController: UITableViewController {
     }
 
     deinit {
-        if let superView = searchController.view.superview
-        {
+        if let superView = searchController.view.superview {
             superView.removeFromSuperview()
         }
     }
@@ -222,7 +225,7 @@ extension PlaylistMusicTableViewController {
         if tracks.count == 0 {
             return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
         } else {
-            if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
+            if isSearched && filteredMusic.count == 0 {
                 return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
             }
             
@@ -295,11 +298,7 @@ extension PlaylistMusicTableViewController: UISearchBarDelegate {
     
     // Пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if tracks.count != 0 && !editing {            
-            return true
-        }
-        
-        return false
+        return tracks.count != 0
     }
     
     // Пользователь начал редактирование поискового текста

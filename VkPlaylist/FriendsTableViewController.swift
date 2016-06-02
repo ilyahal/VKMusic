@@ -29,15 +29,19 @@ class FriendsTableViewController: UITableViewController {
     
     /// Массив друзей, отображаемый на экране
     var activeArray: [Friend] {
-        if searchController.active && searchController.searchBar.text != "" {
+        if isSearched {
             return filteredFriends
         } else {
             return friends
         }
     }
     
-    // Поисковый контроллер
+    /// Поисковый контроллер
     let searchController = UISearchController(searchResultsController: nil)
+    /// Выполняется ли сейчас поиск
+    var isSearched: Bool {
+        return searchController.active && !searchController.searchBar.text!.isEmpty
+    }
     
     
     override func viewDidLoad() {
@@ -123,8 +127,7 @@ class FriendsTableViewController: UITableViewController {
     }
     
     deinit {
-        if let superView = searchController.view.superview
-        {
+        if let superView = searchController.view.superview {
             superView.removeFromSuperview()
         }
     }
@@ -271,9 +274,9 @@ class FriendsTableViewController: UITableViewController {
         
         let count: Int?
         
-        if searchController.active && !searchController.searchBar.text!.isEmpty && filteredFriends.count == indexPath.row {
+        if isSearched && filteredFriends.count == indexPath.row {
             count = filteredFriends.count
-        } else if searchController.searchBar.text!.isEmpty && sectionNames!.count == indexPath.row {
+        } else if !isSearched && sectionNames!.count == indexPath.row {
             count = friends.count
         } else {
             count = nil
@@ -345,13 +348,7 @@ class FriendsTableViewController: UITableViewController {
         let sectionTitle = nameSectionTitles[indexPath.section]
         let sectionNames = names[sectionTitle]
         
-        var friend: Friend
-        
-        if searchController.active && searchController.searchBar.text != "" {
-            friend = filteredFriends[indexPath.row]
-        } else {
-            friend = sectionNames![indexPath.row]
-        }
+        let friend = isSearched ? filteredFriends[indexPath.row] : sectionNames![indexPath.row]
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.friendCell, forIndexPath: indexPath) as! FriendCell
         cell.configureForFriend(friend, withImageCacheStorage: imageCache)
@@ -380,11 +377,7 @@ extension FriendsTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getFriends.state {
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
-                    return 1
-                }
-                
-                return nameSectionTitles.count
+                return isSearched ? 1 : nameSectionTitles.count
             default:
                 return 1
             }
@@ -398,11 +391,7 @@ extension FriendsTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getFriends.state {
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
-                    return nil
-                }
-                
-                return nameSectionTitles[section]
+                return isSearched ? nil : nameSectionTitles[section]
             default:
                 return nil
             }
@@ -422,20 +411,20 @@ extension FriendsTableViewControllerDataSource {
             case .NoResults:
                 return 1 // Ячейки с сообщением об отсутствии друзей
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
+                if isSearched {
                     return filteredFriends.count == 0 ? 1 : filteredFriends.count + 1 // Если массив пустой - ячейка с сообщением об отсутствии результатов поиска, иначе - количество найденных друзей
+                } else {
+                    let sectionTitle = nameSectionTitles[section]
+                    let sectionNames = names[sectionTitle]
+                    
+                    var count = sectionNames!.count
+                    
+                    if nameSectionTitles.count - 1 == section {
+                        count += 1 // Для ячейки с количеством друзей в последней секции
+                    }
+                    
+                    return count
                 }
-                
-                let sectionTitle = nameSectionTitles[section]
-                let sectionNames = names[sectionTitle]
-                
-                var count = sectionNames!.count
-                
-                if nameSectionTitles.count - 1 == section {
-                    count += 1 // Для ячейки с количеством друзей в последней секции
-                }
-                
-                return count
             default:
                 return 0
             }
@@ -459,9 +448,12 @@ extension FriendsTableViewControllerDataSource {
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == 0 {
                     return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
-                } else if let numberOfRowsCell = getCellForNumberOfFriendsRowInTableView(tableView, forIndexPath: indexPath) {
+                }
+                
+                if let numberOfRowsCell = getCellForNumberOfFriendsRowInTableView(tableView, forIndexPath: indexPath) {
                     return numberOfRowsCell
                 }
+                
                 return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
             }
         }
@@ -474,11 +466,7 @@ extension FriendsTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getFriends.state {
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" {
-                    return nil
-                }
-                
-                return nameSectionTitles
+                return isSearched ? nil : nameSectionTitles
             default:
                 return nil
             }
@@ -528,7 +516,7 @@ extension FriendsTableViewControllerDelegate {
         if tableView.cellForRowAtIndexPath(indexPath) is FriendCell {
             var friend: Friend
                 
-            if searchController.active && !searchController.searchBar.text!.isEmpty {
+            if isSearched {
                 friend = filteredFriends[indexPath.row]
             } else {
                 let sectionTitle = nameSectionTitles[indexPath.section]
@@ -550,11 +538,7 @@ extension FriendsTableViewController: UISearchBarDelegate {
     
     // Пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if friends.count != 0 {
-            return true
-        }
-        
-        return false
+        return friends.count != 0
     }
     
     // Пользователь начал редактирование поискового текста

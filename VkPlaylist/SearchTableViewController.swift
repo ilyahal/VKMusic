@@ -107,7 +107,7 @@ extension SearchTableViewControllerDataSource {
             case .Loading:
                 return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
+                if isSearched && filteredMusic.count == 0 {
                     return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
                 }
             default:

@@ -16,7 +16,7 @@ class DownloadsTableViewController: UITableViewController {
     let searchController = UISearchController(searchResultsController: nil)
     /// Выполняется ли сейчас поиск
     var isSearched: Bool {
-        return searchController.active && searchController.searchBar.text != ""
+        return searchController.active && !searchController.searchBar.text!.isEmpty
     }
     
     /// Контроллер массива уже загруженных аудиозаписей

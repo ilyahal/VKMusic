@@ -28,7 +28,7 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     
     /// Массив аудиозаписей отображаемый на экране
     var activeArray: [TrackInPlaylist] {
-        if searchController.active && searchController.searchBar.text != "" {
+        if isSearched {
             return filteredTracks
         } else {
             return downloaded
@@ -40,7 +40,10 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     
     /// Контроллер поиска
     let searchController = UISearchController(searchResultsController: nil)
-    
+    /// Выполняется ли сейчас поиск
+    var isSearched: Bool {
+        return searchController.active && !searchController.searchBar.text!.isEmpty
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,8 +93,7 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     }
     
     deinit {
-        if let superView = searchController.view.superview
-        {
+        if let superView = searchController.view.superview {
             superView.removeFromSuperview()
         }
     }
@@ -235,7 +237,7 @@ extension AddPlaylistMusicTableViewControllerDataSource {
         if downloaded.count == 0 {
             return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
         } else {
-            if searchController.active && searchController.searchBar.text != "" && filteredTracks.count == 0 {
+            if isSearched && filteredTracks.count == 0 {
                 return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
             }
             
@@ -326,13 +328,15 @@ extension AddPlaylistMusicTableViewController: DataManagerDownloadsDelegate {
     
     // Контроллер массива загруженных аудиозаписей закончил изменять контент
     func dataManagerDownloadsControllerDidChangeContent() {
-        if activeArray == downloaded {
+        if isSearched {
+            filterContentForSearchText(searchController.searchBar.text!)
+        } else {
             if tableView.tableHeaderView == nil {
                 searchEnable(true)
             }
-            
-            reloadTableView()
         }
+        
+        reloadTableView()
     }
     
 }

@@ -13,12 +13,16 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     
     /// Контроллер поиска
     let searchController = UISearchController(searchResultsController: nil)
+    /// Выполняется ли сейчас поиск
+    var isSearched: Bool {
+        return searchController.active && !searchController.searchBar.text!.isEmpty
+    }
     
     /// Массив аудиозаписей, полученный в результате выполнения поискового запроса
     var filteredMusic = [Track]()
     /// Массив аудиозаписей, отображаемых на экране
     override var activeArray: [Track] {
-        if searchController.active && searchController.searchBar.text != "" {
+        if isSearched {
             return filteredMusic
         } else {
             return music
@@ -56,8 +60,7 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     }
     
     deinit {
-        if let superView = searchController.view.superview
-        {
+        if let superView = searchController.view.superview {
             superView.removeFromSuperview()
         }
     }
@@ -140,7 +143,7 @@ extension MusicFromInternetWithSearchTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch requestManagerStatus {
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" && filteredMusic.count == 0 {
+                if isSearched && filteredMusic.count == 0 {
                     return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
                 }
             default:

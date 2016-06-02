@@ -24,7 +24,7 @@ class GroupsTableViewController: UITableViewController {
     
     /// Массив групп, отображаемый на экрнае
     var activeArray: [Group] {
-        if searchController.active && searchController.searchBar.text != "" {
+        if isSearched {
             return filteredGroups
         } else {
             return groups
@@ -33,6 +33,10 @@ class GroupsTableViewController: UITableViewController {
     
     // Поисковый контроллер
     let searchController = UISearchController(searchResultsController: nil)
+    /// Выполняется ли сейчас поиск
+    var isSearched: Bool {
+        return searchController.active && !searchController.searchBar.text!.isEmpty
+    }
     
     
     override func viewDidLoad() {
@@ -117,8 +121,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     deinit {
-        if let superView = searchController.view.superview
-        {
+        if let superView = searchController.view.superview {
             superView.removeFromSuperview()
         }
     }
@@ -343,11 +346,14 @@ extension GroupsTableViewControllerDataSource {
             case .Loading:
                 return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
             case .Results:
-                if searchController.active && searchController.searchBar.text != "" && filteredGroups.count == 0 {
+                if isSearched && filteredGroups.count == 0 {
                     return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
-                } else if let numberOfRowsCell = getCellForNumberOfGroupsRowInTableView(tableView, forIndexPath: indexPath) {
+                }
+                
+                if let numberOfRowsCell = getCellForNumberOfGroupsRowInTableView(tableView, forIndexPath: indexPath) {
                     return numberOfRowsCell
                 }
+                
                 return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
             }
         }
@@ -396,11 +402,7 @@ extension GroupsTableViewController: UISearchBarDelegate {
     
     // Пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if groups.count != 0 {
-            return true
-        }
-        
-        return false
+        return groups.count != 0
     }
     
     // Пользователь начал редактирование поискового текста
