@@ -12,13 +12,31 @@ import CoreData
 /// Контроллер содержащий таблицу со списком активных загрузок и уже загруженных аудиозаписей
 class DownloadsTableViewController: UITableViewController {
 
+    /// Контроллер поиска
+    let searchController = UISearchController(searchResultsController: nil)
+    /// Выполняется ли сейчас поиск
+    var isSearched: Bool {
+        return searchController.active && searchController.searchBar.text != ""
+    }
+    
     /// Контроллер массива уже загруженных аудиозаписей
     var downloadsFetchedResultsController: NSFetchedResultsController {
         return DataManager.sharedInstance.downloadsFetchedResultsController
     }
+    
     /// Массив уже загруженных аудиозаписей
     var downloaded: [TrackInPlaylist] {
         return downloadsFetchedResultsController.sections!.first!.objects as! [TrackInPlaylist]
+    }
+    /// Массив уже загруженных аудиозаписей, полученный в результате выполения поискового запроса
+    var filteredDownloaded = [TrackInPlaylist]()
+    /// Массив загруженных аудиозаписей, отобажаемых на экране
+    var activeArray: [TrackInPlaylist] {
+        if isSearched {
+            return filteredDownloaded
+        } else {
+            return downloaded
+        }
     }
     
     /// Массив аудиозаписей, загружаемых сейчас
@@ -32,6 +50,15 @@ class DownloadsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Настройка поисковой панели
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.searchBarStyle = .Prominent
+        definesPresentationContext = true
         
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
@@ -48,6 +75,9 @@ class DownloadsTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         pauseOrResumeTapped = false
+        
+        searchEnable(downloaded.count != 0)
+        
         reloadTableView()
     }
     
@@ -65,10 +95,61 @@ class DownloadsTableViewController: UITableViewController {
         DownloadManager.sharedInstance.deleteDelegate(self)
     }
     
+    deinit {
+        if let superView = searchController.view.superview {
+            superView.removeFromSuperview()
+        }
+    }
+    
     // Заново отрисовать таблицу
     func reloadTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
+        }
+    }
+    
+    
+    // MARK: Работа с клавиатурой
+    
+    /// Распознаватель тапов по экрану
+    lazy var tapRecognizer: UITapGestureRecognizer = {
+        var recognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        return recognizer
+    }()
+    
+    /// Спрятать клавиатуру у поисковой строки
+    func dismissKeyboard() {
+        searchController.searchBar.resignFirstResponder()
+        
+        if searchController.active && searchController.searchBar.text!.isEmpty {
+            searchController.active = false
+        }
+    }
+    
+    
+    // MARK: Поиск
+    
+    /// Управление доступностью поиска
+    func searchEnable(enable: Bool) {
+        if enable {
+            if tableView.tableHeaderView == nil {
+                searchController.searchBar.alpha = 1
+                tableView.tableHeaderView = searchController.searchBar
+            }
+        } else {
+            if let _ = tableView.tableHeaderView {
+                searchController.searchBar.alpha = 0
+                searchController.active = false
+                tableView.tableHeaderView = nil
+            }
+        }
+    }
+    
+    /// Выполнение поискового запроса
+    func filterContentForSearchText(searchText: String) {
+        filteredDownloaded = downloaded.filter { trackInPlaylist in
+            let track = trackInPlaylist.track
+            return track.title.lowercaseString.containsString(searchText.lowercaseString) || track.artist.lowercaseString.containsString(searchText.lowercaseString)
         }
     }
     
@@ -91,20 +172,25 @@ class DownloadsTableViewController: UITableViewController {
     
     // MARK: Получение ячеек для строк таблицы helpers
     
-    // Текст для ячейки с сообщением о том, что нет загружаемых треков
+    /// Текст для ячейки с сообщением о том, что нет загружаемых треков
     var noActiveDownloadsLabelText: String {
         return "Нет активных загрузок"
     }
     
-    // Текст для ячейки с сообщением о том, что нет загруженных треков
+    /// Текст для ячейки с сообщением о том, что нет загруженных треков
     var noDownloadedLabelText: String {
         return "Нет загруженных треков"
+    }
+    
+    /// Текст для ячейки с сообщением о том, что при поиске ничего не найдено
+    var textForNothingFoundRow: String {
+        return "Измените поисковый запрос"
     }
     
     
     // MARK: Получение ячеек для строк таблицы
     
-    // Ячейка для строки с сообщением об отсутствии загружаемых треков
+    /// Ячейка для строки с сообщением об отсутствии загружаемых треков
     func getCellForNoActiveDownloadsInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         cell.messageLabel.text = noActiveDownloadsLabelText
@@ -112,7 +198,7 @@ class DownloadsTableViewController: UITableViewController {
         return cell
     }
     
-    // Ячейка для строки с загружаемым треком
+    /// Ячейка для строки с загружаемым треком
     func getCellForActiveDownloadTrackInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let track = DownloadManager.sharedInstance.downloadsTracks[indexPath.row]
         
@@ -137,7 +223,7 @@ class DownloadsTableViewController: UITableViewController {
         return cell
     }
     
-    // Ячейка для строки с сообщением об отсутствии загруженных треков
+    /// Ячейка для строки с сообщением об отсутствии загруженных треков
     func getCellForNoDownloadedInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         cell.messageLabel.text = noDownloadedLabelText
@@ -145,9 +231,17 @@ class DownloadsTableViewController: UITableViewController {
         return cell
     }
     
-    // Ячейка для строки с загруженным треком
+    /// Ячейка для строки с сообщением, что при поиске ничего не было найдено
+    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
+        nothingFoundCell.messageLabel.text = textForNothingFoundRow
+        
+        return nothingFoundCell
+    }
+    
+    /// Ячейка для строки с загруженным треком
     func getCellForOfflineAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let trackInPlaylist = downloaded[indexPath.row]
+        let trackInPlaylist = activeArray[indexPath.row]
         let track = trackInPlaylist.track
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.offlineAudioCell, forIndexPath: indexPath) as! OfflineAudioCell
@@ -166,68 +260,92 @@ extension DownloadsTableViewControllerDataSource {
     
     // Количество секций
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2 // Секции с загружаемыми и загруженными треками
+        return 1 + (!isSearched ? 1 : 0)
     }
     
     // Названия секций
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Активные загрузки"
-        case 1:
-            return "Загруженные"
-        default:
+        if isSearched {
             return nil
+        } else {
+            switch section {
+            case 0:
+                return "Активные загрузки"
+            case 1:
+                return "Загруженные"
+            default:
+                return nil
+            }
         }
     }
     
     // Количество строк в секциях
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return activeDownloads.count == 0 ? 1 : activeDownloads.count
-        case 1:
-            return downloaded.count == 0 ? 1 : downloaded.count
-        default:
-            return 0
+        if isSearched {
+            if filteredDownloaded.count == 0 {
+                return 1
+            } else {
+                return filteredDownloaded.count
+            }
+        } else {
+            switch section {
+            case 0:
+                return activeDownloads.count == 0 ? 1 : activeDownloads.count
+            case 1:
+                return downloaded.count == 0 ? 1 : downloaded.count
+            default:
+                return 0
+            }
         }
     }
     
     // Ячейки для строк
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            if activeDownloads.count == 0 {
-                return getCellForNoActiveDownloadsInTableView(tableView, forIndexPath: indexPath)
+        if isSearched {
+            if filteredDownloaded.count == 0 {
+                return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+            } else {
+                return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
             }
-            
-            return getCellForActiveDownloadTrackInTableView(tableView, forIndexPath: indexPath)
-        case 1:
-            if downloaded.count == 0 {
-                return getCellForNoDownloadedInTableView(tableView, forIndexPath: indexPath)
+        } else {
+            switch indexPath.section {
+            case 0:
+                if activeDownloads.count == 0 {
+                    return getCellForNoActiveDownloadsInTableView(tableView, forIndexPath: indexPath)
+                } else {
+                    return getCellForActiveDownloadTrackInTableView(tableView, forIndexPath: indexPath)
+                }
+            case 1:
+                if downloaded.count == 0 {
+                    return getCellForNoDownloadedInTableView(tableView, forIndexPath: indexPath)
+                } else {
+                    return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
+                }
+            default:
+                return UITableViewCell()
             }
-            
-            return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
-        default:
-            return UITableViewCell()
         }
     }
     
     // Возможно ли редактировать ячейку
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if indexPath.section == 1 {
-            if downloaded.count != 0 {
-                return true
+        if isSearched {
+            return filteredDownloaded.count != 0
+        } else {
+            if indexPath.section == 1 {
+                if downloaded.count != 0 {
+                    return true
+                }
             }
+            
+            return false
         }
-        
-        return false
     }
     
     // Обработка удаления ячейки
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            let trackInPlaylist = downloaded[indexPath.row]
+            let trackInPlaylist = activeArray[indexPath.row]
             let track = trackInPlaylist.track
             
             if !DataManager.sharedInstance.deleteTrack(track) {
@@ -262,6 +380,46 @@ extension DownloadsTableViewControllerDelegate {
 }
 
 
+// MARK: UISearchBarDelegate
+
+extension DownloadsTableViewController: UISearchBarDelegate {
+    
+    // Пользователь хочет начать поиск
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        return downloaded.count != 0
+    }
+    
+    // Пользователь начал редактирование поискового текста
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    // Пользователь закончил редактирование поискового текста
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        view.removeGestureRecognizer(tapRecognizer)
+    }
+    
+    // В поисковой панели была нажата кнопка "Отмена"
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        filteredDownloaded.removeAll()
+    }
+    
+}
+
+
+// MARK: UISearchResultsUpdating
+
+extension DownloadsTableViewController: UISearchResultsUpdating {
+    
+    // Поле поиска получило фокус или значение поискового запроса изменилось
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+        reloadTableView()
+    }
+    
+}
+
+
 // MARK: DataManagerDownloadsDelegate
 
 extension DownloadsTableViewController: DataManagerDownloadsDelegate {
@@ -274,6 +432,11 @@ extension DownloadsTableViewController: DataManagerDownloadsDelegate {
     
     // Контроллер массива загруженных аудиозаписей закончил изменять контент
     func dataManagerDownloadsControllerDidChangeContent() {
+        searchEnable(downloaded.count != 0)
+        if isSearched {
+            filterContentForSearchText(searchController.searchBar.text!)
+        }
+        
         reloadTableView()
     }
     
@@ -286,31 +449,37 @@ extension DownloadsTableViewController: DownloadManagerDelegate {
     
     // Менеджер загрузок начал новую загрузку
     func downloadManagerStartTrackDownload(download: Download) {
-        if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
-            dispatch_async(dispatch_get_main_queue(), {
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .Fade)
-            })
+        if !isSearched {
+            if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .Fade)
+                })
+            }
         }
     }
     
     // Менеджер загрузок изменил состояние загрузки
     func downloadManagerUpdateStateTrackDownload(download: Download) {
-        if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
-            if pauseOrResumeTapped {
-                pauseOrResumeTapped = false
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
-                })
-            } else {
-                reloadTableView()
+        if !isSearched {
+            if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
+                if pauseOrResumeTapped {
+                    pauseOrResumeTapped = false
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
+                    })
+                } else {
+                    reloadTableView()
+                }
             }
         }
     }
     
     // Менеджер загрузок отменил выполнение загрузки
     func downloadManagerCancelTrackDownload(download: Download) {
-        reloadTableView()
+        if !isSearched {
+            reloadTableView()
+        }
     }
     
     // Менеджер загрузок завершил загрузку
@@ -318,19 +487,21 @@ extension DownloadsTableViewController: DownloadManagerDelegate {
     
     // Вызывается когда часть данных была загружена
     func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        if let downloadUrl = downloadTask.originalRequest?.URL?.absoluteString, download = activeDownloads[downloadUrl] {
-            if let trackIndex = trackIndexForDownloadTask(downloadTask), let activeDownloadCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: trackIndex, inSection: 0)) as? ActiveDownloadCell {
-                download.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
-                let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
-                
-                let isCompleted = download.progress == 1 // Завершена ли загрузка
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    activeDownloadCell.cancelButton.hidden = isCompleted
-                    activeDownloadCell.pauseButton.hidden = isCompleted
-                    activeDownloadCell.progressBar.progress = download.progress
-                    activeDownloadCell.progressLabel.text =  isCompleted ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
-                })
+        if !isSearched {
+            if let downloadUrl = downloadTask.originalRequest?.URL?.absoluteString, download = activeDownloads[downloadUrl] {
+                if let trackIndex = trackIndexForDownloadTask(downloadTask), let activeDownloadCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: trackIndex, inSection: 0)) as? ActiveDownloadCell {
+                    download.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
+                    let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
+                    
+                    let isCompleted = download.progress == 1 // Завершена ли загрузка
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        activeDownloadCell.cancelButton.hidden = isCompleted
+                        activeDownloadCell.pauseButton.hidden = isCompleted
+                        activeDownloadCell.progressBar.progress = download.progress
+                        activeDownloadCell.progressLabel.text =  isCompleted ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
+                    })
+                }
             }
         }
     }
