@@ -9,7 +9,6 @@
 import UIKit
 
 /// Получение списка аудиозаписей альбома
-
 class GetAlbumAudio: RequestManagerObject {
     
     override func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
@@ -41,7 +40,7 @@ class GetAlbumAudio: RequestManagerObject {
             // Сохранение данных
             let result = notification.userInfo!["Audio"] as! [Track]
             
-            DataManager.sharedInstance.albumMusic.update(result)
+            DataManager.sharedInstance.albumMusic.saveNewArray(result)
             self.state = DataManager.sharedInstance.albumMusic.array.count == 0 ? .NoResults : .Results
             self.error = .None
             

@@ -8,20 +8,24 @@
 
 import UIKit
 
+/// Контейнер содержащий таблицу со списком аудиозаписей владельца
 class OwnerMusicTableViewController: MusicFromInternetWithSearchTableViewController {
 
-    private var toDelete = true // Флаг на отчистку загруженных результатов
+    /// Флаг на отчистку загруженных результатов
+    private var toDelete = true
     
-    var id: Int! // Идентификатор владельца, чьи аудиозаписи загружаются
+    /// Идентификатор владельца, чьи аудиозаписи загружаются
+    var id: Int!
     
+    /// Запрос на получение данных с сервера
     override var getRequest: (() -> Void)! {
         return getOwnerMusic
     }
-    
+    /// Статус выполнения запроса к серверу
     override var requestManagerStatus: RequestManagerObject.State {
         return RequestManager.sharedInstance.getOwnerAudio.state
     }
-    
+    /// Ошибки при выполнении запроса к серверу
     override var requestManagerError: RequestManagerObject.ErrorRequest {
         return RequestManager.sharedInstance.getOwnerAudio.error
     }
@@ -60,6 +64,7 @@ class OwnerMusicTableViewController: MusicFromInternetWithSearchTableViewControl
     
     // MARK: Выполнение запроса на получение аудиозаписей владельца
     
+    /// Запрос на получение аудиозаписей владельца с сервера
     func getOwnerMusic() {
         RequestManager.sharedInstance.getOwnerAudio.performRequest([.OwnerID : id]) { success in
             self.music = DataManager.sharedInstance.ownerMusic.array

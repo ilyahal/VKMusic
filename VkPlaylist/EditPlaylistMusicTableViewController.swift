@@ -8,11 +8,15 @@
 
 import UIKit
 
+/// Контроллер содержащий таблицу со списком аудиозаписей редактируемого плейлиста
 class EditPlaylistMusicTableViewController: UITableViewController {
     
+    /// Редактируемый плейлист
     var playlistToEdit: Playlist?
     
+    /// Массив треков плейлиста
     var tracks = [OfflineTrack]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +37,6 @@ class EditPlaylistMusicTableViewController: UITableViewController {
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.offlineAudioCell)
     }
     
-    // Заново отрисовать таблицу
-    func reloadTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.tableView.reloadData()
-        }
-    }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == SegueIdentifiers.showAddPlaylistMusicViewControllerSegue {
             let navigationController = segue.destinationViewController as! UINavigationController
@@ -49,10 +46,17 @@ class EditPlaylistMusicTableViewController: UITableViewController {
         }
     }
     
+    /// Заново отрисовать таблицу
+    func reloadTableView() {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.reloadData()
+        }
+    }
+    
     
     // MARK: Получение ячеек для строк таблицы
     
-    // Ячейка для строки с загруженным треком
+    /// Ячейка для строки с загруженным треком
     func getCellForAddAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.addAudioCell, forIndexPath: indexPath)
         
@@ -129,6 +133,7 @@ extension EditPlaylistMusicTableViewControllerDataSource {
 
 }
 
+
 // MARK: UITableViewDelegate
 
 private typealias EditPlaylistMusicTableViewControllerDelegate = EditPlaylistMusicTableViewController
@@ -159,7 +164,7 @@ extension EditPlaylistMusicTableViewControllerDelegate {
 
 extension EditPlaylistMusicTableViewController: AddPlaylistMusicDelegate {
     
-    // Вызывается при добавлении трека в плейлист
+    // Аудиозапись была добавлена в плейлист
     func addPlaylistMusicDelegateAddTrack(track: OfflineTrack) {
         tracks.append(track)
         

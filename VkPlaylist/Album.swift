@@ -6,10 +6,13 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
+/// Альбом
 class Album {
     
-    let id: Int? // Идентификатор
-    let title: String? // Название
+    /// Идентификатор
+    let id: Int?
+    /// Название
+    let title: String?
     
     
     init(id: Int?, title: String?) {

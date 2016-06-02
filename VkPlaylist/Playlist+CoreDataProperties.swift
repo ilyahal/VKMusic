@@ -14,10 +14,15 @@ import CoreData
 
 extension Playlist {
 
-    @NSManaged var id: Int32 // Идентификатор плейлиста
-    @NSManaged var isVisible: Bool // Отображается ли плейлист
-    @NSManaged var position: Int32 // Позиция плейлиста в списке
-    @NSManaged var title: String // Название плейлиста
-    @NSManaged var tracks: NSSet // Треки содержащиеся в плейлисте (TrackInPlaylist)
+    /// Идентификатор плейлиста
+    @NSManaged var id: Int32
+    /// Отображается ли плейлист
+    @NSManaged var isVisible: Bool
+    /// Позиция плейлиста в списке
+    @NSManaged var position: Int32
+    /// Название плейлиста
+    @NSManaged var title: String
+    /// Треки содержащиеся в плейлисте (TrackInPlaylist)
+    @NSManaged var tracks: NSSet
 
 }

@@ -8,10 +8,14 @@
 
 import UIKit
 
+/// Контроллер со списком допустимых настроек
 class SettingsTableViewController: UITableViewController {
 
-    @IBOutlet weak var loginButton: UIButton! // Кнопка "Войти в аккаунт"
-    @IBOutlet weak var logoutButton: UIButton! // Кнопка "Выход из аккаунта"
+    /// Кнопка "Авторизоваться"
+    @IBOutlet weak var loginButton: UIButton!
+    /// Кнопка "Деавторизоваться"
+    @IBOutlet weak var logoutButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +34,7 @@ class SettingsTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    // Обновление состояния кнопок авторизации
+    /// Обновление состояния кнопок авторизации
     func updateAuthorizationButtonsStatus(state: Bool) {
         if state {
             dispatch_async(dispatch_get_main_queue()) {
@@ -45,13 +49,16 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    // Вызывается при тапе по кнопке "Войти в аккаунт"
+    
+    // MARK: Кнопки на навигационной панели
+    
+    /// Вызывается при тапе по кнопке "Войти в аккаунт"
     @IBAction func loginTapped(sender: UIButton) {
         loginButton.enabled = false
         VKAPIManager.autorize()
     }
     
-    // Вызывается при тапе по кнопке "Выход из аккаунта"
+    /// Вызывается при тапе по кнопке "Выход из аккаунта"
     @IBAction func logoutTapped(sender: UIButton) {
         logoutButton.enabled = false
         VKAPIManager.logout()
@@ -60,17 +67,17 @@ class SettingsTableViewController: UITableViewController {
     
     // MARK: Авторизация пользователя
     
-    // Пользователь авторизовался
+    /// Пользователь авторизовался
     func userDidAutorize() {
         updateAuthorizationButtonsStatus(true)
     }
     
-    // Пользователь деавторизовался
+    /// Пользователь деавторизовался
     func userDidUnautorize() {
         updateAuthorizationButtonsStatus(false)
     }
     
-    // При авторизации пользователя произошла ошибка
+    /// При авторизации пользователя произошла ошибка
     func userAutorizationFailed() {
         updateAuthorizationButtonsStatus(false)
     }

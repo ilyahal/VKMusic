@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Ячейка для строки с сообщением об ошибке доступа
 class AccessErrorCell: UITableViewCell {
     
 }

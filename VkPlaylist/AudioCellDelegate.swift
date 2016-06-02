@@ -6,18 +6,19 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
+/// Делегат ячейки с онлайн аудиозаписью
 protocol AudioCellDelegate {
     
-    // Вызывается когда была нажата кнопка "Пауза"
+    /// Кнопка "Пауза" была нажата
     func pauseTapped(cell: AudioCell)
     
-    // Вызывается когда была нажата кнопка "Продолжить"
+    /// Кнопка "Продолжить" была нажата
     func resumeTapped(cell: AudioCell)
     
-    // Вызывается когда была нажата кнопка "Отмена"
+    /// Кнопка "Отмена" была нажата
     func cancelTapped(cell: AudioCell)
     
-    // Вызывается когда была нажата кнопка "Скачать"
+    /// Кнопка "Скачать" была нажата
     func downloadTapped(cell: AudioCell)
     
 }

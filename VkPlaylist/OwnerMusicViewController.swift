@@ -8,10 +8,13 @@
 
 import UIKit
 
+/// Контроллер содержащий контейнер со списком аудиозаписей владельца
 class OwnerMusicViewController: UIViewController {
 
-    var id: Int! // Идентификатор владельца, чьи аудиозаписи загружаются
-    var name: String? // Имя владельца
+    /// Идентификатор владельца, чьи аудиозаписи загружаются
+    var id: Int!
+    /// Имя владельца
+    var name: String?
     
     
     override func viewDidLoad() {
@@ -24,6 +27,7 @@ class OwnerMusicViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == SegueIdentifiers.showOwnerMusicTableViewControllerInContainerSegue {
             let ownerMusicTableViewController = segue.destinationViewController as! OwnerMusicTableViewController
+            
             ownerMusicTableViewController.id = id
         }
     }

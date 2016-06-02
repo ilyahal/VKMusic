@@ -6,12 +6,17 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
+/// Друг
 class Friend {
     
-    let id: Int? // Идентификатор
-    let last_name: String? // Фамилия
-    let photo_200_orig: String? // Фотография
-    let first_name: String? // Имя
+    /// Идентификатор
+    let id: Int?
+    /// Фамилия
+    let last_name: String?
+    /// Фотография
+    let photo_200_orig: String?
+    /// Имя
+    let first_name: String?
     
     
     init(id: Int?, last_name: String?, photo_200_orig: String?, first_name: String?) {
@@ -21,7 +26,7 @@ class Friend {
         self.first_name = first_name
     }
     
-    // Получение полного имени пользователя
+    /// Получение полного имени пользователя
     func getFullName() -> String {
         var userName = ""
         

@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Контроллер содержит контейнер со списком друзей
 class FriendsViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {

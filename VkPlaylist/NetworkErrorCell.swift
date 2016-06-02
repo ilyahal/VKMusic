@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Ячейка для строки с сообщением о проблемах при подключении к интернету
 class NetworkErrorCell: UITableViewCell {
 
 }

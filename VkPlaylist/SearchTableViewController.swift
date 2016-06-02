@@ -8,15 +8,18 @@
 
 import UIKit
 
+/// Контроллер содержащий таблицу со списком искомых аудиозаписей
 class SearchTableViewController: MusicFromInternetWithSearchTableViewController {
     
+    /// Статус выполнения запроса к серверу
     override var requestManagerStatus: RequestManagerObject.State {
         return RequestManager.sharedInstance.searchAudio.state
     }
-    
+    /// Ошибки при выполнении запроса к серверу
     override var requestManagerError: RequestManagerObject.ErrorRequest {
         return RequestManager.sharedInstance.searchAudio.error
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +43,7 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let music = music where !music.isEmpty {
+        if !music.isEmpty {
             return
         }
         
@@ -50,6 +53,7 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
     
     // MARK: Выполнение запроса на получение искомых аудиозаписей
     
+    /// Запрос на получение искомых аудиозаписей с сервера
     func searchMusic(search: String) {
         RequestManager.sharedInstance.searchAudio.performRequest([.RequestText : search]) { success in
             self.music = DataManager.sharedInstance.searchMusic.array
@@ -78,14 +82,14 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
     
     // MARK: Получение ячеек для строк таблицы helpers
     
-    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
-    override var textForNoResultsRow: String {
+    /// Текст для ячейки с сообщением о том, что сервер вернул пустой массив
+    override var noResultsLabelText: String {
         return "Ничего не найдено"
     }
     
-    // Текст для ячейки с сообщением о необходимости авторизоваться
-    override var textForNoAuthorizedRow: String {
-        return "Для поиска аудиозаписей необходимо авторизоваться"
+    /// Текст для ячейки с сообщением о необходимости авторизоваться
+    override var noAuthorizedLabelText: String {
+        return "Необходимо авторизоваться"
     }
     
 }
@@ -122,30 +126,26 @@ extension SearchTableViewControllerDataSource {
 private typealias SearchTableViewControllerUISearchBarDelegate = SearchTableViewController
 extension SearchTableViewControllerUISearchBarDelegate {
     
-    // Говорит делегату что пользователь хочет начать поиск
+    // Пользователь хочет начать поиск
     override func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if VKAPIManager.isAuthorized {
-            return true
-        }
-        
-        return false
+        return VKAPIManager.isAuthorized
     }
     
-    // Вызывается когда пользователь закончил редактирование поискового текста
+    // Пользователь закончил редактирование поискового текста
     override func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         super.searchBarTextDidEndEditing(searchBar)
         
         pullToRefreshEnable(false)
     }
     
+    // На клавиатуре была нажата кнопка "Искать"
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        if !searchController.searchBar.text!.isEmpty {
-            searchMusic(searchController.searchBar.text!)
-        }
+        searchMusic(searchController.searchBar.text!)
 
         reloadTableView()
     }
     
+    // В поисковой панели была нажата кнопка "Отмена"
     override func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         music.removeAll()
         filteredMusic.removeAll()
@@ -166,7 +166,7 @@ extension SearchTableViewControllerUISearchBarDelegate {
 private typealias SearchTableViewControllerUISearchResultsUpdating = SearchTableViewController
 extension SearchTableViewControllerUISearchResultsUpdating {
     
-    // Вызывается когда поле поиска получает фокус или когда значение поискового запроса изменяется
+    // Поле поиска получило фокус или значение поискового запроса изменено
     override func updateSearchResultsForSearchController(searchController: UISearchController) {
         
         // FIXME: При отправлении запроса с каждым изменением текстового поля программа периодически крашится

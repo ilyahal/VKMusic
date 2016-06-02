@@ -6,9 +6,10 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
+/// Делегат ячейки с добавляемой в плейлист офлайн аудиозаписью
 protocol AddToPlaylistCellDelegate: class {
     
-    // Вызывается при тапе по кнопке "+"
+    /// Кнопка "Добавить" была нажата
     func addTapped(cell: AddToPlaylistCell)
     
 }

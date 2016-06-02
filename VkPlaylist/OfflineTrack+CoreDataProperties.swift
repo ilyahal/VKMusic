@@ -14,13 +14,21 @@ import CoreData
 
 extension OfflineTrack {
 
-    @NSManaged var artist: String // Исполнитель
-    @NSManaged var duration: Int32 // Продолжительность
-    @NSManaged var id: Int32 // Идентификатор
-    @NSManaged var ownerID: Int32 // Идентификатор владельца
-    @NSManaged var lyrics: String? // Слова
-    @NSManaged var title: String // Название
-    @NSManaged var file: NSData // Файл
-    @NSManaged var playlists: NSSet // Плейлисты в которых содержится трек (TrackInPlaylist)
+    /// Исполнитель
+    @NSManaged var artist: String
+    /// Продолжительность
+    @NSManaged var duration: Int32
+    /// Идентификатор
+    @NSManaged var id: Int32
+    /// Идентификатор владельца
+    @NSManaged var ownerID: Int32
+    /// Слова
+    @NSManaged var lyrics: String?
+    /// Название
+    @NSManaged var title: String
+    /// Файл
+    @NSManaged var file: NSData
+    /// Плейлисты в которых содержится трек (TrackInPlaylist)
+    @NSManaged var playlists: NSSet
 
 }

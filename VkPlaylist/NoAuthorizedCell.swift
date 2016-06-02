@@ -8,11 +8,15 @@
 
 import UIKit
 
+/// Ячейка для строки с сообщением о необходимости авторизоваться
 class NoAuthorizedCell: UITableViewCell {
     
+    /// Метка для сообщения
     @IBOutlet weak var messageLabel: UILabel!
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         messageLabel.text = nil
     }
 

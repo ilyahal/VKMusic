@@ -10,6 +10,7 @@ import UIKit
 
 extension UITableView {
     
+    /// Скрыть поисковую панель
     func hideSearchBar() {
         if let bar = self.tableHeaderView as? UISearchBar {
             let height = CGRectGetHeight(bar.frame)

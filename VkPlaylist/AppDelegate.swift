@@ -14,10 +14,13 @@ import SwiftyVK
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    /// Главный оттенок
     let tintColor =  UIColor(red: 242/255, green: 71/255, blue: 63/255, alpha: 1)
     
+    /// Стэк CoreData
     lazy var coreDataStack = CoreDataStack()
     
+    /// Обработчик завершения сессии, выполняемой в фоне
     var backgroundSessionCompletionHandler: (() -> Void)?
     
 
@@ -55,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Кастомизация приложения
     
+    /// Кастомизация приложения
     private func customizeAppearance() {
         window?.tintColor = tintColor
         UISearchBar.appearance().barTintColor = UIColor.whiteColor()
@@ -68,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: Авторизация пользователя
     
-    // Пользователь деавторизовался
+    /// Пользователь деавторизовался
     func userDidUnautorize() {
         RequestManager.sharedInstance.cancelRequestInCaseOfDeavtorization()
         DataManager.sharedInstance.clearDataInCaseOfDeavtorization()

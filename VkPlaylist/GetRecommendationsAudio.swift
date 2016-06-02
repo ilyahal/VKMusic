@@ -9,7 +9,6 @@
 import UIKit
 
 /// Получение списка рекомендуемых аудиозаписей
-
 class GetRecommendationsAudio: RequestManagerObject {
     
     override func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
@@ -39,7 +38,7 @@ class GetRecommendationsAudio: RequestManagerObject {
             // Сохранение данных
             let result = notification.userInfo!["Audio"] as! [Track]
             
-            DataManager.sharedInstance.recommendationsMusic.update(result)
+            DataManager.sharedInstance.recommendationsMusic.saveNewArray(result)
             self.state = DataManager.sharedInstance.recommendationsMusic.array.count == 0 ? .NoResults : .Results
             self.error = .None
             

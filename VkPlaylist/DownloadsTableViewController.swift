@@ -9,23 +9,25 @@
 import UIKit
 import CoreData
 
+/// Контроллер содержащий таблицу со списком активных загрузок и уже загруженных аудиозаписей
 class DownloadsTableViewController: UITableViewController {
 
+    /// Контроллер массива уже загруженных аудиозаписей
     var downloadsFetchedResultsController: NSFetchedResultsController {
         return DataManager.sharedInstance.downloadsFetchedResultsController
     }
-    
-    var downloadedCount: Int { // Количество загруженных треков
-        return downloadsFetchedResultsController.sections!.first!.numberOfObjects
+    /// Массив уже загруженных аудиозаписей
+    var downloaded: [TrackInPlaylist] {
+        return downloadsFetchedResultsController.sections!.first!.objects as! [TrackInPlaylist]
     }
     
-    var activeDownloads: [String: Download] { // Активные загрузки
+    /// Массив аудиозаписей, загружаемых сейчас
+    var activeDownloads: [String: Download] {
         return DownloadManager.sharedInstance.activeDownloads
     }
     
-    var activeDownloadsCount: Int { // Количество активных загрузок
-        return activeDownloads.count
-    }
+    /// Была ли нажата кнопка "Пауза" или "Продолжить" (необходимо для плавного обновления)
+    var pauseOrResumeTapped = false
     
     
     override func viewDidLoad() {
@@ -38,14 +40,13 @@ class DownloadsTableViewController: UITableViewController {
         var cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil) // Ячейка "Ничего не найдено"
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
         
-        cellNib = UINib(nibName: TableViewCellIdentifiers.activeDownloadCell, bundle: nil) // Ячейка с активной загрузкой
-        tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.activeDownloadCell)
-        
         cellNib = UINib(nibName: TableViewCellIdentifiers.offlineAudioCell, bundle: nil) // Ячейка с аудиозаписью
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.offlineAudioCell)
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         pauseOrResumeTapped = false
         reloadTableView()
     }
@@ -64,10 +65,6 @@ class DownloadsTableViewController: UITableViewController {
         DownloadManager.sharedInstance.deleteDelegate(self)
     }
     
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
     // Заново отрисовать таблицу
     func reloadTableView() {
         dispatch_async(dispatch_get_main_queue()) {
@@ -75,18 +72,32 @@ class DownloadsTableViewController: UITableViewController {
         }
     }
     
-    var pauseOrResumeTapped = false // Была нажата кнопка "Пауза" или "Продолжить" (необходимо для плавного обновления)
+    
+    // MARK: Загрузка helpers
+    
+    /// Получение индекса трека в активном массиве для задания загрузки
+    func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask?) -> Int? {
+        if let url = downloadTask?.originalRequest?.URL?.absoluteString {
+            for (index, track) in DownloadManager.sharedInstance.downloadsTracks.enumerate() {
+                if url == track.url! {
+                    return index
+                }
+            }
+        }
+        
+        return nil
+    }
     
     
     // MARK: Получение ячеек для строк таблицы helpers
     
     // Текст для ячейки с сообщением о том, что нет загружаемых треков
-    var textForNoActiveDownloadsRow: String {
+    var noActiveDownloadsLabelText: String {
         return "Нет активных загрузок"
     }
     
     // Текст для ячейки с сообщением о том, что нет загруженных треков
-    var textForNoDownloadedRow: String {
+    var noDownloadedLabelText: String {
         return "Нет загруженных треков"
     }
     
@@ -96,7 +107,7 @@ class DownloadsTableViewController: UITableViewController {
     // Ячейка для строки с сообщением об отсутствии загружаемых треков
     func getCellForNoActiveDownloadsInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-        cell.messageLabel.text = textForNoActiveDownloadsRow
+        cell.messageLabel.text = noActiveDownloadsLabelText
         
         return cell
     }
@@ -107,11 +118,12 @@ class DownloadsTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.activeDownloadCell, forIndexPath: indexPath) as! ActiveDownloadCell
         cell.delegate = self
+        
         cell.configureForTrack(track)
         
-        var showPauseButton = false
-        if let download = activeDownloads[track.url!] {
-            showPauseButton = !download.inQueue
+        var showPauseButton = false // Отображать ли кнопку "Пауза"
+        if let download = activeDownloads[track.url!] { // Если аудиозапись есть в списке активных загрузок
+            showPauseButton = !download.inQueue // Скрыть кнопку пауза, если загрузка в очереди
             
             cell.progressBar.progress = download.progress
             cell.progressLabel.text = download.isDownloading ? "Загружается..." : download.inQueue ? "В очереди" : "Пауза"
@@ -128,79 +140,20 @@ class DownloadsTableViewController: UITableViewController {
     // Ячейка для строки с сообщением об отсутствии загруженных треков
     func getCellForNoDownloadedInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-        cell.messageLabel.text = textForNoDownloadedRow
+        cell.messageLabel.text = noDownloadedLabelText
         
         return cell
     }
     
     // Ячейка для строки с загруженным треком
     func getCellForOfflineAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as! TrackInPlaylist
+        let trackInPlaylist = downloaded[indexPath.row]
         let track = trackInPlaylist.track
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.offlineAudioCell, forIndexPath: indexPath) as! OfflineAudioCell
         cell.configureForTrack(track)
         
         return cell
-    }
-    
-    
-    // MARK: Загрузка helpers
-    
-    // Получение индекса трека для загружаемого файла
-    func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Int? {
-        if let url = downloadTask.originalRequest?.URL?.absoluteString {
-            for (index, track) in DownloadManager.sharedInstance.downloadsTracks.enumerate() {
-                if url == track.url! {
-                    return index
-                }
-            }
-        }
-        
-        return nil
-    }
-    
-    // Получение индекса трека для загрузки
-    func trackIndexForDownload(download: Download) -> Int? {
-        for (index, track) in DownloadManager.sharedInstance.downloadsTracks.enumerate() {
-            if download.url == track.url! {
-                return index
-            }
-        }
-        
-        
-        return nil
-    }
-    
-}
-
-
-extension DownloadsTableViewController: ActiveDownloadCellDelegate {
-    
-    // Вызывается при тапе по кнопке Пауза
-    func pauseTapped(cell: ActiveDownloadCell) {
-        if let indexPath = tableView.indexPathForCell(cell) {
-            let track = DownloadManager.sharedInstance.downloadsTracks[indexPath.row]
-            pauseOrResumeTapped = true
-            DownloadManager.sharedInstance.pauseDownloadTrack(track)
-        }
-    }
-    
-    // Вызывается при тапе по кнопке Продолжить
-    func resumeTapped(cell: ActiveDownloadCell) {
-        if let indexPath = tableView.indexPathForCell(cell) {
-            let track = DownloadManager.sharedInstance.downloadsTracks[indexPath.row]
-            pauseOrResumeTapped = true
-            DownloadManager.sharedInstance.resumeDownloadTrack(track)
-        }
-    }
-    
-    // Вызывается при тапе по кнопке Отмена
-    func cancelTapped(cell: ActiveDownloadCell) {
-        if let indexPath = tableView.indexPathForCell(cell) {
-            let track = DownloadManager.sharedInstance.downloadsTracks[indexPath.row]
-            DownloadManager.sharedInstance.cancelDownloadTrack(track)
-        }
     }
     
 }
@@ -211,10 +164,12 @@ extension DownloadsTableViewController: ActiveDownloadCellDelegate {
 private typealias DownloadsTableViewControllerDataSource = DownloadsTableViewController
 extension DownloadsTableViewControllerDataSource {
     
+    // Количество секций
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2 // Секции с загружаемыми и загруженными треками
     }
     
+    // Названия секций
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
@@ -226,27 +181,29 @@ extension DownloadsTableViewControllerDataSource {
         }
     }
     
+    // Количество строк в секциях
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return activeDownloadsCount == 0 ? 1 : activeDownloadsCount
+            return activeDownloads.count == 0 ? 1 : activeDownloads.count
         case 1:
-            return downloadedCount == 0 ? 1 : downloadedCount
+            return downloaded.count == 0 ? 1 : downloaded.count
         default:
             return 0
         }
     }
     
+    // Ячейки для строк
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            if activeDownloadsCount == 0 {
+            if activeDownloads.count == 0 {
                 return getCellForNoActiveDownloadsInTableView(tableView, forIndexPath: indexPath)
             }
             
             return getCellForActiveDownloadTrackInTableView(tableView, forIndexPath: indexPath)
         case 1:
-            if downloadedCount == 0 {
+            if downloaded.count == 0 {
                 return getCellForNoDownloadedInTableView(tableView, forIndexPath: indexPath)
             }
             
@@ -259,7 +216,7 @@ extension DownloadsTableViewControllerDataSource {
     // Возможно ли редактировать ячейку
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if indexPath.section == 1 {
-            if downloadedCount != 0 {
+            if downloaded.count != 0 {
                 return true
             }
         }
@@ -270,7 +227,7 @@ extension DownloadsTableViewControllerDataSource {
     // Обработка удаления ячейки
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            let trackInPlaylist = downloadsFetchedResultsController.objectAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as! TrackInPlaylist
+            let trackInPlaylist = downloaded[indexPath.row]
             let track = trackInPlaylist.track
             
             if !DataManager.sharedInstance.deleteTrack(track) {
@@ -309,13 +266,13 @@ extension DownloadsTableViewControllerDelegate {
 
 extension DownloadsTableViewController: DataManagerDownloadsDelegate {
 
-    // Контроллер начал изменять контент
+    // Контроллер массива загруженных аудиозаписей начал изменять контент
     func dataManagerDownloadsControllerWillChangeContent() {}
     
-    // Контроллер совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
+    // Контроллер массива загруженных аудиозаписей совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
     func dataManagerDownloadsControllerDidChangeObject(anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {}
     
-    // Контроллер закончил изменять контент
+    // Контроллер массива загруженных аудиозаписей закончил изменять контент
     func dataManagerDownloadsControllerDidChangeContent() {
         reloadTableView()
     }
@@ -327,20 +284,21 @@ extension DownloadsTableViewController: DataManagerDownloadsDelegate {
 
 extension DownloadsTableViewController: DownloadManagerDelegate {
     
-    // Вызывается когда была начата новая загрузка
+    // Менеджер загрузок начал новую загрузку
     func downloadManagerStartTrackDownload(download: Download) {
-        if let trackIndex = trackIndexForDownload(download) {
+        if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
             dispatch_async(dispatch_get_main_queue(), {
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .Fade)
             })
         }
     }
     
-    // Вызывается когда состояние загрузки было изменено
+    // Менеджер загрузок изменил состояние загрузки
     func downloadManagerUpdateStateTrackDownload(download: Download) {
-        if let trackIndex = trackIndexForDownload(download) {
+        if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
             if pauseOrResumeTapped {
                 pauseOrResumeTapped = false
+                
                 dispatch_async(dispatch_get_main_queue(), {
                     self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
                 })
@@ -350,12 +308,12 @@ extension DownloadsTableViewController: DownloadManagerDelegate {
         }
     }
     
-    // Вызывается когда загрузка была отменена
+    // Менеджер загрузок отменил выполнение загрузки
     func downloadManagerCancelTrackDownload(download: Download) {
         reloadTableView()
     }
     
-    // Вызывается когда загрузка была завершена
+    // Менеджер загрузок завершил загрузку
     func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {}
     
     // Вызывается когда часть данных была загружена
@@ -365,7 +323,8 @@ extension DownloadsTableViewController: DownloadManagerDelegate {
                 download.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
                 let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
                 
-                let isCompleted = download.progress == 1
+                let isCompleted = download.progress == 1 // Завершена ли загрузка
+                
                 dispatch_async(dispatch_get_main_queue(), {
                     activeDownloadCell.cancelButton.hidden = isCompleted
                     activeDownloadCell.pauseButton.hidden = isCompleted
@@ -373,6 +332,43 @@ extension DownloadsTableViewController: DownloadManagerDelegate {
                     activeDownloadCell.progressLabel.text =  isCompleted ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
                 })
             }
+        }
+    }
+    
+}
+
+
+// MARK: ActiveDownloadCellDelegate
+
+extension DownloadsTableViewController: ActiveDownloadCellDelegate {
+    
+    // Кнопка "Пауза" была нажата
+    func pauseTapped(cell: ActiveDownloadCell) {
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let track = DownloadManager.sharedInstance.downloadsTracks[indexPath.row]
+            
+            pauseOrResumeTapped = true
+            
+            DownloadManager.sharedInstance.pauseDownloadTrack(track)
+        }
+    }
+    
+    // Кнопка "Продолжить" была нажата
+    func resumeTapped(cell: ActiveDownloadCell) {
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let track = DownloadManager.sharedInstance.downloadsTracks[indexPath.row]
+            
+            pauseOrResumeTapped = true
+            
+            DownloadManager.sharedInstance.resumeDownloadTrack(track)
+        }
+    }
+    
+    // Кнопка "Отмена" была нажата
+    func cancelTapped(cell: ActiveDownloadCell) {
+        if let indexPath = tableView.indexPathForCell(cell) {
+            let track = DownloadManager.sharedInstance.downloadsTracks[indexPath.row]
+            DownloadManager.sharedInstance.cancelDownloadTrack(track)
         }
     }
     

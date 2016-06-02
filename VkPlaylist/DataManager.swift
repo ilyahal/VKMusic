@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 /// Отвечает за взаимодействие с данными, загруженными на устройство
-
 class DataManager: NSObject {
 
     private struct Static {
@@ -42,7 +41,7 @@ class DataManager: NSObject {
         
         super.init()
         
-         // Регестрируем дефолтные значения для ключей в NSUserDefaults
+        // Регестрируем дефолтные значения для ключей в NSUserDefaults
         registerDefaults()
         
         // Дефолтное наполнение базы данных
@@ -74,38 +73,39 @@ class DataManager: NSObject {
     }
     
     
+    /// Стэк CoreData
     var coreDataStack: CoreDataStack!
     
     
-    // Личные аудиозаписи
+    /// Личные аудиозаписи
     let myMusic: DataManagerObject<Track>
     
-    // Искомые аудиозаписи
+    /// Искомые аудиозаписи
     let searchMusic: DataManagerObject<Track>
     
-    // Список альбомов
+    /// Список альбомов
     let albums: DataManagerObject<Album>
     
-    // Аудиозаписи альбома
+    /// Аудиозаписи альбома
     let albumMusic: DataManagerObject<Track>
     
-    // Список друзей
+    /// Список друзей
     let friends: DataManagerObject<Friend>
     
-    // Список групп
+    /// Список групп
     let groups: DataManagerObject<Group>
     
-    // Аудиозаписи владельца
+    /// Аудиозаписи владельца
     let ownerMusic: DataManagerObject<Track>
     
-    // Рекомендуемые аудиозаписи
+    /// Рекомендуемые аудиозаписи
     let recommendationsMusic: DataManagerObject<Track>
     
-    // Популярные аудиозаписи
+    /// Популярные аудиозаписи
     let popularMusic: DataManagerObject<Track>
     
     
-    // Удаление данные при деавторизации
+    /// Удаление данные при деавторизации
     func clearDataInCaseOfDeavtorization() {
         myMusic.clear()
         searchMusic.clear()
@@ -119,9 +119,9 @@ class DataManager: NSObject {
     }
     
     
-    // NSUserDefaults
+    // MARK: NSUserDefaults
     
-    // Регестрируем дефолтные значения для ключей в NSUserDefaults
+    /// Регестрируем дефолтные значения для ключей в NSUserDefaults
     func registerDefaults() {
         let dictionary = [
             "FirstTime": true, // Флаг на первый запуск программы
@@ -131,7 +131,7 @@ class DataManager: NSObject {
         NSUserDefaults.standardUserDefaults().registerDefaults(dictionary) // Записываем дефолтные значения для указанных ключей
     }
     
-    // Получение идентификатора для нового плейлиста
+    /// Получение идентификатора для нового плейлиста
     func nextPlaylistID() -> Int32 {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         
@@ -145,7 +145,7 @@ class DataManager: NSObject {
     
     // MARK: Core Data helpers
     
-    // Проверка базы данных на пустоту
+    /// Проверка базы данных на пустоту
     var isDatabaseEmpty: Bool {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         let count = coreDataStack.context.countForFetchRequest(fetchRequest, error: nil)
@@ -157,7 +157,7 @@ class DataManager: NSObject {
         }
     }
     
-    // Создание плейлиста "Загрузки"
+    /// Создание плейлиста "Загрузки"
     func defaultFillDataBase() {
         let entity = NSEntityDescription.entityForName(EntitiesIdentifiers.playlist, inManagedObjectContext: coreDataStack.context)
             
@@ -170,7 +170,7 @@ class DataManager: NSObject {
         coreDataStack.saveContext()
     }
     
-    // Получение плейлиста загрузки
+    /// Получение плейлиста загрузки
     var getDownloadsPlaylistObject: Playlist! {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         fetchRequest.predicate = NSPredicate(format: "id == \(0)")
@@ -188,15 +188,18 @@ class DataManager: NSObject {
         abort()
     }
     
+    /// Плейлист "Загрузки"
     var downloadsPlaylistObject: Playlist!
     
     
-    // MARK: Загруженные треки
+    // MARK: Загруженные аудиозаписи
     
+    /// Контроллер массива загруженных аудиозаписей
     var downloadsFetchedResultsController: NSFetchedResultsController!
+    /// Делегаты контроллера массива загруженных аудиозаписей
     private var dataManagerDownloadsDelegates = [DataManagerDownloadsDelegate]()
     
-    // Добавление нового делегата
+    /// Добавление нового делегата контроллера массива загруженных аудиозаписей
     func addDataManagerDownloadsDelegate(delegate: DataManagerDownloadsDelegate) {
         if let _ = dataManagerDownloadsDelegates.indexOf({ $0 === delegate}) {
             return
@@ -205,14 +208,14 @@ class DataManager: NSObject {
         dataManagerDownloadsDelegates.append(delegate)
     }
     
-    // Удаление делегата
+    /// Удаление делегата контроллера массива загруженных аудиозаписей
     func deleteDataManagerDownloadsDelegate(delegate: DataManagerDownloadsDelegate) {
         if let index = dataManagerDownloadsDelegates.indexOf({ $0 === delegate}) {
             dataManagerDownloadsDelegates.removeAtIndex(index)
         }
     }
     
-    // Запрос на получение загруженных треков
+    /// Запрос на получение загруженных аудиозаписей
     var downloadsFetchRequest: NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.trackInPlaylist)
         fetchRequest.predicate = NSPredicate(format: "playlist == %@", downloadsPlaylistObject)
@@ -223,7 +226,7 @@ class DataManager: NSObject {
     }
     
     
-    // Загружен ли указанный трек
+    /// Загружена ли указанная аудиозапись
     func isDownloadedTrack(track: Track) -> Bool {
         for section in downloadsFetchedResultsController.sections! {
             for trackInPlaylist in section.objects as! [TrackInPlaylist] {
@@ -236,14 +239,16 @@ class DataManager: NSObject {
         return false
     }
     
-    var toSaveDownloadedTrackQueue = [(track: Track, file: NSData)]() { // Очередь на запись скаченных треков
+    /// Очередь на запись скаченных аудиозаписей
+    var toSaveDownloadedTrackQueue = [(track: Track, file: NSData)]() {
         didSet {
             tryStartWriteFromDownloadedTrackQueue()
         }
     }
-    var isWriteNow = false // Записывается ли загруженный трек в базу данных сейчас
+    /// Записывается ли загруженный аудиозапись в базу данных сейчас
+    var isWriteNow = false
     
-    // Попытка записать трек в базу данных
+    /// Попытка записать аудиозапись в базу данных
     func tryStartWriteFromDownloadedTrackQueue() {
         if !toSaveDownloadedTrackQueue.isEmpty && !isWriteNow {
             isWriteNow = true
@@ -290,7 +295,7 @@ class DataManager: NSObject {
         }
     }
     
-    // Удаление трека
+    /// Удаление аудиозаписи
     func deleteTrack(track: OfflineTrack) -> Bool {
         
         // Удаляем все вхождения трека в плейлисты
@@ -300,7 +305,7 @@ class DataManager: NSObject {
             }
         }
         
-        // Удаляем трек
+        // Удаляем аудиозапись
         coreDataStack.context.deleteObject(track)
         
         
@@ -310,12 +315,13 @@ class DataManager: NSObject {
     }
     
     
-    // MARK: Плейлисты
+    /// MARK: Плейлисты
     
+    /// Контроллер массива плейлистов
     var playlistsFetchedResultsController: NSFetchedResultsController!
     private var dataManagerPlaylistsDelegates = [DataManagerPlaylistsDelegate]()
     
-    // Добавление нового делегата
+    /// Добавление нового делегата контроллер массива плейлистов
     func addDataManagerPlaylistsDelegate(delegate: DataManagerPlaylistsDelegate) {
         if let _ = dataManagerPlaylistsDelegates.indexOf({ $0 === delegate}) {
             return
@@ -324,14 +330,14 @@ class DataManager: NSObject {
         dataManagerPlaylistsDelegates.append(delegate)
     }
     
-    // Удаление делегата
+    /// Удаление делегата контроллер массива плейлистов
     func deleteDataManagerPlaylistsDelegate(delegate: DataManagerPlaylistsDelegate) {
         if let index = dataManagerPlaylistsDelegates.indexOf({ $0 === delegate}) {
             dataManagerPlaylistsDelegates.removeAtIndex(index)
         }
     }
     
-    // Запрос на получение плейлистов
+    /// Запрос на получение плейлистов
     var playlistsFetchRequest: NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: EntitiesIdentifiers.playlist)
         fetchRequest.predicate = NSPredicate(format: "isVisible == \(true)")
@@ -342,6 +348,7 @@ class DataManager: NSObject {
     }
     
     
+    /// Получить название плейлиста
     func getPlaylistTitle(playlist: Playlist) -> String {
         for _playlist in playlistsFetchedResultsController.sections!.first!.objects as! [Playlist] {
             if _playlist.id == playlist.id {
@@ -352,7 +359,7 @@ class DataManager: NSObject {
         return ""
     }
     
-    // Создание нового плейлиста с указанным именем и списком треков
+    /// Создание нового плейлиста с указанным именем и списком треков
     func createPlaylistWithTitle(title: String, andTracks tracks: [OfflineTrack]) {
         
         // Смещаем все плейлисты на один вперед
@@ -373,7 +380,7 @@ class DataManager: NSObject {
         coreDataStack.saveContext()
     }
     
-    // Удаление всех треков в плейлисте
+    /// Удаление всех треков в плейлисте
     func clearPlaylist(playlist: Playlist) {
         
         // Удаляем все вхождения треков в плейлист
@@ -384,6 +391,7 @@ class DataManager: NSObject {
         coreDataStack.saveContext()
     }
     
+    /// Обновить название плейлиста на указанное и список аудиозаписей на укзанный
     func updatePlaylist(playlist: Playlist, withTitle title: String, andTracks tracks: [OfflineTrack]) {
         
         playlist.title = title
@@ -402,7 +410,7 @@ class DataManager: NSObject {
         coreDataStack.saveContext()
     }
     
-    // Перемещение плейлиста
+    /// Перемещение плейлиста
     func movePlaylist(playlist: Playlist, fromPosition sourcePosition: Int32, toNewPosition newPosition: Int32) {
         
         // Получаем перемещаемый плейлист и помещаем на позицию -1
@@ -428,7 +436,7 @@ class DataManager: NSObject {
         coreDataStack.saveContext()
     }
     
-    // Удаление плейлиста
+    /// Удаление плейлиста
     func deletePlaylist(playlist: Playlist) -> Bool {
         
         clearPlaylist(playlist)
@@ -449,15 +457,15 @@ class DataManager: NSObject {
     }
     
     
-    // MARK: Треки в плейлисте
+    // MARK: Аудиозаписи в плейлисте
     
-    // Получение треков из указанного плейлиста
+    /// Получение аудиозаписей из указанного плейлиста
     func getTracksForPlaylist(playlist: Playlist) -> [TrackInPlaylist] {
         let tracksInPlaylist = playlist.tracks.allObjects as! [TrackInPlaylist]
         return tracksInPlaylist.sort({ $0.position < $1.position })
     }
     
-    // Удаление трека из плейлиста
+    /// Удаление аудиозаписи из плейлиста
     func deleteTrackFromPlaylist(trackInPlaylist: TrackInPlaylist) -> Bool {
         
         // Сдвигаем все треки находящиеся в плейлисте после удаляемого
@@ -480,7 +488,7 @@ class DataManager: NSObject {
 
 extension DataManager: NSFetchedResultsControllerDelegate {
     
-    // Контроллер начал изменять контент
+    /// Контроллер начал изменять контент
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         if controller == downloadsFetchedResultsController {
             dataManagerDownloadsDelegates.forEach { delegate in
@@ -493,7 +501,7 @@ extension DataManager: NSFetchedResultsControllerDelegate {
         }
     }
     
-    // Контроллер изменил объект
+    /// Контроллер изменил объект
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         if controller == downloadsFetchedResultsController {
             dataManagerDownloadsDelegates.forEach { delegate in
@@ -506,7 +514,7 @@ extension DataManager: NSFetchedResultsControllerDelegate {
         }
     }
     
-    // Контроллер завершил изменение контента
+    /// Контроллер завершил изменение контента
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         if controller == downloadsFetchedResultsController {
             dataManagerDownloadsDelegates.forEach { delegate in

@@ -6,15 +6,23 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
+/// Онлайн аудиозапись
 class Track {
     
-    let artist: String? // Исполнитель
-    let lyrics_id: Int? // Идентификатор слов
-    let id: Int32? // Идентификатор
-    let title: String? // Название
-    let duration: Int32? // Продолжительность
-    let owner_id: Int32? // Идентификатор владельца
-    let url: String? // Ссылка
+    /// Исполнитель
+    let artist: String?
+    /// Идентификатор слов
+    let lyrics_id: Int?
+    /// Идентификатор
+    let id: Int32?
+    /// Название
+    let title: String?
+    /// Продолжительность
+    let duration: Int32?
+    /// Идентификатор владельца
+    let owner_id: Int32?
+    /// Ссылка
+    let url: String?
     
     
     init(artist: String?, lyrics_id: Int?, id: Int32?, title: String?, duration: Int32?, owner_id: Int32?, url: String?) {

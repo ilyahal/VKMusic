@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Менеджер загрузок
 class DownloadManager: NSObject {
     
     private struct Static {
@@ -31,16 +32,18 @@ class DownloadManager: NSObject {
     }
     
     
-    lazy var downloadsSession: NSURLSession = { // Сессия для загрузки данных
+    /// Сессия для загрузки данных
+    lazy var downloadsSession: NSURLSession = {
         let configuration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("bgSessionConfiguration")
         let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         
         return session
     }()
     
+    /// Делегаты менеджера загрузок
     private var delegates = [DownloadManagerDelegate]()
     
-    // Добавление нового делегата
+    /// Добавление нового делегата
     func addDelegate(delegate: DownloadManagerDelegate) {
         if let _ = delegates.indexOf({ $0 === delegate}) {
             return
@@ -49,15 +52,15 @@ class DownloadManager: NSObject {
         delegates.append(delegate)
     }
     
-    // Удаление делегата
+    /// Удаление делегата
     func deleteDelegate(delegate: DownloadManagerDelegate) {
         if let index = delegates.indexOf({ $0 === delegate}) {
             delegates.removeAtIndex(index)
         }
     }
     
-    
-    var activeDownloads = [String: Download]() { // Активные загрузки (в очереди и загружаемые сейчас)
+    /// Активные загрузки (в очереди и загружаемые сейчас)
+    var activeDownloads = [String: Download]() {
         didSet {
             
             // Устанавливаем значение бейджа вкладки "Загрузки"
@@ -70,19 +73,23 @@ class DownloadManager: NSObject {
             })
         }
     }
-    var downloadsTracks = [Track]() // Загружаемые треки (в очереди и загружаемые сейчас)
+    /// Загружаемые треки (в очереди и загружаемые сейчас)
+    var downloadsTracks = [Track]()
     
     
-    let simultaneousDownloadsCount = 2 // Количество одновременных загрузок
+    /// Количество одновременных загрузок
+    let simultaneousDownloadsCount = 2
     
-    var queue = [Download]() { // Очередь на загрузку
+    /// Очередь на загрузку
+    var queue = [Download]() {
         didSet {
             tryStartDownloadFromQueue()
         }
     }
-    var downloadsNow = 0 // Количество треков загружаемых сейчас
+    /// Количество треков загружаемых сейчас
+    var downloadsNow = 0
     
-    // Попытка начать загрузку из очереди
+    /// Попытка начать загрузку из очереди
     func tryStartDownloadFromQueue() {
         if !queue.isEmpty && downloadsNow < simultaneousDownloadsCount {
             downloadsNow += 1
@@ -98,7 +105,7 @@ class DownloadManager: NSObject {
         }
     }
     
-    // Удалить загрузку из очереди
+    /// Удалить загрузку из очереди
     func deleteFromQueueDownload(download: Download) {
         if download.inQueue {
             download.inQueue = false
@@ -118,7 +125,7 @@ class DownloadManager: NSObject {
     
     // MARK: Загрузка треков
     
-    // Новая загрузка
+    /// Новая загрузка
     func downloadTrack(track: Track) {
         if let urlString = track.url, url =  NSURL(string: urlString) {
             let download = Download(url: urlString)
@@ -134,7 +141,7 @@ class DownloadManager: NSObject {
         }
     }
     
-    // Отмена выполенения загрузки
+    /// Отмена выполенения загрузки
     func cancelDownloadTrack(track: Track) {
         if let urlString = track.url, download = activeDownloads[urlString] {
             download.downloadTask?.cancel() // Отменяем выполнение загрузки
@@ -152,7 +159,7 @@ class DownloadManager: NSObject {
         }
     }
     
-    // Пауза загрузки
+    /// Пауза загрузки
     func pauseDownloadTrack(track: Track) {
         if let urlString = track.url, download = activeDownloads[urlString] {
             if download.isDownloading {
@@ -175,7 +182,7 @@ class DownloadManager: NSObject {
         }
     }
     
-    // Продолжение загрузки
+    /// Продолжение загрузки
     func resumeDownloadTrack(track: Track) {
         if let urlString = track.url, download = activeDownloads[urlString] {
             if let resumeData = download.resumeData {
@@ -199,7 +206,7 @@ class DownloadManager: NSObject {
     
     // MARK: Помощники
     
-    // Получение трека для указанной загрузки
+    /// Получение трека для указанной загрузки
     func trackForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Track? {
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
             for track in downloadsTracks {
@@ -212,7 +219,7 @@ class DownloadManager: NSObject {
         return nil
     }
     
-    // Извлекает загружаемый трек из списка загружаемых треков
+    /// Извлекает загружаемый трек из списка загружаемых треков
     func popTrackForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Track? {
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
             for (index, track) in downloadsTracks.enumerate() {
@@ -227,18 +234,21 @@ class DownloadManager: NSObject {
         return nil
     }
     
+    /// Загрузка начата
     func downloadStarted(download: Download) {
         delegates.forEach { delegate in
             delegate.downloadManagerStartTrackDownload(download)
         }
     }
     
+    /// Состояние загрузки обновлено
     func downloadUpdated(download: Download) {
         delegates.forEach { delegate in
             delegate.downloadManagerUpdateStateTrackDownload(download)
         }
     }
     
+    /// Загрузка отменена
     func downloadCanceled(download: Download) {
         delegates.forEach { delegate in
             delegate.downloadManagerCancelTrackDownload(download)
@@ -252,7 +262,7 @@ class DownloadManager: NSObject {
 
 extension DownloadManager: NSURLSessionDelegate {
     
-    // Вызывается когда все загрузки выполняемые в фоне были завершены
+    /// Все загрузки выполняемые в фоне были завершены
     func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             if let completionHandler = appDelegate.backgroundSessionCompletionHandler {
@@ -270,7 +280,7 @@ extension DownloadManager: NSURLSessionDelegate {
 
 extension DownloadManager: NSURLSessionDownloadDelegate {
     
-    // Вызывается когда загрузка была завершена
+    /// Загрузка была завершена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
         var track: Track! = nil // Загруженный трек
         
@@ -293,7 +303,7 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
         }
     }
     
-    // Вызывается когда часть данных была загружена
+    /// Часть данных была загружена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         delegates.forEach { delegate in
             delegate.downloadManagerURLSession(session, downloadTask: downloadTask, didWriteData: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)

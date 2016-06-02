@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Контроллер содержащий контейнер со списком активных загрузок и уже загруженных аудиозаписей
 class DownloadsViewController: UIViewController {
     
 }

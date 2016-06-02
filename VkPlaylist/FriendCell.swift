@@ -8,12 +8,15 @@
 
 import UIKit
 
+/// Ячейка для строки с другом
 class FriendCell: UITableViewCell {
     
-    var downloadTask: NSURLSessionDownloadTask?
+    /// Задача для загрузки аватарки друга
+    private var downloadTask: NSURLSessionDownloadTask?
     
-
+    /// Аватарка друга
     @IBOutlet weak var userImageView: UIImageView!
+    /// Полное имя друга
     @IBOutlet weak var userNameLabel: UILabel!
 
     override func awakeFromNib() {
@@ -32,6 +35,7 @@ class FriendCell: UITableViewCell {
         userNameLabel.text = nil
     }
     
+    /// Настройка ячейки для указанного друга с указанным кэшем аватарок пользователя
     func configureForFriend(friend: Friend, withImageCacheStorage imageCache: NSCache) {
         
         // Настройка имени
@@ -39,22 +43,23 @@ class FriendCell: UITableViewCell {
         
         // Настройка фотографии
         userImageView.image = UIImage(named: "friend-photo-placeholder-icon")!
-        userImageView.tintImageColor(UIColor.blackColor())
+        userImageView.tintImageColor(UIColor.blackColor()) // Заливаем изображение указанным цветом
+        
         if let imageFromCache = imageCache.objectForKey(friend.id!) as? UIImage { // Пытаемся загрузить изображение из кэша
             userImageView.image = imageFromCache
         } else {
-            if let url = NSURL(string: friend.photo_200_orig!) { // Если есть URL с изоражением 60 пикс
+            if let url = NSURL(string: friend.photo_200_orig!) { // Если есть URL с аватаркой друга
                 let session = NSURLSession.sharedSession()
                 let id = friend.id! // Идентификатор пользователя
                 
                 let downloadTask = session.downloadTaskWithURL(url, completionHandler: { [weak userImageView, weak imageCache] url, response, error in // Создаем задачу загрузки файла по указанному URL
                     if error == nil, let url = url, data = NSData(contentsOfURL: url), image = UIImage(data: data) { // Если нет ошибок и имеется путь к загруженному файлу и возможно создать NSData из данных по указанному URL и возможно содать объект изображения из указанного NSData
-                        dispatch_async(dispatch_get_main_queue()) { // Выполняем в основном потоке
-                            if let strongUserImageView = userImageView, let strongImageCache = imageCache { // Если объект еще существует
-                                let resultImage = image.resizedImageWithBounds(CGSize(width: 45, height: 45))
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if let strongUserImageView = userImageView, strongImageCache = imageCache { // Если объект еще существует
+                                let userImage = image.resizedImageWithBounds(strongUserImageView.bounds.size)
                                 
-                                strongUserImageView.image = resultImage // Устанавливаем загруженное изображение
-                                strongImageCache.setObject(resultImage, forKey: id) // Добавляем значение в кэш
+                                strongUserImageView.image = userImage // Устанавливаем загруженное изображение
+                                strongImageCache.setObject(userImage, forKey: id) // Добавляем значение в кэш
                             }
                         }
                     }

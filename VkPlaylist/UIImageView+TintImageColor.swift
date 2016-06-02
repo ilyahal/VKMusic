@@ -9,8 +9,11 @@
 import UIKit
 
 extension UIImageView {
+    
+    /// Заливка изображения указанным цветом
     func tintImageColor(color : UIColor) {
-        self.image = self.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        self.image = self.image!.imageWithRenderingMode(.AlwaysTemplate)
         self.tintColor = color
     }
+    
 }

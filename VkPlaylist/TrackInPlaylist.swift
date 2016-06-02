@@ -9,9 +9,7 @@
 import Foundation
 import CoreData
 
-
+/// Позиция аудиозаписи в плелисте
 class TrackInPlaylist: NSManagedObject {
-
-// Insert code here to add functionality to your managed object subclass
 
 }

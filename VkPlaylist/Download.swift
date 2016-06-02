@@ -8,17 +8,24 @@
 
 import Foundation
 
+/// Загрузка
 class Download: NSObject {
     
-    var url: String // Ссылка по которой производится загрузка
+    /// Ссылка по которой производится загрузка
+    var url: String
     
-    var isDownloading = false // Скачивается ли сейчас
-    var inQueue = false // Находится ли в очереди на загрузку
+    /// Скачивается ли сейчас
+    var isDownloading = false
+    /// Находится ли в очереди на загрузку
+    var inQueue = false
     
-    var progress: Float = 0.0 // Прогресс выполнения загрузки
+    /// Прогресс выполнения загрузки
+    var progress: Float = 0.0
     
-    var downloadTask: NSURLSessionDownloadTask? // Задание на загрузку
-    var resumeData: NSData? // Данные для продолжения загрузки после паузы
+    /// Задание на загрузку
+    var downloadTask: NSURLSessionDownloadTask?
+    /// Данные для продолжения загрузки после паузы
+    var resumeData: NSData?
     
     
     init(url: String) {

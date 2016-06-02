@@ -9,6 +9,7 @@
 import Foundation
 import AVFoundation
 
+/// Менеджер воспроизведения
 class PlayerManager {
     
     private struct Static {
@@ -30,9 +31,10 @@ class PlayerManager {
     
     // MARK: Плеер
     
+    /// Плеер
     var player: AVPlayer!
     
-    // Старт аудиозаписи
+    /// Старт аудиозаписи
     func playFile(url: NSURL) {
         if let player = player {
             player.pause()

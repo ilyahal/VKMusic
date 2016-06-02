@@ -8,23 +8,28 @@
 
 import UIKit
 
+/// Контроллер содержащий таблицу со списком аудиозаписей выбранного плейлиста
 class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewController {
-
-    private var toDelete = true // Флаг на отчистку загруженных результатов
     
+    /// Флаг на отчистку загруженных результатов
+    private var toDelete = true
+    
+    /// Выбранный альбом
     var album: Album!
     
+    /// Запрос на получение данных с сервера
     override var getRequest: (() -> Void)! {
         return getAlbumMusic
     }
-    
+    /// Статус выполнения запроса к серверу
     override var requestManagerStatus: RequestManagerObject.State {
         return RequestManager.sharedInstance.getAlbumAudio.state
     }
-    
+    /// Ошибки при выполнении запроса к серверу
     override var requestManagerError: RequestManagerObject.ErrorRequest {
         return RequestManager.sharedInstance.getAlbumAudio.error
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +64,7 @@ class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewControl
     
     // MARK: Выполнение запроса на получение аудиозаписей альбома
     
+    /// Запрос на получение аудиозаписей альбома с сервера
     func getAlbumMusic() {
         RequestManager.sharedInstance.getAlbumAudio.performRequest([.AlbumID : album.id!]) { success in
             self.music = DataManager.sharedInstance.albumMusic.array
@@ -90,18 +96,20 @@ class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewControl
     }
     
     
-    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
-    override var textForNoResultsRow: String {
-        return "Список аудиозаписей пуст"
+    // MARK: Получение ячеек для строк таблицы helpers
+    
+    /// Текст для ячейки с сообщением о том, что сервер вернул пустой массив
+    override var noResultsLabelText: String {
+        return "Альбом пустой"
     }
     
-    // Текст для ячейки с сообщением о том, что при поиске ничего не найдено
+    /// Текст для ячейки с сообщением о том, что при поиске ничего не найдено
     override var textForNothingFoundRow: String {
         return "Измените поисковый запрос"
     }
     
-    // Текст для ячейки с сообщением о необходимости авторизоваться
-    override var textForNoAuthorizedRow: String {
+    /// Текст для ячейки с сообщением о необходимости авторизоваться
+    override var noAuthorizedLabelText: String {
         return "Необходимо авторизоваться"
     }
 

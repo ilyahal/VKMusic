@@ -9,32 +9,36 @@
 import UIKit
 import CoreData
 
+/// Контроллер содержащий таблицу со списком аудиозаписей доступных для добавления в плейлист
 class AddPlaylistMusicTableViewController: UITableViewController {
 
     weak var delegate: AddPlaylistMusicDelegate?
     
+    /// Контроллер массива загруженных аудиозаписей
     var downloadsFetchedResultsController: NSFetchedResultsController {
         return DataManager.sharedInstance.downloadsFetchedResultsController
     }
     
-    var downloadedTracks: [TrackInPlaylist] { // Загруженные треки
+    /// Массив уже загруженных аудиозаписей
+    var downloaded: [TrackInPlaylist] { // Загруженные треки
         return downloadsFetchedResultsController.sections!.first!.objects as! [TrackInPlaylist]
     }
-    var downloadedCount: Int { // Количество загруженных треков
-        return downloadsFetchedResultsController.sections!.first!.numberOfObjects
-    }
+    // Массив для результатов поиска по скаченным аудиозаписям
+    var filteredTracks = [TrackInPlaylist]()
     
-    var filteredTracks = [TrackInPlaylist]() // Массив для результатов поиска по скаченным трекам
-    var activeArray: [TrackInPlaylist] { // Массив аудиозаписей отображаемый на экране
+    /// Массив аудиозаписей отображаемый на экране
+    var activeArray: [TrackInPlaylist] {
         if searchController.active && searchController.searchBar.text != "" {
             return filteredTracks
         } else {
-            return downloadedTracks
+            return downloaded
         }
     }
     
+    /// Массив уже выбранных треков
     var selectedTracks = [String : OfflineTrack]()
     
+    /// Контроллер поиска
     let searchController = UISearchController(searchResultsController: nil)
     
     
@@ -50,7 +54,7 @@ class AddPlaylistMusicTableViewController: UITableViewController {
         searchController.searchBar.searchBarStyle = .Prominent
         definesPresentationContext = true
         
-        searchEnable(downloadedCount != 0)
+        searchEnable(downloaded.count != 0)
         
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
@@ -66,8 +70,10 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if tableView.contentOffset.y == 0 {
-            tableView.hideSearchBar()
+        if let _ = tableView.tableHeaderView {
+            if tableView.contentOffset.y == 0 {
+                tableView.hideSearchBar()
+            }
         }
     }
     
@@ -90,7 +96,7 @@ class AddPlaylistMusicTableViewController: UITableViewController {
         }
     }
 
-    // Заново отрисовать таблицу
+    /// Заново отрисовать таблицу
     func reloadTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
@@ -98,15 +104,62 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     }
     
     
+    // MARK: Работа с клавиатурой
+    
+    /// Распознаватель тапов по экрану
+    lazy var tapRecognizer: UITapGestureRecognizer = {
+        var recognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        return recognizer
+    }()
+    
+    /// Спрятать клавиатуру у поисковой строки
+    func dismissKeyboard() {
+        searchController.searchBar.resignFirstResponder()
+        
+        if searchController.active && searchController.searchBar.text!.isEmpty {
+            searchController.active = false
+        }
+    }
+    
+    
+    // MARK: Поиск
+    
+    /// Управление доступностью поиска
+    func searchEnable(enable: Bool) {
+        if enable {
+            if tableView.tableHeaderView == nil {
+                searchController.searchBar.alpha = 1
+                tableView.tableHeaderView = searchController.searchBar
+                tableView.hideSearchBar()
+            }
+        } else {
+            if let _ = tableView.tableHeaderView {
+                searchController.searchBar.alpha = 0
+                searchController.active = false
+                tableView.tableHeaderView = nil
+                tableView.contentOffset = CGPointZero
+            }
+        }
+    }
+    
+    /// Выполнение поиска
+    func filterContentForSearchText(searchText: String) {
+        filteredTracks = downloaded.filter { trackInPlaylist in
+            let track = trackInPlaylist.track
+            return track.title.lowercaseString.containsString(searchText.lowercaseString) || track.artist.lowercaseString.containsString(searchText.lowercaseString)
+        }
+    }
+    
+    
     // MARK: Получение ячеек для строк таблицы helpers
     
-    // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
-    var textForNoResultsRow: String {
+    // Текст для ячейки с сообщением о том, что загруженные аудиозаписи отсутствуют
+    var noResultsLabelText: String {
         return "Нет загруженных треков"
     }
     
-    // Получение количества треков в списке для ячейки с количеством аудиозаписей
-    func getCountForCellForNumberOfOfflineAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
+    // Получение количества аудиозаписей в списке для ячейки с количеством аудиозаписей
+    func numberOfOfflineAudioForIndexPath(indexPath: NSIndexPath) -> Int? {
         if activeArray.count == indexPath.row {
             return activeArray.count
         } else {
@@ -115,7 +168,7 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     }
     
     // Текст для ячейки с сообщением о том, что при поиске ничего не найдено
-    var textForNothingFoundRow: String {
+    var nothingFoundLabelText: String {
         return "Измените поисковый запрос"
     }
     
@@ -125,7 +178,7 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     // Ячейка для строки с сообщением что нет загруженных треков
     func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-        cell.messageLabel.text = textForNoResultsRow
+        cell.messageLabel.text = noResultsLabelText
         
         return cell
     }
@@ -144,7 +197,7 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     
     // Пытаемся получить ячейку для строки с количеством аудиозаписей
     func getCellForNumberOfAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
-        let count = getCountForCellForNumberOfOfflineAudioRowInTableView(tableView, forIndexPath: indexPath)
+        let count = numberOfOfflineAudioForIndexPath(indexPath)
         
         if let count = count {
             let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
@@ -159,54 +212,9 @@ class AddPlaylistMusicTableViewController: UITableViewController {
     // Ячейка для строки с сообщением, что при поиске ничего не было найдено
     func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-        nothingFoundCell.messageLabel.text = textForNothingFoundRow
+        nothingFoundCell.messageLabel.text = nothingFoundLabelText
         
         return nothingFoundCell
-    }
-    
-    
-    // MARK: Работа с клавиатурой
-    
-    lazy var tapRecognizer: UITapGestureRecognizer = {
-        var recognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        return recognizer
-    }()
-    
-    // Спрятать клавиатуру у поисковой строки
-    func dismissKeyboard() {
-        searchController.searchBar.resignFirstResponder()
-        
-        if searchController.active && searchController.searchBar.text!.isEmpty {
-            searchController.active = false
-        }
-    }
-    
-    
-    // MARK: Поиск
-    
-    // Управление доступностью поиска
-    func searchEnable(enable: Bool) {
-        if enable {
-            if tableView.tableHeaderView == nil {
-                searchController.searchBar.alpha = 1
-                tableView.tableHeaderView = searchController.searchBar
-                tableView.hideSearchBar()
-            }
-        } else {
-            if let _ = tableView.tableHeaderView {
-                searchController.searchBar.alpha = 0
-                searchController.active = false
-                tableView.tableHeaderView = nil
-            }
-        }
-    }
-    
-    // Выполнение поиска
-    func filterContentForSearchText(searchText: String) {
-        filteredTracks = downloadedTracks.filter { trackInPlaylist in
-            let track = trackInPlaylist.track
-            return track.title.lowercaseString.containsString(searchText.lowercaseString) || track.artist.lowercaseString.containsString(searchText.lowercaseString)
-        }
     }
 
 }
@@ -219,16 +227,12 @@ extension AddPlaylistMusicTableViewControllerDataSource {
     
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if downloadedCount == 0 {
-            return 1 // Ячейка с сообщением об отсутствии загруженных треков
-        } else {
-            return activeArray.count + 1
-        }
+        return activeArray.count + 1
     }
     
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if downloadedCount == 0 {
+        if downloaded.count == 0 {
             return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
         } else {
             if searchController.active && searchController.searchBar.text != "" && filteredTracks.count == 0 {
@@ -274,22 +278,22 @@ extension AddPlaylistMusicTableViewControllerDelegate {
 
 extension AddPlaylistMusicTableViewController: UISearchBarDelegate {
     
-    // Говорит делегату что пользователь хочет начать поиск
+    // Пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        return downloadedCount != 0
+        return downloaded.count != 0
     }
     
-    // Вызывается когда пользователь начал редактирование поискового текста
+    // Пользователь начал редактирование поискового текста
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         view.addGestureRecognizer(tapRecognizer)
     }
     
-    // Вызывается когда пользователь закончил редактирование поискового текста
+    // Пользователь закончил редактирование поискового текста
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         view.removeGestureRecognizer(tapRecognizer)
     }
     
-    // В поисковой панели была нажата отмена
+    // В поисковой панели была нажата кнопка "Отмена"
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         filteredTracks.removeAll()
     }
@@ -314,15 +318,15 @@ extension AddPlaylistMusicTableViewController: UISearchResultsUpdating {
 
 extension AddPlaylistMusicTableViewController: DataManagerDownloadsDelegate {
     
-    // Контроллер начал изменять контент
+    // Контроллер массива загруженных аудиозаписей начал изменять контент
     func dataManagerDownloadsControllerWillChangeContent() {}
     
-    // Контроллер совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
+    // Контроллер массива загруженных аудиозаписей совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
     func dataManagerDownloadsControllerDidChangeObject(anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {}
     
-    // Контроллер закончил изменять контент
+    // Контроллер массива загруженных аудиозаписей закончил изменять контент
     func dataManagerDownloadsControllerDidChangeContent() {
-        if activeArray == downloadedTracks {
+        if activeArray == downloaded {
             if tableView.tableHeaderView == nil {
                 searchEnable(true)
             }

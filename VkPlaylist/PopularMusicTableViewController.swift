@@ -8,18 +8,21 @@
 
 import UIKit
 
+/// Контроллер содержащий таблицу со списком популярных аудиозаписей
 class PopularMusicTableViewController: MusicFromInternetTableViewController {
     
-    private var toDelete = true // Флаг на отчистку загруженных результатов
+    /// Флаг на отчистку загруженных результатов
+    private var toDelete = true
     
+    /// Запрос на получение данных с сервера
     override var getRequest: (() -> Void)! {
         return getPopularAudio
     }
-    
+    /// Статус выполнения запроса к серверу
     override var requestManagerStatus: RequestManagerObject.State {
         return RequestManager.sharedInstance.getPopularAudio.state
     }
-    
+    /// Ошибки при выполнении запроса к серверу
     override var requestManagerError: RequestManagerObject.ErrorRequest {
         return RequestManager.sharedInstance.getPopularAudio.error
     }
@@ -55,6 +58,7 @@ class PopularMusicTableViewController: MusicFromInternetTableViewController {
     
     // MARK: Выполнение запроса на получение популярных аудиозаписей
     
+    /// Запрос на получение популярных аудиозаписей с сервера
     func getPopularAudio() {
         RequestManager.sharedInstance.getPopularAudio.performRequest() { success in
             self.music = DataManager.sharedInstance.popularMusic.array
@@ -89,13 +93,13 @@ class PopularMusicTableViewController: MusicFromInternetTableViewController {
     // MARK: Получение ячеек для строк таблицы helpers
     
     // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
-    override var textForNoResultsRow: String {
+    override var noResultsLabelText: String {
         return "Нет популярных"
     }
     
     // Текст для ячейки с сообщением о необходимости авторизоваться
-    override var textForNoAuthorizedRow: String {
-        return "Для отображения списка популярных аудиозаписей необходимо авторизоваться"
+    override var noAuthorizedLabelText: String {
+        return "Необходимо авторизоваться"
     }
     
 }

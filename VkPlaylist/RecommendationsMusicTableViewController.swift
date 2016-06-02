@@ -8,18 +8,21 @@
 
 import UIKit
 
+/// Контейнер содержащий контейнер со списком рекомендуемых аудиозаписей
 class RecommendationsMusicTableViewController: MusicFromInternetTableViewController {
 
-    private var toDelete = true // Флаг на отчистку загруженных результатов
+    /// Флаг на отчистку загруженных результатов
+    private var toDelete = true
     
+    /// Запрос на получение данных с сервера
     override var getRequest: (() -> Void)! {
         return getRecommendationsAudio
     }
-    
+    /// Статус выполнения запроса к серверу
     override var requestManagerStatus: RequestManagerObject.State {
         return RequestManager.sharedInstance.getRecommendationsAudio.state
     }
-    
+    /// Ошибки при выполнении запроса к серверу
     override var requestManagerError: RequestManagerObject.ErrorRequest {
         return RequestManager.sharedInstance.getRecommendationsAudio.error
     }
@@ -54,6 +57,7 @@ class RecommendationsMusicTableViewController: MusicFromInternetTableViewControl
     
     // MARK: Выполнение запроса на получение рекомендуемых аудиозаписей
     
+    /// Запрос на получение рекомендуемых аудиозаписей с сервера
     func getRecommendationsAudio() {
         RequestManager.sharedInstance.getRecommendationsAudio.performRequest() { success in
             self.music = DataManager.sharedInstance.recommendationsMusic.array
@@ -88,13 +92,13 @@ class RecommendationsMusicTableViewController: MusicFromInternetTableViewControl
     // MARK: Получение ячеек для строк таблицы helpers
     
     // Текст для ячейки с сообщением о том, что сервер вернул пустой массив
-    override var textForNoResultsRow: String {
+    override var noResultsLabelText: String {
         return "Нет рекомендаций"
     }
     
     // Текст для ячейки с сообщением о необходимости авторизоваться
-    override var textForNoAuthorizedRow: String {
-        return "Для отображения списка рекомендуемых аудиозаписей необходимо авторизоваться"
+    override var noAuthorizedLabelText: String {
+        return "Необходимо авторизоваться"
     }
 
 }

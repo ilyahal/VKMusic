@@ -9,7 +9,6 @@
 import UIKit
 
 /// Получение списка друзей
-
 class GetFriends: RequestManagerObject {
     
     override func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
@@ -39,7 +38,7 @@ class GetFriends: RequestManagerObject {
             // Сохранение данных
             let result = notification.userInfo!["Friends"] as! [Friend]
             
-            DataManager.sharedInstance.friends.update(result)
+            DataManager.sharedInstance.friends.saveNewArray(result)
             self.state = DataManager.sharedInstance.friends.array.count == 0 ? .NoResults : .Results
             self.error = .None
             

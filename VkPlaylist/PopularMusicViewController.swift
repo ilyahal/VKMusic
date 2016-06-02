@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Контроллер содержащий контейнер со списком популярных аудиозаписей
 class PopularMusicViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {

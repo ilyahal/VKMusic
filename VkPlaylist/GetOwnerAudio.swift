@@ -9,7 +9,6 @@
 import UIKit
 
 /// Получение списка аудиозаписей владельца
-
 class GetOwnerAudio: RequestManagerObject {
     
     override func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
@@ -41,7 +40,7 @@ class GetOwnerAudio: RequestManagerObject {
             // Сохранение данных
             let result = notification.userInfo!["Audio"] as! [Track]
             
-            DataManager.sharedInstance.ownerMusic.update(result)
+            DataManager.sharedInstance.ownerMusic.saveNewArray(result)
             self.state = DataManager.sharedInstance.ownerMusic.array.count == 0 ? .NoResults : .Results
             self.error = .None
             

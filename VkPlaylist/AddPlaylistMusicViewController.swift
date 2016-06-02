@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Контроллер содержащий контейнер со списком аудиозаписей, доступных для добавления в плейлист
 class AddPlaylistMusicViewController: UIViewController {
 
     weak var delegate: AddPlaylistMusicDelegate?
@@ -23,7 +24,7 @@ class AddPlaylistMusicViewController: UIViewController {
     
     // MARK: Кнопки на навигационной панели
     
-    // Была нажата кнопка готово
+    /// Была нажата кнопка "Готово"
     @IBAction func doneButtonTapped(sender: UIBarButtonItem) {
         dismissViewControllerAnimated(true, completion: nil)
     }

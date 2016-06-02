@@ -10,11 +10,12 @@ import Foundation
 import SwiftyVK
 
 /// Отвечает за взаимодействие с VK
-
 class VKAPIManager {
     
-    static let applicationID = "5443807" // ID приложения
-    static let scope: [VK.Scope] = [ // Права приложения https://vk.com/dev/permissions
+    /// ID приложения
+    static let applicationID = "5443807"
+    /// Права приложения
+    static let scope: [VK.Scope] = [ // https://vk.com/dev/permissions
         .friends, // Друзья пользователя
         .audio, // Аудиозаписи пользователя
         .status, // Статус пользователя
@@ -23,24 +24,24 @@ class VKAPIManager {
     ]
     
     
-    // Авторизация пользователя
+    /// Авторизация пользователя
     class func autorize() {
         VK.logOut()
         VK.autorize()
     }
     
-    // Деавторизация пользователя
+    /// Деавторизация пользователя
     class func logout() {
         VK.logOut()
     }
     
-    // Авторизован ли пользователь
+    /// Авторизован ли пользователь
     class var isAuthorized: Bool {
         return VK.state == .Authorized
     }
     
     
-    // Получение личных аудиозаписей
+    /// Получение личных аудиозаписей
     class func audioGet() -> Request {
         let request = VK.API.Audio.get()
         request.successBlock = { response in
@@ -63,7 +64,7 @@ class VKAPIManager {
     }
     
     
-    // Поиск аудиозаписей
+    /// Поиск аудиозаписей
     class func audioSearch(search: String) -> Request {
         let request = VK.API.Audio.search([
             .q : search, // Поисковый запрос
@@ -90,7 +91,7 @@ class VKAPIManager {
     }
     
     
-    // Получение списка альбомов
+    /// Получение списка альбомов
     class func audioGetAlbums() -> Request {
         let request = VK.API.Audio.getAlbums()
         request.successBlock = { response in
@@ -113,7 +114,7 @@ class VKAPIManager {
     }
     
     
-    // Получение списка аудиозаписей указанного альбома альбомов
+    /// Получение списка аудиозаписей указанного альбома альбомов
     class func audioGetWithAlbumID(id: Int) -> Request {
         let request = VK.API.Audio.get([
             .albumId : String(id) // Идентификатор альбома
@@ -138,7 +139,7 @@ class VKAPIManager {
     }
     
     
-    // Получение списка друзей
+    /// Получение списка друзей
     class func friendsGet() -> Request {
         let request = VK.API.Friends.get([
             .fields : "photo_200_orig" // Получение фотографии пользователя
@@ -163,7 +164,7 @@ class VKAPIManager {
     }
     
     
-    // Получение списка групп
+    /// Получение списка групп
     class func groupsGet() -> Request {
         let request = VK.API.Groups.get([
             .extended : "1" // Получение полной информации о группах
@@ -188,7 +189,7 @@ class VKAPIManager {
     }
     
     
-    // Получение аудиозаписей владельца с указанным id
+    /// Получение аудиозаписей владельца с указанным id
     class func audioGetWithOwnerID(id: Int) -> Request {
         let request = VK.API.Audio.get([
             .ownerId : String(id) // Идентификатор владельца
@@ -217,7 +218,7 @@ class VKAPIManager {
     }
     
     
-    // Получение списка рекомендуемых аудиозаписей
+    /// Получение списка рекомендуемых аудиозаписей
     class func audioGetRecommendations() -> Request {
         let request = VK.API.Audio.getRecommendations([
             .count : "100", // Количество рекомендуемых аудиозаписей
@@ -243,7 +244,7 @@ class VKAPIManager {
     }
     
     
-    // Получение списка популярных аудиозаписей
+    /// Получение списка популярных аудиозаписей
     class func audioGetPopular() -> Request {
         let request = VK.API.Audio.getPopular([
             .onlyEng : "1", // Только зарубежные
@@ -276,7 +277,7 @@ class VKAPIManager {
 private typealias VKJSONParser = VKAPIManager
 extension VKJSONParser {
     
-    // Парсит ответ на получение аудиозаписей
+    /// Парсит ответ на получение аудиозаписей
     private class func parseAudio(audio: JSON) -> [Track] {
         var trackList = [Track]()
         
@@ -307,7 +308,7 @@ extension VKJSONParser {
         return trackList
     }
     
-    // Парсит ответ на получение альбомов
+    /// Парсит ответ на получение альбомов
     private class func parseAlbums(albums: JSON) -> [Album] {
         var albumList = [Album]()
         
@@ -327,7 +328,7 @@ extension VKJSONParser {
         return albumList
     }
     
-    // Парсит ответ на получение друзей
+    /// Парсит ответ на получение друзей
     private class func parseFriends(friends: JSON) -> [Friend] {
         var friendList = [Friend]()
         
@@ -349,7 +350,7 @@ extension VKJSONParser {
         return friendList
     }
     
-    // Парсит ответ на получение групп
+    /// Парсит ответ на получение групп
     private class func parseGroups(groups: JSON) -> [Group] {
         var groupList = [Group]()
         

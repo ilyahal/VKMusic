@@ -10,7 +10,6 @@ import UIKit
 import SwiftyVK
 
 /// Отвечает за обработку запросов на загрузку данных с сервера VK
-
 class RequestManager {
     
     private struct Static {
@@ -48,9 +47,10 @@ class RequestManager {
     
     // MARK: Работа с активными запросами
     
+    /// Активные запросы
     var activeRequests: [String : Request]
     
-    // Отмена запросов при деавторизации
+    /// Отмена запросов при деавторизации
     func cancelRequestInCaseOfDeavtorization() {
         getAudio.cancel()
         searchAudio.cancel()
@@ -64,31 +64,31 @@ class RequestManager {
     }
     
     
-    // Получение личных аудиозаписей
+    /// Получение личных аудиозаписей
     let getAudio: RequestManagerObject
     
-    // Получение искомых аудиозаписей
+    /// Получение искомых аудиозаписей
     let searchAudio: RequestManagerObject
     
-    // Получение альбомов
+    /// Получение альбомов
     let getAlbums: RequestManagerObject
     
-    // Получение аудиозаписей из альбома
+    /// Получение аудиозаписей из альбома
     let getAlbumAudio: RequestManagerObject
     
-    // Получение друзей
+    /// Получение друзей
     let getFriends: RequestManagerObject
     
-    // Получение групп
+    /// Получение групп
     let getGroups: RequestManagerObject
     
-    // Получение аудиозаписей владельца
+    /// Получение аудиозаписей владельца
     let getOwnerAudio: RequestManagerObject
     
-    // Получение рекомендуемых аудиозаписей
+    /// Получение рекомендуемых аудиозаписей
     let getRecommendationsAudio: RequestManagerObject
     
-    // Получение популярных аудиозаписей
+    /// Получение популярных аудиозаписей
     let getPopularAudio: RequestManagerObject
     
 }
@@ -99,17 +99,27 @@ class RequestManager {
 private typealias RequestManagerDataTypes = RequestManager
 extension RequestManagerDataTypes {
     
-    // Ключи для запросов
+    /// Ключи для запросов
     struct requestKeys {
-        static let GetAudio = "getAudio" // Ключ на получение личных аудиозаписей
-        static let SearchAudio = "searchAudio" // Ключ на получение искомых аудиозаписей
-        static let GetAlbums = "getAlbums" // Ключ на получение списка альбомов
-        static let GetAlbumAudio = "getAlbumAudio" // Ключ на получение списка аудиозаписей альбома
-        static let GetFriends = "getFriends" // Ключ на получение списка друзей
-        static let GetGroups = "getGroups" // Ключ на получение списка групп
-        static let GetOwnerAudio = "getOwnerAudio" // Ключ на получение списка аудиозаписей пользователя
-        static let GetRecommendationsAudio = "getRecommendationsAudio" // Ключ на получение рекомендуемых аудиозаписей
-        static let GetPopularAudio = "getPopularAudio" // Ключ на получение популярных аудиозаписей
+        
+        /// Ключ на получение личных аудиозаписей
+        static let GetAudio = "getAudio"
+        /// Ключ на получение искомых аудиозаписей
+        static let SearchAudio = "searchAudio"
+        /// Ключ на получение списка альбомов
+        static let GetAlbums = "getAlbums"
+        /// Ключ на получение списка аудиозаписей альбома
+        static let GetAlbumAudio = "getAlbumAudio"
+        /// Ключ на получение списка друзей
+        static let GetFriends = "getFriends"
+        /// Ключ на получение списка групп
+        static let GetGroups = "getGroups"
+        /// Ключ на получение списка аудиозаписей пользователя
+        static let GetOwnerAudio = "getOwnerAudio"
+        /// Ключ на получение рекомендуемых аудиозаписей
+        static let GetRecommendationsAudio = "getRecommendationsAudio"
+        /// Ключ на получение популярных аудиозаписей
+        static let GetPopularAudio = "getPopularAudio"
         
     }
     

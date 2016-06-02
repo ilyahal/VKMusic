@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Контроллер содержащий контейнер со списком рекомендуемых аудиозаписей
 class RecommendationsMusicViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {

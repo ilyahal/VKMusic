@@ -8,11 +8,15 @@
 
 import UIKit
 
+/// Ячейка для строки с плейлистом
 class PlaylistCell: UITableViewCell {
     
+    /// Название плейлиста
     @IBOutlet weak var titleLabel: UILabel!
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         titleLabel.text = nil
     }
     

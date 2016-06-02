@@ -8,11 +8,15 @@
 
 import UIKit
 
+// Ячейка для строки с сообщением о загрузке и индикатором загрузки
 class LoadingCell: UITableViewCell {
 
+    /// Индикатор загрузки
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         activityIndicator.stopAnimating()
     }
 

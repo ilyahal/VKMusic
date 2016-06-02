@@ -8,13 +8,10 @@
 
 import UIKit
 
+/// Контроллер отображающий приветствие и приглашение авторизоваться
 class AuthorizationViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    // Вызывается при тапе по кнопке "Авторизоваться"
+    /// Вызывается при нажатии по кнопке "Авторизоваться"
     @IBAction func authorizationTapped(sender: UIButton) {
         if Reachability.isConnectedToNetwork() {
             VKAPIManager.autorize()
@@ -23,8 +20,8 @@ class AuthorizationViewController: UIViewController {
         }
     }
     
-    // Отображает уведомление с сообщением о проблемах с подключением к интернету
-    func showNetworkError() {
+    /// Отобразить уведомление с сообщением о проблеме при подключении к интернету
+    private func showNetworkError() {
         let alertController = UIAlertController(title: "Ошибка", message: "Проверьте соединение с интернетом!", preferredStyle: .Alert)
         
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)

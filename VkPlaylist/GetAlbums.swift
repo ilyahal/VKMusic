@@ -9,7 +9,6 @@
 import UIKit
 
 /// Получение списка альбомов
-
 class GetAlbums: RequestManagerObject {
     
     override func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
@@ -39,7 +38,7 @@ class GetAlbums: RequestManagerObject {
             // Сохранение данных
             let result = notification.userInfo!["Albums"] as! [Album]
             
-            DataManager.sharedInstance.albums.update(result)
+            DataManager.sharedInstance.albums.saveNewArray(result)
             self.state = DataManager.sharedInstance.albums.array.count == 0 ? .NoResults : .Results
             self.error = .None
             

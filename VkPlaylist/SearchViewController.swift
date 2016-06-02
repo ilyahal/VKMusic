@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Контроллер содержащий контейнер со списком искомых аудиозаписей
 class SearchViewController: UIViewController {
 
 }

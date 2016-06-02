@@ -9,7 +9,6 @@
 import UIKit
 
 /// Получение списка популярных аудиозаписей
-
 class GetPopularAudio: RequestManagerObject {
     
     override func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
@@ -39,7 +38,7 @@ class GetPopularAudio: RequestManagerObject {
             // Сохранение данных
             let result = notification.userInfo!["Audio"] as! [Track]
             
-            DataManager.sharedInstance.popularMusic.update(result)
+            DataManager.sharedInstance.popularMusic.saveNewArray(result)
             self.state = DataManager.sharedInstance.popularMusic.array.count == 0 ? .NoResults : .Results
             self.error = .None
             

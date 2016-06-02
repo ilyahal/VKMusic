@@ -8,11 +8,15 @@
 
 import UIKit
 
+/// Ячейка для строки с сообщением об отсутствии результатов
 class NothingFoundCell: UITableViewCell {
 
+    /// Метка для сообщения
     @IBOutlet weak var messageLabel: UILabel!
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         messageLabel.text = nil
     }
     

@@ -8,20 +8,27 @@
 
 import UIKit
 
+/// Ячейка для строки с количеством единиц в списке
 class NumberOfRowsCell: UITableViewCell {
 
+    /// Количество единиц
     @IBOutlet weak var countLabel: UILabel!
+    /// Наименование
     @IBOutlet weak var nameLabel: UILabel!
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         countLabel.text = nil
         nameLabel.text = nil
     }
     
+    /// Настройка ячейки для указанного наименования и количества единиц
     func configureForType(type: Type, withCount count: Int) {
-        countLabel.text = String(count)
         
+        // Склоняем наименование
         let name: String!
+        
         switch type {
         case .Audio:
             if count >= 11 && count <= 14 {
@@ -90,6 +97,8 @@ class NumberOfRowsCell: UITableViewCell {
             }
         }
         
+        // Отображение данных
+        countLabel.text = "\(count)"
         nameLabel.text = name
     }
     
@@ -100,11 +109,21 @@ class NumberOfRowsCell: UITableViewCell {
 
 private typealias NumberOfRowsCellDataType = NumberOfRowsCell
 extension NumberOfRowsCellDataType {
+    
+    /// Перечисление содержащие возможное наименование единиц
     enum Type {
-        case Audio // Ячейка с количеством аудиозаписей
-        case Playlist // Ячейка с количеством плейлистов
-        case Album // Ячейка с количеством альбомов
-        case Friend // Ячейка с количеством друзей
-        case Group // Ячейка с количеством групп
+        
+        /// Аудиозаписи
+        case Audio
+        /// Плейлисты
+        case Playlist
+        /// Альбомы
+        case Album
+        /// Друзья
+        case Friend
+        /// Группы
+        case Group
+        
     }
+    
 }

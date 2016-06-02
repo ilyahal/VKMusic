@@ -57,7 +57,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FnK-XM-fHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3271" y="453.5"/>
+            <point key="canvasLocation" x="3271" y="429"/>
         </scene>
         <!--Поиск-->
         <scene sceneID="vk8-Mn-bxB">
@@ -177,7 +177,7 @@
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddPlaylistCell" rowHeight="53" id="av2-jB-4I2">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddPlaylistCell" rowHeight="53" id="av2-jB-4I2">
                                         <rect key="frame" x="0.0" y="92" width="600" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="av2-jB-4I2" id="9TU-H6-Clc">
@@ -190,7 +190,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GK2-As-faB" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GK2-As-faB" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
                                                     <rect key="frame" x="18" y="14" width="26" height="26"/>
                                                     <color key="backgroundColor" red="0.069000579419999999" green="0.84732443089999998" blue="0.080847390000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -244,7 +244,7 @@
                                             <outlet property="titleLabel" destination="2yo-GH-Goh" id="fKS-o3-k5b"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddAlbumCell" rowHeight="53" id="jAF-mB-ieE">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddAlbumCell" rowHeight="53" id="jAF-mB-ieE">
                                         <rect key="frame" x="0.0" y="189" width="600" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jAF-mB-ieE" id="LAn-qZ-KfR">
@@ -257,7 +257,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgI-3x-jsa" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgI-3x-jsa" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
                                                     <rect key="frame" x="18" y="14" width="26" height="26"/>
                                                     <color key="backgroundColor" red="0.069000579419999999" green="0.84732443089999998" blue="0.080847390000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -500,7 +500,6 @@
                     <connections>
                         <outlet property="editPlaylistTableViewControllerContainer" destination="LrG-mh-6nQ" id="XRM-kL-Z8X"/>
                         <outlet property="playlistTitleTextField" destination="3HN-OZ-L93" id="i0G-ir-iNU"/>
-                        <outlet property="saveButton" destination="faL-R4-1Sj" id="I0C-VW-AdX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfq-WC-DK1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -538,7 +537,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aht-To-oxU">
                                             <rect key="frame" x="547" y="0.0" width="52.5" height="52.5"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOo-CD-tsX" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOo-CD-tsX" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
                                                     <rect key="frame" x="18" y="13" width="26" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="26" id="aj7-8Q-3Bo"/>
@@ -661,7 +660,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddAudioCell" rowHeight="53" id="civ-x4-Jyu">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddAudioCell" rowHeight="53" id="civ-x4-Jyu">
                                 <rect key="frame" x="0.0" y="28" width="600" height="53"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="civ-x4-Jyu" id="sAh-X3-EJc">
@@ -674,7 +673,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xj2-qi-qpS" customClass="AddToPlaylistButton" customModule="VkPlaylist" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xj2-qi-qpS" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
                                             <rect key="frame" x="18" y="14" width="26" height="26"/>
                                             <color key="backgroundColor" red="0.069000579416751862" green="0.8473244309425354" blue="0.080847389996051788" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -1179,6 +1178,77 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActiveDownloadCell" rowHeight="62" id="Dak-4F-lB8" customClass="ActiveDownloadCell" customModule="VkPlaylist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="600" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dak-4F-lB8" id="7FP-wE-5Zx">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="61.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Название" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hEo-zA-Ne1">
+                                            <rect key="frame" x="14" y="8" width="484" height="19.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Исполнитель" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kV4-tM-p4T">
+                                            <rect key="frame" x="14" y="28.5" width="89" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nwq-FI-Jqa">
+                                            <rect key="frame" x="484" y="3" width="43" height="30"/>
+                                            <state key="normal" title="Пауза"/>
+                                            <connections>
+                                                <action selector="pauseOrResumeTapped:" destination="Dak-4F-lB8" eventType="touchUpInside" id="nbm-p9-rhC"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100% из 1.35MB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKL-3y-xWL">
+                                            <rect key="frame" x="506.5" y="43.5" width="85.5" height="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ivt-4Y-c8g">
+                                            <rect key="frame" x="14" y="51.5" width="484" height="2"/>
+                                        </progressView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Inn-R5-KsB">
+                                            <rect key="frame" x="535" y="3" width="56" height="30"/>
+                                            <state key="normal" title="Отмена"/>
+                                            <connections>
+                                                <action selector="cancelTapped:" destination="Dak-4F-lB8" eventType="touchUpInside" id="ZxN-zC-Ij1"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="kV4-tM-p4T" firstAttribute="leading" secondItem="7FP-wE-5Zx" secondAttribute="leading" constant="14" id="3T6-Jg-hod"/>
+                                        <constraint firstItem="hEo-zA-Ne1" firstAttribute="top" secondItem="7FP-wE-5Zx" secondAttribute="top" constant="8" id="4nA-IE-qBn"/>
+                                        <constraint firstAttribute="trailing" secondItem="ivt-4Y-c8g" secondAttribute="trailing" constant="102" id="7CJ-kY-AGj"/>
+                                        <constraint firstAttribute="trailing" secondItem="Inn-R5-KsB" secondAttribute="trailing" constant="9" id="8jZ-mJ-oHh"/>
+                                        <constraint firstItem="hEo-zA-Ne1" firstAttribute="leading" secondItem="7FP-wE-5Zx" secondAttribute="leading" constant="14" id="Cb0-iI-Sje"/>
+                                        <constraint firstItem="kV4-tM-p4T" firstAttribute="top" secondItem="hEo-zA-Ne1" secondAttribute="bottom" constant="1" id="JB0-Xy-IzR"/>
+                                        <constraint firstItem="ivt-4Y-c8g" firstAttribute="top" secondItem="kV4-tM-p4T" secondAttribute="bottom" constant="6" id="aS3-tz-d5T"/>
+                                        <constraint firstAttribute="trailing" secondItem="aKL-3y-xWL" secondAttribute="trailing" constant="8" id="atk-ZZ-jRf"/>
+                                        <constraint firstItem="nwq-FI-Jqa" firstAttribute="baseline" secondItem="Inn-R5-KsB" secondAttribute="baseline" id="b4O-yB-5YP"/>
+                                        <constraint firstItem="Inn-R5-KsB" firstAttribute="leading" secondItem="nwq-FI-Jqa" secondAttribute="trailing" constant="8" id="cwo-Zw-mYx"/>
+                                        <constraint firstAttribute="trailing" secondItem="hEo-zA-Ne1" secondAttribute="trailing" constant="102" id="daU-fB-IBy"/>
+                                        <constraint firstItem="aKL-3y-xWL" firstAttribute="centerY" secondItem="ivt-4Y-c8g" secondAttribute="centerY" constant="-2" id="eZH-EI-1Iv"/>
+                                        <constraint firstItem="ivt-4Y-c8g" firstAttribute="leading" secondItem="7FP-wE-5Zx" secondAttribute="leading" constant="14" id="keA-OW-RHU"/>
+                                        <constraint firstItem="Inn-R5-KsB" firstAttribute="top" secondItem="7FP-wE-5Zx" secondAttribute="top" constant="3" id="oBT-wm-eA5"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="artistLabel" destination="kV4-tM-p4T" id="wat-gb-jQL"/>
+                                    <outlet property="cancelButton" destination="Inn-R5-KsB" id="wAW-CL-JIr"/>
+                                    <outlet property="nameLabel" destination="hEo-zA-Ne1" id="Fhp-Ne-xn2"/>
+                                    <outlet property="pauseButton" destination="nwq-FI-Jqa" id="QMJ-Jw-9TP"/>
+                                    <outlet property="progressBar" destination="ivt-4Y-c8g" id="9QK-ce-qui"/>
+                                    <outlet property="progressLabel" destination="aKL-3y-xWL" id="wy0-2E-JmD"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="SB3-Uu-qB0" id="vA8-m1-96y"/>
                             <outlet property="delegate" destination="SB3-Uu-qB0" id="awz-J7-kgd"/>
@@ -1291,7 +1361,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D1-zE-Npu" customClass="AuthorizationButton" customModule="VkPlaylist" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D1-zE-Npu" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
                                 <rect key="frame" x="70" y="530" width="460" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="82h-cU-bb2"/>
@@ -1299,14 +1369,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Авторизоваться"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.98431372549999996" green="0.01176470588" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                         <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="5"/>
+                                        <real key="value" value="15"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>

@@ -8,13 +8,12 @@
 
 import UIKit
 
+/// Контроллер содержащий контейнер со списком аудиозаписей выбранного плейлиста
 class PlaylistMusicViewController: UIViewController {
 
+    /// Выбранный плейлист
     var playlist: Playlist!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -29,6 +28,7 @@ class PlaylistMusicViewController: UIViewController {
         if segue.identifier == SegueIdentifiers.showPlaylistMusicTableViewControllerInContainerSegue {
             let playlistMusicTableViewController = segue.destinationViewController as! PlaylistMusicTableViewController
             playlistMusicTableViewController.playlistMusicViewController = self
+            
             playlistMusicTableViewController.playlist = playlist
         } else if segue.identifier == SegueIdentifiers.showEditPlaylistMusicTableViewControllerForEditSegue {
             let navigationController = segue.destinationViewController as! UINavigationController

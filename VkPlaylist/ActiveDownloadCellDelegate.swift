@@ -6,15 +6,16 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
+/// Делегат ячейки с активной загрузкой
 protocol ActiveDownloadCellDelegate {
     
-    // Вызывается когда была нажата кнопка "Пауза"
+    /// Кнопка "Пауза" была нажата
     func pauseTapped(cell: ActiveDownloadCell)
     
-    // Вызывается когда была нажата кнопка "Продолжить"
+    /// Кнопка "Продолжить" была нажата
     func resumeTapped(cell: ActiveDownloadCell)
     
-    // Вызывается когда была нажата кнопка "Отмена"
+    /// Кнопка "Отмена" была нажата
     func cancelTapped(cell: ActiveDownloadCell)
     
 }

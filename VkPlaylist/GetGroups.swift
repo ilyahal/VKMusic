@@ -9,7 +9,6 @@
 import UIKit
 
 /// Получение списка групп
-
 class GetGroups: RequestManagerObject {
     
     override func performRequest(parameters: [Argument : AnyObject], withCompletionHandler completion: (Bool) -> Void) {
@@ -39,7 +38,7 @@ class GetGroups: RequestManagerObject {
             // Сохранение данных
             let result = notification.userInfo!["Groups"] as! [Group]
             
-            DataManager.sharedInstance.groups.update(result)
+            DataManager.sharedInstance.groups.saveNewArray(result)
             self.state = DataManager.sharedInstance.groups.array.count == 0 ? .NoResults : .Results
             self.error = .None
             

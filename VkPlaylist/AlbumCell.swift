@@ -8,11 +8,15 @@
 
 import UIKit
 
+/// Ячейка для строки с альбомом
 class AlbumCell: UITableViewCell {
 
+    /// Название альбома
     @IBOutlet weak var titleLabel: UILabel!
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         titleLabel.text = nil
     }
     

@@ -8,9 +8,10 @@
 
 import Foundation
 
+/// Делегат ViewController "Добавление аудиозаписей в плейлист"
 protocol AddPlaylistMusicDelegate: class {
     
-    // Вызывается при добавлении трека в плейлист
+    /// Добавить аудиозапись в плейлист
     func addPlaylistMusicDelegateAddTrack(track: OfflineTrack)
     
 }

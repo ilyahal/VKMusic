@@ -9,48 +9,53 @@
 import UIKit
 import CoreData
 
+/// Контроллер содержащий список плейлистов и альбомов
 class PlaylistsViewController: UIViewController {
     
-    private var selected = SelectedType.Playlists {
-        didSet {
-            if VKAPIManager.isAuthorized && selected == .Albums {
-                pullToRefreshEnable(true)
-                return
-            }
-            
-            pullToRefreshEnable(false)
-        }
-    }
+    /// Тип отображаемого списка
+    private var selected = SelectedType.Playlists
     
-    var playlists: [Playlist] { // Массив для оффлайн плейлистов
+    /// Массив оффлайн плейлистов
+    var playlists: [Playlist] {
         return DataManager.sharedInstance.playlistsFetchedResultsController.sections!.first!.objects as! [Playlist]
     }
     
-    private var albums = [Album]() // Массив для альбомов ВК
+    /// Массив альбомов ВК
+    var albums = [Album]()
+    /// Статус выполнения запроса к серверу
     var requestManagerStatus: RequestManagerObject.State {
         return RequestManager.sharedInstance.getAlbums.state
     }
+    /// Ошибки при выполнении запроса к серверу
     var requestManagerError: RequestManagerObject.ErrorRequest {
         return RequestManager.sharedInstance.getAlbums.error
     }
     
-    var currentAuthorizationStatus: Bool! // Состояние авторизации пользователя при последнем отображении экрана
+    /// Состояние авторизации пользователя при последнем отображении контроллера
+    var currentAuthorizationStatus: Bool!
     
+    /// Кнопка "Готово" в навигационной панели
     var doneButton: UIBarButtonItem!
+    /// Кнопка "Изменить" в навигационной панели
     var editButton: UIBarButtonItem!
-    
+    /// Нажата ли кнопка "Изменить"
     var editTapped = false
     
+    /// Навигационная панель с переключателем типа списка
     @IBOutlet weak var navigationBar: UINavigationBar!
+    /// Переключатель типа списка
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
+    /// Таблица отображающая список плейлистов/альбомов
     @IBOutlet weak var tableView: UITableView!
+    /// Контроллер обновления таблицы
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshAlbums), forControlEvents: UIControlEvents.ValueChanged)
         
         return refreshControl
     }()
+    /// Доступен ли Pull-to-Refresh
     var pullToRefreshEnable = false
     
     
@@ -107,20 +112,15 @@ class PlaylistsViewController: UIViewController {
         if currentAuthorizationStatus != VKAPIManager.isAuthorized {
             currentAuthorizationStatus = VKAPIManager.isAuthorized
             
-            if VKAPIManager.isAuthorized {
-                if selected == .Albums {
-                    pullToRefreshEnable(true)
+            if selected == .Albums {
+                if VKAPIManager.isAuthorized {
+                    getAlbums()
                 }
                 
-                getAlbums()
-            } else {
-                pullToRefreshEnable(false)
-            }
-            
-            // Если открыта вкладка с альбомами ВК
-            if selected == .Albums {
                 reloadTableView()
             }
+                
+            pullToRefreshEnable(VKAPIManager.isAuthorized)
         }
         
         // Необходимо для корректного отображения Refresh Controller
@@ -132,14 +132,6 @@ class PlaylistsViewController: UIViewController {
         }
     }
     
-    // Заново отрисовать таблицу
-    func reloadTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.tableView.reloadData()
-        }
-    }
-    
-    // Подготовка к выполнению перехода
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == SegueIdentifiers.showEditPlaylistViewControllerForAddSegue {
             afterDelay(1) { _ in
@@ -158,8 +150,16 @@ class PlaylistsViewController: UIViewController {
         }
     }
     
+    /// Заново отрисовать таблицу
+    func reloadTableView() {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.reloadData()
+        }
+    }
+    
+    /// Начало редактирования таблицы
     func startEditing() {
-        tableView.editing = false
+        tableView.editing = false // Если отображалась кнопка "Удалить", доступная по свайпу, скрываем ее
         
         navigationItem.setRightBarButtonItems([doneButton], animated: true)
         
@@ -169,6 +169,7 @@ class PlaylistsViewController: UIViewController {
         reloadTableView()
     }
     
+    /// Окончание редактирования таблицы
     func endEditing() {
         navigationItem.setRightBarButtonItems([editButton], animated: true)
         
@@ -181,14 +182,19 @@ class PlaylistsViewController: UIViewController {
     
     // MARK: Обработка пользовательских событий
     
+    /// Значение переключателя типа было изменено
     @IBAction func segmentChanged(sender: UISegmentedControl) {
         endEditing()
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             selected = .Playlists
+            
+            pullToRefreshEnable(false)
         case 1:
             selected = .Albums
+            
+            pullToRefreshEnable(VKAPIManager.isAuthorized)
             
             if requestManagerStatus != .Results {
                 navigationItem.setRightBarButtonItems(nil, animated: true)
@@ -203,12 +209,12 @@ class PlaylistsViewController: UIViewController {
     
     // MARK: Кнопки на навигационной панели
     
-    // Кнопка изменить была нажата
+    /// Кнопка "Изменить" была нажата
     func editButtonTapped(sender: AnyObject?) {
         startEditing()
     }
     
-    // Кнопка готово была нажата
+    // Кнопка "Готово" была нажата
     func doneButtonTapped(sender: AnyObject?) {
         endEditing()
     }
@@ -216,6 +222,7 @@ class PlaylistsViewController: UIViewController {
     
     // MARK: Выполнение запроса на получение альбомов ВК
     
+    /// Запрос на получение альбомов с сервера
     func getAlbums() {
         RequestManager.sharedInstance.getAlbums.performRequest() { success in
             self.albums = DataManager.sharedInstance.albums.array
@@ -260,6 +267,7 @@ class PlaylistsViewController: UIViewController {
     
     // MARK: Pull-to-Refresh
     
+    /// Управление доступностью Pull-to-Refresh
     func pullToRefreshEnable(enable: Bool) {
         if enable {
             if !pullToRefreshEnable {
@@ -273,6 +281,10 @@ class PlaylistsViewController: UIViewController {
             }
         } else {
             if pullToRefreshEnable {
+                if refreshControl.refreshing {
+                    refreshControl.endRefreshing()
+                }
+                
                 refreshControl.removeFromSuperview()
                 pullToRefreshEnable = false
             }
@@ -287,12 +299,12 @@ class PlaylistsViewController: UIViewController {
     // MARK: Получение ячеек для строк таблицы helpers
     
     // Текст для ячейки с сообщением о том, что нет плейлистов
-    var textForNoPlaylistsRow: String {
+    var noPlaylistsLabelText: String {
         return "Нет плейлистов"
     }
     
     // Получение количества плейлистов в списке для ячейки с количеством плейлистов
-    func getCountForCellForNumberOfPlaylistsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
+    func numberOfPlaylistsForIndexPath(indexPath: NSIndexPath) -> Int? {
         if playlists.count == indexPath.row {
             return playlists.count
         } else {
@@ -301,17 +313,17 @@ class PlaylistsViewController: UIViewController {
     }
     
     // Текст для ячейки с сообщением о необходимости авторизоваться
-    var textForNoAuthorizedRow: String {
+    var noAuthorizedLabelText: String {
         return "Необходимо авторизоваться"
     }
     
     // Текст для ячейки с сообщением о том, что нет альбомов
-    var textForNoAlbumsRow: String {
+    var noAlbumsLabelText: String {
         return "Нет альбомов"
     }
     
     // Получение количества треков в списке для ячейки с количеством альбомов
-    func getCountForCellForNumberOfAlbumsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> Int? {
+    func numberOfAlbumsForIndexPath(indexPath: NSIndexPath) -> Int? {
         if albums.count == indexPath.row {
             return albums.count
         } else {
@@ -339,7 +351,7 @@ class PlaylistsViewController: UIViewController {
     // Ячейка для строки с сообщением что нет плейлистов
     func getCellForNoPlaylistsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-        cell.messageLabel.text = textForNoPlaylistsRow
+        cell.messageLabel.text = noPlaylistsLabelText
         
         return cell
     }
@@ -356,7 +368,7 @@ class PlaylistsViewController: UIViewController {
     
     // Пытаемся получить ячейку для строки с количеством плейлистов
     func getCellForNumberOfPlaylistsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
-        let count = getCountForCellForNumberOfPlaylistsRowInTableView(tableView, forIndexPath: indexPath)
+        let count = numberOfPlaylistsForIndexPath(indexPath)
         
         if let count = count {
             let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
@@ -383,7 +395,7 @@ class PlaylistsViewController: UIViewController {
     // Ячейка для строки с сообщением что сервер вернул пустой массив
     func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
-        cell.messageLabel.text = textForNoAlbumsRow
+        cell.messageLabel.text = noAlbumsLabelText
         
         return cell
     }
@@ -398,7 +410,7 @@ class PlaylistsViewController: UIViewController {
     
     // Пытаемся получить ячейку для строки с количеством альбомов
     func getCellForNumberOfAlbumsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
-        let count = getCountForCellForNumberOfAlbumsRowInTableView(tableView, forIndexPath: indexPath)
+        let count = numberOfAlbumsForIndexPath(indexPath)
         
         if let count = count {
             let numberOfRowsCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.numberOfRowsCell) as! NumberOfRowsCell
@@ -423,7 +435,7 @@ class PlaylistsViewController: UIViewController {
     // Ячейка для строки с сообщением о необходимости авторизоваться
     func getCellForNoAuthorizedRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
-        cell.messageLabel.text = textForNoAuthorizedRow
+        cell.messageLabel.text = noAuthorizedLabelText
         
         return cell
     }
@@ -431,24 +443,11 @@ class PlaylistsViewController: UIViewController {
 }
 
 
-// MARK: Типы данных
-
-private typealias PlaylistsViewControllerDataTypes = PlaylistsViewController
-extension PlaylistsViewControllerDataTypes {
-
-    // Выбранное состояние
-    enum SelectedType {
-        case Playlists // Локальные плейлисты
-        case Albums // Альбомы ВК
-    }
-    
-}
-
-
 // MARK: UITableViewDataSource
 
 extension PlaylistsViewController: UITableViewDataSource {
     
+    // Количество строк в секции
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch selected {
         case .Playlists:
@@ -477,6 +476,7 @@ extension PlaylistsViewController: UITableViewDataSource {
         }
     }
     
+    // Ячейки для строк
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch selected {
         case .Playlists:
@@ -572,7 +572,6 @@ extension PlaylistsViewController: UITableViewDataSource {
         if editingStyle == .Delete {
             switch selected {
             case .Playlists:
-                
                 let playlist = playlists[indexPath.row - (editTapped ? 1 : 0)]
                 
                 if !DataManager.sharedInstance.deletePlaylist(playlist) {
@@ -685,17 +684,35 @@ extension PlaylistsViewController: UITableViewDelegate {
 
 extension PlaylistsViewController: DataManagerPlaylistsDelegate {
     
-    // Контроллер начал изменять контент
+    // Контроллер массива плейлистов начал изменять контент
     func dataManagerPlaylistsControllerWillChangeContent() {}
     
-    // Контроллер совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
+    // Контроллер массива плейлистов совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
     func dataManagerPlaylistsControllerDidChangeObject(anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {}
     
-    // Контроллер закончил изменять контент
+    // Контроллер массива плейлистов закончил изменять контент
     func dataManagerPlaylistsControllerDidChangeContent() {
         if selected == .Playlists {
             reloadTableView()
         }
+    }
+    
+}
+
+
+// MARK: Типы данных
+
+private typealias PlaylistsViewControllerDataTypes = PlaylistsViewController
+extension PlaylistsViewControllerDataTypes {
+    
+    /// Перечисление содержащие возможные типы списка
+    enum SelectedType {
+        
+        /// Плейлисты
+        case Playlists
+        /// Альбомы ВК
+        case Albums
+        
     }
     
 }

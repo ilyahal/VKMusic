@@ -9,9 +9,7 @@
 import Foundation
 import CoreData
 
-
+/// Офлайн аудиозапись
 class OfflineTrack: NSManagedObject {
-
-// Insert code here to add functionality to your managed object subclass
 
 }
