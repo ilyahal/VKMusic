@@ -369,8 +369,8 @@ class FriendsTableViewController: UITableViewController {
 
 // MARK: UITableViewDataSource
 
-private typealias FriendsTableViewControllerDataSource = FriendsTableViewController
-extension FriendsTableViewControllerDataSource {
+private typealias _FriendsTableViewControllerDataSource = FriendsTableViewController
+extension _FriendsTableViewControllerDataSource {
     
     // Получение количество секций
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -480,8 +480,8 @@ extension FriendsTableViewControllerDataSource {
 
 // MARK: UITableViewDelegate
 
-private typealias FriendsTableViewControllerDelegate = FriendsTableViewController
-extension FriendsTableViewControllerDelegate {
+private typealias _FriendsTableViewControllerDelegate = FriendsTableViewController
+extension _FriendsTableViewControllerDelegate {
     
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

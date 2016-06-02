@@ -314,6 +314,33 @@ class DataManager: NSObject {
         return true
     }
     
+    /// Перемещение загруженной аудиозаписи
+    func moveDownloadedTrack(track: TrackInPlaylist, fromPosition sourcePosition: Int32, toNewPosition newPosition: Int32) {
+        
+        // Получаем перемещаемую загрузку и помещаем на позицию -1
+        track.position = -1
+        
+        // Перемещаем все плейлисты стоящие после позиции перемещаемого на один назад
+        for _track in downloadsFetchedResultsController.sections!.first!.objects as! [TrackInPlaylist] {
+            if _track.position > sourcePosition {
+                _track.position -= 1
+            }
+        }
+        
+        // Перемещаем все плейлисты стоящие начиная с новой позиции на один вперед
+        for _track in downloadsFetchedResultsController.sections!.first!.objects as! [TrackInPlaylist] {
+            if _track.position >= newPosition {
+                _track.position += 1
+            }
+        }
+        
+        // Перемещаем плейлист на новую позицию
+        track.position = newPosition
+        
+        coreDataStack.saveContext()
+        
+    }
+    
     
     /// MARK: Плейлисты
     

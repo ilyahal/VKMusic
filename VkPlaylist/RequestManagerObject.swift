@@ -101,8 +101,8 @@ class RequestManagerObject {
 
 // MARK: Типы данных
 
-private typealias RequestManagerObjectDataTypes = RequestManagerObject
-extension RequestManagerObjectDataTypes {
+private typealias _RequestManagerObjectDataTypes = RequestManagerObject
+extension _RequestManagerObjectDataTypes {
     
     /// Состояния выполнения запросов
     enum State {

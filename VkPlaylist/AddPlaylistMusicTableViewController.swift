@@ -224,8 +224,8 @@ class AddPlaylistMusicTableViewController: UITableViewController {
 
 // MARK: UITableViewDataSource
 
-private typealias AddPlaylistMusicTableViewControllerDataSource = AddPlaylistMusicTableViewController
-extension AddPlaylistMusicTableViewControllerDataSource {
+private typealias _AddPlaylistMusicTableViewControllerDataSource = AddPlaylistMusicTableViewController
+extension _AddPlaylistMusicTableViewControllerDataSource {
     
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -254,8 +254,8 @@ extension AddPlaylistMusicTableViewControllerDataSource {
 
 // MARK: UITableViewDelegate
 
-private typealias AddPlaylistMusicTableViewControllerDelegate = AddPlaylistMusicTableViewController
-extension AddPlaylistMusicTableViewControllerDelegate {
+private typealias _AddPlaylistMusicTableViewControllerDelegate = AddPlaylistMusicTableViewController
+extension _AddPlaylistMusicTableViewControllerDelegate {
     
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

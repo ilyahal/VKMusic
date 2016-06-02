@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     /// Пользователь деавторизовался
     func userDidUnautorize() {
-        RequestManager.sharedInstance.cancelRequestInCaseOfDeavtorization()
+        RequestManager.sharedInstance.userDidUnautorize()
         DataManager.sharedInstance.clearDataInCaseOfDeavtorization()
     }
     

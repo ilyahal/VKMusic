@@ -97,8 +97,8 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
 
 // MARK: UITableViewDataSource
 
-private typealias SearchTableViewControllerDataSource = SearchTableViewController
-extension SearchTableViewControllerDataSource {
+private typealias _SearchTableViewControllerDataSource = SearchTableViewController
+extension _SearchTableViewControllerDataSource {
     
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -123,8 +123,8 @@ extension SearchTableViewControllerDataSource {
 
 // MARK: UISearchBarDelegate
 
-private typealias SearchTableViewControllerUISearchBarDelegate = SearchTableViewController
-extension SearchTableViewControllerUISearchBarDelegate {
+private typealias _SearchTableViewControllerUISearchBarDelegate = SearchTableViewController
+extension _SearchTableViewControllerUISearchBarDelegate {
     
     // Пользователь хочет начать поиск
     override func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
@@ -163,8 +163,8 @@ extension SearchTableViewControllerUISearchBarDelegate {
 
 // MARK: UISearchResultsUpdating
 
-private typealias SearchTableViewControllerUISearchResultsUpdating = SearchTableViewController
-extension SearchTableViewControllerUISearchResultsUpdating {
+private typealias _SearchTableViewControllerUISearchResultsUpdating = SearchTableViewController
+extension _SearchTableViewControllerUISearchResultsUpdating {
     
     // Поле поиска получило фокус или значение поискового запроса изменено
     override func updateSearchResultsForSearchController(searchController: UISearchController) {

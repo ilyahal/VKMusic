@@ -79,8 +79,8 @@ class EditPlaylistMusicTableViewController: UITableViewController {
 
 // MARK: UITableViewDataSource
 
-private typealias EditPlaylistMusicTableViewControllerDataSource = EditPlaylistMusicTableViewController
-extension EditPlaylistMusicTableViewControllerDataSource {
+private typealias _EditPlaylistMusicTableViewControllerDataSource = EditPlaylistMusicTableViewController
+extension _EditPlaylistMusicTableViewControllerDataSource {
 
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -136,8 +136,8 @@ extension EditPlaylistMusicTableViewControllerDataSource {
 
 // MARK: UITableViewDelegate
 
-private typealias EditPlaylistMusicTableViewControllerDelegate = EditPlaylistMusicTableViewController
-extension EditPlaylistMusicTableViewControllerDelegate {
+private typealias _EditPlaylistMusicTableViewControllerDelegate = EditPlaylistMusicTableViewController
+extension _EditPlaylistMusicTableViewControllerDelegate {
 
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

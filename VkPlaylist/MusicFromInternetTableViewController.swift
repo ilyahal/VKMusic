@@ -81,6 +81,10 @@ class MusicFromInternetTableViewController: UITableViewController {
         
         if currentAuthorizationStatus != VKAPIManager.isAuthorized {
             pullToRefreshEnable(VKAPIManager.isAuthorized)
+            
+            if !VKAPIManager.isAuthorized {
+                music.removeAll()
+            }
         }
     }
     
@@ -304,8 +308,8 @@ class MusicFromInternetTableViewController: UITableViewController {
 
 // MARK: UITableViewDataSource
 
-private typealias MusicFromInternetTableViewControllerDataSource = MusicFromInternetTableViewController
-extension MusicFromInternetTableViewControllerDataSource {
+private typealias _MusicFromInternetTableViewControllerDataSource = MusicFromInternetTableViewController
+extension _MusicFromInternetTableViewControllerDataSource {
     
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -370,8 +374,8 @@ extension MusicFromInternetTableViewControllerDataSource {
 
 // MARK: UITableViewDelegate
 
-private typealias MusicFromInternetTableViewControllerDelegate = MusicFromInternetTableViewController
-extension MusicFromInternetTableViewControllerDelegate {
+private typealias _MusicFromInternetTableViewControllerDelegate = MusicFromInternetTableViewController
+extension _MusicFromInternetTableViewControllerDelegate {
     
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

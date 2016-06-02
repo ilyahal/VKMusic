@@ -107,8 +107,8 @@ class NumberOfRowsCell: UITableViewCell {
 
 // MARK: NumberOfRowsCellDataType
 
-private typealias NumberOfRowsCellDataType = NumberOfRowsCell
-extension NumberOfRowsCellDataType {
+private typealias _NumberOfRowsCellDataType = NumberOfRowsCell
+extension _NumberOfRowsCellDataType {
     
     /// Перечисление содержащие возможное наименование единиц
     enum Type {

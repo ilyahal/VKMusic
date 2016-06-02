@@ -51,16 +51,25 @@ class RequestManager {
     var activeRequests: [String : Request]
     
     /// Отмена запросов при деавторизации
-    func cancelRequestInCaseOfDeavtorization() {
+    func userDidUnautorize() {
         getAudio.cancel()
+        getAudio.dropState()
         searchAudio.cancel()
+        searchAudio.dropState()
         getAlbums.cancel()
+        getAlbums.dropState()
         getAlbumAudio.cancel()
+        getAlbumAudio.dropState()
         getFriends.cancel()
+        getFriends.dropState()
         getGroups.cancel()
+        getGroups.dropState()
         getOwnerAudio.cancel()
+        getOwnerAudio.dropState()
         getRecommendationsAudio.cancel()
+        getRecommendationsAudio.dropState()
         getPopularAudio.cancel()
+        getPopularAudio.dropState()
     }
     
     
@@ -96,8 +105,8 @@ class RequestManager {
 
 // MARK: Типы данных
 
-private typealias RequestManagerDataTypes = RequestManager
-extension RequestManagerDataTypes {
+private typealias _RequestManagerDataTypes = RequestManager
+extension _RequestManagerDataTypes {
     
     /// Ключи для запросов
     struct requestKeys {

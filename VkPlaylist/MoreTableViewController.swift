@@ -41,8 +41,8 @@ class MoreTableViewController: UITableViewController {
 
 // MARK: Типы данных
 
-private typealias MoreTableViewControllerDataTypes = MoreTableViewController
-extension MoreTableViewControllerDataTypes {
+private typealias _MoreTableViewControllerDataTypes = MoreTableViewController
+extension _MoreTableViewControllerDataTypes {
     
     /// Ссылки на дочерние экраны
     struct LinkToScreen {
@@ -61,8 +61,8 @@ extension MoreTableViewControllerDataTypes {
 
 // MARK: UITableViewDataSource
 
-private typealias MoreTableViewControllerUITableViewDataSource = MoreTableViewController
-extension MoreTableViewControllerUITableViewDataSource {
+private typealias _MoreTableViewControllerUITableViewDataSource = MoreTableViewController
+extension _MoreTableViewControllerUITableViewDataSource {
     
     // Количество строк в секции
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -86,8 +86,8 @@ extension MoreTableViewControllerUITableViewDataSource {
 
 // MARK: UITableViewDelegate
 
-private typealias MoreTableViewControllerDelegate = MoreTableViewController
-extension MoreTableViewControllerDelegate {
+private typealias _MoreTableViewControllerDelegate = MoreTableViewController
+extension _MoreTableViewControllerDelegate {
     
     // Обработка нажатия по ячейке
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

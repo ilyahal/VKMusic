@@ -310,8 +310,8 @@ class GroupsTableViewController: UITableViewController {
 
 // MARK: UITableViewDataSource
 
-private typealias GroupsTableViewControllerDataSource = GroupsTableViewController
-extension GroupsTableViewControllerDataSource {
+private typealias _GroupsTableViewControllerDataSource = GroupsTableViewController
+extension _GroupsTableViewControllerDataSource {
     
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -366,8 +366,8 @@ extension GroupsTableViewControllerDataSource {
 
 // MARK: UITableViewDelegate
 
-private typealias GroupsTableViewControllerDelegate = GroupsTableViewController
-extension GroupsTableViewControllerDelegate {
+private typealias _GroupsTableViewControllerDelegate = GroupsTableViewController
+extension _GroupsTableViewControllerDelegate {
     
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

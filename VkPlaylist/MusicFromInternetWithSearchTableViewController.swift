@@ -50,6 +50,10 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
         
         if currentAuthorizationStatus != VKAPIManager.isAuthorized {
             searchEnable(VKAPIManager.isAuthorized)
+            
+            if !VKAPIManager.isAuthorized {
+                filteredMusic.removeAll()
+            }
         }
         
         if let _ = tableView.tableHeaderView {
@@ -135,8 +139,8 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
 
 // MARK: UITableViewDataSource
 
-private typealias MusicFromInternetWithSearchTableViewControllerDataSource = MusicFromInternetWithSearchTableViewController
-extension MusicFromInternetWithSearchTableViewControllerDataSource {
+private typealias _MusicFromInternetWithSearchTableViewControllerDataSource = MusicFromInternetWithSearchTableViewController
+extension _MusicFromInternetWithSearchTableViewControllerDataSource {
     
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

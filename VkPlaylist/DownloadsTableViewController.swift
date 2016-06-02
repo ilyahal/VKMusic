@@ -12,6 +12,8 @@ import CoreData
 /// Контроллер содержащий таблицу со списком активных загрузок и уже загруженных аудиозаписей
 class DownloadsTableViewController: UITableViewController {
 
+    weak var delegate: DownloadsTableViewControllerDelegate?
+    
     /// Контроллер поиска
     let searchController = UISearchController(searchResultsController: nil)
     /// Выполняется ли сейчас поиск
@@ -294,8 +296,8 @@ class DownloadsTableViewController: UITableViewController {
 
 // MARK: UITableViewDataSource
 
-private typealias DownloadsTableViewControllerDataSource = DownloadsTableViewController
-extension DownloadsTableViewControllerDataSource {
+private typealias _DownloadsTableViewControllerDataSource = DownloadsTableViewController
+extension _DownloadsTableViewControllerDataSource {
     
     // Количество секций
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -400,13 +402,35 @@ extension DownloadsTableViewControllerDataSource {
         }
     }
     
+    // Возможно ли перемещать ячейку
+    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if isSearched {
+            return filteredDownloaded.count != indexPath.row
+        } else {
+            if indexPath.section == 1 {
+                return downloaded.count != indexPath.row
+            }
+            
+            return false
+        }
+    }
+    
+    // Обработка после перемещения ячейки
+    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+        if fromIndexPath.row != toIndexPath.row {
+            let trackToMove = downloaded[fromIndexPath.row]
+            
+            DataManager.sharedInstance.moveDownloadedTrack(trackToMove, fromPosition: Int32(fromIndexPath.row), toNewPosition: Int32(toIndexPath.row))
+        }
+    }
+    
 }
 
 
 // MARK: UITableViewDelegate
 
-private typealias DownloadsTableViewControllerDelegate = DownloadsTableViewController
-extension DownloadsTableViewControllerDelegate {
+private typealias _DownloadsTableViewControllerDelegate = DownloadsTableViewController
+extension _DownloadsTableViewControllerDelegate {
     
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -437,6 +461,22 @@ extension DownloadsTableViewControllerDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    // Определяется куда переместить ячейку с укзанного NSIndexPath при перемещении в указанный NSIndexPath
+    override func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
+        switch proposedDestinationIndexPath.section {
+        case 0:
+            return sourceIndexPath
+        case 1:
+            if proposedDestinationIndexPath.row == downloaded.count {
+                return sourceIndexPath
+            } else {
+                return proposedDestinationIndexPath
+            }
+        default:
+            return sourceIndexPath
+        }
+    }
+    
 }
 
 
@@ -446,6 +486,10 @@ extension DownloadsTableViewController: UISearchBarDelegate {
     
     // Пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        if downloaded.count != 0 {
+            delegate?.downloadsTableViewControllerSearchStarted()
+        }
+        
         return downloaded.count != 0
     }
     
@@ -462,6 +506,8 @@ extension DownloadsTableViewController: UISearchBarDelegate {
     // В поисковой панели была нажата кнопка "Отмена"
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         filteredDownloaded.removeAll()
+        
+        delegate?.downloadsTableViewControllerSearchEnded()
     }
     
 }
@@ -498,6 +544,8 @@ extension DownloadsTableViewController: DataManagerDownloadsDelegate {
         }
         
         reloadTableView()
+        
+        delegate?.downloadsTableViewControllerUpdateContent()
     }
     
 }

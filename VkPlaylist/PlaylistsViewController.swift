@@ -115,6 +115,9 @@ class PlaylistsViewController: UIViewController {
             if selected == .Albums {
                 if VKAPIManager.isAuthorized {
                     getAlbums()
+                } else {
+                    navigationItem.setRightBarButtonItems(nil, animated: false)
+                    albums.removeAll()
                 }
                 
                 reloadTableView()
@@ -198,6 +201,12 @@ class PlaylistsViewController: UIViewController {
             
             if requestManagerStatus != .Results {
                 navigationItem.setRightBarButtonItems(nil, animated: true)
+            }
+            
+            if VKAPIManager.isAuthorized {
+                if requestManagerStatus == .NotSearchedYet && requestManagerError == .None {
+                    getAlbums()
+                }
             }
         default:
             return
@@ -609,15 +618,10 @@ extension PlaylistsViewController: UITableViewDataSource {
     
     // Обработка после перемещения ячейки
     func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        switch selected {
-        case .Playlists:
-            if fromIndexPath.row != toIndexPath.row {
-                let playlistToMove = playlists[fromIndexPath.row - 1]
-                
-                DataManager.sharedInstance.movePlaylist(playlistToMove, fromPosition: Int32(fromIndexPath.row - 1), toNewPosition: Int32(toIndexPath.row - 1))
-            }
-        default:
-            break
+        if fromIndexPath.row != toIndexPath.row {
+            let playlistToMove = playlists[fromIndexPath.row - 1]
+            
+            DataManager.sharedInstance.movePlaylist(playlistToMove, fromPosition: Int32(fromIndexPath.row - 1), toNewPosition: Int32(toIndexPath.row - 1))
         }
     }
     
@@ -639,7 +643,7 @@ extension PlaylistsViewController: UITableViewDelegate {
                     performSegueWithIdentifier(SegueIdentifiers.showEditPlaylistViewControllerForAddSegue, sender: nil)
                 }
             } else {
-                if indexPath.row != playlists.count {
+                if playlists.count != 0 && indexPath.row != playlists.count {
                     let playlist = playlists[indexPath.row]
                     performSegueWithIdentifier(SegueIdentifiers.showPlaylistAudioSegue, sender: playlist)
                 }
@@ -655,7 +659,7 @@ extension PlaylistsViewController: UITableViewDelegate {
                     presentViewController(alertController, animated: true, completion: nil)
                 }
             } else {
-                if indexPath.row != albums.count {
+                if albums.count != 0 && indexPath.row != albums.count {
                     let album = albums[indexPath.row]
                     performSegueWithIdentifier(SegueIdentifiers.showAlbumAudioSegue, sender: album)
                 }
@@ -665,14 +669,9 @@ extension PlaylistsViewController: UITableViewDelegate {
     
     // Определяется куда переместить ячейку с укзанного NSIndexPath при перемещении в указанный NSIndexPath
     func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
-        switch selected {
-        case .Playlists:
-            if proposedDestinationIndexPath.row == 0 {
-                return sourceIndexPath
-            } else {
-                return proposedDestinationIndexPath
-            }
-        case .Albums:
+        if proposedDestinationIndexPath.row == 0 {
+            return sourceIndexPath
+        } else {
             return proposedDestinationIndexPath
         }
     }
@@ -702,8 +701,8 @@ extension PlaylistsViewController: DataManagerPlaylistsDelegate {
 
 // MARK: Типы данных
 
-private typealias PlaylistsViewControllerDataTypes = PlaylistsViewController
-extension PlaylistsViewControllerDataTypes {
+private typealias _PlaylistsViewControllerDataTypes = PlaylistsViewController
+extension _PlaylistsViewControllerDataTypes {
     
     /// Перечисление содержащие возможные типы списка
     enum SelectedType {
