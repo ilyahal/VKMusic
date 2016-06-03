@@ -1333,6 +1333,43 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="7as-WP-8jL">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="ru7-iK-8nE">
+                                        <rect key="frame" x="0.0" y="237.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ru7-iK-8nE" id="wkg-FM-BE0">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2BE-qc-04E">
+                                                    <rect key="frame" x="535" y="6" width="51" height="31"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="49" id="tc3-8g-z89"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="warningWhenDeletingOfExistenceInPlaylistsSwitchChanged:" destination="4gw-wh-h40" eventType="valueChanged" id="xm4-q9-jKs"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Предупреждать при удалении" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Nc-jS-GgF">
+                                                    <rect key="frame" x="16" y="11.5" width="218" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="0Nc-jS-GgF" firstAttribute="top" secondItem="wkg-FM-BE0" secondAttribute="topMargin" constant="3.5" id="3DR-mG-zT5"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="0Nc-jS-GgF" secondAttribute="bottom" constant="3" id="UPL-fb-WzD"/>
+                                                <constraint firstItem="2BE-qc-04E" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0Nc-jS-GgF" secondAttribute="trailing" constant="8" id="ZSV-Ep-dMf"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="2BE-qc-04E" secondAttribute="trailing" constant="8" id="hc0-7U-LtS"/>
+                                                <constraint firstItem="0Nc-jS-GgF" firstAttribute="leading" secondItem="wkg-FM-BE0" secondAttribute="leadingMargin" constant="8" id="rYJ-Ts-Bad"/>
+                                                <constraint firstItem="2BE-qc-04E" firstAttribute="centerY" secondItem="wkg-FM-BE0" secondAttribute="centerY" id="zyW-IP-5Y7"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="4gw-wh-h40" id="Wlw-qA-bSu"/>
@@ -1343,6 +1380,7 @@
                     <connections>
                         <outlet property="loginButton" destination="ow8-Xa-iZN" id="3ex-Mc-q25"/>
                         <outlet property="logoutButton" destination="7AB-x9-cWc" id="oph-eW-KGP"/>
+                        <outlet property="warningWhenDeletingOfExistenceInPlaylistsSwitch" destination="2BE-qc-04E" id="4cs-7v-B3q"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mdJ-LD-1bg" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -125,7 +125,8 @@ class DataManager: NSObject {
     func registerDefaults() {
         let dictionary = [
             "FirstTime": true, // Флаг на первый запуск программы
-            "PlaylistID": 0 // Идентификатор плейлиста
+            "PlaylistID": 0, // Идентификатор плейлиста
+            "WarningWhenDeletingOfExistenceInPlaylists" : true // При удалении загруженного трека предупреждать о наличии в плейлистах
         ]
         
         NSUserDefaults.standardUserDefaults().registerDefaults(dictionary) // Записываем дефолтные значения для указанных ключей
@@ -140,6 +141,29 @@ class DataManager: NSObject {
         userDefaults.synchronize() // Принудительно синхронизируем данные
         
         return Int32(playlistID)
+    }
+    
+    /// Предупреждать ли о наличии в плейлистах при удалении аудиозаписи
+    var isWarningWhenDeletingOfExistenceInPlaylists: Bool {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        return userDefaults.boolForKey("WarningWhenDeletingOfExistenceInPlaylists")
+    }
+    
+    /// Не предупреждать о наличии в плейлистах при удалении аудиозаписи
+    func warningWhenDeletingOfExistenceInPlaylistsDisabled() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        userDefaults.setBool(false, forKey: "WarningWhenDeletingOfExistenceInPlaylists")
+        userDefaults.synchronize()
+    }
+    
+    /// Предупреждать о наличии в плейлистах при удалении аудиозаписи
+    func warningWhenDeletingOfExistenceInPlaylistsEnabled() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        userDefaults.setBool(true, forKey: "WarningWhenDeletingOfExistenceInPlaylists")
+        userDefaults.synchronize()
     }
     
     
@@ -237,6 +261,21 @@ class DataManager: NSObject {
         }
         
         return false
+    }
+    
+    /// Список плейлистов, в которых содержится аудиозапись
+    func playlistsForTrack(track: OfflineTrack) -> [Playlist] {
+        var playlists = [Int32 : Playlist]()
+        
+        for trackInPlaylist in track.playlists.allObjects as! [TrackInPlaylist] {
+            let playlist = trackInPlaylist.playlist
+            
+            if playlist.isVisible && playlists[playlist.id] == nil {
+                playlists[playlist.id] = playlist
+            }
+        }
+        
+        return Array(playlists.values)
     }
     
     /// Очередь на запись скаченных аудиозаписей

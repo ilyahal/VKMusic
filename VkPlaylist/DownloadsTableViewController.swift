@@ -113,6 +113,18 @@ class DownloadsTableViewController: UITableViewController {
         }
     }
     
+    /// Удаление аудиозаписи
+    func deleteTrack(track: OfflineTrack) {
+        if !DataManager.sharedInstance.deleteTrack(track) {
+            let alertController = UIAlertController(title: "Ошибка", message: "При удалении файла произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(okAction)
+            
+            presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
     
     // MARK: Работа с клавиатурой
     
@@ -391,13 +403,41 @@ extension _DownloadsTableViewControllerDataSource {
             let trackInPlaylist = activeArray[indexPath.row]
             let track = trackInPlaylist.track
             
-            if !DataManager.sharedInstance.deleteTrack(track) {
-                let alertController = UIAlertController(title: "Ошибка", message: "При удалении файла произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
+            if DataManager.sharedInstance.isWarningWhenDeletingOfExistenceInPlaylists {
+                let playlists = DataManager.sharedInstance.playlistsForTrack(track)
                 
-                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alertController.addAction(okAction)
-                
-                presentViewController(alertController, animated: true, completion: nil)
+                if playlists.count == 0 {
+                    deleteTrack(track)
+                } else {
+                    var playlistsList = "" // Список плейлистов
+                    for (index, playlist) in playlists.enumerate() {
+                        playlistsList += "- " + playlist.title
+                        
+                        if index != playlists.count {
+                            playlistsList += "\n"
+                        }
+                    }
+                    
+                    let alertController = UIAlertController(title: "Вы уверены?", message: "Аудиозапись также будет удалена из следующих плейлистов:\n" + playlistsList, preferredStyle: .ActionSheet)
+                    
+                    let dontWarningMoreAction = UIAlertAction(title: "Больше не предупреждать", style: .Default) { _ in
+                        DataManager.sharedInstance.warningWhenDeletingOfExistenceInPlaylistsDisabled()
+                        self.deleteTrack(track)
+                    }
+                    alertController.addAction(dontWarningMoreAction)
+                    
+                    let cancelAction = UIAlertAction(title: "Отмена", style: .Cancel, handler: nil)
+                    alertController.addAction(cancelAction)
+                    
+                    let continueAction = UIAlertAction(title: "Продолжить", style: .Destructive) { _ in
+                        self.deleteTrack(track)
+                    }
+                    alertController.addAction(continueAction)
+                    
+                    presentViewController(alertController, animated: true, completion: nil)
+                }
+            } else {
+                deleteTrack(track)
             }
         }
     }

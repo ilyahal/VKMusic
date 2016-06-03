@@ -16,11 +16,18 @@ class SettingsTableViewController: UITableViewController {
     /// Кнопка "Деавторизоваться"
     @IBOutlet weak var logoutButton: UIButton!
     
+    /// Переключатель настройки "Предупреждать о наличии"
+    @IBOutlet weak var warningWhenDeletingOfExistenceInPlaylistsSwitch: UISwitch!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.tableFooterView = UIView()
+        tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        warningWhenDeletingOfExistenceInPlaylistsSwitch.on = DataManager.sharedInstance.isWarningWhenDeletingOfExistenceInPlaylists
         
         updateAuthorizationButtonsStatus(VKAPIManager.isAuthorized)
         
@@ -50,7 +57,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     
-    // MARK: Кнопки на навигационной панели
+    // MARK: Кнопки
     
     /// Вызывается при тапе по кнопке "Войти в аккаунт"
     @IBAction func loginTapped(sender: UIButton) {
@@ -62,6 +69,15 @@ class SettingsTableViewController: UITableViewController {
     @IBAction func logoutTapped(sender: UIButton) {
         logoutButton.enabled = false
         VKAPIManager.logout()
+    }
+    
+    /// Вызывается при изменении переключателя предупреждения о наличии в других плейлистах при удалении
+    @IBAction func warningWhenDeletingOfExistenceInPlaylistsSwitchChanged(sender: UISwitch) {
+        if sender.on {
+            DataManager.sharedInstance.warningWhenDeletingOfExistenceInPlaylistsEnabled()
+        } else {
+            DataManager.sharedInstance.warningWhenDeletingOfExistenceInPlaylistsDisabled()
+        }
     }
     
     
