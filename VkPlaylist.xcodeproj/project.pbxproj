@@ -16,6 +16,8 @@
 		BB0C62EE1CE3E93200C505B1 /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62EC1CE3E93200C505B1 /* PlaylistCell.swift */; };
 		BB0C62F11CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F01CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift */; };
 		BB0C62F31CE4B7CA00C505B1 /* GetAlbumAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */; };
+		BB1731941D017C6A00996A34 /* DownloadTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731931D017C6A00996A34 /* DownloadTrack.swift */; };
+		BB1731971D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731961D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift */; };
 		BB3F40EF1CFF190B0018262C /* SegueIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */; };
 		BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */; };
 		BB3F40F31CFF6B5A0018262C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F21CFF6B5A0018262C /* Functions.swift */; };
@@ -125,6 +127,8 @@
 		BB0C62F01CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumMusicTableViewController.swift; sourceTree = "<group>"; };
 		BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAlbumAudio.swift; sourceTree = "<group>"; };
 		BB0C62F41CE4B81600C505B1 /* Notepad.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Notepad.playground; sourceTree = "<group>"; };
+		BB1731931D017C6A00996A34 /* DownloadTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadTrack.swift; sourceTree = "<group>"; };
+		BB1731961D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKAPIManagerLyricsDelegate.swift; sourceTree = "<group>"; };
 		BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifiers.swift; sourceTree = "<group>"; };
 		BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlaylistMusicViewController.swift; sourceTree = "<group>"; };
 		BB3F40F21CFF6B5A0018262C /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -269,6 +273,14 @@
 				BB0C62EC1CE3E93200C505B1 /* PlaylistCell.swift */,
 			);
 			name = PlaylistCell;
+			sourceTree = "<group>";
+		};
+		BB1731951D0186EB00996A34 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				BB1731961D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift */,
+			);
+			name = Delegates;
 			sourceTree = "<group>";
 		};
 		BB405E891CF742D3000C1A2A /* NSManagedObjects */ = {
@@ -424,6 +436,7 @@
 				BBE853871CE0E69700872C3B /* Friend.swift */,
 				BBE853A01CE1481B00872C3B /* Group.swift */,
 				BB405EAF1CF76817000C1A2A /* Download.swift */,
+				BB1731931D017C6A00996A34 /* DownloadTrack.swift */,
 			);
 			name = "Data Objects";
 			sourceTree = "<group>";
@@ -634,6 +647,7 @@
 		BBE853B61CE298E400872C3B /* VKAPIManager */ = {
 			isa = PBXGroup;
 			children = (
+				BB1731951D0186EB00996A34 /* Delegates */,
 				BBDEC06D1CD6AFD5005B8494 /* VKAPIManager.swift */,
 				BBE853B71CE2990300872C3B /* VKAPIManagerNotifications.swift */,
 			);
@@ -797,6 +811,7 @@
 				BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */,
 				BBE8534E1CDFB59600872C3B /* MusicFromInternetTableViewController.swift in Sources */,
 				BBEF4EEE1CFDA4F7003642D0 /* FriendsViewController.swift in Sources */,
+				BB1731971D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift in Sources */,
 				BBEF4EE61CFD7C15003642D0 /* AlbumMusicViewController.swift in Sources */,
 				BBE8535A1CDFE4DF00872C3B /* UIImageView+TintImageColor.swift in Sources */,
 				BBEF4EF21CFDAD0B003642D0 /* AddPlaylistMusicTableViewController.swift in Sources */,
@@ -817,6 +832,7 @@
 				BB405EC11CFAEEB5000C1A2A /* AudioCellDelegate.swift in Sources */,
 				BB405EAE1CF76796000C1A2A /* DownloadManager.swift in Sources */,
 				BBE853AF1CE2869600872C3B /* RecommendationsMusicTableViewController.swift in Sources */,
+				BB1731941D017C6A00996A34 /* DownloadTrack.swift in Sources */,
 				BB405ED31CFC4B98000C1A2A /* DataManagerPlaylistsDelegate.swift in Sources */,
 				BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */,
 				BB05DF871CFEC460001F65CB /* EditPlaylistMusicTableViewController.swift in Sources */,

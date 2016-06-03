@@ -279,7 +279,7 @@ class DataManager: NSObject {
     }
     
     /// Очередь на запись скаченных аудиозаписей
-    var toSaveDownloadedTrackQueue = [(track: Track, file: NSData)]() {
+    var toSaveDownloadedTrackQueue = [(track: Track, lyrics: String, file: NSData)]() {
         didSet {
             tryStartWriteFromDownloadedTrackQueue()
         }
@@ -312,7 +312,7 @@ class DataManager: NSObject {
             offlineTrack.file = toWrite.file
             offlineTrack.id = toWrite.track.id!
             offlineTrack.ownerID = toWrite.track.owner_id!
-            offlineTrack.lyrics = "" // TODO: Текст песни загружать с вк
+            offlineTrack.lyrics = toWrite.lyrics
             offlineTrack.title = toWrite.track.title!
             
             

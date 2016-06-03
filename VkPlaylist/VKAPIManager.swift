@@ -12,6 +12,23 @@ import SwiftyVK
 /// Отвечает за взаимодействие с VK
 class VKAPIManager {
     
+    private struct Static {
+        static var onceToken: dispatch_once_t = 0 // Ключ идентифицирующий жизненынный цикл приложения
+        static var instance: VKAPIManager? = nil
+    }
+    
+    class var sharedInstance : VKAPIManager {
+        dispatch_once(&Static.onceToken) { // Для указанного токена выполняет блок кода только один раз за время жизни приложения
+            Static.instance = VKAPIManager()
+        }
+        
+        return Static.instance!
+    }
+    
+    
+    private init() {}
+    
+    
     /// ID приложения
     static let applicationID = "5443807"
     /// Права приложения
@@ -57,6 +74,26 @@ class VKAPIManager {
             }
             
             print("SwiftyVK: audioGet fail \n \(error)")
+        }
+        request.send()
+        
+        return request
+    }
+    
+    
+    /// Получение слов с указанным id
+    class func audioGetLyrics(lyrics_id: Int) -> Request {
+        let request = VK.API.Audio.getLyrics([
+            .lyricsId : "\(lyrics_id)" // Идентификатор слов
+        ])
+        request.successBlock = { response in
+            let result = VKJSONParser.parseLyrics(response)
+            VKAPIManager.sharedInstance.lyricsWereReceived(result, withID: lyrics_id)
+        }
+        request.errorBlock = { error in
+            VKAPIManager.sharedInstance.lyricsErrorWithID(lyrics_id)
+            
+            print("SwiftyVK: audioGetLyrics fail \n \(error)")
         }
         request.send()
         
@@ -117,7 +154,7 @@ class VKAPIManager {
     /// Получение списка аудиозаписей указанного альбома альбомов
     class func audioGetWithAlbumID(id: Int) -> Request {
         let request = VK.API.Audio.get([
-            .albumId : String(id) // Идентификатор альбома
+            .albumId : "\(id)" // Идентификатор альбома
         ])
         request.successBlock = { response in
             let result = VKJSONParser.parseAudio(response)
@@ -192,7 +229,7 @@ class VKAPIManager {
     /// Получение аудиозаписей владельца с указанным id
     class func audioGetWithOwnerID(id: Int) -> Request {
         let request = VK.API.Audio.get([
-            .ownerId : String(id) // Идентификатор владельца
+            .ownerId : "\(id)" // Идентификатор владельца
         ])
         request.successBlock = { response in
             let result = VKJSONParser.parseAudio(response)
@@ -269,6 +306,42 @@ class VKAPIManager {
         return request
     }
     
+    
+    // MARK: Получение слов аудиозаписи
+    
+    /// Делегаты запроса на получение слов аудиозаписи
+    private var lyricsDelegates = [VKAPIManagerLyricsDelegate]()
+    
+    /// Добавление нового делегата для запроса на получение слов аудиозаписи
+    func addLyricsDelegate(delegate: VKAPIManagerLyricsDelegate) {
+        if let _ = lyricsDelegates.indexOf({ $0 === delegate}) {
+            return
+        }
+        
+        lyricsDelegates.append(delegate)
+    }
+    
+    /// Удаление делегата для запроса на получение слов аудиозаписи
+    func deleteLyricsDelegate(delegate: VKAPIManagerLyricsDelegate) {
+        if let index = lyricsDelegates.indexOf({ $0 === delegate}) {
+            lyricsDelegates.removeAtIndex(index)
+        }
+    }
+    
+    /// Запроса на получение слов аудиозаписи успешно завершен
+    func lyricsWereReceived(lyrics: String, withID lyricsID: Int) {
+        lyricsDelegates.forEach { delegate in
+            delegate.VKAPIManagerLyricsDelegateGetLyrics(lyrics, forLyricsID: lyricsID)
+        }
+    }
+    
+    /// Запрос на получение слов был завершен с ошибкой
+    func lyricsErrorWithID(lyricsID: Int) {
+        lyricsDelegates.forEach { delegate in
+            delegate.VKAPIManagerLyricsDelegateErrorLyricsWithID(lyricsID)
+        }
+    }
+    
 }
 
 
@@ -306,6 +379,15 @@ extension VKJSONParser {
         }
         
         return trackList
+    }
+    
+    /// Парсит ответ на получение слов аудиозаписи
+    private class func parseLyrics(lyrics: JSON) -> String {
+        if let result = lyrics["text"].string {
+            return result
+        } else {
+            return ""
+        }
     }
     
     /// Парсит ответ на получение альбомов

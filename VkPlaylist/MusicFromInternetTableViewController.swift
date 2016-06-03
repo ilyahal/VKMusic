@@ -36,7 +36,7 @@ class MusicFromInternetTableViewController: UITableViewController {
     }
     
     /// Массив аудиозаписей, загружаемых сейчас
-    var activeDownloads: [String: Download] {
+    var activeDownloads: [String: DownloadTrack] {
         return DownloadManager.sharedInstance.activeDownloads
     }
     

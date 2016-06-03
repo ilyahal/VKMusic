@@ -60,7 +60,7 @@ class DownloadManager: NSObject {
     }
     
     /// Активные загрузки (в очереди и загружаемые сейчас)
-    var activeDownloads = [String: Download]() {
+    var activeDownloads = [String: DownloadTrack]() {
         didSet {
             
             // Устанавливаем значение бейджа вкладки "Загрузки"
@@ -101,6 +101,10 @@ class DownloadManager: NSObject {
             download.isDownloading = true
             download.inQueue = false
             
+            if download is DownloadTrack {
+                (download as! DownloadTrack).getLyrics()
+            }
+            
             downloadUpdated(download)
         }
     }
@@ -128,7 +132,7 @@ class DownloadManager: NSObject {
     /// Новая загрузка
     func downloadTrack(track: Track) {
         if let urlString = track.url, url =  NSURL(string: urlString) {
-            let download = Download(url: urlString)
+            let download = DownloadTrack(url: urlString, lyrics_id: track.lyrics_id)
             download.downloadTask = downloadsSession.downloadTaskWithURL(url)
             download.inQueue = true
             
@@ -151,6 +155,10 @@ class DownloadManager: NSObject {
                 tryStartDownloadFromQueue()
             }
             deleteFromQueueDownload(download) // Удаляем загрузку из очереди
+            
+            if download.isLyricsDownloading {
+                download.cancelGetLyrics()
+            }
             
             popTrackForDownloadTask(download.downloadTask!) // Удаляем трек из списка загружаемых
             activeDownloads[urlString] = nil // Удаляем загрузку трека из списка активных загрузок
@@ -236,22 +244,28 @@ class DownloadManager: NSObject {
     
     /// Загрузка начата
     func downloadStarted(download: Download) {
-        delegates.forEach { delegate in
-            delegate.downloadManagerStartTrackDownload(download)
+        if download is DownloadTrack {
+            delegates.forEach { delegate in
+                delegate.downloadManagerStartTrackDownload(download)
+            }
         }
     }
     
     /// Состояние загрузки обновлено
     func downloadUpdated(download: Download) {
-        delegates.forEach { delegate in
-            delegate.downloadManagerUpdateStateTrackDownload(download)
+        if download is DownloadTrack {
+            delegates.forEach { delegate in
+                delegate.downloadManagerUpdateStateTrackDownload(download)
+            }
         }
     }
     
     /// Загрузка отменена
     func downloadCanceled(download: Download) {
-        delegates.forEach { delegate in
-            delegate.downloadManagerCancelTrackDownload(download)
+        if download is DownloadTrack {
+            delegates.forEach { delegate in
+                delegate.downloadManagerCancelTrackDownload(download)
+            }
         }
     }
     
@@ -283,8 +297,16 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
     /// Загрузка была завершена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
         var track: Track! = nil // Загруженный трек
+        var lyrics = ""
         
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
+            // TODO: Ждать пока слова загрузятся
+            if activeDownloads[url]!.isLyricsDownloading {
+                activeDownloads[url]?.cancelGetLyrics()
+            } else {
+                lyrics = activeDownloads[url]!.lyrics!
+            }
+            
             activeDownloads[url] = nil // Удаляем загрузку трека из списка активных загрузок
             track = popTrackForDownloadTask(downloadTask)! // Извлекаем трек из списка загружаемых треков
             
@@ -295,7 +317,7 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
         let file = NSData(contentsOfURL: location)! // Загруженный файл
         
         
-        DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, file: file))
+        DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, lyrics: lyrics, file: file))
         
         
         delegates.forEach { delegate in
