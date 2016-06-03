@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>AlamofireImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-VkPlaylist.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>05094CC4A047119F7ADC14EE74C4881C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>07515F663B7AA07858D8CD3D26AD0574</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>72B9A2F6C7C0C5DB06A948371EEF2388</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>98577BB74D4AB5C7A9A091AF41E9A67D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FE4B85DACD0AE812372E4F18C8E15A69</key>
 		<dict>
 			<key>primary</key>
 			<true/>

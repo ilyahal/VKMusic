@@ -7,6 +7,7 @@ target 'VkPlaylist' do
 
 pod 'SwiftyVK', :git => 'https://github.com/WE-St0r/SwiftyVK.git'
 pod 'Alamofire', '~> 3.4'
+pod 'AlamofireImage', '~> 2.0'
 
 end
 
