@@ -161,7 +161,7 @@
             </objects>
             <point key="canvasLocation" x="2541" y="1988"/>
         </scene>
-        <!--Плейлисты-->
+        <!--Playlists View Controller-->
         <scene sceneID="X3j-Y4-uDw">
             <objects>
                 <viewController id="lhN-RF-2LM" customClass="PlaylistsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
@@ -174,7 +174,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZEL-n5-aj3">
-                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddPlaylistCell" rowHeight="53" id="av2-jB-4I2">
@@ -313,40 +313,30 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gqb-bi-dxc">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                <items>
-                                    <navigationItem id="Jjs-wb-eat">
-                                        <nil key="title"/>
-                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="3Ce-2s-hR4">
-                                            <rect key="frame" x="207.5" y="6.5" width="185" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <segments>
-                                                <segment title="Плейлисты"/>
-                                                <segment title="Альбомы VK"/>
-                                            </segments>
-                                            <connections>
-                                                <action selector="segmentChanged:" destination="lhN-RF-2LM" eventType="valueChanged" id="P21-9I-r30"/>
-                                            </connections>
-                                        </segmentedControl>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ZEL-n5-aj3" firstAttribute="top" secondItem="jvR-NQ-pnu" secondAttribute="top" constant="44" id="AGj-gS-CVX"/>
-                            <constraint firstItem="Gqb-bi-dxc" firstAttribute="leading" secondItem="jvR-NQ-pnu" secondAttribute="leading" id="EhO-9l-2eE"/>
+                            <constraint firstItem="ZEL-n5-aj3" firstAttribute="top" secondItem="jvR-NQ-pnu" secondAttribute="top" id="AGj-gS-CVX"/>
                             <constraint firstAttribute="trailing" secondItem="ZEL-n5-aj3" secondAttribute="trailing" id="JEB-T9-zJA"/>
                             <constraint firstAttribute="bottom" secondItem="ZEL-n5-aj3" secondAttribute="bottom" id="fgD-xD-d0R"/>
-                            <constraint firstItem="Gqb-bi-dxc" firstAttribute="top" secondItem="zDb-vz-QHW" secondAttribute="bottom" id="jvg-gy-5FK"/>
                             <constraint firstItem="ZEL-n5-aj3" firstAttribute="leading" secondItem="jvR-NQ-pnu" secondAttribute="leading" id="kYS-Dp-tQ3"/>
-                            <constraint firstAttribute="trailing" secondItem="Gqb-bi-dxc" secondAttribute="trailing" id="lZb-yD-6EF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Плейлисты" id="gCZ-2A-nyP"/>
+                    <navigationItem key="navigationItem" id="gCZ-2A-nyP">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="3Ce-2s-hR4">
+                            <rect key="frame" x="207.5" y="6.5" width="185" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Плейлисты"/>
+                                <segment title="Альбомы VK"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentChanged:" destination="lhN-RF-2LM" eventType="valueChanged" id="P21-9I-r30"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
                     <connections>
-                        <outlet property="navigationBar" destination="Gqb-bi-dxc" id="tzv-Sv-Els"/>
                         <outlet property="segmentedControl" destination="3Ce-2s-hR4" id="7gN-Zf-eBb"/>
                         <outlet property="tableView" destination="ZEL-n5-aj3" id="Z5j-j9-Kae"/>
                         <segue destination="lTe-XD-VCn" kind="show" identifier="ShowPlaylistAudioSegue" id="uZ6-Ly-O9q"/>

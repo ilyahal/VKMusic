@@ -41,8 +41,6 @@ class PlaylistsViewController: UIViewController {
     /// Нажата ли кнопка "Изменить"
     var editTapped = false
     
-    /// Навигационная панель с переключателем типа списка
-    @IBOutlet weak var navigationBar: UINavigationBar!
     /// Переключатель типа списка
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -76,9 +74,8 @@ class PlaylistsViewController: UIViewController {
         // Настройка навигационной панели
         navigationItem.setRightBarButtonItems([editButton], animated: false)
         
-        // Настройка навигационной панели, содержащей segmented control
-        navigationBar.barTintColor = UIColor.whiteColor()
-        navigationBar.tintColor = (UIApplication.sharedApplication().delegate! as! AppDelegate).tintColor
+        // Настройка segmented control
+        segmentedControl.tintColor = UIColor.whiteColor()
         
         // Настройка table view
         tableView.dataSource = self
