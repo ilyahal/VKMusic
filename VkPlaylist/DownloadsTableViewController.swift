@@ -570,6 +570,9 @@ extension DownloadsTableViewController: UISearchResultsUpdating {
 
 extension DownloadsTableViewController: DataManagerDownloadsDelegate {
 
+    // Контроллер удалил трек с указанным id и id владельца
+    func downloadManagerDeleteTrackWithID(id: Int32, andOwnerID ownerID: Int32) {}
+    
     // Контроллер массива загруженных аудиозаписей начал изменять контент
     func dataManagerDownloadsControllerWillChangeContent() {}
     

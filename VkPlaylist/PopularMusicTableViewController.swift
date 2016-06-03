@@ -47,6 +47,7 @@ class PopularMusicTableViewController: MusicFromInternetTableViewController {
         
         if toDelete {
             DownloadManager.sharedInstance.deleteDelegate(self)
+            DataManager.sharedInstance.deleteDataManagerDownloadsDelegate(self)
             
             DataManager.sharedInstance.popularMusic.clear()
             if !RequestManager.sharedInstance.getPopularAudio.cancel() {

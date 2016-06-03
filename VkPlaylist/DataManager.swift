@@ -344,6 +344,9 @@ class DataManager: NSObject {
             }
         }
         
+        // Оповещаем делегатов у удалении
+        deletedTrackWithID(track.id, andOwnerID: track.ownerID)
+        
         // Удаляем аудиозапись
         coreDataStack.context.deleteObject(track)
         
@@ -351,6 +354,13 @@ class DataManager: NSObject {
         coreDataStack.saveContext()
         
         return true
+    }
+    
+    /// Трек с указанным id и id владельца был удален
+    func deletedTrackWithID(id: Int32, andOwnerID ownerID: Int32) {
+        dataManagerDownloadsDelegates.forEach { delegate in
+            delegate.downloadManagerDeleteTrackWithID(id, andOwnerID: ownerID)
+        }
     }
     
     /// Перемещение загруженной аудиозаписи

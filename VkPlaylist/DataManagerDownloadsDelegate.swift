@@ -12,6 +12,9 @@ import CoreData
 /// Делегат оповещающий об изменениях в котенте загруженных аудиозаписей, управляемом контроллером
 protocol DataManagerDownloadsDelegate: class {
     
+    /// Контроллер удалил трек с указанным id и id владельца
+    func downloadManagerDeleteTrackWithID(id: Int32, andOwnerID ownerID: Int32)
+    
     /// Контроллер начал изменять контент
     func dataManagerDownloadsControllerWillChangeContent()
     

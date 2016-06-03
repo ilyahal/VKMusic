@@ -47,6 +47,8 @@ class RecommendationsMusicTableViewController: MusicFromInternetTableViewControl
         
         if toDelete {
             DownloadManager.sharedInstance.deleteDelegate(self)
+            DataManager.sharedInstance.deleteDataManagerDownloadsDelegate(self)
+            
             DataManager.sharedInstance.recommendationsMusic.clear()
             if !RequestManager.sharedInstance.getRecommendationsAudio.cancel() {
                 RequestManager.sharedInstance.getRecommendationsAudio.dropState()

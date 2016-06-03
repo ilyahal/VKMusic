@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 /// Контроллер отображающий музыку из интернета, с возможностью Pull-To-Refresh
 class MusicFromInternetTableViewController: UITableViewController {
@@ -46,6 +47,7 @@ class MusicFromInternetTableViewController: UITableViewController {
         currentAuthorizationStatus = VKAPIManager.isAuthorized
         
         DownloadManager.sharedInstance.addDelegate(self)
+        DataManager.sharedInstance.addDataManagerDownloadsDelegate(self)
         
         // Настройка Pull-To-Refresh
         pullToRefreshEnable(VKAPIManager.isAuthorized)
@@ -134,6 +136,20 @@ class MusicFromInternetTableViewController: UITableViewController {
                 if url == track.url! {
                     return index
                 }
+            }
+        }
+        
+        return nil
+    }
+    
+    
+    // MARK: Менеджер загруженных треков helpers
+    
+    /// Получение индекса трека в активном массиве с указанным id и id владельца
+    func trackIndexWithID(id: Int32, andOwnerID ownerID: Int32) -> Int? {
+        for (index, track) in activeArray.enumerate() {
+            if id == track.id && ownerID == track.owner_id {
+                return index
             }
         }
         
@@ -411,7 +427,7 @@ extension _MusicFromInternetTableViewControllerDelegate {
 
 extension MusicFromInternetTableViewController: DownloadManagerDelegate {
     
-    /// Менеджер загрузок начал новую загрузку
+    // Менеджер загрузок начал новую загрузку
     func downloadManagerStartTrackDownload(download: Download) {
         
         // Обновляем ячейку
@@ -473,6 +489,33 @@ extension MusicFromInternetTableViewController: DownloadManagerDelegate {
             }
         }
     }
+    
+}
+
+
+// MARK: DataManagerDownloadsDelegate
+
+extension MusicFromInternetTableViewController: DataManagerDownloadsDelegate {
+    
+    // Контроллер удалил трек с указанным id и id владельца
+    func downloadManagerDeleteTrackWithID(id: Int32, andOwnerID ownerID: Int32) {
+        
+        // Обновляем ячейку
+        if let trackIndex = trackIndexWithID(id, andOwnerID: ownerID) {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
+            })
+        }
+    }
+    
+    // Контроллер массива загруженных аудиозаписей начал изменять контент
+    func dataManagerDownloadsControllerWillChangeContent() {}
+    
+    // Контроллер массива загруженных аудиозаписей совершил изменения определенного типа в укзанном объекте по указанному пути (опционально новый путь)
+    func dataManagerDownloadsControllerDidChangeObject(anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {}
+    
+    // Контроллер массива загруженных аудиозаписей закончил изменять контент
+    func dataManagerDownloadsControllerDidChangeContent() {}
     
 }
 
