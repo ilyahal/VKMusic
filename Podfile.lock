@@ -3,13 +3,15 @@ PODS:
   - AlamofireImage (2.4.0):
     - Alamofire (~> 3.3)
   - SwiftyJSON (2.3.2)
-  - SwiftyVK (1.2)
+  - SwiftyVK (1.2.1)
+  - SWXMLHash (2.3.1)
 
 DEPENDENCIES:
   - Alamofire (~> 3.4)
   - AlamofireImage (~> 2.0)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
   - SwiftyVK (from `https://github.com/WE-St0r/SwiftyVK.git`)
+  - SWXMLHash (~> 2.3.0)
 
 EXTERNAL SOURCES:
   SwiftyJSON:
@@ -22,15 +24,16 @@ CHECKOUT OPTIONS:
     :commit: 2a5b70f06001316d4fb54501edc70b4084705da0
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
   SwiftyVK:
-    :commit: 37424c7bde47896fc0042ad6158fd7290b2c8f60
+    :commit: 0f83c95d908b416dcb78d7a461efdf17c5f391a5
     :git: https://github.com/WE-St0r/SwiftyVK.git
 
 SPEC CHECKSUMS:
   Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
-  SwiftyVK: 7bb2ee6bb4d9504bf5fbc2756ad7cd30d7f980c5
+  SwiftyVK: ea30729504d37356ec118dd8a00fede2adf4a1f7
+  SWXMLHash: 795c66e74f4cc9473ad6465c6653c5a6f59f417e
 
-PODFILE CHECKSUM: d875f1122b39d2b0cf9710de64de3bd1b85bc64a
+PODFILE CHECKSUM: 94823c730039b602a8b64330330b8ffe1e661e65
 
 COCOAPODS: 1.0.1

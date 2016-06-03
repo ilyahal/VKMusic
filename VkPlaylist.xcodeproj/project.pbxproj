@@ -17,10 +17,8 @@
 		BB0C62F31CE4B7CA00C505B1 /* GetAlbumAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */; };
 		BB1731941D017C6A00996A34 /* DownloadTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731931D017C6A00996A34 /* DownloadTrack.swift */; };
 		BB1731971D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731961D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift */; };
-		BB1731991D01A54800996A34 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1731981D01A54800996A34 /* Alamofire.framework */; };
-		BB17319D1D01A55C00996A34 /* SwiftyVK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB17319C1D01A55C00996A34 /* SwiftyVK.framework */; };
-		BB17319F1D01A70000996A34 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB17319E1D01A70000996A34 /* AlamofireImage.framework */; };
-		BB1731A11D01A85100996A34 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1731A01D01A85100996A34 /* SwiftyJSON.framework */; };
+		BB1731A31D01C79600996A34 /* MusicBrainzAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731A21D01C79600996A34 /* MusicBrainzAPIManager.swift */; };
+		BB1731A51D01C7FB00996A34 /* TrackObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731A41D01C7FB00996A34 /* TrackObject.swift */; };
 		BB3F40EF1CFF190B0018262C /* SegueIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */; };
 		BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */; };
 		BB3F40F31CFF6B5A0018262C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F21CFF6B5A0018262C /* Functions.swift */; };
@@ -138,6 +136,9 @@
 		BB17319C1D01A55C00996A34 /* SwiftyVK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyVK.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/SwiftyVK/SwiftyVK.framework"; sourceTree = "<group>"; };
 		BB17319E1D01A70000996A34 /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/AlamofireImage/AlamofireImage.framework"; sourceTree = "<group>"; };
 		BB1731A01D01A85100996A34 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		BB1731A21D01C79600996A34 /* MusicBrainzAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBrainzAPIManager.swift; sourceTree = "<group>"; };
+		BB1731A41D01C7FB00996A34 /* TrackObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackObject.swift; sourceTree = "<group>"; };
+		BB1731A71D01E8EF00996A34 /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = "Pods/../build/Debug-iphoneos/SWXMLHash/SWXMLHash.framework"; sourceTree = "<group>"; };
 		BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifiers.swift; sourceTree = "<group>"; };
 		BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlaylistMusicViewController.swift; sourceTree = "<group>"; };
 		BB3F40F21CFF6B5A0018262C /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -243,10 +244,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB1731A11D01A85100996A34 /* SwiftyJSON.framework in Frameworks */,
-				BB17319F1D01A70000996A34 /* AlamofireImage.framework in Frameworks */,
-				BB1731991D01A54800996A34 /* Alamofire.framework in Frameworks */,
-				BB17319D1D01A55C00996A34 /* SwiftyVK.framework in Frameworks */,
 				E4022466192309F1AF3847F1 /* Pods_VkPlaylist.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,6 +263,7 @@
 		9182076C59CEA963088D05EA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BB1731A71D01E8EF00996A34 /* SWXMLHash.framework */,
 				BB1731A01D01A85100996A34 /* SwiftyJSON.framework */,
 				BB17319E1D01A70000996A34 /* AlamofireImage.framework */,
 				BB17319C1D01A55C00996A34 /* SwiftyVK.framework */,
@@ -299,6 +297,17 @@
 				BB1731961D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift */,
 			);
 			name = Delegates;
+			sourceTree = "<group>";
+		};
+		BB1731A61D01D04400996A34 /* VKObjects */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEC0691CD67A84005B8494 /* Track.swift */,
+				BB0C62E51CE3751A00C505B1 /* Album.swift */,
+				BBE853871CE0E69700872C3B /* Friend.swift */,
+				BBE853A01CE1481B00872C3B /* Group.swift */,
+			);
+			name = VKObjects;
 			sourceTree = "<group>";
 		};
 		BB405E891CF742D3000C1A2A /* NSManagedObjects */ = {
@@ -449,10 +458,8 @@
 			children = (
 				BBE8539F1CE13EE100872C3B /* Constants */,
 				BB405E891CF742D3000C1A2A /* NSManagedObjects */,
-				BBDEC0691CD67A84005B8494 /* Track.swift */,
-				BB0C62E51CE3751A00C505B1 /* Album.swift */,
-				BBE853871CE0E69700872C3B /* Friend.swift */,
-				BBE853A01CE1481B00872C3B /* Group.swift */,
+				BB1731A61D01D04400996A34 /* VKObjects */,
+				BB1731A41D01C7FB00996A34 /* TrackObject.swift */,
 				BB405EAF1CF76817000C1A2A /* Download.swift */,
 				BB1731931D017C6A00996A34 /* DownloadTrack.swift */,
 			);
@@ -548,6 +555,7 @@
 				BBE8537E1CE0DB3800872C3B /* DataManager */,
 				BBE8537F1CE0DBD300872C3B /* RequestManager */,
 				BB405EB51CF8CD57000C1A2A /* DownloadManager */,
+				BB1731A21D01C79600996A34 /* MusicBrainzAPIManager.swift */,
 				BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */,
 			);
 			name = Managers;
@@ -859,6 +867,7 @@
 				BBE8539D1CE13E1B00872C3B /* AccessErrorCell.swift in Sources */,
 				BB405EA71CF7523B000C1A2A /* OfflineAudioCell.swift in Sources */,
 				BBDEC0741CD6CE9B005B8494 /* SettingsTableViewController.swift in Sources */,
+				BB1731A51D01C7FB00996A34 /* TrackObject.swift in Sources */,
 				BBE8538C1CE0EE5A00872C3B /* FriendsTableViewController.swift in Sources */,
 				BBE8537D1CE0DAFB00872C3B /* DataManagerObject.swift in Sources */,
 				BB405EC31CFBA4C1000C1A2A /* EditPlaylistViewController.swift in Sources */,
@@ -888,6 +897,7 @@
 				BB405EA11CF74332000C1A2A /* Playlist.swift in Sources */,
 				BB405EB01CF76817000C1A2A /* Download.swift in Sources */,
 				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
+				BB1731A31D01C79600996A34 /* MusicBrainzAPIManager.swift in Sources */,
 				BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* ButtonWithRoundedBorder.swift in Sources */,
 				BBE8535C1CDFE89000872C3B /* SearchTableViewController.swift in Sources */,

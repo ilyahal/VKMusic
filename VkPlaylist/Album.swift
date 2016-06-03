@@ -10,12 +10,12 @@
 class Album {
     
     /// Идентификатор
-    let id: Int?
+    let id: Int
     /// Название
-    let title: String?
+    let title: String
     
     
-    init(id: Int?, title: String?) {
+    init(id: Int, title: String) {
         self.id = id
         self.title = title
     }

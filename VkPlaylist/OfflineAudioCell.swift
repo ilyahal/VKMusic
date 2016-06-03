@@ -11,6 +11,8 @@ import UIKit
 /// Ячейка для строки с офлайн аудиозаписью
 class OfflineAudioCell: UITableViewCell {
 
+    /// Обложка аудиозаписи
+    @IBOutlet weak var artworkUmageView: UIImageView!
     /// Название аудиозаписи
     @IBOutlet weak var nameLabel: UILabel!
     /// Исполнитель
@@ -25,6 +27,9 @@ class OfflineAudioCell: UITableViewCell {
     
     /// Настройка ячейки для указанной аудиозаписи
     func configureForTrack(track: OfflineTrack) {
+        if let artwork = track.artwork {
+            artworkUmageView.image = UIImage(data: artwork)?.resizedImageWithBounds(artworkUmageView.bounds.size)
+        }
         nameLabel.text = track.title
         artistLabel.text = track.artist
     }

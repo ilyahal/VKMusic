@@ -10,16 +10,16 @@
 class Friend {
     
     /// Идентификатор
-    let id: Int?
+    let id: Int
     /// Фамилия
-    let last_name: String?
+    let last_name: String
     /// Фотография
-    let photo_200_orig: String?
+    let photo_200_orig: String
     /// Имя
-    let first_name: String?
+    let first_name: String
     
     
-    init(id: Int?, last_name: String?, photo_200_orig: String?, first_name: String?) {
+    init(id: Int, last_name: String, photo_200_orig: String, first_name: String) {
         self.id = id
         self.last_name = last_name
         self.photo_200_orig = photo_200_orig
@@ -28,23 +28,7 @@ class Friend {
     
     /// Получение полного имени пользователя
     func getFullName() -> String {
-        var userName = ""
-        
-        if let first_name = first_name {
-            userName = first_name
-        }
-        if let last_name = last_name {
-            if !userName.isEmpty {
-                userName += " "
-            }
-            
-            userName += last_name
-        }
-        if userName.isEmpty {
-            userName = "UNKNOWN"
-        }
-        
-        return userName
+        return first_name + " " + last_name
     }
     
 }

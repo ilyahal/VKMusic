@@ -2,6 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Xcode 7.0">
     <entity name="OfflineTrack" representedClassName=".OfflineTrack" syncable="YES">
         <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artwork" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="file" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -23,7 +24,7 @@
         <relationship name="track" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OfflineTrack" inverseName="playlists" inverseEntity="OfflineTrack" syncable="YES"/>
     </entity>
     <elements>
-        <element name="OfflineTrack" positionX="-27" positionY="147" width="128" height="165"/>
+        <element name="OfflineTrack" positionX="-27" positionY="147" width="128" height="180"/>
         <element name="Playlist" positionX="-29" positionY="-36" width="128" height="120"/>
         <element name="TrackInPlaylist" positionX="-243" positionY="45" width="128" height="88"/>
     </elements>

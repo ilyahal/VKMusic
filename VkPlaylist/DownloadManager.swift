@@ -102,6 +102,7 @@ class DownloadManager: NSObject {
             download.inQueue = false
             
             if download is DownloadTrack {
+                (download as! DownloadTrack).getArtwork()
                 (download as! DownloadTrack).getLyrics()
             }
             
@@ -131,8 +132,8 @@ class DownloadManager: NSObject {
     
     /// Новая загрузка
     func downloadTrack(track: Track) {
-        if let urlString = track.url, url =  NSURL(string: urlString) {
-            let download = DownloadTrack(url: urlString, lyrics_id: track.lyrics_id)
+        if let url = NSURL(string: track.url) {
+            let download = DownloadTrack(url: track.url, title: track.title, artist: track.artist, lyrics_id: track.lyrics_id)
             download.downloadTask = downloadsSession.downloadTaskWithURL(url)
             download.inQueue = true
             
@@ -147,7 +148,7 @@ class DownloadManager: NSObject {
     
     /// Отмена выполенения загрузки
     func cancelDownloadTrack(track: Track) {
-        if let urlString = track.url, download = activeDownloads[urlString] {
+        if let download = activeDownloads[track.url] {
             download.downloadTask?.cancel() // Отменяем выполнение загрузки
             
             if download.isDownloading {
@@ -156,12 +157,15 @@ class DownloadManager: NSObject {
             }
             deleteFromQueueDownload(download) // Удаляем загрузку из очереди
             
+            if download.isArtworkDownloading {
+                download.cancelGetArtwork()
+            }
             if download.isLyricsDownloading {
                 download.cancelGetLyrics()
             }
             
             popTrackForDownloadTask(download.downloadTask!) // Удаляем трек из списка загружаемых
-            activeDownloads[urlString] = nil // Удаляем загрузку трека из списка активных загрузок
+            activeDownloads[track.url] = nil // Удаляем загрузку трека из списка активных загрузок
             
             downloadCanceled(download)
         }
@@ -169,7 +173,7 @@ class DownloadManager: NSObject {
     
     /// Пауза загрузки
     func pauseDownloadTrack(track: Track) {
-        if let urlString = track.url, download = activeDownloads[urlString] {
+        if let download = activeDownloads[track.url] {
             if download.isDownloading {
                 download.downloadTask?.cancelByProducingResumeData { data in
                     if data != nil {
@@ -192,7 +196,7 @@ class DownloadManager: NSObject {
     
     /// Продолжение загрузки
     func resumeDownloadTrack(track: Track) {
-        if let urlString = track.url, download = activeDownloads[urlString] {
+        if let download = activeDownloads[track.url] {
             if let resumeData = download.resumeData {
                 download.downloadTask = downloadsSession.downloadTaskWithResumeData(resumeData)
                 download.inQueue = true
@@ -218,7 +222,7 @@ class DownloadManager: NSObject {
     func trackForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Track? {
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
             for track in downloadsTracks {
-                if url == track.url! {
+                if url == track.url {
                     return track
                 }
             }
@@ -231,7 +235,7 @@ class DownloadManager: NSObject {
     func popTrackForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Track? {
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
             for (index, track) in downloadsTracks.enumerate() {
-                if url == track.url! {
+                if url == track.url {
                     downloadsTracks.removeAtIndex(index)
                     
                     return track
@@ -297,10 +301,21 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
     /// Загрузка была завершена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
         var track: Track! = nil // Загруженный трек
-        var lyrics = ""
+        var artwork: NSData? // Обложка альбома песни
+        var lyrics = "" // Слова песни
+        let file = NSData(contentsOfURL: location)! // Загруженный файл
         
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
-            // TODO: Ждать пока слова загрузятся
+            
+            // Получение обложки аудиозаписи
+            if activeDownloads[url]!.isArtworkDownloading {
+                activeDownloads[url]?.cancelGetArtwork()
+                artwork = nil
+            } else {
+                artwork = activeDownloads[url]!.artwork
+            }
+            
+            // Получение слов аудиозаписи
             if activeDownloads[url]!.isLyricsDownloading {
                 activeDownloads[url]?.cancelGetLyrics()
             } else {
@@ -314,10 +329,7 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
             tryStartDownloadFromQueue()
         }
         
-        let file = NSData(contentsOfURL: location)! // Загруженный файл
-        
-        
-        DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, lyrics: lyrics, file: file))
+        DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, artwork: artwork, lyrics: lyrics, file: file))
         
         
         delegates.forEach { delegate in

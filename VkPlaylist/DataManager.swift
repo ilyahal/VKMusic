@@ -279,7 +279,7 @@ class DataManager: NSObject {
     }
     
     /// Очередь на запись скаченных аудиозаписей
-    var toSaveDownloadedTrackQueue = [(track: Track, lyrics: String, file: NSData)]() {
+    var toSaveDownloadedTrackQueue = [(track: Track, artwork: NSData?, lyrics: String, file: NSData)]() {
         didSet {
             tryStartWriteFromDownloadedTrackQueue()
         }
@@ -307,13 +307,14 @@ class DataManager: NSObject {
             var entity = NSEntityDescription.entityForName(EntitiesIdentifiers.offlineTrack, inManagedObjectContext: coreDataStack.context) // Сущность оффлайн трека
             
             let offlineTrack = OfflineTrack(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context) // Загруженный трек
-            offlineTrack.artist = toWrite.track.artist!
-            offlineTrack.duration = toWrite.track.duration!
+            offlineTrack.artist = toWrite.track.artist
+            offlineTrack.artwork = toWrite.artwork
+            offlineTrack.duration = toWrite.track.duration
             offlineTrack.file = toWrite.file
-            offlineTrack.id = toWrite.track.id!
-            offlineTrack.ownerID = toWrite.track.owner_id!
+            offlineTrack.id = toWrite.track.id
+            offlineTrack.ownerID = toWrite.track.owner_id
             offlineTrack.lyrics = toWrite.lyrics
-            offlineTrack.title = toWrite.track.title!
+            offlineTrack.title = toWrite.track.title
             
             
             // Добавляем загруженный трек в плейлист "Загрузки"

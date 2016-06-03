@@ -177,7 +177,7 @@ class DownloadsTableViewController: UITableViewController {
     func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask?) -> Int? {
         if let url = downloadTask?.originalRequest?.URL?.absoluteString {
             for (index, track) in DownloadManager.sharedInstance.downloadsTracks.enumerate() {
-                if url == track.url! {
+                if url == track.url {
                     return index
                 }
             }
@@ -247,7 +247,7 @@ class DownloadsTableViewController: UITableViewController {
         cell.configureForTrack(track)
         
         var showPauseButton = false // Отображать ли кнопку "Пауза"
-        if let download = activeDownloads[track.url!] { // Если аудиозапись есть в списке активных загрузок
+        if let download = activeDownloads[track.url] { // Если аудиозапись есть в списке активных загрузок
             showPauseButton = !download.inQueue // Скрыть кнопку пауза, если загрузка в очереди
             
             cell.progressBar.progress = download.progress

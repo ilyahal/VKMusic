@@ -133,7 +133,7 @@ class MusicFromInternetTableViewController: UITableViewController {
     func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask?) -> Int? {
         if let url = downloadTask?.originalRequest?.URL?.absoluteString {
             for (index, track) in activeArray.enumerate() {
-                if url == track.url! {
+                if url == track.url {
                     return index
                 }
             }
@@ -289,7 +289,7 @@ class MusicFromInternetTableViewController: UITableViewController {
         
         var showDownloadControls = false // Отображать ли кнопки "Пауза" и "Отмена" и индикатор выполнения загрузки с меткой для отображения прогресса загрузки
         var showPauseButton = false // Отображать ли кнопку "Пауза"
-        if let download = activeDownloads[track.url!] { // Если аудиозапись есть в списке активных загрузок
+        if let download = activeDownloads[track.url] { // Если аудиозапись есть в списке активных загрузок
             showDownloadControls = true
             showPauseButton = !download.inQueue // Скрыть кнопку пауза, если загрузка в очереди
             
@@ -414,7 +414,7 @@ extension _MusicFromInternetTableViewControllerDelegate {
         
         if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
             let track = activeArray[indexPath.row]
-            let trackURL = NSURL(string: track.url!)
+            let trackURL = NSURL(string: track.url)
             
             PlayerManager.sharedInstance.playFile(trackURL!)
         }

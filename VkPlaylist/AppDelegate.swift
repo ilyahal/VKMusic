@@ -32,7 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Инициализация SwiftyVK с id приложения и делегатом
         VK.start(appID: VKAPIManager.applicationID, delegate: self)
         
-        
         return true
     }
     

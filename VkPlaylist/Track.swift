@@ -7,25 +7,25 @@
 //
 
 /// Онлайн аудиозапись
-class Track {
+class Track: TrackObject {
     
     /// Исполнитель
-    let artist: String?
+    let artist: String
     /// Идентификатор слов
     let lyrics_id: Int?
     /// Идентификатор
-    let id: Int32?
+    let id: Int32
     /// Название
-    let title: String?
+    let title: String
     /// Продолжительность
-    let duration: Int32?
+    let duration: Int32
     /// Идентификатор владельца
-    let owner_id: Int32?
+    let owner_id: Int32
     /// Ссылка
-    let url: String?
+    let url: String
     
     
-    init(artist: String?, lyrics_id: Int?, id: Int32?, title: String?, duration: Int32?, owner_id: Int32?, url: String?) {
+    init(artist: String, lyrics_id: Int?, id: Int32, title: String, duration: Int32, owner_id: Int32, url: String) {
         self.artist = artist
         self.lyrics_id = lyrics_id
         self.id = id

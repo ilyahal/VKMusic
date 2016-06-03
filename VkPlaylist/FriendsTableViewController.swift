@@ -170,7 +170,7 @@ class FriendsTableViewController: UITableViewController {
                 for friend in self.friends {
                     
                     // Устанавливаем по какому значению будем сортировать
-                    let name = friend.last_name!
+                    let name = friend.last_name
                     
                     var firstCharacter = String(name.characters.first!)
                     
@@ -198,8 +198,8 @@ class FriendsTableViewController: UITableViewController {
                 // Сортируем имена в каждой секции
                 for (key, section) in self.names {
                     self.names[key] = section.sort { (left: Friend, right: Friend) -> Bool in
-                        let leftFullName = left.last_name! + " " + left.first_name!
-                        let rightFullName = right.last_name! + " " + right.first_name!
+                        let leftFullName = left.last_name + " " + left.first_name
+                        let rightFullName = right.last_name + " " + right.first_name
                         
                         return leftFullName.localizedStandardCompare(rightFullName) == .OrderedAscending // Сортировка по возрастанию
                     }
@@ -250,7 +250,7 @@ class FriendsTableViewController: UITableViewController {
     /// Выполнение поискового запроса
     func filterContentForSearchText(searchText: String) {
         filteredFriends = friends.filter { friend in
-            return friend.first_name!.lowercaseString.containsString(searchText.lowercaseString) || friend.last_name!.lowercaseString.containsString(searchText.lowercaseString)
+            return friend.first_name.lowercaseString.containsString(searchText.lowercaseString) || friend.last_name.lowercaseString.containsString(searchText.lowercaseString)
         }
     }
     

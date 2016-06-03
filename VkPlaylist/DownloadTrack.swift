@@ -12,6 +12,18 @@ import SwiftyVK
 /// Загрузка аудиозаписи
 class DownloadTrack: Download {
     
+    /// Название аудиозаписи
+    var title: String
+    /// Имя исполнителя
+    var artist: String
+    
+    /// Обложка альбома
+    var artwork: NSData?
+    /// Запрос на получение обложки альбома
+    var artworkRequest: MusicBrainzAPIManager?
+    /// Получается ли обложка альбома сейчас
+    var isArtworkDownloading = false
+    
     /// id слов аудиозаписи
     var lyrics_id: Int?
     /// Слова аудиозаписи
@@ -21,10 +33,33 @@ class DownloadTrack: Download {
     /// Запрос на получение слов аудиозаписи
     var lyricsRequest: Request?
     
-    init(url: String, lyrics_id: Int?) {
+    init(url: String, title: String, artist: String, lyrics_id: Int?) {
+        self.title = title
+        self.artist = artist
         self.lyrics_id = lyrics_id
         
         super.init(url: url)
+    }
+    
+    
+    /// Отправить запрос на получение обложки
+    func getArtwork() {
+        isArtworkDownloading = true
+        
+        artworkRequest = MusicBrainzAPIManager(title: title, artist: artist)
+        artworkRequest?.getArtwork() { artwork in
+            self.isArtworkDownloading = false
+            
+            self.artwork = UIImageJPEGRepresentation(artwork, 1)
+            self.artworkRequest = nil
+        }
+    }
+    
+    /// Отменить запрос на получение обложки альбома
+    func cancelGetArtwork() {
+        artworkRequest?.cancel()
+        artworkRequest = nil
+        isArtworkDownloading = false
     }
     
     

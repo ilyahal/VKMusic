@@ -372,9 +372,10 @@ extension VKJSONParser {
                 let owner_id = audio["owner_id"].int32
                 let url = audio["url"].string
                 
-                let track = Track(artist: artist, lyrics_id: lyrics_id, id: id, title: title, duration: duration, owner_id: owner_id, url: url)
-                
-                trackList.append(track)
+                if let artist = artist, id = id, title = title, duration = duration, owner_id = owner_id, url = url {
+                    let track = Track(artist: artist, lyrics_id: lyrics_id, id: id, title: title, duration: duration, owner_id: owner_id, url: url)
+                    trackList.append(track)
+                }
             }
         }
         
@@ -401,9 +402,10 @@ extension VKJSONParser {
                 let id = item["id"].int
                 let title = item["title"].string
                 
-                let album = Album(id: id, title: title)
-                
-                albumList.append(album)
+                if let id = id, title = title {
+                    let album = Album(id: id, title: title)
+                    albumList.append(album)
+                }
             }
         }
         
@@ -423,9 +425,11 @@ extension VKJSONParser {
                 let photo_200_orig = item["photo_200_orig"].string
                 let first_name = item["first_name"].string
                 
-                let friend = Friend(id: id, last_name: last_name, photo_200_orig: photo_200_orig, first_name: first_name)
+                if let id = id, last_name = last_name, photo_200_orig = photo_200_orig, first_name = first_name {
+                    let friend = Friend(id: id, last_name: last_name, photo_200_orig: photo_200_orig, first_name: first_name)
+                    friendList.append(friend)
+                }
                 
-                friendList.append(friend)
             }
         }
         
@@ -444,9 +448,10 @@ extension VKJSONParser {
                 let name = item["name"].string
                 let photo_200 = item["photo_200"].string
                 
-                let group = Group(id: id, name: name, photo_200: photo_200)
-                
-                groupList.append(group)
+                if let id = id, name = name, photo_200 = photo_200 {
+                    let group = Group(id: id, name: name, photo_200: photo_200)
+                    groupList.append(group)
+                }
             }
         }
         

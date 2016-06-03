@@ -113,7 +113,7 @@ class GroupsTableViewController: UITableViewController {
             let ownerMusicViewController = segue.destinationViewController as! OwnerMusicViewController
             let group = sender as! Group
             
-            ownerMusicViewController.id = group.id! * -1
+            ownerMusicViewController.id = group.id * -1
             ownerMusicViewController.name = group.name
             
             toDelete = false
@@ -203,7 +203,7 @@ class GroupsTableViewController: UITableViewController {
     /// Выполнение поискового запроса
     func filterContentForSearchText(searchText: String) {
         filteredGroups = groups.filter { group in
-            return group.name!.lowercaseString.containsString(searchText.lowercaseString)
+            return group.name.lowercaseString.containsString(searchText.lowercaseString)
         }
     }
     

@@ -10,14 +10,14 @@
 class Group {
     
     /// Идентификатор
-    let id: Int?
+    let id: Int
     /// Название
-    let name: String?
+    let name: String
     /// Фотография
-    let photo_200: String?
+    let photo_200: String
     
     
-    init(id: Int?, name: String?, photo_200: String?) {
+    init(id: Int, name: String, photo_200: String) {
         self.id = id
         self.name = name
         self.photo_200 = photo_200

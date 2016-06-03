@@ -111,7 +111,7 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     /// Выполнение поискового запроса
     func filterContentForSearchText(searchText: String) {
         filteredMusic = music.filter { track in
-            return track.title!.lowercaseString.containsString(searchText.lowercaseString) || track.artist!.lowercaseString.containsString(searchText.lowercaseString)
+            return track.title.lowercaseString.containsString(searchText.lowercaseString) || track.artist.lowercaseString.containsString(searchText.lowercaseString)
         }
     }
     

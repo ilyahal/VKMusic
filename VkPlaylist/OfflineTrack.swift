@@ -10,6 +10,6 @@ import Foundation
 import CoreData
 
 /// Офлайн аудиозапись
-class OfflineTrack: NSManagedObject {
+class OfflineTrack: NSManagedObject, TrackObject {
 
 }

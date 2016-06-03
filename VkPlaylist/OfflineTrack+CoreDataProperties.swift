@@ -16,6 +16,8 @@ extension OfflineTrack {
 
     /// Исполнитель
     @NSManaged var artist: String
+    /// Обложка
+    @NSManaged var artwork: NSData?
     /// Продолжительность
     @NSManaged var duration: Int32
     /// Идентификатор
