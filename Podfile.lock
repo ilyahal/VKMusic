@@ -1,7 +1,9 @@
 PODS:
+  - Alamofire (3.4.0)
   - SwiftyVK (1.2)
 
 DEPENDENCIES:
+  - Alamofire (~> 3.4)
   - SwiftyVK (from `https://github.com/WE-St0r/SwiftyVK.git`)
 
 EXTERNAL SOURCES:
@@ -14,6 +16,9 @@ CHECKOUT OPTIONS:
     :git: https://github.com/WE-St0r/SwiftyVK.git
 
 SPEC CHECKSUMS:
+  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   SwiftyVK: 7bb2ee6bb4d9504bf5fbc2756ad7cd30d7f980c5
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: c0ded30e6a543020d0a63be70cf23c737913c094
+
+COCOAPODS: 1.0.1

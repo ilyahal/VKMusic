@@ -6,6 +6,7 @@ use_frameworks!
 target 'VkPlaylist' do
 
 pod 'SwiftyVK', :git => 'https://github.com/WE-St0r/SwiftyVK.git'
+pod 'Alamofire', '~> 3.4'
 
 end
 
