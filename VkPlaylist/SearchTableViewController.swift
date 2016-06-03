@@ -9,7 +9,16 @@
 import UIKit
 
 /// Контроллер содержащий таблицу со списком искомых аудиозаписей
-class SearchTableViewController: MusicFromInternetWithSearchTableViewController {
+class SearchTableViewController: MusicFromInternetTableViewController {
+    
+    var searchRequest = "" {
+        didSet {
+            if searchRequest != "" {
+                searchMusic(searchRequest)
+                reloadTableView()
+            }
+        }
+    }
     
     /// Статус выполнения запроса к серверу
     override var requestManagerStatus: RequestManagerObject.State {
@@ -20,13 +29,6 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
         return RequestManager.sharedInstance.searchAudio.error
     }
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Настройка поисковой панели
-        searchController.searchBar.placeholder = "Поиск"
-    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,16 +42,6 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
         pullToRefreshEnable(false)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if !music.isEmpty {
-            return
-        }
-        
-        tableView.contentOffset = CGPointMake(0, -64) // Отображаем строку поиска
-    }
-    
     
     // MARK: Выполнение запроса на получение искомых аудиозаписей
     
@@ -57,7 +49,6 @@ class SearchTableViewController: MusicFromInternetWithSearchTableViewController 
     func searchMusic(search: String) {
         RequestManager.sharedInstance.searchAudio.performRequest([.RequestText : search]) { success in
             self.music = DataManager.sharedInstance.searchMusic.array
-            self.filteredMusic = self.music
             
             self.reloadTableView()
             
@@ -106,78 +97,12 @@ extension _SearchTableViewControllerDataSource {
             switch requestManagerStatus {
             case .Loading:
                 return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
-            case .Results:
-                if isSearched && filteredMusic.count == 0 {
-                    return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
-                }
             default:
                 break
             }
         }
         
         return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
-    }
-    
-}
-
-
-// MARK: UISearchBarDelegate
-
-private typealias _SearchTableViewControllerUISearchBarDelegate = SearchTableViewController
-extension _SearchTableViewControllerUISearchBarDelegate {
-    
-    // Пользователь хочет начать поиск
-    override func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        return VKAPIManager.isAuthorized
-    }
-    
-    // Пользователь закончил редактирование поискового текста
-    override func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        super.searchBarTextDidEndEditing(searchBar)
-        
-        pullToRefreshEnable(false)
-    }
-    
-    // На клавиатуре была нажата кнопка "Искать"
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        searchMusic(searchController.searchBar.text!)
-
-        reloadTableView()
-    }
-    
-    // В поисковой панели была нажата кнопка "Отмена"
-    override func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        music.removeAll()
-        filteredMusic.removeAll()
-        
-        DataManager.sharedInstance.searchMusic.clear()
-        if !RequestManager.sharedInstance.searchAudio.cancel() {
-            RequestManager.sharedInstance.searchAudio.dropState()
-        }
-        
-        reloadTableView()
-    }
-    
-}
-
-
-// MARK: UISearchResultsUpdating
-
-private typealias _SearchTableViewControllerUISearchResultsUpdating = SearchTableViewController
-extension _SearchTableViewControllerUISearchResultsUpdating {
-    
-    // Поле поиска получило фокус или значение поискового запроса изменено
-    override func updateSearchResultsForSearchController(searchController: UISearchController) {
-        
-        // FIXME: При отправлении запроса с каждым изменением текстового поля программа периодически крашится
-        
-//        DataManager.sharedInstance.searchMusic.clear()
-//        
-//        if !searchController.searchBar.text!.isEmpty {
-//            searchMusic(searchController.searchBar.text!)
-//        }
-//        
-//        reloadTableView()
     }
     
 }
