@@ -18,9 +18,9 @@
 		BB1731941D017C6A00996A34 /* DownloadTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731931D017C6A00996A34 /* DownloadTrack.swift */; };
 		BB1731971D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731961D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift */; };
 		BB1731991D01A54800996A34 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1731981D01A54800996A34 /* Alamofire.framework */; };
-		BB17319B1D01A55700996A34 /* Pods_VkPlaylist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB17319A1D01A55700996A34 /* Pods_VkPlaylist.framework */; };
 		BB17319D1D01A55C00996A34 /* SwiftyVK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB17319C1D01A55C00996A34 /* SwiftyVK.framework */; };
 		BB17319F1D01A70000996A34 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB17319E1D01A70000996A34 /* AlamofireImage.framework */; };
+		BB1731A11D01A85100996A34 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1731A01D01A85100996A34 /* SwiftyJSON.framework */; };
 		BB3F40EF1CFF190B0018262C /* SegueIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */; };
 		BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */; };
 		BB3F40F31CFF6B5A0018262C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F21CFF6B5A0018262C /* Functions.swift */; };
@@ -116,6 +116,7 @@
 		BBEF4EEE1CFDA4F7003642D0 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4EED1CFDA4F7003642D0 /* FriendsViewController.swift */; };
 		BBEF4EF01CFDA820003642D0 /* OwnerMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4EEF1CFDA820003642D0 /* OwnerMusicViewController.swift */; };
 		BBEF4EF21CFDAD0B003642D0 /* AddPlaylistMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4EF11CFDAD0B003642D0 /* AddPlaylistMusicTableViewController.swift */; };
+		E4022466192309F1AF3847F1 /* Pods_VkPlaylist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0695256AAC292A98255D5756 /* Pods_VkPlaylist.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,6 +137,7 @@
 		BB17319A1D01A55700996A34 /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_VkPlaylist.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/Pods_VkPlaylist.framework"; sourceTree = "<group>"; };
 		BB17319C1D01A55C00996A34 /* SwiftyVK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyVK.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/SwiftyVK/SwiftyVK.framework"; sourceTree = "<group>"; };
 		BB17319E1D01A70000996A34 /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/AlamofireImage/AlamofireImage.framework"; sourceTree = "<group>"; };
+		BB1731A01D01A85100996A34 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifiers.swift; sourceTree = "<group>"; };
 		BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlaylistMusicViewController.swift; sourceTree = "<group>"; };
 		BB3F40F21CFF6B5A0018262C /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -241,10 +243,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB1731A11D01A85100996A34 /* SwiftyJSON.framework in Frameworks */,
 				BB17319F1D01A70000996A34 /* AlamofireImage.framework in Frameworks */,
 				BB1731991D01A54800996A34 /* Alamofire.framework in Frameworks */,
 				BB17319D1D01A55C00996A34 /* SwiftyVK.framework in Frameworks */,
-				BB17319B1D01A55700996A34 /* Pods_VkPlaylist.framework in Frameworks */,
+				E4022466192309F1AF3847F1 /* Pods_VkPlaylist.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +266,7 @@
 		9182076C59CEA963088D05EA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BB1731A01D01A85100996A34 /* SwiftyJSON.framework */,
 				BB17319E1D01A70000996A34 /* AlamofireImage.framework */,
 				BB17319C1D01A55C00996A34 /* SwiftyVK.framework */,
 				BB17319A1D01A55700996A34 /* Pods_VkPlaylist.framework */,
