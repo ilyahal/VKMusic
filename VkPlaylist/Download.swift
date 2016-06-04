@@ -7,20 +7,41 @@
 //
 
 import Foundation
+import SwiftyVK
 
-/// Загрузка
+/// Загрузка аудиозаписи
 class Download: NSObject {
     
+    /// Загружаемая аудиозапись
+    var track: Track
     /// Ссылка по которой производится загрузка
-    var url: String
+    var url: NSURL
     
     /// Скачивается ли сейчас
     var isDownloading = false
     /// Находится ли в очереди на загрузку
     var inQueue = false
     
+    /// Всего байт записано
+    var totalBytesWritten: Int64 = 0
+    /// Всего байт надо записать
+    var totalBytesExpectedToWrite: Int64?
     /// Прогресс выполнения загрузки
-    var progress: Float = 0.0
+    var progress: Float {
+        guard let totalBytesExpectedToWrite = totalBytesExpectedToWrite else {
+            return 0
+        }
+        
+        return Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
+    }
+    /// Размер загружаемого файла
+    var totalSize: String? {
+        guard let totalBytesExpectedToWrite = totalBytesExpectedToWrite else {
+            return nil
+        }
+        
+        return NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: .Binary)
+    }
     
     /// Задание на загрузку
     var downloadTask: NSURLSessionDownloadTask?
@@ -28,8 +49,103 @@ class Download: NSObject {
     var resumeData: NSData?
     
     
-    init(url: String) {
-        self.url = url
+    init?(track: Track) {
+        self.track = track
+        
+        if let URLObject = NSURL(string: track.url) {
+            self.url = URLObject
+        } else {
+            return nil
+        }
+    }
+    
+    
+    /// Обложка альбома
+    var artwork: NSData?
+    /// Запрос на получение обложки альбома
+    var artworkRequest: MusicBrainzAPIManager?
+    /// Получается ли обложка альбома сейчас
+    var isArtworkDownloads = false
+    
+    /// Слова аудиозаписи
+    var lyrics = ""
+    /// Запрос на получение слов аудиозаписи
+    var lyricsRequest: Request?
+    /// Получаются ли слова аудиозаписи в данный момент
+    var isLyricsDownloads = false
+    
+    
+    /// Отправить запрос на получение обложки
+    func getArtwork() {
+        isArtworkDownloads = true
+        
+        artworkRequest = MusicBrainzAPIManager(title: track.title, artist: track.artist)
+        artworkRequest?.getArtwork() { artwork in
+            self.isArtworkDownloads = false
+            
+            self.artworkRequest = nil
+            
+            self.artwork = UIImageJPEGRepresentation(artwork, 1)
+        }
+    }
+    
+    /// Отменить запрос на получение обложки альбома
+    func cancelGetArtwork() {
+        isArtworkDownloads = false
+        
+        artworkRequest?.cancel()
+        artworkRequest = nil
+    }
+    
+    
+    /// Отправить запрос на получение слов аудиозаписи
+    func getLyrics() {
+        if let lyrics_id = track.lyrics_id {
+            isLyricsDownloads = true
+            
+            VKAPIManager.sharedInstance.addLyricsDelegate(self)
+            VKAPIManager.audioGetLyrics(lyrics_id)
+        }
+    }
+    
+    /// Отменить запрос на получение слов аудиозаписи
+    func cancelGetLyrics() {
+        isLyricsDownloads = false
+        
+        lyricsRequest?.cancel()
+        lyricsRequest = nil
+        VKAPIManager.sharedInstance.deleteLyricsDelegate(self)
+    }
+    
+}
+
+
+// MARK: VKAPIManagerLyricsDelegate
+
+extension Download: VKAPIManagerLyricsDelegate {
+    
+    // VKAPIManager получил слова с указанным id
+    func VKAPIManagerLyricsDelegateGetLyrics(lyrics: String, forLyricsID lyricsID: Int) {
+        if lyricsID == track.lyrics_id! {
+            isLyricsDownloads = false
+            
+            lyricsRequest = nil
+            VKAPIManager.sharedInstance.deleteLyricsDelegate(self)
+            
+            self.lyrics = lyrics
+        }
+    }
+    
+    // VKAPIManager получил ошибку при получении слов с указанным id
+    func VKAPIManagerLyricsDelegateErrorLyricsWithID(lyricsID: Int) {
+        if lyricsID == track.lyrics_id! {
+            isLyricsDownloads = false
+            
+            lyricsRequest = nil
+            VKAPIManager.sharedInstance.deleteLyricsDelegate(self)
+            
+            lyrics = ""
+        }
     }
     
 }

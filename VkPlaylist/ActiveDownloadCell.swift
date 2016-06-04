@@ -31,7 +31,9 @@ class ActiveDownloadCell: UITableViewCell {
         
         nameLabel.text = nil
         artistLabel.text = nil
+        pauseButton.hidden = false
         pauseButton.setTitle("Пауза", forState: .Normal)
+        cancelButton.hidden = false
         progressLabel.text = nil
         progressBar.progress = 0.0
     }

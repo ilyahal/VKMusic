@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
-import Foundation
-
 /// Методы отвечающие за оповещения о процессе загрузки файлов
 protocol DownloadManagerDelegate: class {
     
@@ -21,9 +19,9 @@ protocol DownloadManagerDelegate: class {
     func downloadManagerCancelTrackDownload(download: Download)
     
     /// Вызывается когда загрузка была завершена
-    func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL)
+    func downloadManagerdidFinishDownloadingDownload(download: Download)
     
     /// Вызывается когда часть данных была загружена
-    func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)
+    func downloadManagerURLSessionDidWriteDataForDownload(download: Download)
     
 }

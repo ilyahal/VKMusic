@@ -40,6 +40,9 @@ class DownloadManager: NSObject {
         return session
     }()
     
+    
+    // MARK: Работа с делегатами
+    
     /// Делегаты менеджера загрузок
     private var delegates = [DownloadManagerDelegate]()
     
@@ -59,8 +62,11 @@ class DownloadManager: NSObject {
         }
     }
     
+    
+    // MARK: Доступ к загрузкам
+    
     /// Активные загрузки (в очереди и загружаемые сейчас)
-    var activeDownloads = [String: DownloadTrack]() {
+    var activeDownloads = [String: Download]() {
         didSet {
             
             // Устанавливаем значение бейджа вкладки "Загрузки"
@@ -73,9 +79,11 @@ class DownloadManager: NSObject {
             })
         }
     }
-    /// Загружаемые треки (в очереди и загружаемые сейчас)
+    /// Загружаемые треки (в очереди и загружаемые сейчас) для списка активных загрузок
     var downloadsTracks = [Track]()
     
+    
+    // MARK: Очередь
     
     /// Количество одновременных загрузок
     let simultaneousDownloadsCount = 2
@@ -97,33 +105,31 @@ class DownloadManager: NSObject {
             let download = queue.first!
             queue.removeFirst()
             
-            download.downloadTask!.resume()
+            // Обновляем состояние
+            
             download.isDownloading = true
             download.inQueue = false
             
-            if download is DownloadTrack {
-                (download as! DownloadTrack).getArtwork()
-                (download as! DownloadTrack).getLyrics()
-            }
-            
             downloadUpdated(download)
+            
+            // Начинаем загрузку
+            
+            if let resumeData = download.resumeData {
+                download.downloadTask = downloadsSession.downloadTaskWithResumeData(resumeData)
+            } else {
+                download.downloadTask = downloadsSession.downloadTaskWithURL(download.url)
+            }
+            download.downloadTask!.resume()
+            
+            download.getArtwork()
+            download.getLyrics()
         }
     }
     
     /// Удалить загрузку из очереди
     func deleteFromQueueDownload(download: Download) {
-        if download.inQueue {
-            download.inQueue = false
-            
-            downloadUpdated(download)
-        }
-        
-        for (index, downloadInQueue) in queue.enumerate() {
-            if downloadInQueue.url == download.url {
-                queue.removeAtIndex(index)
-                
-                return
-            }
+        if let index = queue.indexOf({ $0 === download}) {
+            queue.removeAtIndex(index)
         }
     }
     
@@ -132,15 +138,13 @@ class DownloadManager: NSObject {
     
     /// Новая загрузка
     func downloadTrack(track: Track) {
-        if let url = NSURL(string: track.url) {
-            let download = DownloadTrack(url: track.url, title: track.title, artist: track.artist, lyrics_id: track.lyrics_id)
-            download.downloadTask = downloadsSession.downloadTaskWithURL(url)
+        if let download = Download(track: track) {
             download.inQueue = true
             
-            activeDownloads[download.url] = download // Добавляем загрузку трека в список активных загрузок
+            activeDownloads[download.url.absoluteString] = download // Добавляем загрузку трека в список активных загрузок
             downloadsTracks.append(track) // Добавляем трек в список загружаемых
             
-            downloadStarted(download)
+            downloadStarted(download) // Для обновления состояния ячеек отображающих скачиваемую аудиозапись
             
             queue.append(download) // Добавляем загрузку в очередь
         }
@@ -149,47 +153,57 @@ class DownloadManager: NSObject {
     /// Отмена выполенения загрузки
     func cancelDownloadTrack(track: Track) {
         if let download = activeDownloads[track.url] {
+            
+            // Отмена загрузки компонентов аудиозаписи
             download.downloadTask?.cancel() // Отменяем выполнение загрузки
-            
-            if download.isDownloading {
-                downloadsNow -= 1
-                tryStartDownloadFromQueue()
-            }
-            deleteFromQueueDownload(download) // Удаляем загрузку из очереди
-            
-            if download.isArtworkDownloading {
+            if download.isArtworkDownloads { // Отменяем загрузку обложки
                 download.cancelGetArtwork()
             }
-            if download.isLyricsDownloading {
+            if download.isLyricsDownloads { // Отменяем загрузку слов аудиозаписи
                 download.cancelGetLyrics()
             }
             
-            popTrackForDownloadTask(download.downloadTask!) // Удаляем трек из списка загружаемых
+            // Обновление состояния
+            if download.inQueue {
+                download.inQueue = false
+                
+                deleteFromQueueDownload(download) // Удаляем загрузку из очереди
+            } else if download.isDownloading {
+                download.isDownloading = false
+                downloadsNow -= 1
+                
+                tryStartDownloadFromQueue()
+            }
+            
+            if let index = downloadsTracks.indexOf({ $0 === download.track}) {
+                downloadsTracks.removeAtIndex(index) // Удаляем трек из списка загружаемых
+            }
             activeDownloads[track.url] = nil // Удаляем загрузку трека из списка активных загрузок
             
-            downloadCanceled(download)
+            downloadCanceled(download) // Обновляем ячейки с аудиозаписью
         }
     }
     
     /// Пауза загрузки
     func pauseDownloadTrack(track: Track) {
         if let download = activeDownloads[track.url] {
-            if download.isDownloading {
-                download.downloadTask?.cancelByProducingResumeData { data in
-                    if data != nil {
-                        download.resumeData = data
-                    }
-                }
+            if download.inQueue {
+                download.inQueue = false
                 
-                if download.isDownloading {
-                    downloadsNow -= 1
-                    tryStartDownloadFromQueue()
-                }
+                downloadUpdated(download) // Обновляем ячейки с аудиозаписью
+                
                 deleteFromQueueDownload(download) // Удаляем загрузку из очереди
+            } else if download.isDownloading {
+                download.downloadTask?.cancelByProducingResumeData { data in // Отменяем загрузку, сохраняя загруженные данные
+                    download.resumeData = data
+                }
                 
                 download.isDownloading = false
+                downloadsNow -= 1
                 
-                downloadUpdated(download)
+                downloadUpdated(download) // Обновляем ячейки с аудиозаписью
+                
+                tryStartDownloadFromQueue()
             }
         }
     }
@@ -197,79 +211,35 @@ class DownloadManager: NSObject {
     /// Продолжение загрузки
     func resumeDownloadTrack(track: Track) {
         if let download = activeDownloads[track.url] {
-            if let resumeData = download.resumeData {
-                download.downloadTask = downloadsSession.downloadTaskWithResumeData(resumeData)
-                download.inQueue = true
-                
-                downloadUpdated(download)
-                
-                queue.append(download) // Добавляем загрузку в очередь
-            } else if let url = NSURL(string: download.url) {
-                download.downloadTask = downloadsSession.downloadTaskWithURL(url)
-                download.inQueue = true
-                
-                downloadUpdated(download)
-                
-                queue.append(download) // Добавляем загрузку в очередь
-            }
+            download.inQueue = true
+            
+            downloadUpdated(download) // Обновляем ячейки с аудиозаписью
+            
+            queue.append(download) // Добавляем загрузку в очередь
         }
     }
     
     
     // MARK: Помощники
     
-    /// Получение трека для указанной загрузки
-    func trackForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Track? {
-        if let url = downloadTask.originalRequest?.URL?.absoluteString {
-            for track in downloadsTracks {
-                if url == track.url {
-                    return track
-                }
-            }
-        }
-        
-        return nil
-    }
-    
-    /// Извлекает загружаемый трек из списка загружаемых треков
-    func popTrackForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Track? {
-        if let url = downloadTask.originalRequest?.URL?.absoluteString {
-            for (index, track) in downloadsTracks.enumerate() {
-                if url == track.url {
-                    downloadsTracks.removeAtIndex(index)
-                    
-                    return track
-                }
-            }
-        }
-        
-        return nil
-    }
-    
     /// Загрузка начата
     func downloadStarted(download: Download) {
-        if download is DownloadTrack {
-            delegates.forEach { delegate in
-                delegate.downloadManagerStartTrackDownload(download)
-            }
+        delegates.forEach { delegate in
+            delegate.downloadManagerStartTrackDownload(download)
         }
     }
     
     /// Состояние загрузки обновлено
     func downloadUpdated(download: Download) {
-        if download is DownloadTrack {
-            delegates.forEach { delegate in
-                delegate.downloadManagerUpdateStateTrackDownload(download)
-            }
+        delegates.forEach { delegate in
+            delegate.downloadManagerUpdateStateTrackDownload(download)
         }
     }
     
     /// Загрузка отменена
     func downloadCanceled(download: Download) {
-        if download is DownloadTrack {
-            delegates.forEach { delegate in
-                delegate.downloadManagerCancelTrackDownload(download)
-            }
+        delegates.forEach { delegate in
+            delegate.downloadManagerCancelTrackDownload(download)
         }
     }
     
@@ -300,47 +270,61 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
     
     /// Загрузка была завершена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
-        var track: Track! = nil // Загруженный трек
-        var artwork: NSData? // Обложка альбома песни
-        var lyrics = "" // Слова песни
-        let file = NSData(contentsOfURL: location)! // Загруженный файл
-        
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
-            
-            // Получение обложки аудиозаписи
-            if activeDownloads[url]!.isArtworkDownloading {
-                activeDownloads[url]?.cancelGetArtwork()
-                artwork = nil
-            } else {
-                artwork = activeDownloads[url]!.artwork
+            if let download = activeDownloads[url] {
+                let track = download.track // Загруженный трек
+                var artwork: NSData? // Обложка альбома песни
+                var lyrics: String // Слова песни
+                let file = NSData(contentsOfURL: location)! // Загруженный файл
+    
+                
+                // Получение обложки аудиозаписи
+                if download.isArtworkDownloads {
+                    download.cancelGetArtwork()
+                    artwork = nil
+                } else {
+                    artwork = download.artwork
+                }
+                
+                // Получение слов аудиозаписи
+                if download.isLyricsDownloads {
+                    download.cancelGetLyrics()
+                    lyrics = ""
+                } else {
+                    lyrics = download.lyrics
+                }
+                
+                // Удаление аудиозаписи из списка активных загрузкок и старт новой загрузки
+                if let index = downloadsTracks.indexOf({ $0 === download.track}) {
+                    downloadsTracks.removeAtIndex(index) // Удаляем трек из списка загружаемых
+                }
+                activeDownloads[url] = nil // Удаляем загрузку трека из списка активных загрузок
+                
+                downloadsNow -= 1
+                tryStartDownloadFromQueue()
+                
+                // Сохранение данных
+                DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, artwork: artwork, lyrics: lyrics, file: file))
+                
+                // Оповещение делегатов о изменениях
+                delegates.forEach { delegate in
+                    delegate.downloadManagerdidFinishDownloadingDownload(download)
+                }
             }
-            
-            // Получение слов аудиозаписи
-            if activeDownloads[url]!.isLyricsDownloading {
-                activeDownloads[url]?.cancelGetLyrics()
-            } else {
-                lyrics = activeDownloads[url]!.lyrics!
-            }
-            
-            activeDownloads[url] = nil // Удаляем загрузку трека из списка активных загрузок
-            track = popTrackForDownloadTask(downloadTask)! // Извлекаем трек из списка загружаемых треков
-            
-            downloadsNow -= 1
-            tryStartDownloadFromQueue()
-        }
-        
-        DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, artwork: artwork, lyrics: lyrics, file: file))
-        
-        
-        delegates.forEach { delegate in
-            delegate.downloadManagerURLSession(session, downloadTask: downloadTask, didFinishDownloadingToURL: location)
         }
     }
     
     /// Часть данных была загружена
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        delegates.forEach { delegate in
-            delegate.downloadManagerURLSession(session, downloadTask: downloadTask, didWriteData: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
+        if let url = downloadTask.originalRequest?.URL?.absoluteString {
+            if let download = activeDownloads[url] {
+                download.totalBytesWritten = totalBytesWritten
+                download.totalBytesExpectedToWrite = totalBytesExpectedToWrite
+                
+                delegates.forEach { delegate in
+                    delegate.downloadManagerURLSessionDidWriteDataForDownload(download)
+                }
+            }
         }
     }
     

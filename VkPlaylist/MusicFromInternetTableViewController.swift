@@ -36,7 +36,7 @@ class MusicFromInternetTableViewController: UITableViewController {
     }
     
     /// Массив аудиозаписей, загружаемых сейчас
-    var activeDownloads: [String: DownloadTrack] {
+    var activeDownloads: [String: Download] {
         return DownloadManager.sharedInstance.activeDownloads
     }
     
@@ -129,14 +129,10 @@ class MusicFromInternetTableViewController: UITableViewController {
     
     // MARK: Загрузка helpers
     
-    /// Получение индекса трека в активном массиве для задания загрузки
-    func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask?) -> Int? {
-        if let url = downloadTask?.originalRequest?.URL?.absoluteString {
-            for (index, track) in activeArray.enumerate() {
-                if url == track.url {
-                    return index
-                }
-            }
+    /// Получение индекса трека в активном массиве для загрузки
+    func trackIndexForDownload(download: Download) -> Int? {
+        if let index = activeArray.indexOf({ $0 === download.track}) {
+            return index
         }
         
         return nil
@@ -288,15 +284,16 @@ class MusicFromInternetTableViewController: UITableViewController {
         cell.configureForTrack(track)
         
         var showDownloadControls = false // Отображать ли кнопки "Пауза" и "Отмена" и индикатор выполнения загрузки с меткой для отображения прогресса загрузки
-        var showPauseButton = false // Отображать ли кнопку "Пауза"
         if let download = activeDownloads[track.url] { // Если аудиозапись есть в списке активных загрузок
             showDownloadControls = true
-            showPauseButton = !download.inQueue // Скрыть кнопку пауза, если загрузка в очереди
             
             cell.progressBar.progress = download.progress
-            cell.progressLabel.text = download.isDownloading ? "Загружается..." : download.inQueue ? "В очереди" : "Пауза"
+            cell.progressLabel.text = download.isDownloading ?
+                    (download.totalSize == nil ? "Загружается..." : String(format: "%.1f%% из %@",  download.progress * 100, download.totalSize!))
+                    :
+                    (download.inQueue ? "В очереди" : "Пауза")
             
-            let title = download.isDownloading ? "Пауза" : "Продолжить"
+            let title = download.isDownloading ? "Пауза" : (download.inQueue ? "Пауза" : "Продолжить")
             cell.pauseButton.setTitle(title, forState: UIControlState.Normal)
         }
         
@@ -305,7 +302,7 @@ class MusicFromInternetTableViewController: UITableViewController {
         
         cell.downloadButton.hidden = downloaded || showDownloadControls
         
-        cell.pauseButton.hidden = !showDownloadControls || !showPauseButton
+        cell.pauseButton.hidden = !showDownloadControls
         cell.cancelButton.hidden = !showDownloadControls
         
         return cell
@@ -431,9 +428,9 @@ extension MusicFromInternetTableViewController: DownloadManagerDelegate {
     func downloadManagerStartTrackDownload(download: Download) {
         
         // Обновляем ячейку
-        if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
+        if let index = trackIndexForDownload(download) {
             dispatch_async(dispatch_get_main_queue(), {
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .None)
             })
         }
     }
@@ -442,9 +439,9 @@ extension MusicFromInternetTableViewController: DownloadManagerDelegate {
     func downloadManagerUpdateStateTrackDownload(download: Download) {
        
         // Обновляем ячейку
-        if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
+        if let index = trackIndexForDownload(download) {
             dispatch_async(dispatch_get_main_queue(), {
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .None)
             })
         }
     }
@@ -453,40 +450,35 @@ extension MusicFromInternetTableViewController: DownloadManagerDelegate {
     func downloadManagerCancelTrackDownload(download: Download) {
         
         // Обновляем ячейку
-        if let trackIndex = trackIndexForDownloadTask(download.downloadTask) {
+        if let index = trackIndexForDownload(download) {
             dispatch_async(dispatch_get_main_queue(), {
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .None)
             })
         }
     }
     
     // Менеджер загрузок завершил загрузку
-    func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+    func downloadManagerdidFinishDownloadingDownload(download: Download) {
         
         // Обновляем ячейку
-        if let trackIndex = trackIndexForDownloadTask(downloadTask) {
+        if let index = trackIndexForDownload(download) {
             dispatch_async(dispatch_get_main_queue(), {
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex, inSection: 0)], withRowAnimation: .None)
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .None)
             })
         }
     }
     
     // Менеджер загрузок получил часть данных
-    func downloadManagerURLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        if let downloadUrl = downloadTask.originalRequest?.URL?.absoluteString, download = activeDownloads[downloadUrl] {
-            if let trackIndex = trackIndexForDownloadTask(downloadTask), let audioCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: trackIndex, inSection: 0)) as? AudioCell {
-                download.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
-                let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: .Binary)
-                
-                let isCompleted = download.progress == 1 // Завершена ли загрузка
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    audioCell.cancelButton.hidden = isCompleted
-                    audioCell.pauseButton.hidden = isCompleted
-                    audioCell.progressBar.progress = download.progress
-                    audioCell.progressLabel.text =  isCompleted ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, totalSize)
-                })
-            }
+    func downloadManagerURLSessionDidWriteDataForDownload(download: Download) {
+        
+        // Обновляем ячейку
+        if let index = trackIndexForDownload(download), audioCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0)) as? AudioCell {
+            dispatch_async(dispatch_get_main_queue(), {
+                audioCell.cancelButton.hidden = download.progress == 1
+                audioCell.pauseButton.hidden = download.progress == 1
+                audioCell.progressBar.progress = download.progress
+                audioCell.progressLabel.text =  download.progress == 1 ? "Сохраняется..." : String(format: "%.1f%% из %@",  download.progress * 100, download.totalSize!)
+            })
         }
     }
     
