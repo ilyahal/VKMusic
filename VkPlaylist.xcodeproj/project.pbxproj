@@ -53,6 +53,10 @@
 		BB75FCC41CDF873900B40BC8 /* MyMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */; };
 		BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */; };
 		BBA292451D00DBB800262922 /* DownloadsTableViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA292441D00DBB800262922 /* DownloadsTableViewControllerDelegate.swift */; };
+		BBAE30681D0350A900E740D4 /* MiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAE30671D0350A900E740D4 /* MiniPlayerViewController.swift */; };
+		BBAE306A1D0362DB00E740D4 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAE30691D0362DB00E740D4 /* MoreViewController.swift */; };
+		BBAE306C1D037B9000E740D4 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAE306B1D037B9000E740D4 /* MiniPlayerView.swift */; };
+		BBAE306E1D037C5500E740D4 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAE306D1D037C5500E740D4 /* PlayerViewController.swift */; };
 		BBB69E201CFDB8090094B1CF /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E1F1CFDB8090094B1CF /* SearchViewController.swift */; };
 		BBB69E221CFDB97A0094B1CF /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E211CFDB97A0094B1CF /* DownloadsViewController.swift */; };
 		BBB69E241CFDBC6F0094B1CF /* MyMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */; };
@@ -172,6 +176,10 @@
 		BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicTableViewController.swift; sourceTree = "<group>"; };
 		BB93DD481CD80C6F00F1E205 /* PlayerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
 		BBA292441D00DBB800262922 /* DownloadsTableViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsTableViewControllerDelegate.swift; sourceTree = "<group>"; };
+		BBAE30671D0350A900E740D4 /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerViewController.swift; sourceTree = "<group>"; };
+		BBAE30691D0362DB00E740D4 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		BBAE306B1D037B9000E740D4 /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
+		BBAE306D1D037C5500E740D4 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		BBB69E1F1CFDB8090094B1CF /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		BBB69E211CFDB97A0094B1CF /* DownloadsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicViewController.swift; sourceTree = "<group>"; };
@@ -469,6 +477,8 @@
 				BBE853511CDFC99A00872C3B /* Superclasses */,
 				BB05DF881CFED21D001F65CB /* Delegates */,
 				BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */,
+				BBAE30671D0350A900E740D4 /* MiniPlayerViewController.swift */,
+				BBAE306D1D037C5500E740D4 /* PlayerViewController.swift */,
 				BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */,
 				BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */,
 				BBB69E211CFDB97A0094B1CF /* DownloadsViewController.swift */,
@@ -484,6 +494,7 @@
 				BBEF4EE11CFD62F3003642D0 /* PlaylistMusicTableViewController.swift */,
 				BBEF4EE51CFD7C15003642D0 /* AlbumMusicViewController.swift */,
 				BB0C62F01CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift */,
+				BBAE30691D0362DB00E740D4 /* MoreViewController.swift */,
 				BBE853541CDFCCF000872C3B /* MoreTableViewController.swift */,
 				BBEF4EED1CFDA4F7003642D0 /* FriendsViewController.swift */,
 				BBE8538B1CE0EE5A00872C3B /* FriendsTableViewController.swift */,
@@ -505,6 +516,7 @@
 			children = (
 				BBDEC0671CD66F4D005B8494 /* Cells */,
 				BBDEC08E1CD78C43005B8494 /* Buttons */,
+				BBAE306B1D037B9000E740D4 /* MiniPlayerView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -817,6 +829,7 @@
 				BBE853811CE0DBE300872C3B /* RequestManagerObject.swift in Sources */,
 				BB405EB71CF8CD6D000C1A2A /* DownloadManagerDelegate.swift in Sources */,
 				BB405EBF1CFAEE78000C1A2A /* ActiveDownloadCellDelegate.swift in Sources */,
+				BBAE306A1D0362DB00E740D4 /* MoreViewController.swift in Sources */,
 				BBDEC0701CD6BEB7005B8494 /* AuthorizationViewController.swift in Sources */,
 				BBEF4EE81CFD876D003642D0 /* PopularMusicViewController.swift in Sources */,
 				BBEF4EEA1CFD8B76003642D0 /* RecommendationsMusicViewController.swift in Sources */,
@@ -851,6 +864,7 @@
 				BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */,
 				BB405E9E1CF74332000C1A2A /* OfflineTrack+CoreDataProperties.swift in Sources */,
 				BBDEC0811CD754FC005B8494 /* LoadingCell.swift in Sources */,
+				BBAE306C1D037B9000E740D4 /* MiniPlayerView.swift in Sources */,
 				BB05DF8A1CFED22F001F65CB /* AddPlaylistMusicDelegate.swift in Sources */,
 				BB405EC11CFAEEB5000C1A2A /* AudioCellDelegate.swift in Sources */,
 				BB405EAE1CF76796000C1A2A /* DownloadManager.swift in Sources */,
@@ -858,6 +872,7 @@
 				BB405ED31CFC4B98000C1A2A /* DataManagerPlaylistsDelegate.swift in Sources */,
 				BBE853A81CE14E3300872C3B /* GroupsTableViewController.swift in Sources */,
 				BB05DF871CFEC460001F65CB /* EditPlaylistMusicTableViewController.swift in Sources */,
+				BBAE30681D0350A900E740D4 /* MiniPlayerViewController.swift in Sources */,
 				BBEF4EE41CFD6D3D003642D0 /* UITableView+HideSearchBar.swift in Sources */,
 				BB0C62F31CE4B7CA00C505B1 /* GetAlbumAudio.swift in Sources */,
 				BBE8539D1CE13E1B00872C3B /* AccessErrorCell.swift in Sources */,
@@ -891,6 +906,7 @@
 				BBDEC07A1CD748B1005B8494 /* DataManager.swift in Sources */,
 				BB405EFD1CFCBA7A000C1A2A /* AlbumCell.swift in Sources */,
 				BB405EA11CF74332000C1A2A /* Playlist.swift in Sources */,
+				BBAE306E1D037C5500E740D4 /* PlayerViewController.swift in Sources */,
 				BB405EB01CF76817000C1A2A /* Download.swift in Sources */,
 				BB93DD491CD80C6F00F1E205 /* PlayerManager.swift in Sources */,
 				BB1731A31D01C79600996A34 /* MusicBrainzAPIManager.swift in Sources */,

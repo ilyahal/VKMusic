@@ -9,6 +9,8 @@
 /// Идентификаторы Segue
 struct SegueIdentifiers {
     
+    /// миниплеер -> полноэкранный плеер
+    static let showPlayerSegue = "ShowPlaylistAudioSegue"
     /// Вкладка "Моя музыка" -> контейнер с музыкой
     static let showMyMusicTableViewControllerInContainerSegue = "ShowMyMusicTableViewControllerInContainerSegue"
     /// Вкладка "Загрузки" -> контейнер с загрузками
@@ -33,6 +35,8 @@ struct SegueIdentifiers {
     static let showAddPlaylistMusicViewControllerSegue = "ShowAddPlaylistMusicViewControllerSegue"
     /// "Добавление аудиозаписей в плейлист" -> контейнер с музыкой
     static let showAddPlaylistMusicTableViewControllerInContainerSegue = "ShowAddPlaylistMusicTableViewControllerInContainerSegue"
+    /// Вкладка "Еще" -> контейнер с ссылками на другие страницы
+    static let showMoreTableViewControllerInContainerSegue = "ShowMoreTableViewControllerInContainerSegue"
     /// Вкладка "Еще" -> "Список друзей"
     static let showFriendsViewControllerSegue = "ShowFriendsViewControllerSegue"
     /// "Список друзей" -> контейнер с друзьями

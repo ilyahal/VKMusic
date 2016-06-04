@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import AVFoundation
 
 /// Менеджер воспроизведения
@@ -26,7 +26,14 @@ class PlayerManager {
     }
     
     
-    private init() {}
+    private init() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        miniPlayerViewController = storyboard.instantiateViewControllerWithIdentifier("MiniPlayerViewController") as! MiniPlayerViewController
+    }
+    
+    
+    /// Контроллер с мини-плеером
+    let miniPlayerViewController: MiniPlayerViewController!
     
     
     // MARK: Плеер

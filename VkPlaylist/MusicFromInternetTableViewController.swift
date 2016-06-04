@@ -414,6 +414,8 @@ extension _MusicFromInternetTableViewControllerDelegate {
             let trackURL = NSURL(string: track.url)
             
             PlayerManager.sharedInstance.playFile(trackURL!)
+            PlayerManager.sharedInstance.miniPlayerViewController.artistNameLabel.text = track.artist
+            PlayerManager.sharedInstance.miniPlayerViewController.songTitleLabel.text = track.title
         }
     }
     

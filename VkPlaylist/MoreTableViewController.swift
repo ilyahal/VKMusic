@@ -20,9 +20,6 @@ class MoreTableViewController: UITableViewController {
         
         fillLinksToScreensArray()
         
-        // Настройка кнопки назад на дочерних экранах
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Назад", style: .Plain, target: nil, action: nil)
-        
         // Кастомизация tableView
         tableView.tableFooterView = UIView() // Чистим пустое пространство под таблицей
     }

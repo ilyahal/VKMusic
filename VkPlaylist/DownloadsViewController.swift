@@ -13,6 +13,13 @@ class DownloadsViewController: UIViewController {
     
     weak var downloadsTableViewController: DownloadsTableViewController!
     
+    /// Контейнер в котором находится ViewController с мини-плеером
+    @IBOutlet weak var miniPlayerViewControllerContainer: UIView!
+    /// ViewController с мини-плеером
+    var miniPlayerViewController: MiniPlayerViewController {
+        return PlayerManager.sharedInstance.miniPlayerViewController
+    }
+    
     /// Кнопка "Готово" в навигационной панели
     var doneButton: UIBarButtonItem!
     /// Кнопка "Изменить" в навигационной панели
@@ -33,6 +40,11 @@ class DownloadsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationItem.setRightBarButtonItems(downloadsTableViewController.downloaded.count != 0 ? editTapped ? [doneButton] : [editButton] : nil, animated: false)
+        
+        addChildViewController(miniPlayerViewController)
+        miniPlayerViewController.view.frame = CGRectMake(0, 0, miniPlayerViewControllerContainer.frame.size.width, miniPlayerViewControllerContainer.frame.size.height)
+        miniPlayerViewControllerContainer.addSubview(miniPlayerViewController.view)
+        miniPlayerViewController.didMoveToParentViewController(self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
