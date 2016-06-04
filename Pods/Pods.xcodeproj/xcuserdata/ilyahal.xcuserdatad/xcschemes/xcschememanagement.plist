@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>ARNTransitionAnimator.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,7 +47,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>621564B2CF6F9FF3870EDBB320DFC011</key>
+		<key>3C7A022FB0F4B3CE06073205A5D50141</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4CD642058EC9EF91B084D2E493D27890</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,17 +62,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A43C0892F0F2CCCF88D22CC7E1FE59F5</key>
+		<key>887A1F399C1C0E18F1B9EEA0FD58F115</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DCF612B4D9DBE26B6F2CFFD1982F6697</key>
+		<key>9F5961FF20E072E4A022396219971994</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E6C19A910BC318305B0E875E22131DC1</key>
+		<key>E7E501B70CFF00C8B739E9B04B6A7B95</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -2,6 +2,7 @@ PODS:
   - Alamofire (3.4.0)
   - AlamofireImage (2.4.0):
     - Alamofire (~> 3.3)
+  - ARNTransitionAnimator (1.1.0)
   - SwiftyJSON (2.3.2)
   - SwiftyVK (1.2.1)
   - SWXMLHash (2.3.1)
@@ -9,6 +10,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 3.4)
   - AlamofireImage (~> 2.0)
+  - ARNTransitionAnimator
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
   - SwiftyVK (from `https://github.com/WE-St0r/SwiftyVK.git`)
   - SWXMLHash (~> 2.3.0)
@@ -30,10 +32,11 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
+  ARNTransitionAnimator: b8b35ce733d08f137eadb0e0c6e53011ea3fb28d
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   SwiftyVK: ea30729504d37356ec118dd8a00fede2adf4a1f7
   SWXMLHash: 795c66e74f4cc9473ad6465c6653c5a6f59f417e
 
-PODFILE CHECKSUM: 94823c730039b602a8b64330330b8ffe1e661e65
+PODFILE CHECKSUM: 0fe4d0776d9ae73b9495be42759da5715ed3f159
 
 COCOAPODS: 1.0.1
