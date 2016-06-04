@@ -29,6 +29,8 @@ class OfflineAudioCell: UITableViewCell {
     func configureForTrack(track: OfflineTrack) {
         if let artwork = track.artwork {
             artworkUmageView.image = UIImage(data: artwork)?.resizedImageWithBounds(artworkUmageView.bounds.size)
+        } else {
+            artworkUmageView.image = UIImage(named: "icon-TrackArtworkDefault")
         }
         nameLabel.text = track.title
         artistLabel.text = track.artist

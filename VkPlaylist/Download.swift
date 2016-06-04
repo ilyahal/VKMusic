@@ -85,7 +85,9 @@ class Download: NSObject {
             
             self.artworkRequest = nil
             
-            self.artwork = UIImageJPEGRepresentation(artwork, 1)
+            if let artwork = artwork {
+                self.artwork = UIImageJPEGRepresentation(artwork, 1)
+            }
         }
     }
     
