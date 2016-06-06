@@ -11,6 +11,24 @@ import UIKit
 /// Контроллер содержащий таблицу со списком групп
 class GroupsTableViewController: UITableViewController {
     
+    /// Выполняется ли обновление
+    var isRefreshing: Bool {
+        if let refreshControl = refreshControl where refreshControl.refreshing {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    /// Статус выполнения запроса к серверу
+    var requestManagerStatus: RequestManagerObject.State {
+        return RequestManager.sharedInstance.getGroups.state
+    }
+    /// Ошибки при выполнении запроса к серверу
+    var requestManagerError: RequestManagerObject.ErrorRequest {
+        return RequestManager.sharedInstance.getGroups.error
+    }
+    
     /// Кэш аватарок групп
     private var imageCache: NSCache!
     
@@ -44,6 +62,9 @@ class GroupsTableViewController: UITableViewController {
             
             getGroups()
         }
+        
+        // Настройка Pull-To-Refresh
+        pullToRefreshEnable(VKAPIManager.isAuthorized)
         
         // Настройка поисковой панели
         searchController.searchResultsUpdater = self
@@ -111,6 +132,30 @@ class GroupsTableViewController: UITableViewController {
     }
     
     
+    // MARK: Pull-to-Refresh
+    
+    /// Управление доступностью Pull-to-Refresh
+    func pullToRefreshEnable(enable: Bool) {
+        if enable {
+            if refreshControl == nil {
+                refreshControl = UIRefreshControl()
+                //refreshControl!.attributedTitle = NSAttributedString(string: "Потяните, чтобы обновить...") // Все крашится :с
+                refreshControl!.addTarget(self, action: #selector(getGroups), forControlEvents: .ValueChanged) // Добавляем обработчик контроллера обновления
+            }
+        } else {
+            if let refreshControl = refreshControl {
+                if refreshControl.refreshing {
+                    refreshControl.endRefreshing()
+                }
+                
+                refreshControl.removeTarget(self, action: #selector(getGroups), forControlEvents: .ValueChanged) // Удаляем обработчик контроллера обновления
+            }
+            
+            refreshControl = nil
+        }
+    }
+    
+    
     // MARK: Работа с клавиатурой
     
     /// Распознаватель тапов по экрану
@@ -138,8 +183,12 @@ class GroupsTableViewController: UITableViewController {
             
             self.reloadTableView()
             
+            if self.isRefreshing { // Если данные обновляются
+                self.refreshControl!.endRefreshing() // Говорим что обновление завершено
+            }
+            
             if !success {
-                switch RequestManager.sharedInstance.getGroups.error {
+                switch self.requestManagerError {
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -293,11 +342,13 @@ extension _GroupsTableViewControllerDataSource {
     // Получение количества строк таблицы
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getGroups.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getGroups.error == .NetworkError:
+            switch requestManagerStatus {
+            case .NotSearchedYet where requestManagerError == .NetworkError:
                 return 1 // Ячейка с сообщением об отсутствии интернет соединения
             case .NotSearchedYet:
                 return 0
+            case .Loading where isRefreshing:
+                return activeArray.count + 1
             case .Loading:
                 return 1 // Ячейка с индикатором загрузки
             case .NoResults:
@@ -313,13 +364,19 @@ extension _GroupsTableViewControllerDataSource {
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getGroups.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getGroups.error == .NetworkError:
+            switch requestManagerStatus {
+            case .NotSearchedYet where requestManagerError == .NetworkError:
                 return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
             case .NotSearchedYet:
                 return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
             case .NoResults:
                 return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+            case .Loading where isRefreshing:
+                if let numberOfRowsCell = getCellForNumberOfGroupsRowInTableView(tableView, forIndexPath: indexPath) {
+                    return numberOfRowsCell
+                }
+                
+                return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
             case .Loading:
                 return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
             case .Results:
@@ -349,7 +406,7 @@ extension _GroupsTableViewControllerDelegate {
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.getGroups.state == .Results {
+            if requestManagerStatus == .Results || requestManagerStatus == .Loading && isRefreshing {
                 if activeArray.count != 0 {
                     if activeArray.count == indexPath.row {
                         return 44
@@ -379,17 +436,34 @@ extension GroupsTableViewController: UISearchBarDelegate {
     
     // Пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        return groups.count != 0
+        if VKAPIManager.isAuthorized {
+            switch requestManagerStatus {
+            case .Results:
+                if let refreshControl = refreshControl {
+                    return !refreshControl.refreshing
+                }
+                
+                return groups.count != 0
+            default:
+                return false
+            }
+        } else {
+            return false
+        }
     }
     
     // Пользователь начал редактирование поискового текста
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         view.addGestureRecognizer(tapRecognizer)
+        
+        pullToRefreshEnable(false)
     }
     
     // Пользователь закончил редактирование поискового текста
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         view.removeGestureRecognizer(tapRecognizer)
+        
+        pullToRefreshEnable(true)
     }
     
     // В поисковой панели была нажата кнопка "Отмена"

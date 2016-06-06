@@ -12,7 +12,13 @@ import UIKit
 class FriendsTableViewController: UITableViewController {
     
     /// Выполняется ли обновление
-    var isRefreshing = false
+    var isRefreshing: Bool {
+        if let refreshControl = refreshControl where refreshControl.refreshing {
+            return true
+        } else {
+            return false
+        }
+    }
     
     /// Статус выполнения запроса к серверу
     var requestManagerStatus: RequestManagerObject.State {
@@ -137,7 +143,7 @@ class FriendsTableViewController: UITableViewController {
             if refreshControl == nil {
                 refreshControl = UIRefreshControl()
                 //refreshControl!.attributedTitle = NSAttributedString(string: "Потяните, чтобы обновить...") // Все крашится :с
-                refreshControl!.addTarget(self, action: #selector(refreshFriends), forControlEvents: .ValueChanged) // Добавляем обработчик контроллера обновления
+                refreshControl!.addTarget(self, action: #selector(getFriends), forControlEvents: .ValueChanged) // Добавляем обработчик контроллера обновления
             }
         } else {
             if let refreshControl = refreshControl {
@@ -145,17 +151,11 @@ class FriendsTableViewController: UITableViewController {
                     refreshControl.endRefreshing()
                 }
                 
-                refreshControl.removeTarget(self, action: #selector(refreshFriends), forControlEvents: .ValueChanged) // Удаляем обработчик контроллера обновления
+                refreshControl.removeTarget(self, action: #selector(getFriends), forControlEvents: .ValueChanged) // Удаляем обработчик контроллера обновления
             }
             
             refreshControl = nil
         }
-    }
-    
-    /// Запрос на обновление при Pull-to-Refresh
-    func refreshFriends() {
-        isRefreshing = true
-        getFriends()
     }
     
     
@@ -188,7 +188,7 @@ class FriendsTableViewController: UITableViewController {
             self.nameSectionTitles = []
             
             // Распределяем по секциям
-            if RequestManager.sharedInstance.getFriends.state == .Results {
+            if self.requestManagerStatus == .Results {
                 for friend in self.friends {
                     
                     // Устанавливаем по какому значению будем сортировать
@@ -230,15 +230,12 @@ class FriendsTableViewController: UITableViewController {
             
             self.reloadTableView()
             
-            if let refreshControl = self.refreshControl {
-                if refreshControl.refreshing { // Если данные обновляются
-                    refreshControl.endRefreshing() // Говорим что обновление завершено
-                    self.isRefreshing = false
-                }
+            if self.isRefreshing { // Если данные обновляются
+                self.refreshControl!.endRefreshing() // Говорим что обновление завершено
             }
             
             if !success {
-                switch RequestManager.sharedInstance.getFriends.error {
+                switch self.requestManagerError {
                 case .UnknownError:
                     let alertController = UIAlertController(title: "Ошибка", message: "Произошла какая-то ошибка, попробуйте еще раз...", preferredStyle: .Alert)
                     
@@ -404,7 +401,7 @@ extension _FriendsTableViewControllerDataSource {
     // Получение количество секций
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
+            switch requestManagerStatus {
             case .Loading where isRefreshing:
                 return nameSectionTitles.count
             case .Results:
@@ -420,7 +417,7 @@ extension _FriendsTableViewControllerDataSource {
     // Получение заголовков секций
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
+            switch requestManagerStatus {
             case .Loading where isRefreshing:
                 return nameSectionTitles[section]
             case .Results:
@@ -436,8 +433,8 @@ extension _FriendsTableViewControllerDataSource {
     // Получение количества строк таблицы в указанной секции
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getFriends.error == .NetworkError:
+            switch requestManagerStatus {
+            case .NotSearchedYet where requestManagerError == .NetworkError:
                 return 1 // Ячейка с сообщением об отсутствии интернет соединения
             case .Loading where isRefreshing:
                 let sectionTitle = nameSectionTitles[section]
@@ -480,8 +477,8 @@ extension _FriendsTableViewControllerDataSource {
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
-            case .NotSearchedYet where RequestManager.sharedInstance.getFriends.error == .NetworkError:
+            switch requestManagerStatus {
+            case .NotSearchedYet where requestManagerError == .NetworkError:
                return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
             case .NotSearchedYet:
                 return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
@@ -514,7 +511,7 @@ extension _FriendsTableViewControllerDataSource {
     // Получение массива индексов секций таблицы
     override func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
         if VKAPIManager.isAuthorized {
-            switch RequestManager.sharedInstance.getFriends.state {
+            switch requestManagerStatus {
             case .Loading where isRefreshing:
                 return nameSectionTitles
             case .Results:
@@ -538,7 +535,7 @@ extension _FriendsTableViewControllerDelegate {
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.getFriends.state == .Results || RequestManager.sharedInstance.getFriends.state == .Loading && isRefreshing {
+            if requestManagerStatus == .Results || requestManagerStatus == .Loading && isRefreshing {
                 let sectionTitle = nameSectionTitles[indexPath.section]
                 let sectionNames = names[sectionTitle]
                 
