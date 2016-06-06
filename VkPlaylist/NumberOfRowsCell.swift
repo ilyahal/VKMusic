@@ -16,6 +16,13 @@ class NumberOfRowsCell: UITableViewCell {
     /// Наименование
     @IBOutlet weak var nameLabel: UILabel!
     
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
+        // Убираем разделительную линию
+        separatorInset = UIEdgeInsetsMake(0, bounds.size.width, 0, 0)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
