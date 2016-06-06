@@ -443,7 +443,7 @@
         <!--Друзья-->
         <scene sceneID="9Hv-1j-Wek">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="gWU-2m-44Y" customClass="FriendsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gWU-2m-44Y" customClass="FriendsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cYk-gy-9kD"/>
                         <viewControllerLayoutGuide type="bottom" id="IbG-05-T17"/>
@@ -453,7 +453,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qlw-V8-uvb">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="609"/>
                                 <connections>
                                     <segue destination="Pw1-a5-z2D" kind="embed" identifier="ShowFriendsTableViewControllerInContainerSegue" id="3Jy-ea-8qc"/>
                                 </connections>
@@ -464,7 +464,7 @@
                             <constraint firstAttribute="trailing" secondItem="Qlw-V8-uvb" secondAttribute="trailing" id="0gg-Vo-Gmq"/>
                             <constraint firstItem="Qlw-V8-uvb" firstAttribute="top" secondItem="I87-3E-UwG" secondAttribute="top" id="LRx-61-Mv3"/>
                             <constraint firstItem="Qlw-V8-uvb" firstAttribute="leading" secondItem="I87-3E-UwG" secondAttribute="leading" id="Syb-a7-oik"/>
-                            <constraint firstItem="IbG-05-T17" firstAttribute="top" secondItem="Qlw-V8-uvb" secondAttribute="bottom" id="v7j-Yw-iBv"/>
+                            <constraint firstItem="IbG-05-T17" firstAttribute="top" secondItem="Qlw-V8-uvb" secondAttribute="bottom" constant="-49" id="v7j-Yw-iBv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Друзья" id="c5D-Rh-Ge8"/>
@@ -756,7 +756,7 @@
         <!--<Название плейлиста>-->
         <scene sceneID="zJo-Zi-imR">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="lTe-XD-VCn" customClass="PlaylistMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lTe-XD-VCn" customClass="PlaylistMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="43e-nz-9Kd"/>
                         <viewControllerLayoutGuide type="bottom" id="Bs3-VD-WW9"/>
@@ -766,7 +766,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="myz-xj-CKU">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="511"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                                 <connections>
                                     <segue destination="f7o-da-RJ0" kind="embed" identifier="ShowPlaylistMusicTableViewControllerInContainerSegue" id="b84-jJ-ydo"/>
                                 </connections>
@@ -786,7 +786,7 @@
                             <constraint firstAttribute="trailing" secondItem="myz-xj-CKU" secondAttribute="trailing" id="CMX-0x-ZkS"/>
                             <constraint firstAttribute="trailing" secondItem="w8S-h6-GA4" secondAttribute="trailing" id="IBd-0E-bZh"/>
                             <constraint firstItem="w8S-h6-GA4" firstAttribute="leading" secondItem="1aN-Yq-Fh3" secondAttribute="leading" id="Sis-1G-BSi"/>
-                            <constraint firstItem="Bs3-VD-WW9" firstAttribute="top" secondItem="myz-xj-CKU" secondAttribute="bottom" constant="40" id="yur-gU-sVj"/>
+                            <constraint firstItem="Bs3-VD-WW9" firstAttribute="top" secondItem="myz-xj-CKU" secondAttribute="bottom" constant="-9" id="yur-gU-sVj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="&lt;Название плейлиста&gt;" id="G96-f0-kk1">
@@ -809,7 +809,7 @@
             <objects>
                 <tableViewController id="f7o-da-RJ0" customClass="PlaylistMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="06a-F7-FeR">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="511"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -820,14 +820,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F91-nm-kk6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3990" y="3574.5"/>
+            <point key="canvasLocation" x="3990" y="3550"/>
         </scene>
         <!--<Название Альбома>-->
         <scene sceneID="bXA-aR-QhH">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="d08-qv-bL9" customClass="AlbumMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="el2-1A-i5o">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="511"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -839,12 +839,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vcd-9a-KRt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3990" y="4330.5"/>
+            <point key="canvasLocation" x="3990" y="4306"/>
         </scene>
         <!--<Название альбома>-->
         <scene sceneID="QCU-b5-KdS">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="3dV-4s-2HG" customClass="AlbumMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3dV-4s-2HG" customClass="AlbumMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bXF-8A-b8T"/>
                         <viewControllerLayoutGuide type="bottom" id="LoG-D4-85Y"/>
@@ -854,7 +854,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rA2-0W-Z2A">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="511"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                                 <connections>
                                     <segue destination="d08-qv-bL9" kind="embed" identifier="ShowAlbumMusicTableViewControllerInContainerSegue" id="yMR-5i-DbZ"/>
                                 </connections>
@@ -871,7 +871,7 @@
                             <constraint firstItem="rA2-0W-Z2A" firstAttribute="leading" secondItem="bsQ-bL-pbT" secondAttribute="leading" id="4xK-6Y-rFH"/>
                             <constraint firstItem="rA2-0W-Z2A" firstAttribute="top" secondItem="bsQ-bL-pbT" secondAttribute="top" id="6yP-OI-WR4"/>
                             <constraint firstItem="LoG-D4-85Y" firstAttribute="top" secondItem="CIf-lT-MPk" secondAttribute="bottom" id="E3S-mS-Lr8"/>
-                            <constraint firstItem="LoG-D4-85Y" firstAttribute="top" secondItem="rA2-0W-Z2A" secondAttribute="bottom" constant="40" id="NGf-ki-7xX"/>
+                            <constraint firstItem="LoG-D4-85Y" firstAttribute="top" secondItem="rA2-0W-Z2A" secondAttribute="bottom" constant="-9" id="NGf-ki-7xX"/>
                             <constraint firstItem="CIf-lT-MPk" firstAttribute="leading" secondItem="bsQ-bL-pbT" secondAttribute="leading" id="Pco-3Q-Bie"/>
                             <constraint firstAttribute="trailing" secondItem="rA2-0W-Z2A" secondAttribute="trailing" id="SCD-IO-wiG"/>
                             <constraint firstAttribute="trailing" secondItem="CIf-lT-MPk" secondAttribute="trailing" id="xDO-Pp-TpO"/>
@@ -891,7 +891,7 @@
             <objects>
                 <tableViewController id="Pw1-a5-z2D" customClass="FriendsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="6YH-FY-P0h">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="609"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -942,7 +942,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eV0-qH-H9B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4709" y="5071"/>
+            <point key="canvasLocation" x="4709" y="5046.5"/>
         </scene>
         <!--Owner Music View Controller-->
         <scene sceneID="wok-jT-kX1">
@@ -953,17 +953,17 @@
                         <viewControllerLayoutGuide type="bottom" id="ecb-hS-R7e"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="SMn-HQ-AfZ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="609"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9TN-tw-sVl">
-                                <rect key="frame" x="0.0" y="-64" width="600" height="584"/>
+                                <rect key="frame" x="0.0" y="-64" width="600" height="682"/>
                                 <connections>
                                     <segue destination="WMM-6k-EWz" kind="embed" identifier="ShowOwnerMusicTableViewControllerInContainerSegue" id="ToV-zM-M7g"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ul3-BH-O5M">
-                                <rect key="frame" x="0.0" y="520" width="600" height="40"/>
+                                <rect key="frame" x="0.0" y="569" width="600" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="086-UI-y6X"/>
                                 </constraints>
@@ -971,7 +971,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ecb-hS-R7e" firstAttribute="top" secondItem="9TN-tw-sVl" secondAttribute="bottom" constant="40" id="1eP-j0-4ta"/>
+                            <constraint firstItem="ecb-hS-R7e" firstAttribute="top" secondItem="9TN-tw-sVl" secondAttribute="bottom" constant="-9" id="1eP-j0-4ta"/>
                             <constraint firstAttribute="trailing" secondItem="9TN-tw-sVl" secondAttribute="trailing" id="41q-v4-PVa"/>
                             <constraint firstItem="ecb-hS-R7e" firstAttribute="top" secondItem="ul3-BH-O5M" secondAttribute="bottom" id="Gvg-2M-elb"/>
                             <constraint firstItem="9TN-tw-sVl" firstAttribute="top" secondItem="mAW-JB-bGc" secondAttribute="bottom" constant="-64" id="KmQ-Ci-e4Q"/>
@@ -993,7 +993,7 @@
             <objects>
                 <tableViewController id="WMM-6k-EWz" customClass="OwnerMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="HwJ-cR-hCn">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="584"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="682"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -1005,12 +1005,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qEW-ff-Jbi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6147" y="5440"/>
+            <point key="canvasLocation" x="6147" y="5415"/>
         </scene>
         <!--Группы-->
         <scene sceneID="uWT-9j-tkP">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="pB0-z3-7lM" customClass="GroupsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pB0-z3-7lM" customClass="GroupsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hAx-K4-eW0"/>
                         <viewControllerLayoutGuide type="bottom" id="TGR-Ar-QSp"/>
@@ -1020,7 +1020,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uR4-kh-UpP">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="609"/>
                                 <connections>
                                     <segue destination="J6P-fh-5CB" kind="embed" identifier="ShowGroupsTableViewControllerInContainerSegue" id="bZW-EL-bSB"/>
                                 </connections>
@@ -1028,7 +1028,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TGR-Ar-QSp" firstAttribute="top" secondItem="uR4-kh-UpP" secondAttribute="bottom" id="MLd-8h-wU0"/>
+                            <constraint firstItem="TGR-Ar-QSp" firstAttribute="top" secondItem="uR4-kh-UpP" secondAttribute="bottom" constant="-49" id="MLd-8h-wU0"/>
                             <constraint firstItem="uR4-kh-UpP" firstAttribute="top" secondItem="mbr-kZ-mjP" secondAttribute="top" id="P34-oL-w1u"/>
                             <constraint firstAttribute="trailing" secondItem="uR4-kh-UpP" secondAttribute="trailing" id="Wka-mS-a9w"/>
                             <constraint firstItem="uR4-kh-UpP" firstAttribute="leading" secondItem="mbr-kZ-mjP" secondAttribute="leading" id="rd5-XH-Cm9"/>
@@ -1045,7 +1045,7 @@
             <objects>
                 <tableViewController id="J6P-fh-5CB" customClass="GroupsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="EJX-bD-EZu">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="609"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1096,12 +1096,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMw-YT-dDn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4709" y="5851"/>
+            <point key="canvasLocation" x="4709" y="5826.5"/>
         </scene>
         <!--Рекомендации-->
         <scene sceneID="UmM-do-Pus">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="MH8-yw-Zwd" customClass="RecommendationsMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="MH8-yw-Zwd" customClass="RecommendationsMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KkD-eI-TvD"/>
                         <viewControllerLayoutGuide type="bottom" id="2K9-JI-Q7Y"/>
@@ -1165,7 +1165,7 @@
         <!--Популярное-->
         <scene sceneID="sGS-Cy-5gI">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="hYN-Cz-fhD" customClass="PopularMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="hYN-Cz-fhD" customClass="PopularMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HUi-4K-KBK"/>
                         <viewControllerLayoutGuide type="bottom" id="awj-ma-nVF"/>
@@ -1839,7 +1839,7 @@
         <image name="icon-Search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="oyl-4o-mbN"/>
-        <segue reference="CRi-Lk-it5"/>
+        <segue reference="lU0-4t-blG"/>
+        <segue reference="fOU-GI-PYh"/>
     </inferredMetricsTieBreakers>
 </document>

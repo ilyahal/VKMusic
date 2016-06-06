@@ -27,12 +27,4 @@ class MyMusicViewController: UIViewController {
         miniPlayerViewController.didMoveToParentViewController(self)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-//        miniPlayerViewController.willMoveToParentViewController(nil)
-//        miniPlayerViewController.view.removeFromSuperview()
-//        miniPlayerViewController.removeFromParentViewController()
-    }
-    
 }

@@ -11,10 +11,4 @@ import UIKit
 /// Контроллер содержащий контейнер со списком групп
 class GroupsViewController: UIViewController {
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        tabBarController!.tabBar.hidden = true
-    }
-
 }

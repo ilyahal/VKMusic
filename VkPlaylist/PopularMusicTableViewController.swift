@@ -11,9 +11,6 @@ import UIKit
 /// Контроллер содержащий таблицу со списком популярных аудиозаписей
 class PopularMusicTableViewController: MusicFromInternetTableViewController {
     
-    /// Флаг на отчистку загруженных результатов
-    private var toDelete = true
-    
     /// Запрос на получение данных с сервера
     override var getRequest: (() -> Void)! {
         return getPopularAudio
@@ -33,26 +30,6 @@ class PopularMusicTableViewController: MusicFromInternetTableViewController {
         
         if VKAPIManager.isAuthorized {
             getRequest()
-        }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        toDelete = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if toDelete {
-            DownloadManager.sharedInstance.deleteDelegate(self)
-            DataManager.sharedInstance.deleteDataManagerDownloadsDelegate(self)
-            
-            DataManager.sharedInstance.popularMusic.clear()
-            if !RequestManager.sharedInstance.getPopularAudio.cancel() {
-                RequestManager.sharedInstance.getPopularAudio.dropState()
-            }
         }
     }
     

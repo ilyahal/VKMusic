@@ -11,8 +11,8 @@ import UIKit
 /// Контейнер содержащий таблицу со списком аудиозаписей владельца
 class OwnerMusicTableViewController: MusicFromInternetWithSearchTableViewController {
 
-    /// Флаг на отчистку загруженных результатов
-    private var toDelete = true
+    /// Перемотать на верх при первом отображении
+    var toTop = true
     
     /// Идентификатор владельца, чьи аудиозаписи загружаются
     var id: Int!
@@ -42,23 +42,12 @@ class OwnerMusicTableViewController: MusicFromInternetWithSearchTableViewControl
         searchController.searchBar.placeholder = "Поиск"
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        toDelete = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if toDelete {
-            DownloadManager.sharedInstance.deleteDelegate(self)
-            DataManager.sharedInstance.deleteDataManagerDownloadsDelegate(self)
-            
-            DataManager.sharedInstance.ownerMusic.clear()
-            if !RequestManager.sharedInstance.getOwnerAudio.cancel() {
-                RequestManager.sharedInstance.getOwnerAudio.dropState()
-            }
+        if toTop {
+            toTop = false
+            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
         }
     }
     

@@ -11,10 +11,4 @@ import UIKit
 /// Контроллер содержит контейнер со списком друзей
 class FriendsViewController: UIViewController {
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        tabBarController!.tabBar.hidden = true
-    }
-
 }

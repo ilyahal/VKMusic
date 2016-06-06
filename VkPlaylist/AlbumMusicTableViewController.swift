@@ -11,9 +11,6 @@ import UIKit
 /// Контроллер содержащий таблицу со списком аудиозаписей выбранного плейлиста
 class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewController {
     
-    /// Флаг на отчистку загруженных результатов
-    private var toDelete = true
-    
     /// Выбранный альбом
     var album: Album!
     
@@ -40,26 +37,6 @@ class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewControl
         
         // Настройка поисковой панели
         searchController.searchBar.placeholder = "Поиск"
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        toDelete = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if toDelete {
-            DownloadManager.sharedInstance.deleteDelegate(self)
-            DataManager.sharedInstance.deleteDataManagerDownloadsDelegate(self)
-            
-            DataManager.sharedInstance.albumMusic.clear()
-            if !RequestManager.sharedInstance.getAlbumAudio.cancel() {
-                RequestManager.sharedInstance.getAlbumAudio.dropState()
-            }
-        }
     }
     
     

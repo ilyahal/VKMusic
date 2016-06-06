@@ -11,9 +11,6 @@ import UIKit
 /// Контроллер содержит таблицу со списком друзей
 class FriendsTableViewController: UITableViewController {
 
-    /// Флаг на отчистку загруженных результатов
-    private var toDelete = true
-    
     /// Кэш аватарок друзей
     private var imageCache: NSCache!
     
@@ -96,24 +93,6 @@ class FriendsTableViewController: UITableViewController {
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        toDelete = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if toDelete {
-            imageCache?.removeAllObjects()
-            DataManager.sharedInstance.friends.clear()
-            if !RequestManager.sharedInstance.getFriends.cancel() {
-                RequestManager.sharedInstance.getFriends.dropState()
-            }
-        }
-    }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == SegueIdentifiers.showFriendAudioViewControllerSegue {
             let ownerMusicViewController = segue.destinationViewController as! OwnerMusicViewController
@@ -121,8 +100,6 @@ class FriendsTableViewController: UITableViewController {
             
             ownerMusicViewController.id = friend.id
             ownerMusicViewController.name = friend.getFullName()
-            
-            toDelete = false
         }
     }
     

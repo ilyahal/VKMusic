@@ -22,6 +22,8 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tabBarController!.tabBar.hidden = true
 
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 44

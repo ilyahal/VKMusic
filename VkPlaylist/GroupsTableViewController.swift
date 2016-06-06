@@ -11,9 +11,6 @@ import UIKit
 /// Контроллер содержащий таблицу со списком групп
 class GroupsTableViewController: UITableViewController {
     
-    /// Флаг на отчистку загруженных результатов
-    private var toDelete = true
-    
     /// Кэш аватарок групп
     private var imageCache: NSCache!
     
@@ -90,24 +87,6 @@ class GroupsTableViewController: UITableViewController {
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        toDelete = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if toDelete {
-            imageCache?.removeAllObjects()
-            DataManager.sharedInstance.groups.clear()
-            if !RequestManager.sharedInstance.getGroups.cancel() {
-                RequestManager.sharedInstance.getGroups.dropState()
-            }
-        }
-    }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == SegueIdentifiers.showGroupAudioViewControllerSegue {
             let ownerMusicViewController = segue.destinationViewController as! OwnerMusicViewController
@@ -115,8 +94,6 @@ class GroupsTableViewController: UITableViewController {
             
             ownerMusicViewController.id = group.id * -1
             ownerMusicViewController.name = group.name
-            
-            toDelete = false
         }
     }
     

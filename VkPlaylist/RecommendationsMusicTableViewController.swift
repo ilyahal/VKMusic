@@ -11,9 +11,6 @@ import UIKit
 /// Контейнер содержащий контейнер со списком рекомендуемых аудиозаписей
 class RecommendationsMusicTableViewController: MusicFromInternetTableViewController {
 
-    /// Флаг на отчистку загруженных результатов
-    private var toDelete = true
-    
     /// Запрос на получение данных с сервера
     override var getRequest: (() -> Void)! {
         return getRecommendationsAudio
@@ -33,26 +30,6 @@ class RecommendationsMusicTableViewController: MusicFromInternetTableViewControl
         
         if VKAPIManager.isAuthorized {
             getRequest()
-        }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        toDelete = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if toDelete {
-            DownloadManager.sharedInstance.deleteDelegate(self)
-            DataManager.sharedInstance.deleteDataManagerDownloadsDelegate(self)
-            
-            DataManager.sharedInstance.recommendationsMusic.clear()
-            if !RequestManager.sharedInstance.getRecommendationsAudio.cancel() {
-                RequestManager.sharedInstance.getRecommendationsAudio.dropState()
-            }
         }
     }
     

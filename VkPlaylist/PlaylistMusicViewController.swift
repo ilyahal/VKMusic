@@ -28,8 +28,6 @@ class PlaylistMusicViewController: UIViewController {
         // Настройка навигационной панели
         title = DataManager.sharedInstance.getPlaylistTitle(playlist)
         
-        tabBarController!.tabBar.hidden = true
-        
         addChildViewController(miniPlayerViewController)
         miniPlayerViewController.view.frame = CGRectMake(0, 0, miniPlayerViewControllerContainer.frame.size.width, miniPlayerViewControllerContainer.frame.size.height)
         miniPlayerViewControllerContainer.addSubview(miniPlayerViewController.view)
