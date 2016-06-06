@@ -10,19 +10,31 @@ import UIKit
 
 /// Контроллер содержит таблицу со списком друзей
 class FriendsTableViewController: UITableViewController {
-
+    
+    /// Выполняется ли обновление
+    var isRefreshing = false
+    
+    /// Статус выполнения запроса к серверу
+    var requestManagerStatus: RequestManagerObject.State {
+        return RequestManager.sharedInstance.getFriends.state
+    }
+    /// Ошибки при выполнении запроса к серверу
+    var requestManagerError: RequestManagerObject.ErrorRequest {
+        return RequestManager.sharedInstance.getFriends.error
+    }
+    
     /// Кэш аватарок друзей
-    private var imageCache: NSCache!
+    private var imageCache = NSCache()
     
     /// Словарь с именами [Первая буква фамилии : Массив друзей, у которых фамилия начинается на ту же букву]
-    private var names: [String: [Friend]]!
+    private var names = [String: [Friend]]()
     /// Массив содержащий заголовки секций таблицы (первые буквы фамилий)
-    private var nameSectionTitles: [String]!
+    private var nameSectionTitles = [String]()
     
     /// Массив друзей, загруженных с сервера
-    private var friends: [Friend]!
+    private var friends = [Friend]()
     /// Массив друзей, полученный в результате поиска
-    private var filteredFriends: [Friend]!
+    private var filteredFriends = [Friend]()
     
     /// Массив друзей, отображаемый на экране
     var activeArray: [Friend] {
@@ -45,11 +57,11 @@ class FriendsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         if VKAPIManager.isAuthorized {
-            imageCache = NSCache()
-            names = [:]
-            
             getFriends()
         }
+        
+        // Настройка Pull-To-Refresh
+        pullToRefreshEnable(VKAPIManager.isAuthorized)
         
         // Настройка поисковой панели
         searchController.searchResultsUpdater = self
@@ -117,6 +129,36 @@ class FriendsTableViewController: UITableViewController {
     }
     
     
+    // MARK: Pull-to-Refresh
+    
+    /// Управление доступностью Pull-to-Refresh
+    func pullToRefreshEnable(enable: Bool) {
+        if enable {
+            if refreshControl == nil {
+                refreshControl = UIRefreshControl()
+                //refreshControl!.attributedTitle = NSAttributedString(string: "Потяните, чтобы обновить...") // Все крашится :с
+                refreshControl!.addTarget(self, action: #selector(refreshFriends), forControlEvents: .ValueChanged) // Добавляем обработчик контроллера обновления
+            }
+        } else {
+            if let refreshControl = refreshControl {
+                if refreshControl.refreshing {
+                    refreshControl.endRefreshing()
+                }
+                
+                refreshControl.removeTarget(self, action: #selector(refreshFriends), forControlEvents: .ValueChanged) // Удаляем обработчик контроллера обновления
+            }
+            
+            refreshControl = nil
+        }
+    }
+    
+    /// Запрос на обновление при Pull-to-Refresh
+    func refreshFriends() {
+        isRefreshing = true
+        getFriends()
+    }
+    
+    
     // MARK: Работа с клавиатурой
     
     /// Распознаватель тапов по экрану
@@ -141,6 +183,9 @@ class FriendsTableViewController: UITableViewController {
     func getFriends() {
         RequestManager.sharedInstance.getFriends.performRequest() { success in
             self.friends = DataManager.sharedInstance.friends.array
+            
+            self.names = [:]
+            self.nameSectionTitles = []
             
             // Распределяем по секциям
             if RequestManager.sharedInstance.getFriends.state == .Results {
@@ -184,6 +229,13 @@ class FriendsTableViewController: UITableViewController {
             }
             
             self.reloadTableView()
+            
+            if let refreshControl = self.refreshControl {
+                if refreshControl.refreshing { // Если данные обновляются
+                    refreshControl.endRefreshing() // Говорим что обновление завершено
+                    self.isRefreshing = false
+                }
+            }
             
             if !success {
                 switch RequestManager.sharedInstance.getFriends.error {
@@ -353,6 +405,8 @@ extension _FriendsTableViewControllerDataSource {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getFriends.state {
+            case .Loading where isRefreshing:
+                return nameSectionTitles.count
             case .Results:
                 return isSearched ? 1 : nameSectionTitles.count
             default:
@@ -367,6 +421,8 @@ extension _FriendsTableViewControllerDataSource {
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getFriends.state {
+            case .Loading where isRefreshing:
+                return nameSectionTitles[section]
             case .Results:
                 return isSearched ? nil : nameSectionTitles[section]
             default:
@@ -383,6 +439,17 @@ extension _FriendsTableViewControllerDataSource {
             switch RequestManager.sharedInstance.getFriends.state {
             case .NotSearchedYet where RequestManager.sharedInstance.getFriends.error == .NetworkError:
                 return 1 // Ячейка с сообщением об отсутствии интернет соединения
+            case .Loading where isRefreshing:
+                let sectionTitle = nameSectionTitles[section]
+                let sectionNames = names[sectionTitle]
+                
+                var count = sectionNames!.count
+                
+                if nameSectionTitles.count - 1 == section {
+                    count += 1 // Для ячейки с количеством друзей в последней секции
+                }
+                
+                return count
             case .Loading:
                 return 1 // Ячейка с индикатором загрузки
             case .NoResults:
@@ -420,6 +487,12 @@ extension _FriendsTableViewControllerDataSource {
                 return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
             case .NoResults:
                 return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+            case .Loading where isRefreshing:
+                if let numberOfRowsCell = getCellForNumberOfFriendsRowInTableView(tableView, forIndexPath: indexPath) {
+                    return numberOfRowsCell
+                }
+                
+                return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
             case .Loading:
                 return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
             case .Results:
@@ -442,6 +515,8 @@ extension _FriendsTableViewControllerDataSource {
     override func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
         if VKAPIManager.isAuthorized {
             switch RequestManager.sharedInstance.getFriends.state {
+            case .Loading where isRefreshing:
+                return nameSectionTitles
             case .Results:
                 return isSearched ? nil : nameSectionTitles
             default:
@@ -463,7 +538,7 @@ extension _FriendsTableViewControllerDelegate {
     // Высота каждой строки
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if VKAPIManager.isAuthorized {
-            if RequestManager.sharedInstance.getFriends.state == .Results {
+            if RequestManager.sharedInstance.getFriends.state == .Results || RequestManager.sharedInstance.getFriends.state == .Loading && isRefreshing {
                 let sectionTitle = nameSectionTitles[indexPath.section]
                 let sectionNames = names[sectionTitle]
                 
@@ -515,17 +590,34 @@ extension FriendsTableViewController: UISearchBarDelegate {
     
     // Пользователь хочет начать поиск
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        return friends.count != 0
+        if VKAPIManager.isAuthorized {
+            switch requestManagerStatus {
+            case .Results:
+                if let refreshControl = refreshControl {
+                    return !refreshControl.refreshing
+                }
+                
+                return friends.count != 0
+            default:
+                return false
+            }
+        } else {
+            return false
+        }
     }
     
     // Пользователь начал редактирование поискового текста
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         view.addGestureRecognizer(tapRecognizer)
+        
+        pullToRefreshEnable(false)
     }
     
     // Пользователь закончил редактирование поискового текста
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         view.removeGestureRecognizer(tapRecognizer)
+        
+        pullToRefreshEnable(true)
     }
     
     // В поисковой панели была нажата кнопка "Отмена"
