@@ -323,7 +323,6 @@ class DataManager: NSObject {
             let trackInPlaylist = TrackInPlaylist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
             trackInPlaylist.playlist = downloadsPlaylistObject
             trackInPlaylist.track = offlineTrack
-            trackInPlaylist.position = 0
             
             
             // Сохраняем изменения
@@ -450,7 +449,6 @@ class DataManager: NSObject {
         let playlist = Playlist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
         playlist.id = nextPlaylistID()
         playlist.isVisible = true
-        playlist.position = 0
         
         updatePlaylist(playlist, withTitle: title, andTracks: tracks)
         

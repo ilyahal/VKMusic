@@ -77,6 +77,7 @@
 		BBDEC0891CD761CE005B8494 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */; };
 		BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */; };
 		BBDEC08D1CD78B5A005B8494 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC08C1CD78B5A005B8494 /* Reachability.swift */; };
+		BBE3D7DB1D0609BF0077B61A /* UIImage+GenerateImageWithColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE3D7DA1D0609BF0077B61A /* UIImage+GenerateImageWithColor.swift */; };
 		BBE8534E1CDFB59600872C3B /* MusicFromInternetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8534D1CDFB59600872C3B /* MusicFromInternetTableViewController.swift */; };
 		BBE853501CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8534F1CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift */; };
 		BBE853531CDFCA7000872C3B /* AudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE853521CDFCA7000872C3B /* AudioCell.xib */; };
@@ -202,6 +203,7 @@
 		BBDEC0881CD761CE005B8494 /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		BBDEC08A1CD76ACB005B8494 /* NothingFoundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NothingFoundCell.swift; sourceTree = "<group>"; };
 		BBDEC08C1CD78B5A005B8494 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		BBE3D7DA1D0609BF0077B61A /* UIImage+GenerateImageWithColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+GenerateImageWithColor.swift"; sourceTree = "<group>"; };
 		BBE8534D1CDFB59600872C3B /* MusicFromInternetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicFromInternetTableViewController.swift; sourceTree = "<group>"; };
 		BBE8534F1CDFB9DC00872C3B /* MusicFromInternetWithSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicFromInternetWithSearchTableViewController.swift; sourceTree = "<group>"; };
 		BBE853521CDFCA7000872C3B /* AudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioCell.xib; sourceTree = "<group>"; };
@@ -580,6 +582,31 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		BBE3D7DC1D060A120077B61A /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				BBE853941CE1096200872C3B /* UIImage+Resize.swift */,
+				BBE3D7DA1D0609BF0077B61A /* UIImage+GenerateImageWithColor.swift */,
+			);
+			name = UIImage;
+			sourceTree = "<group>";
+		};
+		BBE3D7DD1D060A240077B61A /* UIImageView */ = {
+			isa = PBXGroup;
+			children = (
+				BBE853591CDFE4DF00872C3B /* UIImageView+TintImageColor.swift */,
+			);
+			name = UIImageView;
+			sourceTree = "<group>";
+		};
+		BBE3D7DE1D060A3E0077B61A /* UITableView */ = {
+			isa = PBXGroup;
+			children = (
+				BBEF4EE31CFD6D3D003642D0 /* UITableView+HideSearchBar.swift */,
+			);
+			name = UITableView;
+			sourceTree = "<group>";
+		};
 		BBE853511CDFC99A00872C3B /* Superclasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -592,9 +619,9 @@
 		BBE853581CDFE4C100872C3B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BBE853591CDFE4DF00872C3B /* UIImageView+TintImageColor.swift */,
-				BBE853941CE1096200872C3B /* UIImage+Resize.swift */,
-				BBEF4EE31CFD6D3D003642D0 /* UITableView+HideSearchBar.swift */,
+				BBE3D7DE1D060A3E0077B61A /* UITableView */,
+				BBE3D7DD1D060A240077B61A /* UIImageView */,
+				BBE3D7DC1D060A120077B61A /* UIImage */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -912,6 +939,7 @@
 				BB1731A31D01C79600996A34 /* MusicBrainzAPIManager.swift in Sources */,
 				BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */,
 				BBDEC0721CD6BF2D005B8494 /* ButtonWithRoundedBorder.swift in Sources */,
+				BBE3D7DB1D0609BF0077B61A /* UIImage+GenerateImageWithColor.swift in Sources */,
 				BBE8535C1CDFE89000872C3B /* SearchTableViewController.swift in Sources */,
 				BB6EF73A1CDF6AFA00466C3B /* NoAuthorizedCell.swift in Sources */,
 				BB405ED11CFC3560000C1A2A /* AddToPlaylistCellDelegate.swift in Sources */,
