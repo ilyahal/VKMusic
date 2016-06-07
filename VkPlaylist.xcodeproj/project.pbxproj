@@ -61,6 +61,7 @@
 		BBB69E221CFDB97A0094B1CF /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E211CFDB97A0094B1CF /* DownloadsViewController.swift */; };
 		BBB69E241CFDBC6F0094B1CF /* MyMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */; };
 		BBD279E51D06BBF800A844D3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */; };
+		BBD279E81D06EF4700A844D3 /* UIImage+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD279E71D06EF4700A844D3 /* UIImage+TintColor.swift */; };
 		BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0531CD66441005B8494 /* AppDelegate.swift */; };
 		BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0571CD66441005B8494 /* Main.storyboard */; };
 		BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05A1CD66441005B8494 /* Assets.xcassets */; };
@@ -186,6 +187,7 @@
 		BBB69E211CFDB97A0094B1CF /* DownloadsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicViewController.swift; sourceTree = "<group>"; };
 		BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		BBD279E71D06EF4700A844D3 /* UIImage+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+TintColor.swift"; sourceTree = "<group>"; };
 		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBDEC0581CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -590,6 +592,7 @@
 			children = (
 				BBE853941CE1096200872C3B /* UIImage+Resize.swift */,
 				BBE3D7DA1D0609BF0077B61A /* UIImage+GenerateImageWithColor.swift */,
+				BBD279E71D06EF4700A844D3 /* UIImage+TintColor.swift */,
 			);
 			name = UIImage;
 			sourceTree = "<group>";
@@ -924,6 +927,7 @@
 				BB0C62E81CE37CF500C505B1 /* GetAlbums.swift in Sources */,
 				BBB69E241CFDBC6F0094B1CF /* MyMusicViewController.swift in Sources */,
 				BBE853951CE1096200872C3B /* UIImage+Resize.swift in Sources */,
+				BBD279E81D06EF4700A844D3 /* UIImage+TintColor.swift in Sources */,
 				BBDEC08B1CD76ACB005B8494 /* NothingFoundCell.swift in Sources */,
 				BBEF4EF01CFDA820003642D0 /* OwnerMusicViewController.swift in Sources */,
 				BBE853831CE0DDF200872C3B /* GetAudio.swift in Sources */,
