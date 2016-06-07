@@ -11,20 +11,4 @@ import UIKit
 /// Контроллер содержащий контейнер со списком рекомендуемых аудиозаписей
 class RecommendationsMusicViewController: UIViewController {
 
-    /// Контейнер в котором находится ViewController с мини-плеером
-    @IBOutlet weak var miniPlayerViewControllerContainer: UIView!
-    /// ViewController с мини-плеером
-    var miniPlayerViewController: MiniPlayerViewController {
-        return PlayerManager.sharedInstance.miniPlayerViewController
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        addChildViewController(miniPlayerViewController)
-        miniPlayerViewController.view.frame = CGRectMake(0, 0, miniPlayerViewControllerContainer.frame.size.width, miniPlayerViewControllerContainer.frame.size.height)
-        miniPlayerViewControllerContainer.addSubview(miniPlayerViewController.view)
-        miniPlayerViewController.didMoveToParentViewController(self)
-    }
-
 }

@@ -11,6 +11,9 @@ import UIKit
 /// Контроллер со списком допустимых настроек
 class SettingsTableViewController: UITableViewController {
 
+    /// Контроллер вкладок
+    weak var mainTabBarController: MainTabBarController!
+    
     /// Кнопка "Авторизоваться"
     @IBOutlet weak var loginButton: UIButton!
     /// Кнопка "Деавторизоваться"
@@ -22,6 +25,8 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mainTabBarController = tabBarController as! MainTabBarController
         
         tabBarController!.tabBar.hidden = true
 
@@ -39,9 +44,24 @@ class SettingsTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userAutorizationFailed), name: VKAPIManagerAutorizationFailedNotification, object: nil) // Добавляем слушаетля для события успешной авторизации
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Скрываем мини-плеер при открытии настроек
+        mainTabBarController.hideMiniPlayerAnimated(false)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Отображаем мини-плеер при закрытии настроек
+        mainTabBarController.showMiniPlayerAnimated(false)
+    }
+    
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
     
     /// Обновление состояния кнопок авторизации
     func updateAuthorizationButtonsStatus(state: Bool) {

@@ -25,28 +25,16 @@
                                     <segue destination="u0c-tT-8ti" kind="embed" identifier="ShowMyMusicTableViewControllerInContainerSegue" id="jmP-jM-K7f"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tnQ-Lm-SnD">
-                                <rect key="frame" x="0.0" y="511" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="8iL-ff-pvM"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="f1m-8D-yhC" secondAttribute="trailing" id="fAI-bw-bY9"/>
                             <constraint firstItem="LNH-MH-WXQ" firstAttribute="top" secondItem="f1m-8D-yhC" secondAttribute="bottom" constant="-9" id="fYo-bi-5jf"/>
                             <constraint firstItem="f1m-8D-yhC" firstAttribute="leading" secondItem="qc6-Ao-xjC" secondAttribute="leading" id="i9i-GS-iws"/>
-                            <constraint firstItem="tnQ-Lm-SnD" firstAttribute="leading" secondItem="qc6-Ao-xjC" secondAttribute="leading" id="kMO-jY-Rcf"/>
-                            <constraint firstItem="LNH-MH-WXQ" firstAttribute="top" secondItem="tnQ-Lm-SnD" secondAttribute="bottom" id="mph-tp-24M"/>
-                            <constraint firstAttribute="trailing" secondItem="tnQ-Lm-SnD" secondAttribute="trailing" id="oAG-TW-pRT"/>
                             <constraint firstItem="f1m-8D-yhC" firstAttribute="top" secondItem="qc6-Ao-xjC" secondAttribute="top" id="vMg-ma-N3e"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Моя музыка" id="SgA-VK-HBX"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="tnQ-Lm-SnD" id="Lm2-kQ-rnZ"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pvy-n3-LAe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -125,28 +113,16 @@
                                     <segue destination="SB3-Uu-qB0" kind="embed" identifier="ShowDownloadsTableViewControllerInContainerSegue" id="dNo-ZD-VAP"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="747-we-aN0">
-                                <rect key="frame" x="0.0" y="511" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="oH8-a5-18Z"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="6FA-ge-Nfx" firstAttribute="top" secondItem="747-we-aN0" secondAttribute="bottom" id="6Tr-qW-frX"/>
                             <constraint firstAttribute="trailing" secondItem="LQe-zH-8Jn" secondAttribute="trailing" id="Dkb-LP-Ief"/>
-                            <constraint firstItem="747-we-aN0" firstAttribute="leading" secondItem="Aob-e8-W7e" secondAttribute="leading" id="GdC-ea-GPf"/>
-                            <constraint firstAttribute="trailing" secondItem="747-we-aN0" secondAttribute="trailing" id="NPI-oD-bgX"/>
                             <constraint firstItem="LQe-zH-8Jn" firstAttribute="leading" secondItem="Aob-e8-W7e" secondAttribute="leading" id="WrG-qo-mF2"/>
                             <constraint firstItem="6FA-ge-Nfx" firstAttribute="top" secondItem="LQe-zH-8Jn" secondAttribute="bottom" constant="-9" id="gLh-NT-Mya"/>
                             <constraint firstItem="LQe-zH-8Jn" firstAttribute="top" secondItem="Aob-e8-W7e" secondAttribute="top" id="wRh-Zu-imd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Загрузки" id="rbQ-rR-yaz"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="747-we-aN0" id="egh-47-bnf"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="79v-qs-loM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -170,12 +146,6 @@
                                     <segue destination="Ngh-Br-Pnh" kind="embed" identifier="ShowSearchTableViewControllerInContainerSegue" id="ulb-40-ZlI"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="voi-eO-cI4">
-                                <rect key="frame" x="0.0" y="511" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="JRI-RE-pQO"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -183,15 +153,9 @@
                             <constraint firstAttribute="trailing" secondItem="Fjd-MD-nKI" secondAttribute="trailing" id="7rW-yl-ed5"/>
                             <constraint firstItem="Fjd-MD-nKI" firstAttribute="leading" secondItem="c9t-pg-NZw" secondAttribute="leading" id="Hs2-KV-PpG"/>
                             <constraint firstItem="EAW-32-tvD" firstAttribute="top" secondItem="Fjd-MD-nKI" secondAttribute="bottom" constant="-9" id="RWU-1K-IP8"/>
-                            <constraint firstItem="voi-eO-cI4" firstAttribute="leading" secondItem="c9t-pg-NZw" secondAttribute="leading" id="dSw-cj-plk"/>
-                            <constraint firstItem="EAW-32-tvD" firstAttribute="top" secondItem="voi-eO-cI4" secondAttribute="bottom" id="e6J-nh-ZBP"/>
-                            <constraint firstAttribute="trailing" secondItem="voi-eO-cI4" secondAttribute="trailing" id="elQ-ia-Jki"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Поиск" id="JdP-Z9-1DT"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="voi-eO-cI4" id="EAQ-Wh-5Ox"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="woo-Sq-5wD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -349,22 +313,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pj2-en-stg">
-                                <rect key="frame" x="0.0" y="511" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="4Id-Zd-wjI"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ZEL-n5-aj3" firstAttribute="top" secondItem="jvR-NQ-pnu" secondAttribute="top" id="AGj-gS-CVX"/>
                             <constraint firstAttribute="trailing" secondItem="ZEL-n5-aj3" secondAttribute="trailing" id="JEB-T9-zJA"/>
-                            <constraint firstAttribute="trailing" secondItem="pj2-en-stg" secondAttribute="trailing" id="Wgq-jg-cMf"/>
                             <constraint firstAttribute="bottom" secondItem="ZEL-n5-aj3" secondAttribute="bottom" constant="40" id="fgD-xD-d0R"/>
                             <constraint firstItem="ZEL-n5-aj3" firstAttribute="leading" secondItem="jvR-NQ-pnu" secondAttribute="leading" id="kYS-Dp-tQ3"/>
-                            <constraint firstItem="W7u-Ef-8UH" firstAttribute="top" secondItem="pj2-en-stg" secondAttribute="bottom" id="nPH-AG-LNh"/>
-                            <constraint firstItem="pj2-en-stg" firstAttribute="leading" secondItem="jvR-NQ-pnu" secondAttribute="leading" id="uvc-Xq-1Tw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="gCZ-2A-nyP">
@@ -382,7 +337,6 @@
                         </segmentedControl>
                     </navigationItem>
                     <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="pj2-en-stg" id="f4T-dO-eKZ"/>
                         <outlet property="segmentedControl" destination="3Ce-2s-hR4" id="7gN-Zf-eBb"/>
                         <outlet property="tableView" destination="ZEL-n5-aj3" id="Z5j-j9-Kae"/>
                         <segue destination="lTe-XD-VCn" kind="show" identifier="ShowPlaylistAudioSegue" id="uZ6-Ly-O9q"/>
@@ -458,29 +412,16 @@
                                     <segue destination="Pw1-a5-z2D" kind="embed" identifier="ShowFriendsTableViewControllerInContainerSegue" id="3Jy-ea-8qc"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BS1-a5-UFg">
-                                <rect key="frame" x="0.0" y="520" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="MtT-4M-jpo"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="N28-R5-wta"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Qlw-V8-uvb" secondAttribute="trailing" id="0gg-Vo-Gmq"/>
-                            <constraint firstItem="IbG-05-T17" firstAttribute="top" secondItem="BS1-a5-UFg" secondAttribute="bottom" id="C7I-OH-iJS"/>
                             <constraint firstItem="Qlw-V8-uvb" firstAttribute="top" secondItem="I87-3E-UwG" secondAttribute="top" id="LRx-61-Mv3"/>
                             <constraint firstItem="Qlw-V8-uvb" firstAttribute="leading" secondItem="I87-3E-UwG" secondAttribute="leading" id="Syb-a7-oik"/>
-                            <constraint firstAttribute="trailing" secondItem="BS1-a5-UFg" secondAttribute="trailing" id="VuF-q3-ha5"/>
-                            <constraint firstItem="BS1-a5-UFg" firstAttribute="leading" secondItem="I87-3E-UwG" secondAttribute="leading" id="j6z-yI-wU1"/>
                             <constraint firstItem="IbG-05-T17" firstAttribute="top" secondItem="Qlw-V8-uvb" secondAttribute="bottom" constant="-9" id="v7j-Yw-iBv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Друзья" id="c5D-Rh-Ge8"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="BS1-a5-UFg" id="bT0-Cj-vBh"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mxh-gH-PGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -784,21 +725,12 @@
                                     <segue destination="f7o-da-RJ0" kind="embed" identifier="ShowPlaylistMusicTableViewControllerInContainerSegue" id="b84-jJ-ydo"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w8S-h6-GA4">
-                                <rect key="frame" x="0.0" y="511" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="7Kr-Oo-vzu"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="myz-xj-CKU" firstAttribute="leading" secondItem="1aN-Yq-Fh3" secondAttribute="leading" id="0Xs-tj-nQ3"/>
                             <constraint firstItem="myz-xj-CKU" firstAttribute="top" secondItem="1aN-Yq-Fh3" secondAttribute="top" id="35c-aP-Z4P"/>
-                            <constraint firstItem="Bs3-VD-WW9" firstAttribute="top" secondItem="w8S-h6-GA4" secondAttribute="bottom" id="44P-Nt-2d2"/>
                             <constraint firstAttribute="trailing" secondItem="myz-xj-CKU" secondAttribute="trailing" id="CMX-0x-ZkS"/>
-                            <constraint firstAttribute="trailing" secondItem="w8S-h6-GA4" secondAttribute="trailing" id="IBd-0E-bZh"/>
-                            <constraint firstItem="w8S-h6-GA4" firstAttribute="leading" secondItem="1aN-Yq-Fh3" secondAttribute="leading" id="Sis-1G-BSi"/>
                             <constraint firstItem="Bs3-VD-WW9" firstAttribute="top" secondItem="myz-xj-CKU" secondAttribute="bottom" constant="-9" id="yur-gU-sVj"/>
                         </constraints>
                     </view>
@@ -809,9 +741,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="w8S-h6-GA4" id="APh-Ot-rgr"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMI-4V-fgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -872,28 +801,16 @@
                                     <segue destination="d08-qv-bL9" kind="embed" identifier="ShowAlbumMusicTableViewControllerInContainerSegue" id="yMR-5i-DbZ"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CIf-lT-MPk">
-                                <rect key="frame" x="0.0" y="511" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="nYb-5E-py2"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="rA2-0W-Z2A" firstAttribute="leading" secondItem="bsQ-bL-pbT" secondAttribute="leading" id="4xK-6Y-rFH"/>
                             <constraint firstItem="rA2-0W-Z2A" firstAttribute="top" secondItem="bsQ-bL-pbT" secondAttribute="top" id="6yP-OI-WR4"/>
-                            <constraint firstItem="LoG-D4-85Y" firstAttribute="top" secondItem="CIf-lT-MPk" secondAttribute="bottom" id="E3S-mS-Lr8"/>
                             <constraint firstItem="LoG-D4-85Y" firstAttribute="top" secondItem="rA2-0W-Z2A" secondAttribute="bottom" constant="-9" id="NGf-ki-7xX"/>
-                            <constraint firstItem="CIf-lT-MPk" firstAttribute="leading" secondItem="bsQ-bL-pbT" secondAttribute="leading" id="Pco-3Q-Bie"/>
                             <constraint firstAttribute="trailing" secondItem="rA2-0W-Z2A" secondAttribute="trailing" id="SCD-IO-wiG"/>
-                            <constraint firstAttribute="trailing" secondItem="CIf-lT-MPk" secondAttribute="trailing" id="xDO-Pp-TpO"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="&lt;Название альбома&gt;" id="FLT-pe-XXD"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="CIf-lT-MPk" id="87V-mS-L84"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P8j-vf-5Z8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -955,7 +872,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eV0-qH-H9B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4709" y="5046.5"/>
+            <point key="canvasLocation" x="4709" y="5066.5"/>
         </scene>
         <!--Owner Music View Controller-->
         <scene sceneID="wok-jT-kX1">
@@ -975,27 +892,15 @@
                                     <segue destination="WMM-6k-EWz" kind="embed" identifier="ShowOwnerMusicTableViewControllerInContainerSegue" id="ToV-zM-M7g"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ul3-BH-O5M">
-                                <rect key="frame" x="0.0" y="529" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="086-UI-y6X"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ecb-hS-R7e" firstAttribute="top" secondItem="9TN-tw-sVl" secondAttribute="bottom" constant="-9" id="1eP-j0-4ta"/>
                             <constraint firstAttribute="trailing" secondItem="9TN-tw-sVl" secondAttribute="trailing" id="41q-v4-PVa"/>
-                            <constraint firstItem="ecb-hS-R7e" firstAttribute="top" secondItem="ul3-BH-O5M" secondAttribute="bottom" id="Gvg-2M-elb"/>
                             <constraint firstItem="9TN-tw-sVl" firstAttribute="top" secondItem="mAW-JB-bGc" secondAttribute="bottom" constant="-64" id="KmQ-Ci-e4Q"/>
-                            <constraint firstAttribute="trailing" secondItem="ul3-BH-O5M" secondAttribute="trailing" id="Svh-dL-osD"/>
-                            <constraint firstItem="ul3-BH-O5M" firstAttribute="leading" secondItem="SMn-HQ-AfZ" secondAttribute="leading" id="TEM-Tv-7M7"/>
                             <constraint firstItem="9TN-tw-sVl" firstAttribute="leading" secondItem="SMn-HQ-AfZ" secondAttribute="leading" id="lwQ-G4-13R"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="ul3-BH-O5M" id="HjQ-ma-pCD"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AzQ-dO-gFQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1038,30 +943,16 @@
                                     <segue destination="J6P-fh-5CB" kind="embed" identifier="ShowGroupsTableViewControllerInContainerSegue" id="bZW-EL-bSB"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rly-qt-1mx">
-                                <rect key="frame" x="0.0" y="520" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="Xll-jA-gVI"/>
-                                    <constraint firstAttribute="height" constant="40" id="nqd-AM-9Rm"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="uWD-gD-Rod"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TGR-Ar-QSp" firstAttribute="top" secondItem="rly-qt-1mx" secondAttribute="bottom" id="5Xn-Wp-Slu"/>
                             <constraint firstItem="TGR-Ar-QSp" firstAttribute="top" secondItem="uR4-kh-UpP" secondAttribute="bottom" constant="-9" id="MLd-8h-wU0"/>
                             <constraint firstItem="uR4-kh-UpP" firstAttribute="top" secondItem="mbr-kZ-mjP" secondAttribute="top" id="P34-oL-w1u"/>
                             <constraint firstAttribute="trailing" secondItem="uR4-kh-UpP" secondAttribute="trailing" id="Wka-mS-a9w"/>
-                            <constraint firstAttribute="trailing" secondItem="rly-qt-1mx" secondAttribute="trailing" id="ijz-1f-oOV"/>
                             <constraint firstItem="uR4-kh-UpP" firstAttribute="leading" secondItem="mbr-kZ-mjP" secondAttribute="leading" id="rd5-XH-Cm9"/>
-                            <constraint firstItem="rly-qt-1mx" firstAttribute="leading" secondItem="mbr-kZ-mjP" secondAttribute="leading" id="vaE-y2-Xgq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Группы" id="xt3-m0-ad6"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="rly-qt-1mx" id="mUN-Nx-P3d"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hoF-yp-4UM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1123,7 +1014,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMw-YT-dDn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4709" y="5826.5"/>
+            <point key="canvasLocation" x="4709" y="5846.5"/>
         </scene>
         <!--Рекомендации-->
         <scene sceneID="UmM-do-Pus">
@@ -1138,33 +1029,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eE2-fR-H2i">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="569"/>
                                 <connections>
                                     <segue destination="xkp-KM-EQN" kind="embed" identifier="ShowRecommendationsMusicTableViewControllerInContainerSegue" id="Dda-t9-7D3"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kgb-Wr-OEY">
-                                <rect key="frame" x="0.0" y="520" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Zjx-uh-gf5"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Kgb-Wr-OEY" secondAttribute="trailing" id="1DS-zu-28f"/>
-                            <constraint firstItem="2K9-JI-Q7Y" firstAttribute="top" secondItem="Kgb-Wr-OEY" secondAttribute="bottom" id="5ji-Ra-16z"/>
                             <constraint firstItem="eE2-fR-H2i" firstAttribute="leading" secondItem="5kc-uD-SCK" secondAttribute="leading" id="98s-aA-jnU"/>
                             <constraint firstItem="eE2-fR-H2i" firstAttribute="top" secondItem="5kc-uD-SCK" secondAttribute="top" id="GdR-LJ-hq9"/>
-                            <constraint firstItem="Kgb-Wr-OEY" firstAttribute="leading" secondItem="5kc-uD-SCK" secondAttribute="leading" id="H5i-vy-2Xl"/>
-                            <constraint firstItem="2K9-JI-Q7Y" firstAttribute="top" secondItem="eE2-fR-H2i" secondAttribute="bottom" constant="40" id="oqG-Pk-TI6"/>
+                            <constraint firstItem="2K9-JI-Q7Y" firstAttribute="top" secondItem="eE2-fR-H2i" secondAttribute="bottom" constant="-9" id="oqG-Pk-TI6"/>
                             <constraint firstAttribute="trailing" secondItem="eE2-fR-H2i" secondAttribute="trailing" id="res-Xx-LZq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Рекомендации" id="Fce-cZ-bHv"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="Kgb-Wr-OEY" id="a63-yX-ivB"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CWI-AQ-cZo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1175,7 +1054,7 @@
             <objects>
                 <tableViewController id="xkp-KM-EQN" customClass="RecommendationsMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="0yM-OP-1z3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="569"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -1187,7 +1066,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Y2-JN-XXk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4709" y="6638"/>
+            <point key="canvasLocation" x="4709" y="6613.5"/>
         </scene>
         <!--Популярное-->
         <scene sceneID="sGS-Cy-5gI">
@@ -1202,33 +1081,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kPB-Xi-lSn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="569"/>
                                 <connections>
                                     <segue destination="PxH-Nj-fS4" kind="embed" identifier="ShowPopularMusicTableViewControllerInContainerSegue" id="oK2-ER-qCI"/>
                                 </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tv7-JY-j0e">
-                                <rect key="frame" x="0.0" y="520" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="mJA-mw-GCh"/>
-                                </constraints>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="kPB-Xi-lSn" firstAttribute="top" secondItem="lQR-rK-Uvk" secondAttribute="top" id="1VD-8o-f0B"/>
-                            <constraint firstAttribute="trailing" secondItem="Tv7-JY-j0e" secondAttribute="trailing" id="3yq-cn-tZm"/>
-                            <constraint firstItem="awj-ma-nVF" firstAttribute="top" secondItem="kPB-Xi-lSn" secondAttribute="bottom" constant="40" id="Q5J-9l-PvH"/>
+                            <constraint firstItem="awj-ma-nVF" firstAttribute="top" secondItem="kPB-Xi-lSn" secondAttribute="bottom" constant="-9" id="Q5J-9l-PvH"/>
                             <constraint firstAttribute="trailing" secondItem="kPB-Xi-lSn" secondAttribute="trailing" id="TmC-fZ-gpb"/>
                             <constraint firstItem="kPB-Xi-lSn" firstAttribute="leading" secondItem="lQR-rK-Uvk" secondAttribute="leading" id="Ww0-dJ-pbk"/>
-                            <constraint firstItem="Tv7-JY-j0e" firstAttribute="leading" secondItem="lQR-rK-Uvk" secondAttribute="leading" id="Yhs-WM-bmP"/>
-                            <constraint firstItem="awj-ma-nVF" firstAttribute="top" secondItem="Tv7-JY-j0e" secondAttribute="bottom" id="btt-Aq-cPl"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Популярное" id="I30-Tv-5xV"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="Tv7-JY-j0e" id="ToP-Hj-fma"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F9O-lK-g5f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1239,7 +1106,7 @@
             <objects>
                 <tableViewController id="PxH-Nj-fS4" customClass="PopularMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="a7q-wB-8yI">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="569"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -1251,7 +1118,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NO9-Na-mEP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4709" y="7401"/>
+            <point key="canvasLocation" x="4709" y="7376.5"/>
         </scene>
         <!--Ещё-->
         <scene sceneID="sO5-Eb-5St">
@@ -1288,28 +1155,16 @@
                                     <segue destination="ybX-Qk-NpR" kind="embed" identifier="showMoreTableViewControllerInContainerSegue" id="cPy-Uf-fWP"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="14Y-ns-4xV">
-                                <rect key="frame" x="0.0" y="511" width="600" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="CPp-f3-hzq"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Tod-2V-YQr" firstAttribute="top" secondItem="PgD-11-Qtj" secondAttribute="bottom" constant="-9" id="66i-gO-Q4y"/>
-                            <constraint firstItem="Tod-2V-YQr" firstAttribute="top" secondItem="14Y-ns-4xV" secondAttribute="bottom" id="F9a-c5-7D2"/>
-                            <constraint firstAttribute="trailing" secondItem="14Y-ns-4xV" secondAttribute="trailing" id="Pow-mw-Bom"/>
                             <constraint firstItem="PgD-11-Qtj" firstAttribute="leading" secondItem="GjZ-KE-egk" secondAttribute="leading" id="RLh-1r-6ka"/>
-                            <constraint firstItem="14Y-ns-4xV" firstAttribute="leading" secondItem="GjZ-KE-egk" secondAttribute="leading" id="lkP-JU-Hpf"/>
                             <constraint firstAttribute="trailing" secondItem="PgD-11-Qtj" secondAttribute="trailing" id="nud-HO-LoF"/>
                             <constraint firstItem="PgD-11-Qtj" firstAttribute="top" secondItem="GjZ-KE-egk" secondAttribute="top" id="zNp-lU-SBL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Еще" id="cL1-3W-GUF"/>
-                    <connections>
-                        <outlet property="miniPlayerViewControllerContainer" destination="14Y-ns-4xV" id="cpl-lm-WXS"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GnU-fk-4Zd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1679,10 +1534,10 @@
             </objects>
             <point key="canvasLocation" x="-608" y="429"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="AD8-On-Y5o">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="v93-T2-lwU" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="v93-T2-lwU" customClass="MainTabBarController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="arH-3i-B93"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="lZH-AK-xaL">
@@ -1866,7 +1721,7 @@
         <image name="icon-Search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lU0-4t-blG"/>
+        <segue reference="oyl-4o-mbN"/>
         <segue reference="CRi-Lk-it5"/>
     </inferredMetricsTieBreakers>
 </document>

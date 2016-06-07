@@ -13,13 +13,6 @@ class SearchViewController: UIViewController {
 
     weak var searchTableViewController: SearchTableViewController!
     
-    /// Контейнер в котором находится ViewController с мини-плеером
-    @IBOutlet weak var miniPlayerViewControllerContainer: UIView!
-    /// ViewController с мини-плеером
-    var miniPlayerViewController: MiniPlayerViewController {
-        return PlayerManager.sharedInstance.miniPlayerViewController
-    }
-    
     /// Контроллер поиска
     let searchController = UISearchController(searchResultsController: nil)
     /// Выполняется ли сейчас поиск
@@ -42,15 +35,6 @@ class SearchViewController: UIViewController {
         definesPresentationContext = true
         
         navigationItem.titleView = searchController.searchBar
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        addChildViewController(miniPlayerViewController)
-        miniPlayerViewController.view.frame = CGRectMake(0, 0, miniPlayerViewControllerContainer.frame.size.width, miniPlayerViewControllerContainer.frame.size.height)
-        miniPlayerViewControllerContainer.addSubview(miniPlayerViewController.view)
-        miniPlayerViewController.didMoveToParentViewController(self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

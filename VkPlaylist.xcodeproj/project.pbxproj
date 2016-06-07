@@ -60,6 +60,7 @@
 		BBB69E201CFDB8090094B1CF /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E1F1CFDB8090094B1CF /* SearchViewController.swift */; };
 		BBB69E221CFDB97A0094B1CF /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E211CFDB97A0094B1CF /* DownloadsViewController.swift */; };
 		BBB69E241CFDBC6F0094B1CF /* MyMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */; };
+		BBD279E51D06BBF800A844D3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */; };
 		BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0531CD66441005B8494 /* AppDelegate.swift */; };
 		BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0571CD66441005B8494 /* Main.storyboard */; };
 		BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05A1CD66441005B8494 /* Assets.xcassets */; };
@@ -184,6 +185,7 @@
 		BBB69E1F1CFDB8090094B1CF /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		BBB69E211CFDB97A0094B1CF /* DownloadsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicViewController.swift; sourceTree = "<group>"; };
+		BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBDEC0581CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 				BBE853511CDFC99A00872C3B /* Superclasses */,
 				BB05DF881CFED21D001F65CB /* Delegates */,
 				BBDEC06F1CD6BEB7005B8494 /* AuthorizationViewController.swift */,
+				BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */,
 				BBAE30671D0350A900E740D4 /* MiniPlayerViewController.swift */,
 				BBAE306D1D037C5500E740D4 /* PlayerViewController.swift */,
 				BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */,
@@ -851,6 +854,7 @@
 				BB405EBC1CFA3FEA000C1A2A /* ActiveDownloadCell.swift in Sources */,
 				BBE853851CE0DE2F00872C3B /* SearchAudio.swift in Sources */,
 				BBEF4EE21CFD62F3003642D0 /* PlaylistMusicTableViewController.swift in Sources */,
+				BBD279E51D06BBF800A844D3 /* MainTabBarController.swift in Sources */,
 				BB0C62EA1CE3D29C00C505B1 /* PlaylistsViewController.swift in Sources */,
 				BB0C62F11CE4AD4F00C505B1 /* AlbumMusicTableViewController.swift in Sources */,
 				BBE853811CE0DBE300872C3B /* RequestManagerObject.swift in Sources */,
