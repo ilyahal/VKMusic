@@ -62,6 +62,7 @@
 		BBB69E241CFDBC6F0094B1CF /* MyMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */; };
 		BBD279E51D06BBF800A844D3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */; };
 		BBD279E81D06EF4700A844D3 /* UIImage+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD279E71D06EF4700A844D3 /* UIImage+TintColor.swift */; };
+		BBD279EA1D079BF800A844D3 /* CurrentPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD279E91D079BF800A844D3 /* CurrentPlaylistViewController.swift */; };
 		BBDEC0541CD66441005B8494 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEC0531CD66441005B8494 /* AppDelegate.swift */; };
 		BBDEC0591CD66441005B8494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC0571CD66441005B8494 /* Main.storyboard */; };
 		BBDEC05B1CD66441005B8494 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBDEC05A1CD66441005B8494 /* Assets.xcassets */; };
@@ -188,6 +189,7 @@
 		BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicViewController.swift; sourceTree = "<group>"; };
 		BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		BBD279E71D06EF4700A844D3 /* UIImage+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+TintColor.swift"; sourceTree = "<group>"; };
+		BBD279E91D079BF800A844D3 /* CurrentPlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentPlaylistViewController.swift; sourceTree = "<group>"; };
 		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBDEC0581CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 				BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */,
 				BBAE30671D0350A900E740D4 /* MiniPlayerViewController.swift */,
 				BBAE306D1D037C5500E740D4 /* PlayerViewController.swift */,
+				BBD279E91D079BF800A844D3 /* CurrentPlaylistViewController.swift */,
 				BBB69E231CFDBC6F0094B1CF /* MyMusicViewController.swift */,
 				BB75FCC31CDF873900B40BC8 /* MyMusicTableViewController.swift */,
 				BBB69E211CFDB97A0094B1CF /* DownloadsViewController.swift */,
@@ -915,6 +918,7 @@
 				BB1731A51D01C7FB00996A34 /* TrackObject.swift in Sources */,
 				BBE8538C1CE0EE5A00872C3B /* FriendsTableViewController.swift in Sources */,
 				BBE8537D1CE0DAFB00872C3B /* DataManagerObject.swift in Sources */,
+				BBD279EA1D079BF800A844D3 /* CurrentPlaylistViewController.swift in Sources */,
 				BB405EC31CFBA4C1000C1A2A /* EditPlaylistViewController.swift in Sources */,
 				BBE853B11CE2899B00872C3B /* GetRecommendationsAudio.swift in Sources */,
 				BBE853B81CE2990300872C3B /* VKAPIManagerNotifications.swift in Sources */,

@@ -36,6 +36,21 @@ class PlayerManager {
     let miniPlayerViewController: MiniPlayerViewController!
     
     
+    /// Воспроизводится ли музыка
+    var isPlaying = false {
+        didSet {
+            miniPlayerViewController.updateControlButton()
+        }
+    }
+    
+    /// Отображать ли музыку в статусе
+    var isShareToStatus = false
+    /// Перемешивать ли плейлист
+    var isShuffle = false
+    /// Тип перемешивания
+    var repeatType = RepeatType.No
+    
+    
     // MARK: Плеер
     
     /// Плеер
@@ -50,4 +65,24 @@ class PlayerManager {
         player = AVPlayer(URL: url)
         player.play()
     }
+    
+}
+
+
+// MARK: Типы данных
+
+extension PlayerManager {
+    
+    /// Возможные типы повторения плейлиста
+    enum RepeatType {
+        
+        /// Не повторять
+        case No
+        /// Повторять весь плейлист
+        case All
+        /// Повторять текущую аудиозапись
+        case One
+        
+    }
+    
 }
