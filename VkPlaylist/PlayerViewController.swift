@@ -90,6 +90,8 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var lyricsButtonView: UIView!
     /// Кнопка "Отобразить слова аудиозаписи"
     @IBOutlet weak var lyricsButton: UIButton!
+    /// Активная область вокруг кнопки "Отобразить слова аудиозаписи"
+    @IBOutlet weak var lyricsButtonArea: UIButton!
     /// Элемент содержащий кнопку "Перемешать"
     @IBOutlet weak var shuffleView: UIView!
     /// Кнопка "Перемешать"
@@ -298,6 +300,7 @@ class PlayerViewController: UIViewController {
     /// По элементу со словами аудиозаписи был тап
     func lyricsTapped() {
         isShowLyrics = !isShowLyrics
+        
         configureLyricsAppear()
         configureLyricsButton()
     }
@@ -305,9 +308,6 @@ class PlayerViewController: UIViewController {
     /// Настройка отображения слов аудиозаписи
     func configureLyricsAppear() {
         if isShowLyrics {
-            artworkButton.enabled = false
-            lyricsButton.enabled = false
-            
             lyricsTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false) // Пролистываем текст до верха
             
             lyricsView.hidden = false
@@ -315,11 +315,10 @@ class PlayerViewController: UIViewController {
                 self.lyricsView.alpha = 1
             }, completion: { _ in
                 self.lyricsTextView.addGestureRecognizer(self.lyricsTapRecognizer)
-                self.lyricsButton.enabled = true
+                self.lyricsButtonArea.enabled = true
             })
         } else {
             lyricsTextView.removeGestureRecognizer(lyricsTapRecognizer)
-            lyricsButton.enabled = false
             
             UIView.animateWithDuration(0.5, animations: {
                 self.lyricsView.alpha = 0
@@ -327,7 +326,7 @@ class PlayerViewController: UIViewController {
                 self.lyricsView.hidden = true
                 
                 self.artworkButton.enabled = true
-                self.lyricsButton.enabled = true
+                self.lyricsButtonArea.enabled = true
             })
         }
     }
@@ -402,6 +401,7 @@ class PlayerViewController: UIViewController {
     /// По кнопке над обложкой был тап
     @IBAction func artworkTapped(sender: UIButton) {
         isShowLyrics = !isShowLyrics
+        
         configureLyricsAppear()
         configureLyricsButton()
     }
@@ -440,7 +440,9 @@ class PlayerViewController: UIViewController {
     
     /// Кнопка "Отобразить слова аудиозаписи" была нажата
     @IBAction func lyricsButtonTapped(sender: UIButton) {
+        sender.enabled = false
         isShowLyrics = !isShowLyrics
+        
         configureLyricsAppear()
         configureLyricsButton()
     }

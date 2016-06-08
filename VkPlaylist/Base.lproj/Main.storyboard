@@ -1971,33 +1971,49 @@
                                                     </connections>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A6Y-aa-8dE">
-                                                    <rect key="frame" x="145" y="20" width="310" height="310"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                                     <subviews>
                                                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2MX-vE-M4d">
-                                                            <rect key="frame" x="0.0" y="0.0" width="310" height="310"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9N1-Ah-gDk">
-                                                                <rect key="frame" x="0.0" y="0.0" width="310" height="310"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
-                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1uw-8n-KQo">
-                                                                        <rect key="frame" x="10" y="10" width="290" height="290"/>
-                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
-                                                                    </textView>
+                                                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yy7-4j-Dnh">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
+                                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bDT-xF-4dl">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                            <subviews>
+                                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1uw-8n-KQo">
+                                                                                    <rect key="frame" x="60" y="20" width="480" height="330"/>
+                                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
+                                                                                </textView>
+                                                                            </subviews>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="bottom" secondItem="1uw-8n-KQo" secondAttribute="bottom" id="JMz-8i-XPe"/>
+                                                                                <constraint firstItem="1uw-8n-KQo" firstAttribute="top" secondItem="bDT-xF-4dl" secondAttribute="top" constant="20" id="nMX-Ni-4cw"/>
+                                                                                <constraint firstItem="1uw-8n-KQo" firstAttribute="centerX" secondItem="bDT-xF-4dl" secondAttribute="centerX" id="oPg-OH-h7A"/>
+                                                                            </constraints>
+                                                                        </view>
+                                                                        <vibrancyEffect>
+                                                                            <blurEffect style="dark"/>
+                                                                        </vibrancyEffect>
+                                                                    </visualEffectView>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="trailing" secondItem="1uw-8n-KQo" secondAttribute="trailing" constant="10" id="2Hn-Nu-f1G"/>
-                                                                    <constraint firstItem="1uw-8n-KQo" firstAttribute="top" secondItem="9N1-Ah-gDk" secondAttribute="top" constant="10" id="Urb-Lc-dba"/>
-                                                                    <constraint firstItem="1uw-8n-KQo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9N1-Ah-gDk" secondAttribute="leading" constant="10" id="V5J-bh-9kj"/>
-                                                                    <constraint firstItem="1uw-8n-KQo" firstAttribute="centerX" secondItem="9N1-Ah-gDk" secondAttribute="centerX" id="kvo-En-L4c"/>
-                                                                    <constraint firstItem="1uw-8n-KQo" firstAttribute="centerY" secondItem="9N1-Ah-gDk" secondAttribute="centerY" id="mQJ-Uh-1hm"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="1uw-8n-KQo" secondAttribute="bottom" constant="10" id="yUS-0q-yKT"/>
+                                                                    <constraint firstItem="yy7-4j-Dnh" firstAttribute="top" secondItem="9N1-Ah-gDk" secondAttribute="top" id="VnT-kZ-Jih"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="yy7-4j-Dnh" secondAttribute="trailing" id="aL2-39-75H"/>
+                                                                    <constraint firstItem="yy7-4j-Dnh" firstAttribute="leading" secondItem="9N1-Ah-gDk" secondAttribute="leading" id="s6g-XF-3J2"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="yy7-4j-Dnh" secondAttribute="bottom" id="wZ6-bh-h1U"/>
                                                                 </constraints>
                                                             </view>
-                                                            <blurEffect style="light"/>
+                                                            <blurEffect style="dark"/>
                                                         </visualEffectView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2012,18 +2028,18 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstItem="Wgb-Ck-BAU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="oqi-OQ-OFd" secondAttribute="top" constant="20" id="32r-4i-skb"/>
-                                                <constraint firstItem="A6Y-aa-8dE" firstAttribute="height" secondItem="Wgb-Ck-BAU" secondAttribute="height" id="8RU-aD-seT"/>
+                                                <constraint firstItem="A6Y-aa-8dE" firstAttribute="top" secondItem="oqi-OQ-OFd" secondAttribute="top" id="65e-HZ-HL4"/>
+                                                <constraint firstAttribute="bottom" secondItem="A6Y-aa-8dE" secondAttribute="bottom" id="6HQ-fP-PDz"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Wgb-Ck-BAU" secondAttribute="trailing" id="AfP-sE-3Mp"/>
-                                                <constraint firstItem="A6Y-aa-8dE" firstAttribute="centerY" secondItem="Wgb-Ck-BAU" secondAttribute="centerY" id="JrE-Fh-lg3"/>
+                                                <constraint firstAttribute="trailing" secondItem="A6Y-aa-8dE" secondAttribute="trailing" id="E2U-oV-ot2"/>
                                                 <constraint firstItem="edp-em-GWV" firstAttribute="centerY" secondItem="Wgb-Ck-BAU" secondAttribute="centerY" id="PR0-DO-z8E"/>
                                                 <constraint firstItem="Wgb-Ck-BAU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="oqi-OQ-OFd" secondAttribute="leading" id="SuJ-nn-fIE"/>
                                                 <constraint firstItem="Wgb-Ck-BAU" firstAttribute="centerY" secondItem="oqi-OQ-OFd" secondAttribute="centerY" id="acG-dX-LSK"/>
                                                 <constraint firstItem="edp-em-GWV" firstAttribute="centerX" secondItem="Wgb-Ck-BAU" secondAttribute="centerX" id="caf-aU-B96"/>
+                                                <constraint firstItem="A6Y-aa-8dE" firstAttribute="leading" secondItem="oqi-OQ-OFd" secondAttribute="leading" id="fhY-5F-WDd"/>
                                                 <constraint firstItem="edp-em-GWV" firstAttribute="width" secondItem="Wgb-Ck-BAU" secondAttribute="width" id="jFf-fq-3YG"/>
-                                                <constraint firstItem="A6Y-aa-8dE" firstAttribute="centerX" secondItem="Wgb-Ck-BAU" secondAttribute="centerX" id="mbm-52-72q"/>
                                                 <constraint firstItem="Wgb-Ck-BAU" firstAttribute="centerX" secondItem="oqi-OQ-OFd" secondAttribute="centerX" id="qJY-WN-f3s"/>
                                                 <constraint firstItem="edp-em-GWV" firstAttribute="height" secondItem="Wgb-Ck-BAU" secondAttribute="height" id="rDn-oN-Mol"/>
-                                                <constraint firstItem="A6Y-aa-8dE" firstAttribute="width" secondItem="Wgb-Ck-BAU" secondAttribute="width" id="z4I-v1-5VG"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Wgb-Ck-BAU" secondAttribute="bottom" id="zEH-Sn-ilj"/>
                                             </constraints>
                                         </view>
@@ -2105,6 +2121,7 @@
                                         <constraint firstItem="oqi-OQ-OFd" firstAttribute="leading" secondItem="vjQ-Gt-ZI3" secondAttribute="leading" id="PrI-WV-T26"/>
                                         <constraint firstItem="71T-rk-WHY" firstAttribute="top" secondItem="oqi-OQ-OFd" secondAttribute="bottom" id="hPf-L7-RqF"/>
                                         <constraint firstAttribute="trailing" secondItem="71T-rk-WHY" secondAttribute="trailing" id="sEd-hc-Hhw"/>
+                                        <constraint firstItem="1uw-8n-KQo" firstAttribute="leading" secondItem="slJ-Ce-WOY" secondAttribute="trailing" id="z8T-QM-PaG"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="dark"/>
@@ -2140,6 +2157,7 @@
                         <outlet property="loudlyVolumeImageView" destination="j3b-Ly-1yU" id="1RH-Jd-7sm"/>
                         <outlet property="lyricsBackgroundBlurEffectView" destination="2MX-vE-M4d" id="Avw-Rz-stL"/>
                         <outlet property="lyricsButton" destination="caa-Ml-Z6r" id="5qN-9u-ZJy"/>
+                        <outlet property="lyricsButtonArea" destination="wcD-pw-Cme" id="3fg-4s-9Ss"/>
                         <outlet property="lyricsButtonView" destination="Jrp-ex-QMY" id="ypD-HK-BQI"/>
                         <outlet property="lyricsTextView" destination="1uw-8n-KQo" id="b16-V7-IfQ"/>
                         <outlet property="lyricsView" destination="A6Y-aa-8dE" id="NAa-mN-fFO"/>
