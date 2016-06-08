@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediaPlayer
 
 /// Контроллер с полноэкранным плеером
 class PlayerViewController: UIViewController {
@@ -72,10 +73,10 @@ class PlayerViewController: UIViewController {
     /// Кнопка "Текущий плейлист"
     @IBOutlet weak var currentPlaylistButton: UIButton!
     
-    /// Элемент содержащий слайдер управления звуком
+    /// Элемент содержащий слайдер управления звуком и иконки
     @IBOutlet weak var volumeView: UIView!
-    /// Слайдер с управлением звука
-    @IBOutlet weak var volumeSlider: UISlider!
+    /// Элемент содержащий слайдер управления звуком
+    @IBOutlet weak var volumeSliderView: UIView!
     /// Иконка "Минимальный звук"
     @IBOutlet weak var muteVolumeImageView: UIImageView!
     /// Иконка "Максимальный звук"
@@ -253,7 +254,13 @@ class PlayerViewController: UIViewController {
         currentPlaylistButton.setImage(currentPlaylistIcon, forState: .Normal)
         
         // Настройка слайдера со звуком
-        volumeSlider.setThumbImage(UIImage(named: "icon-PlayerThumbVolume")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
+        let MPVolumeSlider = MPVolumeView(frame: CGRectMake(0, 6, view.bounds.size.width * 0.8, 31))
+        MPVolumeSlider.translatesAutoresizingMaskIntoConstraints = false
+        volumeSliderView.addSubview(MPVolumeSlider)
+//        NSLayoutConstraint(item: MPVolumeSlider, attribute: .Leading, relatedBy: .Equal, toItem: volumeSliderView, attribute: .Leading, multiplier: 1, constant: 0).active = true
+//        NSLayoutConstraint(item: MPVolumeSlider, attribute: .Trailing, relatedBy: .Equal, toItem: volumeSliderView, attribute: .Trailing, multiplier: 1, constant: 0).active = true
+//        NSLayoutConstraint(item: MPVolumeSlider, attribute: .CenterY, relatedBy: .Equal, toItem: volumeSliderView, attribute: .CenterY, multiplier: 1, constant: -5).active = true
+        MPVolumeSlider.setVolumeThumbImage(UIImage(named: "icon-PlayerThumbVolume")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
         muteVolumeImageView.image = muteVolumeImageView.image!.tintPicto(UIColor(red: 115 / 255, green: 116 / 255, blue: 117 / 255, alpha: 1))
         loudlyVolumeImageView.image = loudlyVolumeImageView.image!.tintPicto(UIColor(red: 115 / 255, green: 116 / 255, blue: 117 / 255, alpha: 1))
         

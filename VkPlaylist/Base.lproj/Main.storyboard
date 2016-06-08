@@ -1586,7 +1586,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKC-yu-PBr">
-                                                                <rect key="frame" x="0.0" y="52" width="600" height="34"/>
+                                                                <rect key="frame" x="0.0" y="51.5" width="600" height="34"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag Me Down" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hxc-Hm-Aph">
                                                                         <rect key="frame" x="248" y="0.0" width="103" height="18"/>
@@ -1614,7 +1614,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="el0-9c-bbo">
-                                                                <rect key="frame" x="0.0" y="111.5" width="600" height="45"/>
+                                                                <rect key="frame" x="0.0" y="111" width="600" height="45"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dcd-2t-zVN">
                                                                         <rect key="frame" x="0.0" y="10" width="600" height="30"/>
@@ -1738,11 +1738,8 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLY-MP-Z8F">
-                                                                <rect key="frame" x="0.0" y="182.5" width="600" height="30"/>
+                                                                <rect key="frame" x="0.0" y="181.5" width="600" height="31"/>
                                                                 <subviews>
-                                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="HHv-gO-ELO">
-                                                                        <rect key="frame" x="58" y="0.0" width="484" height="31"/>
-                                                                    </slider>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerVolumeMute" translatesAutoresizingMaskIntoConstraints="NO" id="JuZ-QH-PKB">
                                                                         <rect key="frame" x="45" y="11" width="10" height="10"/>
                                                                         <constraints>
@@ -1757,17 +1754,24 @@
                                                                             <constraint firstAttribute="height" constant="10" id="Ecu-AR-6QH"/>
                                                                         </constraints>
                                                                     </imageView>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B48-dT-RUx">
+                                                                        <rect key="frame" x="60" y="0.0" width="480" height="31"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="31" id="neO-y4-dMe"/>
+                                                                        </constraints>
+                                                                    </view>
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstItem="HHv-gO-ELO" firstAttribute="centerY" secondItem="JuZ-QH-PKB" secondAttribute="centerY" constant="-1" id="8WP-Ic-cdZ"/>
-                                                                    <constraint firstItem="j3b-Ly-1yU" firstAttribute="leading" secondItem="HHv-gO-ELO" secondAttribute="trailing" constant="5" id="Fbb-Tg-Eba"/>
-                                                                    <constraint firstItem="HHv-gO-ELO" firstAttribute="width" secondItem="CLY-MP-Z8F" secondAttribute="width" multiplier="0.8" id="HOW-r5-OtZ"/>
-                                                                    <constraint firstItem="j3b-Ly-1yU" firstAttribute="centerY" secondItem="JuZ-QH-PKB" secondAttribute="centerY" id="Hqr-bT-V53"/>
-                                                                    <constraint firstItem="HHv-gO-ELO" firstAttribute="centerX" secondItem="CLY-MP-Z8F" secondAttribute="centerX" id="IjT-ym-93f"/>
-                                                                    <constraint firstItem="HHv-gO-ELO" firstAttribute="leading" secondItem="JuZ-QH-PKB" secondAttribute="trailing" constant="5" id="nO8-Jp-zMA"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="HHv-gO-ELO" secondAttribute="bottom" id="tR4-10-dcU"/>
-                                                                    <constraint firstItem="HHv-gO-ELO" firstAttribute="top" secondItem="CLY-MP-Z8F" secondAttribute="top" id="xrE-eG-SST"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="B48-dT-RUx" secondAttribute="bottom" id="BvB-EE-fHG"/>
+                                                                    <constraint firstItem="j3b-Ly-1yU" firstAttribute="centerY" secondItem="JuZ-QH-PKB" secondAttribute="centerY" id="Kx3-wI-iG9"/>
+                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="centerX" secondItem="CLY-MP-Z8F" secondAttribute="centerX" id="NDl-bD-ibg"/>
+                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="top" secondItem="CLY-MP-Z8F" secondAttribute="top" id="NKV-xM-hec"/>
+                                                                    <constraint firstItem="j3b-Ly-1yU" firstAttribute="leading" secondItem="B48-dT-RUx" secondAttribute="trailing" constant="5" id="fae-uy-oPa"/>
+                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="leading" secondItem="JuZ-QH-PKB" secondAttribute="trailing" constant="5" id="h8y-Td-gzN"/>
+                                                                    <constraint firstItem="JuZ-QH-PKB" firstAttribute="centerY" secondItem="B48-dT-RUx" secondAttribute="centerY" id="hW5-ui-Aoj"/>
+                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="width" secondItem="CLY-MP-Z8F" secondAttribute="width" multiplier="0.8" id="hwF-7k-9Bh"/>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U8U-4C-7oa">
@@ -2155,7 +2159,7 @@
                         <outlet property="titleLabel" destination="hxc-Hm-Aph" id="F3b-99-Bvm"/>
                         <outlet property="topSpaceTrackSlider" destination="gUP-cz-7sM" id="jJh-gU-nxf"/>
                         <outlet property="trackSlider" destination="1i6-K6-Zh3" id="Hbu-I0-bCZ"/>
-                        <outlet property="volumeSlider" destination="HHv-gO-ELO" id="tqf-8P-ogT"/>
+                        <outlet property="volumeSliderView" destination="B48-dT-RUx" id="cCR-Xf-FU7"/>
                         <outlet property="volumeView" destination="CLY-MP-Z8F" id="Tis-LU-PXg"/>
                     </connections>
                 </viewController>
