@@ -24,8 +24,22 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var closeAreaButton: UIButton!
     /// Элемент содержащий кнопку "Закрыть"
     @IBOutlet weak var closeView: UIView!
+    /// Элемент содержащий размытый задний фон для кнопки "Закрыть"
+    @IBOutlet weak var closeButtonBackgroundBlurEffectView: UIVisualEffectView!
     /// Кнопка "Закрыть"
     @IBOutlet weak var closeButton: UIButton!
+    
+    /// Обложка альбома
+    @IBOutlet weak var artworkImageView: UIImageView!
+    /// Кнопка над обложкой альбома
+    @IBOutlet weak var artworkButton: UIButton!
+    
+    /// Элемент содержащий размытый фон и слова аудиозаписи
+    @IBOutlet weak var lyricsView: UIView!
+    /// Элемент с эффектом размытия для заднего фона элемента с текстом аудиозаписи
+    @IBOutlet weak var lyricsBackgroundBlurEffectView: UIVisualEffectView!
+    /// Элемент с текстом аудиозаписи
+    @IBOutlet weak var lyricsTextView: UITextView!
     
     /// Элемент в котором находятся слайдер, бар прогресса буфферизации и метки со временем
     @IBOutlet weak var sliderView: UIView!
@@ -71,6 +85,10 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var shareToStatusView: UIView!
     /// Кнопка "Отобразить в статусе"
     @IBOutlet weak var shareToStatusButton: UIButton!
+    /// Элемент содержащий кнопку "Отобразить слова аудиозаписи"
+    @IBOutlet weak var lyricsButtonView: UIView!
+    /// Кнопка "Отобразить слова аудиозаписи"
+    @IBOutlet weak var lyricsButton: UIButton!
     /// Элемент содержащий кнопку "Перемешать"
     @IBOutlet weak var shuffleView: UIView!
     /// Кнопка "Перемешать"
@@ -83,6 +101,8 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var moreButton: UIButton!
     
     
+    /// Показывать ли слова аудиозаписи
+    var isShowLyrics = false
     /// Воспроизводится ли аудиозапись
     var isPlaying: Bool {
         set {
@@ -120,7 +140,8 @@ class PlayerViewController: UIViewController {
         }
     }
     
-    
+    /// Распознатель тапов по текстовому полю
+    var lyricsTapRecognizer: UITapGestureRecognizer!
     /// Иконка "Скачать"
     var downloadIcon: UIImage {
         return UIImage(named: "icon-PlayerDownload")!.tintPicto(controlColor)
@@ -143,19 +164,25 @@ class PlayerViewController: UIViewController {
     }
     /// Иконка для кнопки "Отобразить в статус"
     var shareToStatusIcon: UIImage {
-        return UIImage(named: "icon-PlayerShareToStatus")!.tintPicto(PlayerManager.sharedInstance.isShareToStatus ? tintColor : controlColor)
+        return UIImage(named: "icon-PlayerShareToStatus")!.tintPicto(isShareToStatus ? tintColor : controlColor)
     }
     /// Размытый задний фон для активного состояния кнопки "Отобразить в статус"
     var shareToStatusBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+    /// Иконка для кнопки "Отобразить слова аудиозаписи"
+    var lyricsIcon: UIImage {
+        return UIImage(named: "icon-PlayerLyrics")!.tintPicto(isShowLyrics ? tintColor : controlColor)
+    }
+    /// Размытый задний фон для активного состояния кнопки "Отобразить слова аудиозаписи"
+    var lyricsButtonBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
     /// Иконка для кнопки "Перемешать"
     var shuffleIcon: UIImage {
-        return UIImage(named: "icon-PlayerShuffle")!.tintPicto(PlayerManager.sharedInstance.isShuffle ? tintColor : controlColor)
+        return UIImage(named: "icon-PlayerShuffle")!.tintPicto(isShuffle ? tintColor : controlColor)
     }
     /// Размытый задний фон для активного состояния кнопки "Перемешать"
     var shuffleBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
     /// Иконка для кнопки "Повторить"
     var repeatIcon: UIImage {
-        return UIImage(named: PlayerManager.sharedInstance.repeatType == .One ? "icon-PlayerRepeatOne" : "icon-PlayerRepeat")!.tintPicto(PlayerManager.sharedInstance.repeatType == .All || PlayerManager.sharedInstance.repeatType == .One ? tintColor : controlColor)
+        return UIImage(named: repeatType == .One ? "icon-PlayerRepeatOne" : "icon-PlayerRepeat")!.tintPicto(repeatType == .All || repeatType == .One ? tintColor : controlColor)
     }
     /// Размытый задний фон для активного состояния кнопки "Повторить"
     var repeatBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
@@ -171,7 +198,21 @@ class PlayerViewController: UIViewController {
         /// Настройка кнопки "Закрыть"
         closeView.layer.cornerRadius = closeView.bounds.size.height / 2
         closeView.layer.masksToBounds = true
-        closeButton.setImage(UIImage(named: "icon-PlayerClose")!.tintPicto(controlColor), forState: .Normal)
+        closeButton.setImage(UIImage(named: "icon-PlayerClose")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
+//        closeButton.removeFromSuperview()
+//        let closeButtonVibrancyEffect = UIVibrancyEffect(forBlurEffect: closeButtonBackgroundBlurEffectView.effect as! UIBlurEffect)
+//        let closeButtonVibrancyEffectView = UIVisualEffectView(effect: closeButtonVibrancyEffect)
+//        closeButtonVibrancyEffectView.frame = closeButtonBackgroundBlurEffectView.frame
+//        closeButtonVibrancyEffectView.contentView.addSubview(closeButton)
+//        closeButtonBackgroundBlurEffectView.contentView.addSubview(closeButtonVibrancyEffectView)
+        
+        // Инициализация распознавателя тапов по элементу с текстом аудиозаписи
+        lyricsTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(lyricsTapped))
+        lyricsTapRecognizer.delegate = self
+        
+        // Настройка отображения слов аудиозаписи
+        lyricsView.hidden = true
+        lyricsView.alpha = 0
         
         // Заполняем пустое слева от слайдера
         let leftSliderSubview = UIView(frame: CGRectMake(0, 0, 3, 2))
@@ -222,6 +263,12 @@ class PlayerViewController: UIViewController {
         shareToStatusView.layer.masksToBounds = true
         configureShareToStatusButton()
         
+        // Настройка кнопки "Отобразить слова аудиозаписи"
+        lyricsButtonBlurEffectView.frame = lyricsButtonView.bounds
+        lyricsButtonView.layer.cornerRadius = 3
+        lyricsButtonView.layer.masksToBounds = true
+        configureLyricsButton()
+        
         // Настройка кнопки "Перемешать"
         shuffleBlurEffectView.frame = shuffleView.bounds
         shuffleView.layer.cornerRadius = 3
@@ -241,7 +288,44 @@ class PlayerViewController: UIViewController {
     
     // MARK: Помощники
     
-    /// Настройка кнопки "Перемешать" для текущего состояния
+    /// По элементу со словами аудиозаписи был тап
+    func lyricsTapped() {
+        isShowLyrics = !isShowLyrics
+        configureLyricsAppear()
+        configureLyricsButton()
+    }
+    
+    /// Настройка отображения слов аудиозаписи
+    func configureLyricsAppear() {
+        if isShowLyrics {
+            artworkButton.enabled = false
+            lyricsButton.enabled = false
+            
+            lyricsTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false) // Пролистываем текст до верха
+            
+            lyricsView.hidden = false
+            UIView.animateWithDuration(0.5, animations: {
+                self.lyricsView.alpha = 1
+            }, completion: { _ in
+                self.lyricsTextView.addGestureRecognizer(self.lyricsTapRecognizer)
+                self.lyricsButton.enabled = true
+            })
+        } else {
+            lyricsTextView.removeGestureRecognizer(lyricsTapRecognizer)
+            lyricsButton.enabled = false
+            
+            UIView.animateWithDuration(0.5, animations: {
+                self.lyricsView.alpha = 0
+            }, completion: { _ in
+                self.lyricsView.hidden = true
+                
+                self.artworkButton.enabled = true
+                self.lyricsButton.enabled = true
+            })
+        }
+    }
+    
+    /// Настройка кнопки "Отобразить в статусе" для текущего состояния
     func configureShareToStatusButton() {
         if isShareToStatus {
             shareToStatusView.insertSubview(shareToStatusBlurEffectView, belowSubview: shareToStatusButton)
@@ -250,6 +334,17 @@ class PlayerViewController: UIViewController {
         }
         
         shareToStatusButton.setImage(shareToStatusIcon, forState: .Normal)
+    }
+    
+    /// Настройка кнопки "Отобразить слова аудиозаписи"
+    func configureLyricsButton() {
+        if isShowLyrics {
+            lyricsButtonView.insertSubview(lyricsButtonBlurEffectView, belowSubview: lyricsButton)
+        } else {
+            lyricsButtonBlurEffectView.removeFromSuperview()
+        }
+        
+        lyricsButton.setImage(lyricsIcon, forState: .Normal)
     }
     
     /// Настройка кнопки "Перемешать" для текущего состояния
@@ -297,6 +392,13 @@ class PlayerViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    /// По кнопке над обложкой был тап
+    @IBAction func artworkTapped(sender: UIButton) {
+        isShowLyrics = !isShowLyrics
+        configureLyricsAppear()
+        configureLyricsButton()
+    }
+    
     /// Кнопка "Скачать" была нажата
     @IBAction func downloadButtonTapped(sender: UIButton) {
         downloadButton.enabled = false
@@ -329,6 +431,13 @@ class PlayerViewController: UIViewController {
         }
     }
     
+    /// Кнопка "Отобразить слова аудиозаписи" была нажата
+    @IBAction func lyricsButtonTapped(sender: UIButton) {
+        isShowLyrics = !isShowLyrics
+        configureLyricsAppear()
+        configureLyricsButton()
+    }
+    
     /// Кнопка "Перемешать" была нажата
     @IBAction func shuffleButtonTapped(sender: UIButton) {
         isShuffle = !isShuffle
@@ -358,6 +467,18 @@ class PlayerViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+}
+
+
+// MARK: UIGestureRecognizerDelegate
+
+extension PlayerViewController: UIGestureRecognizerDelegate {
+    
+    // Спрашивает делегат позволения если два распознавателя жестов хотят распознавать жесты одновременно
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
 }
