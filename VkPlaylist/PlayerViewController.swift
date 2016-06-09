@@ -14,8 +14,6 @@ class PlayerViewController: UIViewController {
     
     /// Основной цвет приложения
     let tintColor = (UIApplication.sharedApplication().delegate as! AppDelegate).tintColor
-    /// Цвет элементов управления
-    let controlColor = UIColor(red: 0.28, green: 0.29, blue: 0.29, alpha: 1)
     
 
     /// Обложка аудиозаписи на заднем фоне
@@ -84,22 +82,46 @@ class PlayerViewController: UIViewController {
     
     /// Элемент содержащий кнопку "Отобразить в статусе"
     @IBOutlet weak var shareToStatusView: UIView!
-    /// Кнопка "Отобразить в статусе"
-    @IBOutlet weak var shareToStatusButton: UIButton!
+    /// Элемент для активного состояния кнопки "Отобразить в статусе"
+    @IBOutlet weak var shareToStatusActiveStateView: UIVisualEffectView!
+    /// Кнопка "Отобразить в статусе" для активного состояния
+    @IBOutlet weak var shareToStatusActiveStateButton: UIButton!
+    /// Элемент для неактивного состояния кнопки "Отобразить в статусе"
+    @IBOutlet weak var shareToStatusInactiveStateView: UIVisualEffectView!
+    /// Кнопка "Отобразить в статусе" для неактивного состояния
+    @IBOutlet weak var shareToStatusInactiveStateButton: UIButton!
     /// Элемент содержащий кнопку "Отобразить слова аудиозаписи"
     @IBOutlet weak var lyricsButtonView: UIView!
-    /// Кнопка "Отобразить слова аудиозаписи"
-    @IBOutlet weak var lyricsButton: UIButton!
+    /// Элемент для активного состояния кнопки "Отобразить слова аудиозаписи"
+    @IBOutlet weak var lyricsActiveStateView: UIVisualEffectView!
+    /// Кнопка "Отобразить слова аудиозаписи" для активного состояния
+    @IBOutlet weak var lyricsActiveStateButton: UIButton!
+    /// Элемент для неактивного состояния кнопки "Отобразить слова аудиозаписи"
+    @IBOutlet weak var lyricsInactiveStateView: UIVisualEffectView!
+    /// Кнопка "Отобразить слова аудиозаписи" для неактивного состояния
+    @IBOutlet weak var lyricsInactiveStateButton: UIButton!
     /// Активная область вокруг кнопки "Отобразить слова аудиозаписи"
     @IBOutlet weak var lyricsButtonArea: UIButton!
     /// Элемент содержащий кнопку "Перемешать"
     @IBOutlet weak var shuffleView: UIView!
-    /// Кнопка "Перемешать"
-    @IBOutlet weak var shuffleButton: UIButton!
+    /// Элемент для активного состояния кнопки "Перемешать"
+    @IBOutlet weak var shuffleActiveStateView: UIVisualEffectView!
+    /// Кнопка "Перемешать" для активного состояния
+    @IBOutlet weak var shuffleActiveStateButton: UIButton!
+    /// Элемент для неактивного состояния кнопки "Перемешать"
+    @IBOutlet weak var shuffleInactiveStateView: UIVisualEffectView!
+    /// Кнопка "Перемешать" для неактивного состояния
+    @IBOutlet weak var shuffleInactiveStateButton: UIButton!
     /// Элемент содержащий кнопку "Повторить"
     @IBOutlet weak var repeatView: UIView!
-    /// Кнопка "Повторить"
-    @IBOutlet weak var repeatButton: UIButton!
+    /// Элемент для активного состояния кнопки "Повторить"
+    @IBOutlet weak var repeatActiveStateView: UIVisualEffectView!
+    /// Кнопка "Повторить" для активного состояния
+    @IBOutlet weak var repeatActiveStateButton: UIButton!
+    /// Элемент для неактивного состояния кнопки "Повторить"
+    @IBOutlet weak var repeatInactiveStateView: UIVisualEffectView!
+    /// Кнопка "Повторить" для неактивного состояния
+    @IBOutlet weak var repeatInactiveStateButton: UIButton!
     /// Кнопка "Еще"
     @IBOutlet weak var moreButton: UIButton!
     
@@ -146,53 +168,35 @@ class PlayerViewController: UIViewController {
     /// Распознатель тапов по текстовому полю
     var lyricsTapRecognizer: UITapGestureRecognizer!
     /// Иконка "Скачать"
-    var downloadIcon: UIImage {
-        return UIImage(named: "icon-PlayerDownload")!.tintPicto(controlColor)
-    }
+    var downloadIcon = UIImage(named: "icon-PlayerDownload")!.tintPicto(UIColor.whiteColor())
     /// Иконка "Предыдущая аудиозапись"
-    var previousTrackIcon: UIImage {
-        return UIImage(named: "icon-PlayerPreviousTrack")!.tintPicto(controlColor)
-    }
+    var previousTrackIcon = UIImage(named: "icon-PlayerPreviousTrack")!.tintPicto(UIColor.whiteColor())
     /// Иконка для кнопки "Play" / "Пауза"
     var playOrPauseIcon: UIImage {
-        return UIImage(named: isPlaying ? "icon-PlayerPause" : "icon-PlayerPlay")!.tintPicto(controlColor)
+        return UIImage(named: isPlaying ? "icon-PlayerPause" : "icon-PlayerPlay")!.tintPicto(UIColor.whiteColor())
     }
     /// Иконка "Следующая аудиозапись"
-    var nextTrackIcon: UIImage {
-        return UIImage(named: "icon-PlayerNextTrack")!.tintPicto(controlColor)
-    }
+    var nextTrackIcon = UIImage(named: "icon-PlayerNextTrack")!.tintPicto(UIColor.whiteColor())
     /// Иконка "Текущий плейлист"
-    var currentPlaylistIcon: UIImage {
-        return UIImage(named: "icon-PlayerCurrentPlaylist")!.tintPicto(controlColor)
-    }
+    var currentPlaylistIcon = UIImage(named: "icon-PlayerCurrentPlaylist")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Без звука"
+    var volumeMuteIcon = UIImage(named: "icon-PlayerVolumeMute")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Громкий звук"
+    var volumeLoudlyIcon = UIImage(named: "icon-PlayerVolumeLoudly")!.tintPicto(UIColor.whiteColor())
     /// Иконка для кнопки "Отобразить в статус"
-    var shareToStatusIcon: UIImage {
-        return UIImage(named: "icon-PlayerShareToStatus")!.tintPicto(isShareToStatus ? tintColor : controlColor)
-    }
-    /// Размытый задний фон для активного состояния кнопки "Отобразить в статус"
-    var shareToStatusBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+    var shareToStatusIcon = UIImage(named: "icon-PlayerShareToStatus")!.tintPicto(UIColor.whiteColor())
     /// Иконка для кнопки "Отобразить слова аудиозаписи"
-    var lyricsIcon: UIImage {
-        return UIImage(named: "icon-PlayerLyrics")!.tintPicto(isShowLyrics ? tintColor : controlColor)
-    }
-    /// Размытый задний фон для активного состояния кнопки "Отобразить слова аудиозаписи"
-    var lyricsButtonBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+    var lyricsIcon = UIImage(named: "icon-PlayerLyrics")!.tintPicto(UIColor.whiteColor())
     /// Иконка для кнопки "Перемешать"
-    var shuffleIcon: UIImage {
-        return UIImage(named: "icon-PlayerShuffle")!.tintPicto(isShuffle ? tintColor : controlColor)
+    var shuffleIcon = UIImage(named: "icon-PlayerShuffle")!.tintPicto(UIColor.whiteColor())
+    /// Иконка для кнопки "Повторить" для активного состояния
+    var repeatActiveIcon: UIImage {
+        return UIImage(named: repeatType == .One ? "icon-PlayerRepeatOne" : "icon-PlayerRepeat")!.tintPicto(UIColor.whiteColor())
     }
-    /// Размытый задний фон для активного состояния кнопки "Перемешать"
-    var shuffleBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
-    /// Иконка для кнопки "Повторить"
-    var repeatIcon: UIImage {
-        return UIImage(named: repeatType == .One ? "icon-PlayerRepeatOne" : "icon-PlayerRepeat")!.tintPicto(repeatType == .All || repeatType == .One ? tintColor : controlColor)
-    }
-    /// Размытый задний фон для активного состояния кнопки "Повторить"
-    var repeatBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+    /// Иконка для кнопки "Перемешать" для неактивного состояния
+    var repeatInactiveIcon = UIImage(named: "icon-PlayerRepeat")!.tintPicto(UIColor.whiteColor())
     /// Иконка для кнопки "Еще"
-    var moreIcon: UIImage {
-        return UIImage(named: "icon-More")!.tintPicto(controlColor)
-    }
+    var moreIcon = UIImage(named: "icon-More")!.tintPicto(UIColor.whiteColor())
     
     
     override func viewDidLoad() {
@@ -202,13 +206,7 @@ class PlayerViewController: UIViewController {
         closeView.layer.cornerRadius = closeView.bounds.size.height / 2
         closeView.layer.masksToBounds = true
         closeButton.setImage(UIImage(named: "icon-PlayerClose")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
-//        closeButton.removeFromSuperview()
-//        let closeButtonVibrancyEffect = UIVibrancyEffect(forBlurEffect: closeButtonBackgroundBlurEffectView.effect as! UIBlurEffect)
-//        let closeButtonVibrancyEffectView = UIVisualEffectView(effect: closeButtonVibrancyEffect)
-//        closeButtonVibrancyEffectView.frame = closeButtonBackgroundBlurEffectView.frame
-//        closeButtonVibrancyEffectView.contentView.addSubview(closeButton)
-//        closeButtonBackgroundBlurEffectView.contentView.addSubview(closeButtonVibrancyEffectView)
-        
+
         // Инициализация распознавателя тапов по элементу с текстом аудиозаписи
         lyricsTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(lyricsTapped))
         lyricsTapRecognizer.delegate = self
@@ -219,7 +217,7 @@ class PlayerViewController: UIViewController {
         
         // Заполняем пустое слева от слайдера
         let leftSliderSubview = UIView(frame: CGRectMake(0, 0, 3, 2))
-        leftSliderSubview.backgroundColor = (UIApplication.sharedApplication().delegate as! AppDelegate).tintColor
+        leftSliderSubview.backgroundColor = tintColor
         sliderView.insertSubview(leftSliderSubview, belowSubview: bufferingProgressView)
         
         // Заполняем пустое справа от слайдера
@@ -228,17 +226,24 @@ class PlayerViewController: UIViewController {
         sliderView.insertSubview(rightSliderSubview, belowSubview: bufferingProgressView)
         
         // Настройка бара отображающего прогресс буфферизации
-        bufferingProgressView.progressTintColor = (UIApplication.sharedApplication().delegate as! AppDelegate).tintColor.colorWithAlphaComponent(0.4)
+        bufferingProgressView.progressTintColor = tintColor.colorWithAlphaComponent(0.4)
         bufferingProgressView.trackTintColor = UIColor.lightGrayColor()
         
         // Настройка слайдера с аудиозаписью
-        trackSlider.minimumTrackTintColor = (UIApplication.sharedApplication().delegate as! AppDelegate).tintColor
+        trackSlider.minimumTrackTintColor = tintColor
         trackSlider.maximumTrackTintColor = UIColor.clearColor()
         trackSlider.setThumbImage(UIImage(named: "icon-PlayerThumbTrack")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
         topSpaceTrackSlider.constant = -9
         
+        // Настройка надписей со временм
+        currentTimeLabel.textColor = UIColor.whiteColor()
+        leftTimeLabel.textColor = UIColor.whiteColor()
+        
         // Настройка надписи с названием аудиозаписи
-        titleLabel.textColor = controlColor
+        titleLabel.textColor = UIColor.whiteColor()
+        
+        // Настройка надписи с именем исполнителя
+        artistLabel.textColor = UIColor.whiteColor()
         
         // Настройка кнопки "Скачать"
         downloadButton.setImage(downloadIcon, forState: .Normal)
@@ -263,31 +268,34 @@ class PlayerViewController: UIViewController {
 //        NSLayoutConstraint(item: MPVolumeSlider, attribute: .Trailing, relatedBy: .Equal, toItem: volumeSliderView, attribute: .Trailing, multiplier: 1, constant: 0).active = true
 //        NSLayoutConstraint(item: MPVolumeSlider, attribute: .CenterY, relatedBy: .Equal, toItem: volumeSliderView, attribute: .CenterY, multiplier: 1, constant: -5).active = true
         MPVolumeSlider.setVolumeThumbImage(UIImage(named: "icon-PlayerThumbVolume")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
-        muteVolumeImageView.image = muteVolumeImageView.image!.tintPicto(UIColor(red: 115 / 255, green: 116 / 255, blue: 117 / 255, alpha: 1))
-        loudlyVolumeImageView.image = loudlyVolumeImageView.image!.tintPicto(UIColor(red: 115 / 255, green: 116 / 255, blue: 117 / 255, alpha: 1))
+        muteVolumeImageView.image = volumeMuteIcon
+        loudlyVolumeImageView.image = volumeLoudlyIcon
         
         // Настройка кнопки "Отобразить в статусе"
-        shareToStatusBlurEffectView.frame = shareToStatusView.bounds
         shareToStatusView.layer.cornerRadius = 3
         shareToStatusView.layer.masksToBounds = true
+        shareToStatusActiveStateButton.setImage(shareToStatusIcon, forState: .Normal)
+        shareToStatusInactiveStateButton.setImage(shareToStatusIcon, forState: .Normal)
         configureShareToStatusButton()
         
         // Настройка кнопки "Отобразить слова аудиозаписи"
-        lyricsButtonBlurEffectView.frame = lyricsButtonView.bounds
         lyricsButtonView.layer.cornerRadius = 3
         lyricsButtonView.layer.masksToBounds = true
+        lyricsActiveStateButton.setImage(lyricsIcon, forState: .Normal)
+        lyricsInactiveStateButton.setImage(lyricsIcon, forState: .Normal)
         configureLyricsButton()
         
         // Настройка кнопки "Перемешать"
-        shuffleBlurEffectView.frame = shuffleView.bounds
         shuffleView.layer.cornerRadius = 3
         shuffleView.layer.masksToBounds = true
+        shuffleActiveStateButton.setImage(shuffleIcon, forState: .Normal)
+        shuffleInactiveStateButton.setImage(shuffleIcon, forState: .Normal)
         configureShuffleButton()
         
         // Настройка кнопки "Повторить"
-        repeatBlurEffectView.frame = repeatView.bounds
         repeatView.layer.cornerRadius = 3
         repeatView.layer.masksToBounds = true
+        repeatInactiveStateButton.setImage(repeatInactiveIcon, forState: .Normal)
         configureRepeatButton()
         
         // Настройка кнопки "Еще"
@@ -333,35 +341,20 @@ class PlayerViewController: UIViewController {
     
     /// Настройка кнопки "Отобразить в статусе" для текущего состояния
     func configureShareToStatusButton() {
-        if isShareToStatus {
-            shareToStatusView.insertSubview(shareToStatusBlurEffectView, belowSubview: shareToStatusButton)
-        } else {
-            shareToStatusBlurEffectView.removeFromSuperview()
-        }
-        
-        shareToStatusButton.setImage(shareToStatusIcon, forState: .Normal)
+        shareToStatusActiveStateView.hidden = !isShareToStatus
+        shareToStatusInactiveStateView.hidden = isShareToStatus
     }
     
     /// Настройка кнопки "Отобразить слова аудиозаписи"
     func configureLyricsButton() {
-        if isShowLyrics {
-            lyricsButtonView.insertSubview(lyricsButtonBlurEffectView, belowSubview: lyricsButton)
-        } else {
-            lyricsButtonBlurEffectView.removeFromSuperview()
-        }
-        
-        lyricsButton.setImage(lyricsIcon, forState: .Normal)
+        lyricsActiveStateView.hidden = !isShowLyrics
+        lyricsInactiveStateView.hidden = isShowLyrics
     }
     
     /// Настройка кнопки "Перемешать" для текущего состояния
     func configureShuffleButton() {
-        if isShuffle {
-            shuffleView.insertSubview(shuffleBlurEffectView, belowSubview: shuffleButton)
-        } else {
-            shuffleBlurEffectView.removeFromSuperview()
-        }
-        
-        shuffleButton.setImage(shuffleIcon, forState: .Normal)
+        shuffleActiveStateView.hidden = !isShuffle
+        shuffleInactiveStateView.hidden = isShuffle
     }
     
     /// Переключение типа повторения
@@ -380,14 +373,14 @@ class PlayerViewController: UIViewController {
     func configureRepeatButton() {
         switch repeatType {
         case .No:
-            repeatBlurEffectView.removeFromSuperview()
-        case .All:
-            repeatView.insertSubview(repeatBlurEffectView, belowSubview: repeatButton)
-        case .One:
-            repeatView.insertSubview(repeatBlurEffectView, belowSubview: repeatButton)
+            repeatActiveStateView.hidden = true
+            repeatInactiveStateView.hidden = false
+        case .All, .One:
+            repeatInactiveStateView.hidden = true
+            repeatActiveStateView.hidden = false
+            
+            repeatActiveStateButton.setImage(repeatActiveIcon, forState: .Normal)
         }
-        
-        repeatButton.setImage(repeatIcon, forState: .Normal)
     }
     
     

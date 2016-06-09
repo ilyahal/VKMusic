@@ -12,7 +12,7 @@ import UIKit
 class MiniPlayerViewController: UIViewController {
     
     /// Цвет элементов управления
-    let controlColor = (UIApplication.sharedApplication().delegate as! AppDelegate).tintColor
+    let tintColor = (UIApplication.sharedApplication().delegate as! AppDelegate).tintColor
     
 
     /// Название аудиозаписи
@@ -44,22 +44,19 @@ class MiniPlayerViewController: UIViewController {
     
     /// Иконка для кнопки "Play" или "Пауза"
     var controlIcon: UIImage {
-        return UIImage(named: isPlaying ? "icon-MiniPlayerPause" : "icon-MiniPlayerPlay")!.tintPicto(controlColor)
+        return UIImage(named: isPlaying ? "icon-MiniPlayerPause" : "icon-MiniPlayerPlay")!.tintPicto(tintColor)
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Настройка надписи с названием аудиозаписи
-        songTitleLabel.textColor = UIColor(red: 0.28, green: 0.29, blue: 0.29, alpha: 1)
-        
         // Настройка цвета основной кнопки
         let highlightedColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.5)
         miniPlayerButton.setBackgroundImage(UIImage.generateImageWithColor(highlightedColor), forState: .Highlighted)
         
         // Настройка бара с прогрессом воспроизведения
-        progressBar.progressTintColor = controlColor
+        progressBar.progressTintColor = tintColor
         progressBar.trackTintColor = UIColor.clearColor()
         progressBarHeightConstraint.constant = 1 // Устанавливаем высоту бара
         
