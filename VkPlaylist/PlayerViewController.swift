@@ -305,14 +305,6 @@ class PlayerViewController: UIViewController {
     
     // MARK: Помощники
     
-    /// По элементу со словами аудиозаписи был тап
-    func lyricsTapped() {
-        isShowLyrics = !isShowLyrics
-        
-        configureLyricsAppear()
-        configureLyricsButton()
-    }
-    
     /// Настройка отображения слов аудиозаписи
     func configureLyricsAppear() {
         if isShowLyrics {
@@ -384,7 +376,7 @@ class PlayerViewController: UIViewController {
     }
     
     
-    // MARK: Кнопки контроллера
+    // MARK: Обработка пользовательских действий
     
     /// Кнопка "Закрыть" была нажата
     @IBAction func closeButtonTapped(sender: UIButton) {
@@ -393,6 +385,14 @@ class PlayerViewController: UIViewController {
     
     /// По кнопке над обложкой был тап
     @IBAction func artworkTapped(sender: UIButton) {
+        isShowLyrics = !isShowLyrics
+        
+        configureLyricsAppear()
+        configureLyricsButton()
+    }
+    
+    /// По элементу со словами аудиозаписи был тап
+    func lyricsTapped() {
         isShowLyrics = !isShowLyrics
         
         configureLyricsAppear()
