@@ -411,9 +411,9 @@ extension _MusicFromInternetTableViewControllerDelegate {
         
         if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
             let track = activeArray[indexPath.row]
-            let trackURL = NSURL(string: track.url)
             
-            PlayerManager.sharedInstance.playFile(trackURL!)
+            PlayerManager.sharedInstance.play(track)
+            
             PlayerManager.sharedInstance.miniPlayerViewController.artistNameLabel.text = track.artist
             PlayerManager.sharedInstance.miniPlayerViewController.songTitleLabel.text = track.title
         }

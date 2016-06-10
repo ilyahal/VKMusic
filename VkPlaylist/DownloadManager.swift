@@ -16,14 +16,13 @@ class DownloadManager: NSObject {
         static var instance: DownloadManager? = nil
     }
     
-    class var sharedInstance : DownloadManager {
+    class var sharedInstance: DownloadManager {
         dispatch_once(&Static.onceToken) { // Для указанного токена выполняет блок кода только один раз за время жизни приложения
             Static.instance = DownloadManager()
         }
         
         return Static.instance!
     }
-    
     
     private override init() {
         super.init()

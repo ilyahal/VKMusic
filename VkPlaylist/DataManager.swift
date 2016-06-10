@@ -17,14 +17,13 @@ class DataManager: NSObject {
         static var instance: DataManager? = nil
     }
     
-    class var sharedInstance : DataManager {
+    class var sharedInstance: DataManager {
         dispatch_once(&Static.onceToken) { // Для указанного токена выполняет блок кода только один раз за время жизни приложения
             Static.instance = DataManager()
         }
         
         return Static.instance!
     }
-    
     
     private override init() {
         coreDataStack = (UIApplication.sharedApplication().delegate as! AppDelegate).coreDataStack

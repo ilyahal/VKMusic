@@ -17,14 +17,13 @@ class RequestManager {
         static var instance: RequestManager? = nil
     }
     
-    class var sharedInstance : RequestManager {
+    class var sharedInstance: RequestManager {
         dispatch_once(&Static.onceToken) { // Для указанного токена выполняет блок кода только один раз за время жизни приложения
             Static.instance = RequestManager()
         }
         
         return Static.instance!
     }
-    
     
     private init() {
         activeRequests = [:]
@@ -38,10 +37,6 @@ class RequestManager {
         getOwnerAudio = GetOwnerAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetOwnerAudio)
         getRecommendationsAudio = GetRecommendationsAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetRecommendationsAudio)
         getPopularAudio = GetPopularAudio(defaultState: .NotSearchedYet, defaultError: .None, key: requestKeys.GetPopularAudio)
-    }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     

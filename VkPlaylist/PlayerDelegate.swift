@@ -14,7 +14,5 @@ protocol PlayerDelegate: class {
     func playerStateDidChange(player: Player)
     /// Плеер изменил прогресс воспроизведения
     func playerPlaybackProgressDidChange(player: Player)
-    /// Плеер загрузил трек
-    func playerDidLoadItem(player: Player, item: PlayerItem)
     
 }

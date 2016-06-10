@@ -74,7 +74,7 @@ final class Player: NSObject {
             return
         }
         
-        let title = (item.title ?? item.localTitle) ?? item.URL.lastPathComponent!
+        let title = item.title ?? item.URL.lastPathComponent!
         let currentTime = item.currentTime ?? 0
         let duration = item.duration ?? 0
         let trackNumber = self.playIndex
@@ -100,54 +100,37 @@ final class Player: NSObject {
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nowPlayingInfo
     }
     
-    /// Воспроизвести текущий элемент плеера с указанными ресурсами
-    func playCurrentItemWithAsset(asset : AVAsset) {
-        queuedItems[playIndex].refreshPlayerItem(asset)
-        startNewPlayer(forItem: queuedItems[playIndex].playerItem!)
-        
-        guard let playItem = queuedItems[playIndex].playerItem else {
-            return
-        }
-        
-        registerForPlayToEndNotification(withItem: playItem)
-    }
-    
     /// Продолжить воспроизведение
     func resumePlayback() {
         if state != .Playing {
-            startProgressTimer() // ??
-            
             if let player = player {
+                startProgressTimer()
+                
                 player.play()
+                
+                state = .Playing
+                updateInfoCenter()
             } else {
-                currentItem!.refreshPlayerItem(currentItem!.playerItem!.asset)
-                startNewPlayer(forItem: currentItem!.playerItem!)
+                startNewPlayerForItem(currentItem!.playerItem!)
             }
-            
-            state = .Playing
-        }
-    }
-    
-    /// Сделать воспроизведение неактивным с возможностью скинуть индекс воспроизводимого элемента
-    func invalidatePlayback(resetIndex resetIndex: Bool = true) {
-        stopProgressTimer()
-        player?.pause()
-        player = nil
-        
-        if resetIndex {
-            playIndex = 0
         }
     }
     
     /// Начать воспроизведение нового элемента системного плеера
-    func startNewPlayer(forItem item: AVPlayerItem) {
-        invalidatePlayback(resetIndex: false)
+    func startNewPlayerForItem(item: AVPlayerItem) {
         
+        // Отменяем воспроизведение прошлой аудиозаписи
+        stopProgressTimer()
+        player?.pause()
+        player = nil
+        
+        // Начинаем воспроизведение новой аудиозаписи
         player = AVPlayer(playerItem: item)
-        player?.allowsExternalPlayback = false // Внешнее воспроизведение недоступно
-        
+        player!.allowsExternalPlayback = false // Внешнее воспроизведение недоступно
         startProgressTimer()
+        
         seekToSecond(0, shouldPlay: true)
+        
         updateInfoCenter()
     }
     
@@ -163,33 +146,6 @@ final class Player: NSObject {
         }
     }
     
-    /// Загрузить воспроизводимый элемент плеера
-    func loadPlaybackItem() {
-        guard playIndex >= 0 && playIndex < queuedItems.count else {
-            return
-        }
-        
-        stopProgressTimer()
-        player?.pause()
-        queuedItems[playIndex].loadPlayerItem()
-        state = .Loading
-    }
-    
-    /// Предзагрузить следующий и предыдущий элементы плеера
-    func preloadNextAndPrevious(atIndex index: Int) {
-        guard !queuedItems.isEmpty else {
-            return
-        }
-        
-        if index - 1 >= 0 {
-            queuedItems[index - 1].loadPlayerItem()
-        }
-        
-        if index + 1 < queuedItems.count {
-            queuedItems[index + 1].loadPlayerItem()
-        }
-    }
-    
     
     // MARK: Отслеживание прогресса
     
@@ -199,7 +155,7 @@ final class Player: NSObject {
             return
         }
         
-        progressObserver = player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.05, Int32(NSEC_PER_SEC)), queue: nil) { [unowned self] time in
+        progressObserver = player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.25, Int32(NSEC_PER_SEC)), queue: nil) { [unowned self] time in
             self.timerAction()
         }
     }
@@ -255,13 +211,7 @@ final class Player: NSObject {
     
     /// Обновление значений времени для воспроизводимого элемента
     func timerAction() {
-        guard player?.currentItem != nil else {
-            return
-        }
-        
-        currentItem?.updateTime()
-        
-        guard currentItem?.currentTime != nil else {
+        guard let _ = player?.currentItem, let _ = currentItem?.currentTime else {
             return
         }
         
@@ -293,24 +243,7 @@ final class Player: NSObject {
 
 // MARK: PlayerItemDelegate
 
-extension Player: PlayerItemDelegate {
-    
-    // Элемент плеера загрузил элемент системного плеера
-    func playerItemDidLoadAVPlayerItem(item: PlayerItem) {
-        delegate?.playerDidLoadItem(self, item: item)
-        let index = queuedItems.indexOf{ $0 === item } // Индекс загруженного элемента плеера в очереди
-        
-        guard let playItem = item.playerItem where state == .Loading && playIndex == index else {
-            return
-        }
-        
-        // Если загруженный элемент - воспроизводимый сейчас
-        
-        registerForPlayToEndNotification(withItem: playItem)
-        startNewPlayer(forItem: playItem)
-    }
-    
-}
+extension Player: PlayerItemDelegate { }
 
 
 // MARK: Публичные методы
@@ -324,31 +257,31 @@ extension Player {
     
     /// Воспроизвести элемент плеера по указанному индексу
     func playAtIndex(index: Int) {
-        guard index < queuedItems.count && index >= 0 else {
+        guard index >= 0 && index < queuedItems.count else {
             return
         }
         
         configureBackgroundAudioTask()
         
-        if queuedItems[index].playerItem != nil && playIndex == index {
+        if let _ = queuedItems[index].playerItem where playIndex == index {
+            if state == .Playing {
+                seekToSecond(0, shouldPlay: true)
+                updateInfoCenter()
+            }
+            
             resumePlayback()
         } else {
-            if let item = currentItem?.playerItem {
-                unregisterForPlayToEndNotification(withItem: item)
+            if let playerItem = currentItem?.playerItem {
+                unregisterForPlayToEndNotification(withItem: playerItem)
             }
             
             playIndex = index
             
-            if let asset = queuedItems[index].playerItem?.asset {
-                playCurrentItemWithAsset(asset)
-            } else {
-                loadPlaybackItem()
-            }
+            let playerItem = currentItem!.getPlayerItem()
             
-            preloadNextAndPrevious(atIndex: playIndex)
+            registerForPlayToEndNotification(withItem: playerItem)
+            startNewPlayerForItem(playerItem)
         }
-        
-        updateInfoCenter()
     }
     
     /// Поставить воспроизведение на паузу
@@ -361,7 +294,10 @@ extension Player {
     
     /// Остановить воспроизведение
     func stop() {
-        invalidatePlayback()
+        stopProgressTimer()
+        player?.pause()
+        player = nil
+        playIndex = 0
         
         state = .Ready
         
@@ -409,14 +345,12 @@ extension Player {
     
     /// Перемотать элемент плеера на указанную секунду
     func seekToSecond(second: Int, shouldPlay: Bool = false) {
-        guard let player = player, let item = currentItem else {
+        guard let player = player, let _ = currentItem else {
             return
         }
         
         player.seekToTime(CMTimeMake(Int64(second), 1))
-        item.updateTime()
         
-        // Если должно воспроизводиться
         if shouldPlay {
             player.play()
             
@@ -429,13 +363,13 @@ extension Player {
     }
     
     /// Добавить элемент плеера в очередь на воспроизведение
-    func appendItem(item: PlayerItem, loadingAssets: Bool) {
+    func appendItem(item: PlayerItem/*, loadingAssets: Bool*/) {
         queuedItems.append(item)
         item.delegate = self
-        
+        /*
         if loadingAssets {
             item.loadPlayerItem()
-        }
+        }*/
     }
     
     /// Удалить элемент плеера из очереди на воспроизведение

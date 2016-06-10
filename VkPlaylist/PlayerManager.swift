@@ -17,18 +17,29 @@ class PlayerManager {
         static var instance: PlayerManager? = nil
     }
     
-    class var sharedInstance : PlayerManager {
+    class var sharedInstance: PlayerManager {
         dispatch_once(&Static.onceToken) { // Для указанного токена выполняет блок кода только один раз за время жизни приложения
             Static.instance = PlayerManager()
         }
         
         return Static.instance!
     }
-    
-    
+
     private init() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         miniPlayerViewController = storyboard.instantiateViewControllerWithIdentifier("MiniPlayerViewController") as! MiniPlayerViewController
+    }
+    
+    
+    /// Плеер
+    let player = Player()
+    
+    /// Воспроизвести аудиозапись
+    func play(track: Track) {
+        let playerItem = PlayerItem(onlineTrack: track)
+        
+        player.appendItem(playerItem)
+        player.playAtIndex(player.queuedItems.count - 1)
     }
     
     
@@ -49,22 +60,6 @@ class PlayerManager {
     var isShuffle = false
     /// Тип перемешивания
     var repeatType = RepeatType.No
-    
-    
-    // MARK: Плеер
-    
-    /// Плеер
-    var player: AVPlayer!
-    
-    /// Старт аудиозаписи
-    func playFile(url: NSURL) {
-        if let player = player {
-            player.pause()
-        }
-        
-        player = AVPlayer(URL: url)
-        player.play()
-    }
     
 }
 

@@ -17,10 +17,6 @@ public enum PlayerState: Int, CustomStringConvertible {
     case Playing
     /// Стоит на паузе
     case Paused
-    /// Загружает
-    case Loading
-    /// Произошла ошибка
-    case Failed
     
     public var description: String {
         get {
@@ -29,12 +25,8 @@ public enum PlayerState: Int, CustomStringConvertible {
                 return "Ready"
             case Playing:
                 return "Playing"
-            case Failed:
-                return "Failed"
             case Paused:
                 return "Paused"
-            case Loading:
-                return "Loading"
             }
         }
     }

@@ -17,14 +17,13 @@ class VKAPIManager {
         static var instance: VKAPIManager? = nil
     }
     
-    class var sharedInstance : VKAPIManager {
+    class var sharedInstance: VKAPIManager {
         dispatch_once(&Static.onceToken) { // Для указанного токена выполняет блок кода только один раз за время жизни приложения
             Static.instance = VKAPIManager()
         }
         
         return Static.instance!
     }
-    
     
     private init() {}
     

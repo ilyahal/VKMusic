@@ -9,8 +9,5 @@
 import Foundation
 
 protocol PlayerItemDelegate: class {
-    
-    /// Элемент плеера загрузил элемент системного плеера
-    func playerItemDidLoadAVPlayerItem(item: PlayerItem)
-    
+
 }
