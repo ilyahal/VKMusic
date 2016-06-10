@@ -278,7 +278,7 @@ class DataManager: NSObject {
     }
     
     /// Очередь на запись скаченных аудиозаписей
-    var toSaveDownloadedTrackQueue = [(track: Track, artwork: NSData?, lyrics: String, file: NSData)]() {
+    var toSaveDownloadedTrackQueue = [(track: Track, artwork: NSData?, lyrics: String, fileLocation: NSURL)]() {
         didSet {
             tryStartWriteFromDownloadedTrackQueue()
         }
@@ -295,12 +295,26 @@ class DataManager: NSObject {
             toSaveDownloadedTrackQueue.removeFirst()
             
             
+            // Записываем скаченный файл в папку "Документы"
+            let fileManager = NSFileManager.defaultManager()
+            
+            let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString // Получаем путь к папке Documents
+            let fileName = NSUUID().UUIDString + ".mp3"
+            let fullPath = documentsPath.stringByAppendingPathComponent(fileName)
+            let fileURL = NSURL(fileURLWithPath: fullPath) // Возвращаем путь к файлу
+            
+            do {
+                try fileManager.copyItemAtURL(toWrite.fileLocation, toURL: fileURL) // Копируем файл по указанному URL в указанное место
+            } catch let error as NSError {
+                print("Could not copy file to disk: \(error.localizedDescription)")
+            }
+            
+            
             // Смещаем все треки в плейлисте "Загрузки" на один вперед
             for trackInPlaylist in downloadsPlaylistObject.tracks.allObjects as! [TrackInPlaylist] {
                 // FIXME: Периодически вылетает
                 trackInPlaylist.position += 1
             }
-            
             
             // Записываем трек в базу данных
             var entity = NSEntityDescription.entityForName(EntitiesIdentifiers.offlineTrack, inManagedObjectContext: coreDataStack.context) // Сущность оффлайн трека
@@ -309,12 +323,11 @@ class DataManager: NSObject {
             offlineTrack.artist = toWrite.track.artist
             offlineTrack.artwork = toWrite.artwork
             offlineTrack.duration = toWrite.track.duration
-            offlineTrack.file = toWrite.file
             offlineTrack.id = toWrite.track.id
             offlineTrack.ownerID = toWrite.track.owner_id
             offlineTrack.lyrics = toWrite.lyrics
             offlineTrack.title = toWrite.track.title
-            
+            offlineTrack.url = fullPath
             
             // Добавляем загруженный трек в плейлист "Загрузки"
             entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Сущность трека в плейлисте
@@ -322,7 +335,6 @@ class DataManager: NSObject {
             let trackInPlaylist = TrackInPlaylist(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context)
             trackInPlaylist.playlist = downloadsPlaylistObject
             trackInPlaylist.track = offlineTrack
-            
             
             // Сохраняем изменения
             coreDataStack.saveContext()
@@ -336,7 +348,7 @@ class DataManager: NSObject {
     /// Удаление аудиозаписи
     func deleteTrack(track: OfflineTrack) -> Bool {
         
-        // Удаляем все вхождения трека в плейлисты
+        // Удаляем все вхождения аудиозаписи в плейлисты
         for trackInPlaylist in track.playlists.allObjects as! [TrackInPlaylist] {
             guard deleteTrackFromPlaylist(trackInPlaylist) else {
                 return false
@@ -346,7 +358,16 @@ class DataManager: NSObject {
         // Оповещаем делегатов у удалении
         deletedTrackWithID(track.id, andOwnerID: track.ownerID)
         
-        // Удаляем аудиозапись
+        // Удаляем файл аудиозаписи
+        let fileManager = NSFileManager.defaultManager()
+        
+        do {
+            try fileManager.removeItemAtURL(NSURL(fileURLWithPath: track.url)) // Удаляем файл по указанному URL (т.к. появился новый файл с таким же именем)
+        } catch let error as NSError {
+            print("DataManager can't delete file \(error.localizedDescription)")
+        }
+        
+        // Удаляем аудиозапись из базы данных
         coreDataStack.context.deleteObject(track)
         
         

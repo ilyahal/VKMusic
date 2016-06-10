@@ -7,7 +7,7 @@
 //
 
 /// Онлайн аудиозапись
-class Track: TrackObject {
+class Track {
     
     /// Исполнитель
     let artist: String

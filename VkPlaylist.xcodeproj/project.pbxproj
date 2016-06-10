@@ -17,7 +17,6 @@
 		BB0C62F31CE4B7CA00C505B1 /* GetAlbumAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62F21CE4B7CA00C505B1 /* GetAlbumAudio.swift */; };
 		BB1731971D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731961D0186FA00996A34 /* VKAPIManagerLyricsDelegate.swift */; };
 		BB1731A31D01C79600996A34 /* MusicBrainzAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731A21D01C79600996A34 /* MusicBrainzAPIManager.swift */; };
-		BB1731A51D01C7FB00996A34 /* TrackObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1731A41D01C7FB00996A34 /* TrackObject.swift */; };
 		BB3F40EF1CFF190B0018262C /* SegueIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */; };
 		BB3F40F11CFF4F900018262C /* AddPlaylistMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */; };
 		BB3F40F31CFF6B5A0018262C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F40F21CFF6B5A0018262C /* Functions.swift */; };
@@ -150,7 +149,6 @@
 		BB17319E1D01A70000996A34 /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/AlamofireImage/AlamofireImage.framework"; sourceTree = "<group>"; };
 		BB1731A01D01A85100996A34 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Developer/Xcode/DerivedData/VkPlaylist-aqlrfyaybkvnqjfljrimedqthndw/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		BB1731A21D01C79600996A34 /* MusicBrainzAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBrainzAPIManager.swift; sourceTree = "<group>"; };
-		BB1731A41D01C7FB00996A34 /* TrackObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackObject.swift; sourceTree = "<group>"; };
 		BB1731A71D01E8EF00996A34 /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = "Pods/../build/Debug-iphoneos/SWXMLHash/SWXMLHash.framework"; sourceTree = "<group>"; };
 		BB3F40EE1CFF190B0018262C /* SegueIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifiers.swift; sourceTree = "<group>"; };
 		BB3F40F01CFF4F900018262C /* AddPlaylistMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlaylistMusicViewController.swift; sourceTree = "<group>"; };
@@ -540,7 +538,6 @@
 				BBE8539F1CE13EE100872C3B /* Constants */,
 				BB405E891CF742D3000C1A2A /* NSManagedObjects */,
 				BB1731A61D01D04400996A34 /* VKObjects */,
-				BB1731A41D01C7FB00996A34 /* TrackObject.swift */,
 				BB405EAF1CF76817000C1A2A /* Download.swift */,
 			);
 			name = "Data Objects";
@@ -994,7 +991,6 @@
 				BBE8539D1CE13E1B00872C3B /* AccessErrorCell.swift in Sources */,
 				BB405EA71CF7523B000C1A2A /* OfflineAudioCell.swift in Sources */,
 				BBDEC0741CD6CE9B005B8494 /* SettingsTableViewController.swift in Sources */,
-				BB1731A51D01C7FB00996A34 /* TrackObject.swift in Sources */,
 				BBE8538C1CE0EE5A00872C3B /* FriendsTableViewController.swift in Sources */,
 				BBE8537D1CE0DAFB00872C3B /* DataManagerObject.swift in Sources */,
 				BBD279EA1D079BF800A844D3 /* CurrentPlaylistViewController.swift in Sources */,

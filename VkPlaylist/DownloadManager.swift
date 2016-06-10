@@ -274,8 +274,6 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
                 let track = download.track // Загруженный трек
                 var artwork: NSData? // Обложка альбома песни
                 var lyrics: String // Слова песни
-                let file = NSData(contentsOfURL: location)! // Загруженный файл
-    
                 
                 // Получение обложки аудиозаписи
                 if download.isArtworkDownloads {
@@ -303,7 +301,7 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
                 tryStartDownloadFromQueue()
                 
                 // Сохранение данных
-                DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, artwork: artwork, lyrics: lyrics, file: file))
+                DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, artwork: artwork, lyrics: lyrics, fileLocation: location))
                 
                 // Оповещение делегатов о изменениях
                 delegates.forEach { delegate in
