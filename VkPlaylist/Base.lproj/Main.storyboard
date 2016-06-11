@@ -1611,7 +1611,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKC-yu-PBr">
-                                                                <rect key="frame" x="0.0" y="51.5" width="600" height="34"/>
+                                                                <rect key="frame" x="0.0" y="59" width="600" height="34"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8CB-ra-bVr">
                                                                         <rect key="frame" x="0.0" y="0.0" width="600" height="34"/>
@@ -1620,8 +1620,8 @@
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag Me Down" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hxc-Hm-Aph">
-                                                                                    <rect key="frame" x="248" y="0.0" width="103" height="18"/>
-                                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                                                    <rect key="frame" x="247" y="0.0" width="104.5" height="18"/>
+                                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                                                     <color key="textColor" red="0.086274509799999996" green="0.086274509799999996" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
@@ -1657,7 +1657,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="el0-9c-bbo">
-                                                                <rect key="frame" x="0.0" y="111" width="600" height="45"/>
+                                                                <rect key="frame" x="0.0" y="125.5" width="600" height="30"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XiZ-Ac-nP2">
                                                                         <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
@@ -1666,7 +1666,7 @@
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dcd-2t-zVN">
-                                                                                    <rect key="frame" x="0.0" y="10" width="600" height="30"/>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
                                                                                     <subviews>
                                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ifz-sz-Bl5">
                                                                                             <rect key="frame" x="0.0" y="0.0" width="70" height="30"/>
@@ -1765,6 +1765,7 @@
                                                                                                     </constraints>
                                                                                                     <state key="normal" image="icon-PlayerCurrentPlaylist"/>
                                                                                                     <connections>
+                                                                                                        <action selector="currentPlaylistButtonTapped:" destination="Urs-Va-CQm" eventType="touchUpInside" id="fCA-EX-9kL"/>
                                                                                                         <segue destination="Rf1-Hb-dc4" kind="presentation" id="Abd-mg-dRZ"/>
                                                                                                     </connections>
                                                                                                 </button>
@@ -1787,8 +1788,8 @@
                                                                             <constraints>
                                                                                 <constraint firstAttribute="trailing" secondItem="dcd-2t-zVN" secondAttribute="trailing" id="7Re-13-sGr"/>
                                                                                 <constraint firstItem="dcd-2t-zVN" firstAttribute="leading" secondItem="VU7-jH-6En" secondAttribute="leading" id="V29-S6-c1f"/>
-                                                                                <constraint firstItem="dcd-2t-zVN" firstAttribute="top" secondItem="VU7-jH-6En" secondAttribute="top" constant="10" id="dlp-oh-g3S"/>
-                                                                                <constraint firstAttribute="bottom" secondItem="dcd-2t-zVN" secondAttribute="bottom" constant="5" id="qyu-lV-LIU"/>
+                                                                                <constraint firstItem="dcd-2t-zVN" firstAttribute="top" secondItem="VU7-jH-6En" secondAttribute="top" id="dlp-oh-g3S"/>
+                                                                                <constraint firstAttribute="bottom" secondItem="dcd-2t-zVN" secondAttribute="bottom" id="qyu-lV-LIU"/>
                                                                             </constraints>
                                                                         </view>
                                                                         <vibrancyEffect>
@@ -1805,10 +1806,10 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLY-MP-Z8F">
-                                                                <rect key="frame" x="0.0" y="181.5" width="600" height="31"/>
+                                                                <rect key="frame" x="0.0" y="188.5" width="600" height="17"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ets-hJ-FYq">
-                                                                        <rect key="frame" x="45" y="10" width="10" height="10"/>
+                                                                        <rect key="frame" x="45" y="3" width="10" height="10"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RBl-cT-kPT">
                                                                             <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1835,7 +1836,7 @@
                                                                         </vibrancyEffect>
                                                                     </visualEffectView>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Tj-lR-MYr">
-                                                                        <rect key="frame" x="545" y="10" width="10" height="10"/>
+                                                                        <rect key="frame" x="545" y="3" width="10" height="10"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Edf-rU-Ddw">
                                                                             <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1861,22 +1862,22 @@
                                                                             <blurEffect style="extraLight"/>
                                                                         </vibrancyEffect>
                                                                     </visualEffectView>
-                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B48-dT-RUx">
-                                                                        <rect key="frame" x="60" y="0.0" width="480" height="31"/>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B48-dT-RUx" customClass="MPVolumeView">
+                                                                        <rect key="frame" x="60" y="0.0" width="480" height="17"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="height" constant="31" id="neO-y4-dMe"/>
+                                                                            <constraint firstAttribute="height" constant="17" id="neO-y4-dMe"/>
                                                                         </constraints>
                                                                     </view>
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="bottom" secondItem="B48-dT-RUx" secondAttribute="bottom" id="BvB-EE-fHG"/>
                                                                     <constraint firstItem="Ets-hJ-FYq" firstAttribute="centerY" secondItem="B48-dT-RUx" secondAttribute="centerY" id="Iqx-R1-brJ"/>
                                                                     <constraint firstItem="B48-dT-RUx" firstAttribute="centerX" secondItem="CLY-MP-Z8F" secondAttribute="centerX" id="NDl-bD-ibg"/>
-                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="top" secondItem="CLY-MP-Z8F" secondAttribute="top" id="NKV-xM-hec"/>
                                                                     <constraint firstItem="8Tj-lR-MYr" firstAttribute="leading" secondItem="B48-dT-RUx" secondAttribute="trailing" constant="5" id="Xfy-1e-jhS"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="B48-dT-RUx" secondAttribute="bottom" id="aOg-fK-yKK"/>
                                                                     <constraint firstItem="B48-dT-RUx" firstAttribute="width" secondItem="CLY-MP-Z8F" secondAttribute="width" multiplier="0.8" id="hwF-7k-9Bh"/>
+                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="top" secondItem="CLY-MP-Z8F" secondAttribute="top" id="iia-9o-fjI"/>
                                                                     <constraint firstItem="8Tj-lR-MYr" firstAttribute="centerY" secondItem="Ets-hJ-FYq" secondAttribute="centerY" id="jw6-ma-GJE"/>
                                                                     <constraint firstItem="B48-dT-RUx" firstAttribute="leading" secondItem="Ets-hJ-FYq" secondAttribute="trailing" constant="5" id="qn8-oc-VHZ"/>
                                                                 </constraints>
@@ -1902,18 +1903,17 @@
                                                                                                         <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
-                                                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uip-Ie-M9S">
-                                                                                                                <rect key="frame" x="4" y="4" width="15" height="15"/>
+                                                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerShareToStatus" translatesAutoresizingMaskIntoConstraints="NO" id="JPk-lH-5G0">
+                                                                                                                <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
                                                                                                                 <constraints>
-                                                                                                                    <constraint firstAttribute="width" constant="15" id="O6C-eB-H2Q"/>
-                                                                                                                    <constraint firstAttribute="height" constant="15" id="uN2-tn-n37"/>
+                                                                                                                    <constraint firstAttribute="height" constant="15" id="5n9-h0-bwd"/>
+                                                                                                                    <constraint firstAttribute="width" constant="15" id="Cpk-08-Ynv"/>
                                                                                                                 </constraints>
-                                                                                                                <state key="normal" image="icon-PlayerShareToStatus"/>
-                                                                                                            </button>
+                                                                                                            </imageView>
                                                                                                         </subviews>
                                                                                                         <constraints>
-                                                                                                            <constraint firstItem="Uip-Ie-M9S" firstAttribute="centerY" secondItem="RK1-Wr-wuV" secondAttribute="centerY" id="RHo-gj-9FT"/>
-                                                                                                            <constraint firstItem="Uip-Ie-M9S" firstAttribute="centerX" secondItem="RK1-Wr-wuV" secondAttribute="centerX" id="hyc-Rc-v6L"/>
+                                                                                                            <constraint firstItem="JPk-lH-5G0" firstAttribute="centerY" secondItem="RK1-Wr-wuV" secondAttribute="centerY" id="3yK-D9-Cvz"/>
+                                                                                                            <constraint firstItem="JPk-lH-5G0" firstAttribute="centerX" secondItem="RK1-Wr-wuV" secondAttribute="centerX" id="lpW-98-tft"/>
                                                                                                         </constraints>
                                                                                                     </view>
                                                                                                     <vibrancyEffect>
@@ -1936,18 +1936,17 @@
                                                                                             <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
-                                                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UFh-Kt-qPX">
-                                                                                                    <rect key="frame" x="4" y="5" width="15" height="15"/>
+                                                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerShareToStatus" translatesAutoresizingMaskIntoConstraints="NO" id="npR-2c-IVA">
+                                                                                                    <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
                                                                                                     <constraints>
-                                                                                                        <constraint firstAttribute="height" constant="15" id="V5K-s7-Yky"/>
-                                                                                                        <constraint firstAttribute="width" constant="15" id="x1e-Xl-XKZ"/>
+                                                                                                        <constraint firstAttribute="height" constant="15" id="Bt9-Qd-xsK"/>
+                                                                                                        <constraint firstAttribute="width" constant="15" id="bgV-tx-WgP"/>
                                                                                                     </constraints>
-                                                                                                    <state key="normal" image="icon-PlayerShareToStatus"/>
-                                                                                                </button>
+                                                                                                </imageView>
                                                                                             </subviews>
                                                                                             <constraints>
-                                                                                                <constraint firstItem="UFh-Kt-qPX" firstAttribute="centerX" secondItem="kHi-Fx-pfb" secondAttribute="centerX" id="KdK-RE-pQg"/>
-                                                                                                <constraint firstItem="UFh-Kt-qPX" firstAttribute="centerY" secondItem="kHi-Fx-pfb" secondAttribute="centerY" id="Zw2-5G-Pz6"/>
+                                                                                                <constraint firstItem="npR-2c-IVA" firstAttribute="centerY" secondItem="kHi-Fx-pfb" secondAttribute="centerY" id="IoY-UJ-6Jz"/>
+                                                                                                <constraint firstItem="npR-2c-IVA" firstAttribute="centerX" secondItem="kHi-Fx-pfb" secondAttribute="centerX" id="bc8-Z7-WcV"/>
                                                                                             </constraints>
                                                                                         </view>
                                                                                         <vibrancyEffect>
@@ -1994,18 +1993,17 @@
                                                                                                         <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
-                                                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="caa-Ml-Z6r">
-                                                                                                                <rect key="frame" x="4" y="5" width="15" height="15"/>
+                                                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerLyrics" translatesAutoresizingMaskIntoConstraints="NO" id="Gur-Fj-Z5G">
+                                                                                                                <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
                                                                                                                 <constraints>
-                                                                                                                    <constraint firstAttribute="width" constant="15" id="30i-lT-XWg"/>
-                                                                                                                    <constraint firstAttribute="height" constant="15" id="s5Z-oE-CXa"/>
+                                                                                                                    <constraint firstAttribute="height" constant="15" id="8S6-DQ-PDY"/>
+                                                                                                                    <constraint firstAttribute="width" constant="15" id="NRP-KC-9uK"/>
                                                                                                                 </constraints>
-                                                                                                                <state key="normal" image="icon-PlayerLyrics"/>
-                                                                                                            </button>
+                                                                                                            </imageView>
                                                                                                         </subviews>
                                                                                                         <constraints>
-                                                                                                            <constraint firstItem="caa-Ml-Z6r" firstAttribute="centerY" secondItem="Cqp-TG-12d" secondAttribute="centerY" id="F9u-80-eAu"/>
-                                                                                                            <constraint firstItem="caa-Ml-Z6r" firstAttribute="centerX" secondItem="Cqp-TG-12d" secondAttribute="centerX" id="YzU-2X-6wj"/>
+                                                                                                            <constraint firstItem="Gur-Fj-Z5G" firstAttribute="centerX" secondItem="Cqp-TG-12d" secondAttribute="centerX" id="g5a-ox-RBR"/>
+                                                                                                            <constraint firstItem="Gur-Fj-Z5G" firstAttribute="centerY" secondItem="Cqp-TG-12d" secondAttribute="centerY" id="qAy-fv-fww"/>
                                                                                                         </constraints>
                                                                                                     </view>
                                                                                                     <vibrancyEffect>
@@ -2028,18 +2026,17 @@
                                                                                             <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
-                                                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JAz-7G-Zko">
-                                                                                                    <rect key="frame" x="4" y="5" width="15" height="15"/>
+                                                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerLyrics" translatesAutoresizingMaskIntoConstraints="NO" id="o41-PC-ulM">
+                                                                                                    <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
                                                                                                     <constraints>
-                                                                                                        <constraint firstAttribute="width" constant="15" id="89k-xQ-xWD"/>
-                                                                                                        <constraint firstAttribute="height" constant="15" id="v5R-Rq-29x"/>
+                                                                                                        <constraint firstAttribute="width" constant="15" id="gb5-ym-kBf"/>
+                                                                                                        <constraint firstAttribute="height" constant="15" id="kmk-JI-bBL"/>
                                                                                                     </constraints>
-                                                                                                    <state key="normal" image="icon-PlayerLyrics"/>
-                                                                                                </button>
+                                                                                                </imageView>
                                                                                             </subviews>
                                                                                             <constraints>
-                                                                                                <constraint firstItem="JAz-7G-Zko" firstAttribute="centerX" secondItem="G5e-Nh-6cX" secondAttribute="centerX" id="2DE-it-vF2"/>
-                                                                                                <constraint firstItem="JAz-7G-Zko" firstAttribute="centerY" secondItem="G5e-Nh-6cX" secondAttribute="centerY" id="fyh-D0-YBd"/>
+                                                                                                <constraint firstItem="o41-PC-ulM" firstAttribute="centerX" secondItem="G5e-Nh-6cX" secondAttribute="centerX" id="PIX-ap-Kv7"/>
+                                                                                                <constraint firstItem="o41-PC-ulM" firstAttribute="centerY" secondItem="G5e-Nh-6cX" secondAttribute="centerY" id="Wja-Ec-aSi"/>
                                                                                             </constraints>
                                                                                         </view>
                                                                                         <vibrancyEffect>
@@ -2086,18 +2083,17 @@
                                                                                                         <rect key="frame" x="0.0" y="0.0" width="34" height="24"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
-                                                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VcJ-Fp-6ra">
+                                                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerShuffle" translatesAutoresizingMaskIntoConstraints="NO" id="5XC-O1-Nfd">
                                                                                                                 <rect key="frame" x="2" y="2" width="30" height="20"/>
                                                                                                                 <constraints>
-                                                                                                                    <constraint firstAttribute="width" constant="30" id="Zva-Q7-Orx"/>
-                                                                                                                    <constraint firstAttribute="height" constant="20" id="l3T-s5-m3e"/>
+                                                                                                                    <constraint firstAttribute="height" constant="20" id="8zT-DC-Fat"/>
+                                                                                                                    <constraint firstAttribute="width" constant="30" id="DJa-gH-7uh"/>
                                                                                                                 </constraints>
-                                                                                                                <state key="normal" image="icon-PlayerShuffle"/>
-                                                                                                            </button>
+                                                                                                            </imageView>
                                                                                                         </subviews>
                                                                                                         <constraints>
-                                                                                                            <constraint firstItem="VcJ-Fp-6ra" firstAttribute="centerX" secondItem="bZx-jh-oub" secondAttribute="centerX" id="IWQ-KG-U4i"/>
-                                                                                                            <constraint firstItem="VcJ-Fp-6ra" firstAttribute="centerY" secondItem="bZx-jh-oub" secondAttribute="centerY" id="v03-B4-wUt"/>
+                                                                                                            <constraint firstItem="5XC-O1-Nfd" firstAttribute="centerX" secondItem="bZx-jh-oub" secondAttribute="centerX" id="LjA-Ja-l9J"/>
+                                                                                                            <constraint firstItem="5XC-O1-Nfd" firstAttribute="centerY" secondItem="bZx-jh-oub" secondAttribute="centerY" id="dJ1-AF-vxM"/>
                                                                                                         </constraints>
                                                                                                     </view>
                                                                                                     <vibrancyEffect>
@@ -2120,18 +2116,17 @@
                                                                                             <rect key="frame" x="0.0" y="0.0" width="34" height="24"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
-                                                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ezu-kk-XfR">
+                                                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerShuffle" translatesAutoresizingMaskIntoConstraints="NO" id="Eun-4u-Maw">
                                                                                                     <rect key="frame" x="2" y="2" width="30" height="20"/>
                                                                                                     <constraints>
-                                                                                                        <constraint firstAttribute="height" constant="20" id="bS4-n5-Dg5"/>
-                                                                                                        <constraint firstAttribute="width" constant="30" id="kDQ-5S-Gzh"/>
+                                                                                                        <constraint firstAttribute="height" constant="20" id="Cn2-WV-hWm"/>
+                                                                                                        <constraint firstAttribute="width" constant="30" id="oxa-xD-7q6"/>
                                                                                                     </constraints>
-                                                                                                    <state key="normal" image="icon-PlayerShuffle"/>
-                                                                                                </button>
+                                                                                                </imageView>
                                                                                             </subviews>
                                                                                             <constraints>
-                                                                                                <constraint firstItem="ezu-kk-XfR" firstAttribute="centerY" secondItem="bWD-IX-qUS" secondAttribute="centerY" id="ZFE-df-FH5"/>
-                                                                                                <constraint firstItem="ezu-kk-XfR" firstAttribute="centerX" secondItem="bWD-IX-qUS" secondAttribute="centerX" id="dAr-Di-Uv5"/>
+                                                                                                <constraint firstItem="Eun-4u-Maw" firstAttribute="centerY" secondItem="bWD-IX-qUS" secondAttribute="centerY" id="IJd-Ht-GHO"/>
+                                                                                                <constraint firstItem="Eun-4u-Maw" firstAttribute="centerX" secondItem="bWD-IX-qUS" secondAttribute="centerX" id="Vs4-EH-sEU"/>
                                                                                             </constraints>
                                                                                         </view>
                                                                                         <vibrancyEffect>
@@ -2177,18 +2172,17 @@
                                                                                                         <rect key="frame" x="0.0" y="0.0" width="34" height="24"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
-                                                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hst-Eg-jhk">
+                                                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerRepeat" translatesAutoresizingMaskIntoConstraints="NO" id="7h4-TZ-Jo3">
                                                                                                                 <rect key="frame" x="2" y="2" width="30" height="20"/>
                                                                                                                 <constraints>
-                                                                                                                    <constraint firstAttribute="height" constant="20" id="2R0-ei-ZvK"/>
-                                                                                                                    <constraint firstAttribute="width" constant="30" id="BJr-q9-HBA"/>
+                                                                                                                    <constraint firstAttribute="width" constant="30" id="hLR-kf-eCX"/>
+                                                                                                                    <constraint firstAttribute="height" constant="20" id="nuk-vF-NTO"/>
                                                                                                                 </constraints>
-                                                                                                                <state key="normal" image="icon-PlayerRepeat"/>
-                                                                                                            </button>
+                                                                                                            </imageView>
                                                                                                         </subviews>
                                                                                                         <constraints>
-                                                                                                            <constraint firstItem="hst-Eg-jhk" firstAttribute="centerY" secondItem="oqR-DP-WLy" secondAttribute="centerY" id="HMR-wj-rvw"/>
-                                                                                                            <constraint firstItem="hst-Eg-jhk" firstAttribute="centerX" secondItem="oqR-DP-WLy" secondAttribute="centerX" id="ZZ3-xP-zJu"/>
+                                                                                                            <constraint firstItem="7h4-TZ-Jo3" firstAttribute="centerY" secondItem="oqR-DP-WLy" secondAttribute="centerY" id="8H0-s3-6sG"/>
+                                                                                                            <constraint firstItem="7h4-TZ-Jo3" firstAttribute="centerX" secondItem="oqR-DP-WLy" secondAttribute="centerX" id="SuL-Jh-311"/>
                                                                                                         </constraints>
                                                                                                     </view>
                                                                                                     <vibrancyEffect>
@@ -2211,18 +2205,17 @@
                                                                                             <rect key="frame" x="0.0" y="0.0" width="34" height="24"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
-                                                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qk1-nh-ZIo">
+                                                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerRepeat" translatesAutoresizingMaskIntoConstraints="NO" id="5Wn-MQ-YHj">
                                                                                                     <rect key="frame" x="2" y="2" width="30" height="20"/>
                                                                                                     <constraints>
-                                                                                                        <constraint firstAttribute="height" constant="20" id="GZb-xJ-vAw"/>
-                                                                                                        <constraint firstAttribute="width" constant="30" id="wZY-Oo-xgH"/>
+                                                                                                        <constraint firstAttribute="height" constant="20" id="Cbg-Wz-rjz"/>
+                                                                                                        <constraint firstAttribute="width" constant="30" id="pyq-cA-3xv"/>
                                                                                                     </constraints>
-                                                                                                    <state key="normal" image="icon-PlayerRepeat"/>
-                                                                                                </button>
+                                                                                                </imageView>
                                                                                             </subviews>
                                                                                             <constraints>
-                                                                                                <constraint firstItem="qk1-nh-ZIo" firstAttribute="centerX" secondItem="7G0-P4-2UX" secondAttribute="centerX" id="3Vq-Su-9MV"/>
-                                                                                                <constraint firstItem="qk1-nh-ZIo" firstAttribute="centerY" secondItem="7G0-P4-2UX" secondAttribute="centerY" id="Oe4-eu-jjj"/>
+                                                                                                <constraint firstItem="5Wn-MQ-YHj" firstAttribute="centerY" secondItem="7G0-P4-2UX" secondAttribute="centerY" id="Pdj-jy-YQ6"/>
+                                                                                                <constraint firstItem="5Wn-MQ-YHj" firstAttribute="centerX" secondItem="7G0-P4-2UX" secondAttribute="centerX" id="Ru8-rV-ZkT"/>
                                                                                             </constraints>
                                                                                         </view>
                                                                                         <vibrancyEffect>
@@ -2262,18 +2255,17 @@
                                                                                             <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
-                                                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bbq-5Q-Qaz">
-                                                                                                    <rect key="frame" x="4" y="5" width="15" height="15"/>
+                                                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-More" translatesAutoresizingMaskIntoConstraints="NO" id="rz3-rP-ZrH">
+                                                                                                    <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
                                                                                                     <constraints>
-                                                                                                        <constraint firstAttribute="height" constant="15" id="bEM-kU-I4o"/>
-                                                                                                        <constraint firstAttribute="width" constant="15" id="pHK-BT-TK1"/>
+                                                                                                        <constraint firstAttribute="width" constant="15" id="ZPC-t3-3JR"/>
+                                                                                                        <constraint firstAttribute="height" constant="15" id="svZ-eX-RzY"/>
                                                                                                     </constraints>
-                                                                                                    <state key="normal" image="icon-More"/>
-                                                                                                </button>
+                                                                                                </imageView>
                                                                                             </subviews>
                                                                                             <constraints>
-                                                                                                <constraint firstItem="Bbq-5Q-Qaz" firstAttribute="centerY" secondItem="0EK-qj-JZS" secondAttribute="centerY" id="QH4-ai-WeZ"/>
-                                                                                                <constraint firstItem="Bbq-5Q-Qaz" firstAttribute="centerX" secondItem="0EK-qj-JZS" secondAttribute="centerX" id="xFm-o6-x5r"/>
+                                                                                                <constraint firstItem="rz3-rP-ZrH" firstAttribute="centerY" secondItem="0EK-qj-JZS" secondAttribute="centerY" id="KBF-0w-kqf"/>
+                                                                                                <constraint firstItem="rz3-rP-ZrH" firstAttribute="centerX" secondItem="0EK-qj-JZS" secondAttribute="centerX" id="qPs-rt-bl8"/>
                                                                                             </constraints>
                                                                                         </view>
                                                                                         <vibrancyEffect>
@@ -2431,7 +2423,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SBx-jr-Lqd">
-                                            <rect key="frame" x="10" y="20" width="40" height="40"/>
+                                            <rect key="frame" x="10" y="25" width="40" height="40"/>
                                             <subviews>
                                                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hid-nu-BDw">
                                                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -2485,7 +2477,7 @@
                                             </constraints>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="slJ-Ce-WOY">
-                                            <rect key="frame" x="0.0" y="10" width="60" height="60"/>
+                                            <rect key="frame" x="0.0" y="15" width="60" height="60"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="60" id="h1E-3P-iIr"/>
                                                 <constraint firstAttribute="width" constant="60" id="j4y-w4-MuP"/>
@@ -2496,14 +2488,14 @@
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="slJ-Ce-WOY" firstAttribute="top" secondItem="vjQ-Gt-ZI3" secondAttribute="top" constant="10" id="1gh-cu-8Ks"/>
+                                        <constraint firstItem="slJ-Ce-WOY" firstAttribute="top" secondItem="vjQ-Gt-ZI3" secondAttribute="top" constant="15" id="1gh-cu-8Ks"/>
+                                        <constraint firstItem="SBx-jr-Lqd" firstAttribute="centerY" secondItem="slJ-Ce-WOY" secondAttribute="centerY" id="2Qa-n2-XjW"/>
                                         <constraint firstItem="71T-rk-WHY" firstAttribute="leading" secondItem="vjQ-Gt-ZI3" secondAttribute="leading" id="9ha-wR-er5"/>
                                         <constraint firstAttribute="bottom" secondItem="71T-rk-WHY" secondAttribute="bottom" id="DRP-2p-S45"/>
                                         <constraint firstItem="slJ-Ce-WOY" firstAttribute="leading" secondItem="vjQ-Gt-ZI3" secondAttribute="leading" id="FG8-Xd-ue4"/>
                                         <constraint firstItem="oqi-OQ-OFd" firstAttribute="top" secondItem="vjQ-Gt-ZI3" secondAttribute="top" id="IGg-QN-eOO"/>
                                         <constraint firstItem="Wgb-Ck-BAU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="slJ-Ce-WOY" secondAttribute="trailing" id="JB7-pG-cfN"/>
-                                        <constraint firstItem="SBx-jr-Lqd" firstAttribute="top" secondItem="vjQ-Gt-ZI3" secondAttribute="top" constant="20" id="LW1-2Q-FcN"/>
-                                        <constraint firstItem="SBx-jr-Lqd" firstAttribute="leading" secondItem="vjQ-Gt-ZI3" secondAttribute="leading" constant="10" id="NX2-Zg-hB9"/>
+                                        <constraint firstItem="SBx-jr-Lqd" firstAttribute="centerX" secondItem="slJ-Ce-WOY" secondAttribute="centerX" id="LpM-wl-dyY"/>
                                         <constraint firstAttribute="trailing" secondItem="oqi-OQ-OFd" secondAttribute="trailing" id="Pcb-3I-MhA"/>
                                         <constraint firstItem="oqi-OQ-OFd" firstAttribute="leading" secondItem="vjQ-Gt-ZI3" secondAttribute="leading" id="PrI-WV-T26"/>
                                         <constraint firstItem="71T-rk-WHY" firstAttribute="top" secondItem="oqi-OQ-OFd" secondAttribute="bottom" id="hPf-L7-RqF"/>
@@ -2542,33 +2534,33 @@
                         <outlet property="downloadButton" destination="4T6-In-h8N" id="8bQ-DN-qTc"/>
                         <outlet property="leftTimeLabel" destination="yaT-hq-2li" id="5ZZ-ae-FSq"/>
                         <outlet property="loudlyVolumeImageView" destination="j3b-Ly-1yU" id="1RH-Jd-7sm"/>
-                        <outlet property="lyricsActiveStateButton" destination="caa-Ml-Z6r" id="baV-pj-cdG"/>
+                        <outlet property="lyricsActiveStateIconImageView" destination="Gur-Fj-Z5G" id="ean-FD-IGd"/>
                         <outlet property="lyricsActiveStateView" destination="PMq-2L-ZwR" id="JnO-ks-BXY"/>
                         <outlet property="lyricsBackgroundBlurEffectView" destination="2MX-vE-M4d" id="Avw-Rz-stL"/>
                         <outlet property="lyricsButtonArea" destination="wcD-pw-Cme" id="3fg-4s-9Ss"/>
                         <outlet property="lyricsButtonView" destination="Jrp-ex-QMY" id="ypD-HK-BQI"/>
-                        <outlet property="lyricsInactiveStateButton" destination="JAz-7G-Zko" id="CsZ-Qp-kfR"/>
+                        <outlet property="lyricsInactiveStateIconImageView" destination="o41-PC-ulM" id="Awm-XZ-hXh"/>
                         <outlet property="lyricsInactiveStateView" destination="iy1-hi-Vqh" id="aHt-gN-6di"/>
                         <outlet property="lyricsTextView" destination="1uw-8n-KQo" id="b16-V7-IfQ"/>
                         <outlet property="lyricsView" destination="A6Y-aa-8dE" id="NAa-mN-fFO"/>
-                        <outlet property="moreButton" destination="Bbq-5Q-Qaz" id="MuW-Km-M6D"/>
+                        <outlet property="moreIconImageView" destination="rz3-rP-ZrH" id="GpD-94-1jY"/>
                         <outlet property="muteVolumeImageView" destination="JuZ-QH-PKB" id="LaB-tX-DLX"/>
                         <outlet property="nextTrackButton" destination="MpO-y6-HGT" id="p4W-ZM-EgK"/>
                         <outlet property="playOrPauseButton" destination="uVD-JD-3Xz" id="8y0-1B-0Bu"/>
                         <outlet property="previousTrackButton" destination="f3e-rL-kMj" id="UNC-MP-Cc0"/>
-                        <outlet property="repeatActiveStateButton" destination="hst-Eg-jhk" id="IZL-pO-O2t"/>
+                        <outlet property="repeatActiveStateIconImageView" destination="7h4-TZ-Jo3" id="Zgb-zr-PVw"/>
                         <outlet property="repeatActiveStateView" destination="nJK-MI-VWx" id="Dff-9t-gPV"/>
-                        <outlet property="repeatInactiveStateButton" destination="qk1-nh-ZIo" id="Bhp-gA-lMk"/>
+                        <outlet property="repeatInactiveStateIconImageView" destination="5Wn-MQ-YHj" id="3O4-Aj-pQV"/>
                         <outlet property="repeatInactiveStateView" destination="g6j-4H-sxk" id="glV-JT-KnX"/>
                         <outlet property="repeatView" destination="oT5-7r-HOn" id="CRo-ws-gal"/>
-                        <outlet property="shareToStatusActiveStateButton" destination="Uip-Ie-M9S" id="4DG-3T-lGH"/>
+                        <outlet property="shareToStatusActiveStateIconImageView" destination="JPk-lH-5G0" id="IAn-WR-K63"/>
                         <outlet property="shareToStatusActiveStateView" destination="7sQ-dQ-phG" id="Dxd-dP-2pg"/>
-                        <outlet property="shareToStatusInactiveStateButton" destination="UFh-Kt-qPX" id="IsO-5s-oar"/>
+                        <outlet property="shareToStatusInactiveStateIconImageView" destination="npR-2c-IVA" id="ZfE-Z9-dMD"/>
                         <outlet property="shareToStatusInactiveStateView" destination="8I5-XC-jJp" id="oy9-6X-FZL"/>
                         <outlet property="shareToStatusView" destination="eFY-2m-lBm" id="O7g-9e-XIv"/>
-                        <outlet property="shuffleActiveStateButton" destination="VcJ-Fp-6ra" id="mLD-4a-4mW"/>
+                        <outlet property="shuffleActiveStateIconImageView" destination="5XC-O1-Nfd" id="a0g-5t-75S"/>
                         <outlet property="shuffleActiveStateView" destination="r8b-eu-V4N" id="86Z-tw-QO4"/>
-                        <outlet property="shuffleInactiveStateButton" destination="ezu-kk-XfR" id="8vK-rl-3qw"/>
+                        <outlet property="shuffleInactiveStateIconImageView" destination="Eun-4u-Maw" id="dJ0-8M-Kje"/>
                         <outlet property="shuffleInactiveStateView" destination="jNJ-Ze-kBK" id="heB-4D-fy6"/>
                         <outlet property="shuffleView" destination="2kt-8b-nku" id="huA-RS-Cty"/>
                         <outlet property="sliderView" destination="aGe-SC-0Hw" id="7Ua-XG-WAJ"/>
@@ -2576,7 +2568,7 @@
                         <outlet property="titleLabel" destination="hxc-Hm-Aph" id="F3b-99-Bvm"/>
                         <outlet property="topSpaceTrackSlider" destination="gUP-cz-7sM" id="jJh-gU-nxf"/>
                         <outlet property="trackSlider" destination="1i6-K6-Zh3" id="Hbu-I0-bCZ"/>
-                        <outlet property="volumeSliderView" destination="B48-dT-RUx" id="cCR-Xf-FU7"/>
+                        <outlet property="volumeSliderView" destination="B48-dT-RUx" id="yZE-Kw-zbY"/>
                         <outlet property="volumeView" destination="CLY-MP-Z8F" id="Tis-LU-PXg"/>
                     </connections>
                 </viewController>

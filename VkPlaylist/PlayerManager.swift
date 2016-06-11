@@ -90,7 +90,13 @@ class PlayerManager {
     /// Длина аудиозаписи
     var duration = 0.0
     /// Текущее время аудиозаписи
-    var currentTime = 0.0
+    var currentTime = 0.0 {
+        didSet {
+            if currentTime < 0 {
+                currentTime = 0
+            }
+        }
+    }
     /// Прогресс воспроизведения
     var progress: Float {
         return Float(currentTime / duration)
@@ -100,9 +106,11 @@ class PlayerManager {
     var isShareToStatus = false
     /// Перемешивать ли плейлист
     var isShuffle = false
-    /// Тип перемешивания
+    /// Тип повторения плейлиста
     var repeatType = PlayerRepeatType.No
     
+    
+    // MARK: Начало воспроизведения
     
     /// Воспроизвести аудиозапись по указанному индексу, в указанном плейлисте с указанным идентификатором
     func playItemWithIndex(index: Int , inOnlinePlaylist playlist: [Track], withPlaylistIdentifier playlistIdentifier: String) {
@@ -124,6 +132,9 @@ class PlayerManager {
             player.playAtIndex(index)
         }
     }
+    
+    
+    // MARK: Управление воспроизведением
     
     /// Пользователь начал перемотку аудиозаписи
     func sliderEditingDidBegin() {
@@ -161,6 +172,48 @@ class PlayerManager {
         player.playNext()
     }
     
+    /// Была нажата кнопка "Отправлять музыку в статус"
+    func shareToStatusButtonTapped() {
+        isShareToStatus = !isShareToStatus
+        
+        delegates.forEach { delegate in
+            delegate.playerManagerShareToStatusSettingChangedTo(isShareToStatus)
+        }
+    }
+    
+    /// Была нажата кнопка "Повторять"
+    func repeatButtonTapped() {
+        nextRepeatType()
+        
+        delegates.forEach { delegate in
+            delegate.playerManagerRepeatTypeDidChange(repeatType)
+        }
+    }
+    
+    /// Была нажата кнопка "Перемешать"
+    func shuffleButtonTapped() {
+        isShuffle = !isShuffle
+        
+        delegates.forEach { delegate in
+            delegate.playerManagerShuffleSettingChangedTo(isShuffle)
+        }
+    }
+    
+    
+    // MARK: Помощники
+    
+    /// Переключение типа повторения
+    func nextRepeatType() {
+        switch repeatType {
+        case .No:
+            repeatType = .All
+        case .All:
+            repeatType = .One
+        case .One:
+            repeatType = .No
+        }
+    }
+    
 }
 
 
@@ -168,6 +221,7 @@ class PlayerManager {
 
 extension PlayerManager: PlayerDelegate {
     
+    // Плеер изменил состояние
     func playerStateDidChange(player: Player) {
         isPlaying = player.state == .Playing
         
@@ -176,8 +230,8 @@ extension PlayerManager: PlayerDelegate {
         }
     }
     
+    // Плеер изменил прогресс воспроизведения
     func playerPlaybackProgressDidChange(player: Player) {
-        duration = player.currentItem!.duration!
         currentTime = player.currentItem!.currentTime!
         
         delegates.forEach { delegate in
@@ -185,9 +239,11 @@ extension PlayerManager: PlayerDelegate {
         }
     }
     
+    // Плеер изменил воспроизводимый элемент
     func playerCurrentItemDidChange(player: Player) {
         trackTitle = player.currentItem!.title
         artist = player.currentItem!.artist
+        duration = player.currentItem!.duration!
         
         delegates.forEach { delegate in
             delegate.playerManagerGetNewItem(player.currentItem!)

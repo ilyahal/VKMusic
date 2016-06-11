@@ -159,4 +159,13 @@ extension MiniPlayerViewController: PlayerManagerDelegate {
         progressBar.setProgress(progress, animated: false)
     }
     
+    // Менеджер плеера изменил настройку "Отправлять ли музыку в статус"
+    func playerManagerShareToStatusSettingChangedTo(isShareToStatus: Bool) {}
+    
+    // Менеджер плеера изменил настройку "Перемешивать ли плейлист"
+    func playerManagerShuffleSettingChangedTo(isShuffle: Bool) {}
+    
+    // Менеджер плеера изменил настройку "Повторять ли плейлист"
+    func playerManagerRepeatTypeDidChange(type: PlayerRepeatType) {}
+    
 }

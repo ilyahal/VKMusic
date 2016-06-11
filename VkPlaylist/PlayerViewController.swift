@@ -75,7 +75,7 @@ class PlayerViewController: UIViewController {
     /// Элемент содержащий слайдер управления звуком и иконки
     @IBOutlet weak var volumeView: UIView!
     /// Элемент содержащий слайдер управления звуком
-    @IBOutlet weak var volumeSliderView: UIView!
+    @IBOutlet weak var volumeSliderView: MPVolumeView!
     /// Иконка "Минимальный звук"
     @IBOutlet weak var muteVolumeImageView: UIImageView!
     /// Иконка "Максимальный звук"
@@ -86,21 +86,21 @@ class PlayerViewController: UIViewController {
     /// Элемент для активного состояния кнопки "Отобразить в статусе"
     @IBOutlet weak var shareToStatusActiveStateView: UIVisualEffectView!
     /// Кнопка "Отобразить в статусе" для активного состояния
-    @IBOutlet weak var shareToStatusActiveStateButton: UIButton!
+    @IBOutlet weak var shareToStatusActiveStateIconImageView: UIImageView!
     /// Элемент для неактивного состояния кнопки "Отобразить в статусе"
     @IBOutlet weak var shareToStatusInactiveStateView: UIVisualEffectView!
     /// Кнопка "Отобразить в статусе" для неактивного состояния
-    @IBOutlet weak var shareToStatusInactiveStateButton: UIButton!
+    @IBOutlet weak var shareToStatusInactiveStateIconImageView: UIImageView!
     /// Элемент содержащий кнопку "Отобразить слова аудиозаписи"
     @IBOutlet weak var lyricsButtonView: UIView!
     /// Элемент для активного состояния кнопки "Отобразить слова аудиозаписи"
     @IBOutlet weak var lyricsActiveStateView: UIVisualEffectView!
     /// Кнопка "Отобразить слова аудиозаписи" для активного состояния
-    @IBOutlet weak var lyricsActiveStateButton: UIButton!
+    @IBOutlet weak var lyricsActiveStateIconImageView: UIImageView!
     /// Элемент для неактивного состояния кнопки "Отобразить слова аудиозаписи"
     @IBOutlet weak var lyricsInactiveStateView: UIVisualEffectView!
     /// Кнопка "Отобразить слова аудиозаписи" для неактивного состояния
-    @IBOutlet weak var lyricsInactiveStateButton: UIButton!
+    @IBOutlet weak var lyricsInactiveStateIconImageView: UIImageView!
     /// Активная область вокруг кнопки "Отобразить слова аудиозаписи"
     @IBOutlet weak var lyricsButtonArea: UIButton!
     /// Элемент содержащий кнопку "Перемешать"
@@ -108,24 +108,84 @@ class PlayerViewController: UIViewController {
     /// Элемент для активного состояния кнопки "Перемешать"
     @IBOutlet weak var shuffleActiveStateView: UIVisualEffectView!
     /// Кнопка "Перемешать" для активного состояния
-    @IBOutlet weak var shuffleActiveStateButton: UIButton!
+    @IBOutlet weak var shuffleActiveStateIconImageView: UIImageView!
     /// Элемент для неактивного состояния кнопки "Перемешать"
     @IBOutlet weak var shuffleInactiveStateView: UIVisualEffectView!
     /// Кнопка "Перемешать" для неактивного состояния
-    @IBOutlet weak var shuffleInactiveStateButton: UIButton!
+    @IBOutlet weak var shuffleInactiveStateIconImageView: UIImageView!
     /// Элемент содержащий кнопку "Повторить"
     @IBOutlet weak var repeatView: UIView!
     /// Элемент для активного состояния кнопки "Повторить"
     @IBOutlet weak var repeatActiveStateView: UIVisualEffectView!
     /// Кнопка "Повторить" для активного состояния
-    @IBOutlet weak var repeatActiveStateButton: UIButton!
+    @IBOutlet weak var repeatActiveStateIconImageView: UIImageView!
     /// Элемент для неактивного состояния кнопки "Повторить"
     @IBOutlet weak var repeatInactiveStateView: UIVisualEffectView!
     /// Кнопка "Повторить" для неактивного состояния
-    @IBOutlet weak var repeatInactiveStateButton: UIButton!
+    @IBOutlet weak var repeatInactiveStateIconImageView: UIImageView!
     /// Кнопка "Еще"
-    @IBOutlet weak var moreButton: UIButton!
+    @IBOutlet weak var moreIconImageView: UIImageView!
     
+    
+    /// Распознатель тапов по текстовому полю
+    var lyricsTapRecognizer: UITapGestureRecognizer!
+    /// Иконка "Скачать"
+    let downloadIcon = UIImage(named: "icon-PlayerDownload")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Предыдущая аудиозапись"
+    let previousTrackIcon = UIImage(named: "icon-PlayerPreviousTrack")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Play"
+    let playIcon = UIImage(named: "icon-PlayerPlay")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Пауза"
+    let pauseIcon = UIImage(named: "icon-PlayerPause")!.tintPicto(UIColor.whiteColor())
+    /// Иконка для кнопки "Play" / "Пауза"
+    var playOrPauseIcon: UIImage {
+        return isPlaying ? pauseIcon : playIcon
+    }
+    /// Иконка "Следующая аудиозапись"
+    let nextTrackIcon = UIImage(named: "icon-PlayerNextTrack")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Текущий плейлист"
+    let currentPlaylistIcon = UIImage(named: "icon-PlayerCurrentPlaylist")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Без звука"
+    let volumeMuteIcon = UIImage(named: "icon-PlayerVolumeMute")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Громкий звук"
+    let volumeLoudlyIcon = UIImage(named: "icon-PlayerVolumeLoudly")!.tintPicto(UIColor.whiteColor())
+    /// Иконка для кнопки "Отобразить в статус"
+    let shareToStatusIcon = UIImage(named: "icon-PlayerShareToStatus")!.tintPicto(UIColor.whiteColor())
+    /// Иконка для кнопки "Отобразить слова аудиозаписи"
+    let lyricsIcon = UIImage(named: "icon-PlayerLyrics")!.tintPicto(UIColor.whiteColor())
+    /// Иконка для кнопки "Перемешать"
+    let shuffleIcon = UIImage(named: "icon-PlayerShuffle")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Повторить"
+    let repeatIcon = UIImage(named: "icon-PlayerRepeat")!.tintPicto(UIColor.whiteColor())
+    /// Иконка "Повторить одну"
+    let repeatOneIcon = UIImage(named: "icon-PlayerRepeatOne")!.tintPicto(UIColor.whiteColor())
+    /// Иконка для кнопки "Повторить" для активного состояния
+    var repeatActiveIcon: UIImage {
+        return repeatType == .One ? repeatOneIcon : repeatIcon
+    }
+    /// Иконка для кнопки "Перемешать" для неактивного состояния
+    let repeatInactiveIcon = UIImage(named: "icon-PlayerRepeat")!.tintPicto(UIColor.whiteColor())
+    /// Иконка для кнопки "Еще"
+    let moreIcon = UIImage(named: "icon-More")!.tintPicto(UIColor.whiteColor())
+    
+    
+    /// Длина текущей аудиозаписи
+    var duration: Double {
+        return PlayerManager.sharedInstance.duration
+    }
+    /// Текущее время воспроизведения текущей аудиозаписи
+    var currentTime: Double {
+        return PlayerManager.sharedInstance.currentTime
+    }
+    /// Времени осталось до конца аудиозаписи
+    var leftTime: Double {
+        var leftTime = duration - currentTime
+        if leftTime < 0 {
+            leftTime = 0
+        }
+        
+        return leftTime
+    }
     
     /// Показывать ли слова аудиозаписи
     var isShowLyrics = false
@@ -137,64 +197,22 @@ class PlayerViewController: UIViewController {
     }
     /// Отображать ли музыку в статусе
     var isShareToStatus: Bool {
-        set {
-            PlayerManager.sharedInstance.isShareToStatus = newValue
-        }
         get {
             return PlayerManager.sharedInstance.isShareToStatus
         }
     }
     /// Перемешать ли плейлист
     var isShuffle: Bool {
-        set {
-            PlayerManager.sharedInstance.isShuffle = newValue
-        }
         get {
             return PlayerManager.sharedInstance.isShuffle
         }
     }
     /// Тип перемешивания
     var repeatType: PlayerRepeatType {
-        set {
-            PlayerManager.sharedInstance.repeatType = newValue
-        }
         get {
             return PlayerManager.sharedInstance.repeatType
         }
     }
-    
-    /// Распознатель тапов по текстовому полю
-    var lyricsTapRecognizer: UITapGestureRecognizer!
-    /// Иконка "Скачать"
-    var downloadIcon = UIImage(named: "icon-PlayerDownload")!.tintPicto(UIColor.whiteColor())
-    /// Иконка "Предыдущая аудиозапись"
-    var previousTrackIcon = UIImage(named: "icon-PlayerPreviousTrack")!.tintPicto(UIColor.whiteColor())
-    /// Иконка для кнопки "Play" / "Пауза"
-    var playOrPauseIcon: UIImage {
-        return UIImage(named: isPlaying ? "icon-PlayerPause" : "icon-PlayerPlay")!.tintPicto(UIColor.whiteColor())
-    }
-    /// Иконка "Следующая аудиозапись"
-    var nextTrackIcon = UIImage(named: "icon-PlayerNextTrack")!.tintPicto(UIColor.whiteColor())
-    /// Иконка "Текущий плейлист"
-    var currentPlaylistIcon = UIImage(named: "icon-PlayerCurrentPlaylist")!.tintPicto(UIColor.whiteColor())
-    /// Иконка "Без звука"
-    var volumeMuteIcon = UIImage(named: "icon-PlayerVolumeMute")!.tintPicto(UIColor.whiteColor())
-    /// Иконка "Громкий звук"
-    var volumeLoudlyIcon = UIImage(named: "icon-PlayerVolumeLoudly")!.tintPicto(UIColor.whiteColor())
-    /// Иконка для кнопки "Отобразить в статус"
-    var shareToStatusIcon = UIImage(named: "icon-PlayerShareToStatus")!.tintPicto(UIColor.whiteColor())
-    /// Иконка для кнопки "Отобразить слова аудиозаписи"
-    var lyricsIcon = UIImage(named: "icon-PlayerLyrics")!.tintPicto(UIColor.whiteColor())
-    /// Иконка для кнопки "Перемешать"
-    var shuffleIcon = UIImage(named: "icon-PlayerShuffle")!.tintPicto(UIColor.whiteColor())
-    /// Иконка для кнопки "Повторить" для активного состояния
-    var repeatActiveIcon: UIImage {
-        return UIImage(named: repeatType == .One ? "icon-PlayerRepeatOne" : "icon-PlayerRepeat")!.tintPicto(UIColor.whiteColor())
-    }
-    /// Иконка для кнопки "Перемешать" для неактивного состояния
-    var repeatInactiveIcon = UIImage(named: "icon-PlayerRepeat")!.tintPicto(UIColor.whiteColor())
-    /// Иконка для кнопки "Еще"
-    var moreIcon = UIImage(named: "icon-More")!.tintPicto(UIColor.whiteColor())
     
     
     override func viewDidLoad() {
@@ -202,11 +220,61 @@ class PlayerViewController: UIViewController {
         
         PlayerManager.sharedInstance.addDelegate(self)
         
+        configureUI()
+        
+        // Настройка бара отображающего прогресс буфферизации
+        bufferingProgressView.setProgress(0, animated: false)
+        
+        // Настройка слайдера с аудиозаписью
+        trackSlider.setValue(PlayerManager.sharedInstance.progress, animated: false)
+        
+        // Настройка надписей со временм
+        currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
+        leftTimeLabel.text = String.formattedTimeFromSeconds(leftTime)
+        
+        // Настройка надписи с названием аудиозаписи
+        titleLabel.text = PlayerManager.sharedInstance.trackTitle
+        
+        // Настройка надписи с именем исполнителя
+        artistLabel.text = PlayerManager.sharedInstance.artist
+        
+        // Настройка кнопки "Скачать"
+        downloadButton.hidden = true
+        downloadButton.enabled = !PlayerManager.sharedInstance.player.currentItem!.isDownloaded
+        
+        // Настройка кнопки "Текущий плейлист"
+        currentPlaylistButton.hidden = true
+        
+        // Настройка кнопки "Отобразить в статусе"
+        configureShareToStatusButton()
+        
+        // Настройка кнопки "Отобразить слова аудиозаписи"
+        configureLyricsButton()
+        
+        // Настройка кнопки "Перемешать"
+        configureShuffleButton()
+        
+        // Настройка кнопки "Повторить"
+        configureRepeatButton()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        PlayerManager.sharedInstance.deleteDelegate(self)
+    }
+    
+    
+    // MARK: UI
+    
+    /// Настройка интерфейса контроллера
+    func configureUI() {
+        
         /// Настройка кнопки "Закрыть"
         closeView.layer.cornerRadius = closeView.bounds.size.height / 2
         closeView.layer.masksToBounds = true
         closeButton.setImage(UIImage(named: "icon-PlayerClose")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
-
+        
         // Инициализация распознавателя тапов по элементу с текстом аудиозаписи
         lyricsTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(lyricsTapped))
         lyricsTapRecognizer.delegate = self
@@ -224,35 +292,28 @@ class PlayerViewController: UIViewController {
         let rightSliderSubview = UIView(frame: CGRectMake(view.bounds.size.width - 3, 0, 3, 2))
         rightSliderSubview.backgroundColor = UIColor.lightGrayColor()
         sliderView.insertSubview(rightSliderSubview, belowSubview: bufferingProgressView)
-        
+    
         // Настройка бара отображающего прогресс буфферизации
-        bufferingProgressView.setProgress(0, animated: false)
         bufferingProgressView.progressTintColor = tintColor.colorWithAlphaComponent(0.4)
         bufferingProgressView.trackTintColor = UIColor.lightGrayColor()
         
         // Настройка слайдера с аудиозаписью
-        trackSlider.setValue(PlayerManager.sharedInstance.progress, animated: false)
         trackSlider.minimumTrackTintColor = tintColor
         trackSlider.maximumTrackTintColor = UIColor.clearColor()
         trackSlider.setThumbImage(UIImage(named: "icon-PlayerThumbTrack")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
         topSpaceTrackSlider.constant = -9
         
         // Настройка надписей со временм
-        currentTimeLabel.text = nil
         currentTimeLabel.textColor = UIColor.whiteColor()
-        leftTimeLabel.text = nil
         leftTimeLabel.textColor = UIColor.whiteColor()
         
         // Настройка надписи с названием аудиозаписи
-        titleLabel.text = PlayerManager.sharedInstance.trackTitle
         titleLabel.textColor = UIColor.whiteColor()
         
         // Настройка надписи с именем исполнителя
-        artistLabel.text = PlayerManager.sharedInstance.artist
         artistLabel.textColor = UIColor.whiteColor()
         
         // Настройка кнопки "Скачать"
-        downloadButton.enabled = !PlayerManager.sharedInstance.player.currentItem!.isDownloaded
         downloadButton.setImage(downloadIcon, forState: .Normal)
         
         // Настройка кнопки "Предыдущая аудиозапись"
@@ -268,55 +329,36 @@ class PlayerViewController: UIViewController {
         currentPlaylistButton.setImage(currentPlaylistIcon, forState: .Normal)
         
         // Настройка слайдера со звуком
-        let MPVolumeSlider = MPVolumeView(frame: CGRectMake(0, 6, view.bounds.size.width * 0.8, 31))
-        MPVolumeSlider.translatesAutoresizingMaskIntoConstraints = false
-        volumeSliderView.addSubview(MPVolumeSlider)
-//        NSLayoutConstraint(item: MPVolumeSlider, attribute: .Leading, relatedBy: .Equal, toItem: volumeSliderView, attribute: .Leading, multiplier: 1, constant: 0).active = true
-//        NSLayoutConstraint(item: MPVolumeSlider, attribute: .Trailing, relatedBy: .Equal, toItem: volumeSliderView, attribute: .Trailing, multiplier: 1, constant: 0).active = true
-//        NSLayoutConstraint(item: MPVolumeSlider, attribute: .CenterY, relatedBy: .Equal, toItem: volumeSliderView, attribute: .CenterY, multiplier: 1, constant: -5).active = true
-        MPVolumeSlider.setVolumeThumbImage(UIImage(named: "icon-PlayerThumbVolume")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
+        volumeSliderView.setVolumeThumbImage(UIImage(named: "icon-PlayerThumbVolume")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
         muteVolumeImageView.image = volumeMuteIcon
         loudlyVolumeImageView.image = volumeLoudlyIcon
         
         // Настройка кнопки "Отобразить в статусе"
         shareToStatusView.layer.cornerRadius = 3
         shareToStatusView.layer.masksToBounds = true
-        shareToStatusActiveStateButton.setImage(shareToStatusIcon, forState: .Normal)
-        shareToStatusInactiveStateButton.setImage(shareToStatusIcon, forState: .Normal)
-        configureShareToStatusButton()
+        shareToStatusActiveStateIconImageView.image = shareToStatusIcon
+        shareToStatusInactiveStateIconImageView.image = shareToStatusIcon
         
         // Настройка кнопки "Отобразить слова аудиозаписи"
         lyricsButtonView.layer.cornerRadius = 3
         lyricsButtonView.layer.masksToBounds = true
-        lyricsActiveStateButton.setImage(lyricsIcon, forState: .Normal)
-        lyricsInactiveStateButton.setImage(lyricsIcon, forState: .Normal)
-        configureLyricsButton()
+        lyricsActiveStateIconImageView.image = lyricsIcon
+        lyricsInactiveStateIconImageView.image = lyricsIcon
         
         // Настройка кнопки "Перемешать"
         shuffleView.layer.cornerRadius = 3
         shuffleView.layer.masksToBounds = true
-        shuffleActiveStateButton.setImage(shuffleIcon, forState: .Normal)
-        shuffleInactiveStateButton.setImage(shuffleIcon, forState: .Normal)
-        configureShuffleButton()
+        shuffleActiveStateIconImageView.image = shuffleIcon
+        shuffleInactiveStateIconImageView.image = shuffleIcon
         
         // Настройка кнопки "Повторить"
         repeatView.layer.cornerRadius = 3
         repeatView.layer.masksToBounds = true
-        repeatInactiveStateButton.setImage(repeatInactiveIcon, forState: .Normal)
-        configureRepeatButton()
+        repeatInactiveStateIconImageView.image = repeatInactiveIcon
         
         // Настройка кнопки "Еще"
-        moreButton.setImage(moreIcon, forState: .Normal)
+        moreIconImageView.image = moreIcon
     }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        PlayerManager.sharedInstance.deleteDelegate(self)
-    }
-    
-    
-    // MARK: Помощники
     
     /// Настройка отображения слов аудиозаписи
     func configureLyricsAppear() {
@@ -362,18 +404,6 @@ class PlayerViewController: UIViewController {
         shuffleInactiveStateView.hidden = isShuffle
     }
     
-    /// Переключение типа повторения
-    func nextRepeatType() {
-        switch repeatType {
-        case .No:
-            repeatType = .All
-        case .All:
-            repeatType = .One
-        case .One:
-            repeatType = .No
-        }
-    }
-    
     /// Настройка кнопки "Повторить"
     func configureRepeatButton() {
         switch repeatType {
@@ -384,7 +414,7 @@ class PlayerViewController: UIViewController {
             repeatInactiveStateView.hidden = true
             repeatActiveStateView.hidden = false
             
-            repeatActiveStateButton.setImage(repeatActiveIcon, forState: .Normal)
+            repeatActiveStateIconImageView.image = repeatActiveIcon
         }
     }
     
@@ -412,11 +442,6 @@ class PlayerViewController: UIViewController {
         configureLyricsButton()
     }
     
-    /// Кнопка "Скачать" была нажата
-    @IBAction func downloadButtonTapped(sender: UIButton) {
-        downloadButton.enabled = false
-    }
-    
     /// Слайдер с аудиозаписью начали тащить
     @IBAction func trackSliderEditingDidBegin(sender: UISlider) {
         PlayerManager.sharedInstance.sliderEditingDidBegin()
@@ -424,14 +449,21 @@ class PlayerViewController: UIViewController {
     
     /// Значение слайдера с аудиозаписью изменилось
     @IBAction func trackSliderValueChanged(sender: UISlider) {
+        var currentTime = floor(duration * Double(sender.value))
+        var timeLeft = floor(duration - currentTime)
         
+        if currentTime <= 0 {
+            currentTime = 0
+            timeLeft = floor(duration);
+        }
+        
+        currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
+        leftTimeLabel.text = String.formattedTimeFromSeconds(timeLeft)
     }
     
     /// Слайдер с аудиозаписью прекратили тащить
     @IBAction func trackSliderEditingDidEnd(sender: UISlider) {
-        let duration = PlayerManager.sharedInstance.duration
-        
-        var currentTime = floor(Double((Float(duration) * sender.value)))
+        var currentTime = floor(duration * Double(sender.value))
         if currentTime <= 0 {
             currentTime = 0
         }
@@ -439,7 +471,10 @@ class PlayerViewController: UIViewController {
         PlayerManager.sharedInstance.sliderEditingDidEndWithSecond(Int(currentTime))
     }
     
-    /// Кнопка "Предыдущая аудиозапись" была нажат
+    /// Кнопка "Скачать" была нажата
+    @IBAction func downloadButtonTapped(sender: UIButton) {}
+    
+    /// Кнопка "Предыдущая аудиозапись" была нажата
     @IBAction func previousTrackTapped(sender: UIButton) {
         PlayerManager.sharedInstance.previousTapped()
     }
@@ -453,22 +488,23 @@ class PlayerViewController: UIViewController {
         }
     }
     
-    /// Кнопка "Следующая аудиозапись" была нажат
+    /// Кнопка "Следующая аудиозапись" была нажата
     @IBAction func nextTrackTapped(sender: UIButton) {
         PlayerManager.sharedInstance.nextTapped()
     }
     
+    /// Кнопка "Скачать" была нажата
+    @IBAction func currentPlaylistButtonTapped(sender: UIButton) {}
+    
     /// Кнопка "Отобразить в статусе" была нажата
     @IBAction func shareToStatusButtonTapped(sender: UIButton) {
         if isShareToStatus {
-            isShareToStatus = false
-            configureShareToStatusButton()
+            PlayerManager.sharedInstance.shareToStatusButtonTapped()
         } else {
             let alertController = UIAlertController(title: nil, message: "Проигрываемая музыка будет транслироваться в Ваш статус на сайте vk.com!", preferredStyle: .ActionSheet)
             
             let continueAction = UIAlertAction(title: "Продолжить", style: .Default) { _ in
-                self.isShareToStatus = true
-                self.configureShareToStatusButton()
+                PlayerManager.sharedInstance.shareToStatusButtonTapped()
             }
             alertController.addAction(continueAction)
             
@@ -490,14 +526,12 @@ class PlayerViewController: UIViewController {
     
     /// Кнопка "Перемешать" была нажата
     @IBAction func shuffleButtonTapped(sender: UIButton) {
-        isShuffle = !isShuffle
-        configureShuffleButton()
+        PlayerManager.sharedInstance.shuffleButtonTapped()
     }
     
     /// Кнопка "Повторить" была нажата
     @IBAction func repeatButtonTapped(sender: UIButton) {
-        nextRepeatType()
-        configureRepeatButton()
+        PlayerManager.sharedInstance.repeatButtonTapped()
     }
     
     /// Кнопка "Еще" была нажата
@@ -556,7 +590,25 @@ extension PlayerViewController: PlayerManagerDelegate {
     
     // Менеджер плеера получил новое значение прогресса
     func playerManagerCurrentItemGetNewTimerProgress(progress: Float) {
+        currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
+        leftTimeLabel.text = String.formattedTimeFromSeconds(leftTime)
+        
         trackSlider.setValue(progress, animated: false)
+    }
+    
+    // Менеджер плеера изменил настройку "Отправлять ли музыку в статус"
+    func playerManagerShareToStatusSettingChangedTo(isShareToStatus: Bool) {
+        configureShareToStatusButton()
+    }
+    
+    // Менеджер плеера изменил настройку "Перемешивать ли плейлист"
+    func playerManagerShuffleSettingChangedTo(isShuffle: Bool) {
+        configureShuffleButton()
+    }
+    
+    // Менеджер плеера изменил настройку "Повторять ли плейлист"
+    func playerManagerRepeatTypeDidChange(type: PlayerRepeatType) {
+        configureRepeatButton()
     }
     
 }
