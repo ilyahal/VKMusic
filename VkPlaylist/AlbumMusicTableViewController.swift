@@ -45,6 +45,8 @@ class AlbumMusicTableViewController: MusicFromInternetWithSearchTableViewControl
     /// Запрос на получение аудиозаписей альбома с сервера
     func getAlbumMusic() {
         RequestManager.sharedInstance.getAlbumAudio.performRequest([.AlbumID : album.id]) { success in
+            self.playlistIdentifier = NSUUID().UUIDString
+            
             self.music = DataManager.sharedInstance.albumMusic.array
             
             self.reloadTableView()

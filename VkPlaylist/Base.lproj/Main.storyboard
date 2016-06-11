@@ -1521,7 +1521,7 @@
         <!--Player View Controller-->
         <scene sceneID="4KC-my-fCp">
             <objects>
-                <viewController id="Urs-Va-CQm" customClass="PlayerViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayerViewController" id="Urs-Va-CQm" customClass="PlayerViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vnn-cw-Xiv"/>
                         <viewControllerLayoutGuide type="bottom" id="uhR-kg-WQo"/>
@@ -1556,6 +1556,11 @@
                                                                     </progressView>
                                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="1i6-K6-Zh3">
                                                                         <rect key="frame" x="0.0" y="-15" width="600" height="31"/>
+                                                                        <connections>
+                                                                            <action selector="trackSliderEditingDidBegin:" destination="Urs-Va-CQm" eventType="touchDown" id="9Q1-S0-RaL"/>
+                                                                            <action selector="trackSliderEditingDidEnd:" destination="Urs-Va-CQm" eventType="touchUpInside" id="Xny-oT-aSt"/>
+                                                                            <action selector="trackSliderValueChanged:" destination="Urs-Va-CQm" eventType="valueChanged" id="r3i-oI-lz7"/>
+                                                                        </connections>
                                                                     </slider>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tgO-et-zca">
                                                                         <rect key="frame" x="8" y="10" width="584" height="16"/>
@@ -1697,6 +1702,9 @@
                                                                                                                 <constraint firstAttribute="height" constant="25" id="j86-5A-xHS"/>
                                                                                                             </constraints>
                                                                                                             <state key="normal" image="icon-PlayerPreviousTrack"/>
+                                                                                                            <connections>
+                                                                                                                <action selector="previousTrackTapped:" destination="Urs-Va-CQm" eventType="touchUpInside" id="I1I-xX-NOC"/>
+                                                                                                            </connections>
                                                                                                         </button>
                                                                                                     </subviews>
                                                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1727,6 +1735,9 @@
                                                                                                                 <constraint firstAttribute="height" constant="25" id="aOj-Yk-29N"/>
                                                                                                             </constraints>
                                                                                                             <state key="normal" image="icon-PlayerNextTrack"/>
+                                                                                                            <connections>
+                                                                                                                <action selector="nextTrackTapped:" destination="Urs-Va-CQm" eventType="touchUpInside" id="oyJ-rl-NYN"/>
+                                                                                                            </connections>
                                                                                                         </button>
                                                                                                     </subviews>
                                                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2364,7 +2375,7 @@
                                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1uw-8n-KQo">
                                                                                     <rect key="frame" x="60" y="20" width="480" height="330"/>
                                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -2613,7 +2624,7 @@
         <!--Main Tab Bar Controller-->
         <scene sceneID="AD8-On-Y5o">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="v93-T2-lwU" customClass="MainTabBarController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="v93-T2-lwU" customClass="MainTabBarController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="arH-3i-B93"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="lZH-AK-xaL">
@@ -2773,12 +2784,12 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="40"/>
                     <connections>
-                        <outlet property="artistNameLabel" destination="fwf-7l-omC" id="ZU6-pW-WYX"/>
+                        <outlet property="artistLabel" destination="fwf-7l-omC" id="8jo-fK-5yU"/>
                         <outlet property="controlImageView" destination="QTv-f6-jr6" id="gQ8-9x-flk"/>
                         <outlet property="miniPlayerButton" destination="pZ0-wp-m93" id="saW-ZJ-Qnr"/>
                         <outlet property="progressBar" destination="AZV-V8-2UN" id="uIi-aR-FwR"/>
                         <outlet property="progressBarHeightConstraint" destination="4Vd-BV-WXR" id="CpZ-te-bjm"/>
-                        <outlet property="songTitleLabel" destination="UlA-gB-7X8" id="AK3-z8-Zkb"/>
+                        <outlet property="titleLabel" destination="UlA-gB-7X8" id="1HU-yu-y66"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LUB-8k-h59" userLabel="First Responder" sceneMemberID="firstResponder"/>

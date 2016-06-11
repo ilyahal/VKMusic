@@ -57,6 +57,8 @@ class OwnerMusicTableViewController: MusicFromInternetWithSearchTableViewControl
     /// Запрос на получение аудиозаписей владельца с сервера
     func getOwnerMusic() {
         RequestManager.sharedInstance.getOwnerAudio.performRequest([.OwnerID : id]) { success in
+            self.playlistIdentifier = NSUUID().UUIDString
+            
             self.music = DataManager.sharedInstance.ownerMusic.array
             
             self.reloadTableView()

@@ -4,11 +4,11 @@
         <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="artwork" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="fileName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="lyrics" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ownerID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="playlists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackInPlaylist" inverseName="track" inverseEntity="TrackInPlaylist" syncable="YES"/>
     </entity>
     <entity name="Playlist" representedClassName=".Playlist" syncable="YES">

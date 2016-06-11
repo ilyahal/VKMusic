@@ -39,6 +39,8 @@ class RecommendationsMusicTableViewController: MusicFromInternetTableViewControl
     /// Запрос на получение рекомендуемых аудиозаписей с сервера
     func getRecommendationsAudio() {
         RequestManager.sharedInstance.getRecommendationsAudio.performRequest() { success in
+            self.playlistIdentifier = NSUUID().UUIDString
+            
             self.music = DataManager.sharedInstance.recommendationsMusic.array
             
             self.reloadTableView()

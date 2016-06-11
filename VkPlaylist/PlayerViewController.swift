@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Darwin
 import MediaPlayer
 
 /// Контроллер с полноэкранным плеером
@@ -130,9 +131,6 @@ class PlayerViewController: UIViewController {
     var isShowLyrics = false
     /// Воспроизводится ли аудиозапись
     var isPlaying: Bool {
-        set {
-            PlayerManager.sharedInstance.isPlaying = newValue
-        }
         get {
             return PlayerManager.sharedInstance.isPlaying
         }
@@ -156,7 +154,7 @@ class PlayerViewController: UIViewController {
         }
     }
     /// Тип перемешивания
-    var repeatType: PlayerManager.RepeatType {
+    var repeatType: PlayerRepeatType {
         set {
             PlayerManager.sharedInstance.repeatType = newValue
         }
@@ -202,6 +200,8 @@ class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        PlayerManager.sharedInstance.addDelegate(self)
+        
         /// Настройка кнопки "Закрыть"
         closeView.layer.cornerRadius = closeView.bounds.size.height / 2
         closeView.layer.masksToBounds = true
@@ -226,26 +226,33 @@ class PlayerViewController: UIViewController {
         sliderView.insertSubview(rightSliderSubview, belowSubview: bufferingProgressView)
         
         // Настройка бара отображающего прогресс буфферизации
+        bufferingProgressView.setProgress(0, animated: false)
         bufferingProgressView.progressTintColor = tintColor.colorWithAlphaComponent(0.4)
         bufferingProgressView.trackTintColor = UIColor.lightGrayColor()
         
         // Настройка слайдера с аудиозаписью
+        trackSlider.setValue(PlayerManager.sharedInstance.progress, animated: false)
         trackSlider.minimumTrackTintColor = tintColor
         trackSlider.maximumTrackTintColor = UIColor.clearColor()
         trackSlider.setThumbImage(UIImage(named: "icon-PlayerThumbTrack")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
         topSpaceTrackSlider.constant = -9
         
         // Настройка надписей со временм
+        currentTimeLabel.text = nil
         currentTimeLabel.textColor = UIColor.whiteColor()
+        leftTimeLabel.text = nil
         leftTimeLabel.textColor = UIColor.whiteColor()
         
         // Настройка надписи с названием аудиозаписи
+        titleLabel.text = PlayerManager.sharedInstance.trackTitle
         titleLabel.textColor = UIColor.whiteColor()
         
         // Настройка надписи с именем исполнителя
+        artistLabel.text = PlayerManager.sharedInstance.artist
         artistLabel.textColor = UIColor.whiteColor()
         
         // Настройка кнопки "Скачать"
+        downloadButton.enabled = !PlayerManager.sharedInstance.player.currentItem!.isDownloaded
         downloadButton.setImage(downloadIcon, forState: .Normal)
         
         // Настройка кнопки "Предыдущая аудиозапись"
@@ -300,6 +307,12 @@ class PlayerViewController: UIViewController {
         
         // Настройка кнопки "Еще"
         moreButton.setImage(moreIcon, forState: .Normal)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        PlayerManager.sharedInstance.deleteDelegate(self)
     }
     
     
@@ -404,10 +417,45 @@ class PlayerViewController: UIViewController {
         downloadButton.enabled = false
     }
     
+    /// Слайдер с аудиозаписью начали тащить
+    @IBAction func trackSliderEditingDidBegin(sender: UISlider) {
+        PlayerManager.sharedInstance.sliderEditingDidBegin()
+    }
+    
+    /// Значение слайдера с аудиозаписью изменилось
+    @IBAction func trackSliderValueChanged(sender: UISlider) {
+        
+    }
+    
+    /// Слайдер с аудиозаписью прекратили тащить
+    @IBAction func trackSliderEditingDidEnd(sender: UISlider) {
+        let duration = PlayerManager.sharedInstance.duration
+        
+        var currentTime = floor(Double((Float(duration) * sender.value)))
+        if currentTime <= 0 {
+            currentTime = 0
+        }
+        
+        PlayerManager.sharedInstance.sliderEditingDidEndWithSecond(Int(currentTime))
+    }
+    
+    /// Кнопка "Предыдущая аудиозапись" была нажат
+    @IBAction func previousTrackTapped(sender: UIButton) {
+        PlayerManager.sharedInstance.previousTapped()
+    }
+    
     /// Кнопка "Play" или "Пауза" была нажата
     @IBAction func playOrPauseButtonTapped(sender: UIButton) {
-        isPlaying = !isPlaying
-        playOrPauseButton.setImage(playOrPauseIcon, forState: .Normal)
+        if isPlaying {
+            PlayerManager.sharedInstance.pauseTapped()
+        } else {
+            PlayerManager.sharedInstance.playTapped()
+        }
+    }
+    
+    /// Кнопка "Следующая аудиозапись" была нажат
+    @IBAction func nextTrackTapped(sender: UIButton) {
+        PlayerManager.sharedInstance.nextTapped()
     }
     
     /// Кнопка "Отобразить в статусе" была нажата
@@ -481,6 +529,34 @@ extension PlayerViewController: UIGestureRecognizerDelegate {
     // Спрашивает делегат позволения если два распознавателя жестов хотят распознавать жесты одновременно
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+}
+
+
+// MARK: PlayerManagerDelegate
+
+extension PlayerViewController: PlayerManagerDelegate {
+    
+    // Менеджер плеера получил новое состояние плеера
+    func playerManagerGetNewState(state: PlayerState) {
+        switch state {
+        case .Ready:
+            dismissViewControllerAnimated(true, completion: nil)
+        case .Paused, .Playing:
+            playOrPauseButton.setImage(playOrPauseIcon, forState: .Normal)
+        }
+    }
+    
+    // Менеджер плеера получил новый элемент плеера
+    func playerManagerGetNewItem(item: PlayerItem) {
+        titleLabel.text = item.title
+        artistLabel.text = item.artist
+    }
+    
+    // Менеджер плеера получил новое значение прогресса
+    func playerManagerCurrentItemGetNewTimerProgress(progress: Float) {
+        trackSlider.setValue(progress, animated: false)
     }
     
 }

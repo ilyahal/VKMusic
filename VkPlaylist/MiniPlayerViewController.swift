@@ -16,9 +16,9 @@ class MiniPlayerViewController: UIViewController {
     
 
     /// Название аудиозаписи
-    @IBOutlet weak var songTitleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     /// Имя исполнителя
-    @IBOutlet weak var artistNameLabel: UILabel!
+    @IBOutlet weak var artistLabel: UILabel!
     /// Кнопка для перехода к полноэкранному плееру
     @IBOutlet weak var miniPlayerButton: UIButton!
     
@@ -33,9 +33,6 @@ class MiniPlayerViewController: UIViewController {
     
     /// Воспроизводится ли аудиозапись
     var isPlaying: Bool {
-        set {
-            PlayerManager.sharedInstance.isPlaying = newValue
-        }
         get {
             return PlayerManager.sharedInstance.isPlaying
         }
@@ -56,12 +53,23 @@ class MiniPlayerViewController: UIViewController {
         miniPlayerButton.setBackgroundImage(UIImage.generateImageWithColor(highlightedColor), forState: .Highlighted)
         
         // Настройка бара с прогрессом воспроизведения
+        progressBar.setProgress(0, animated: false)
         progressBar.progressTintColor = tintColor
         progressBar.trackTintColor = UIColor.clearColor()
         progressBarHeightConstraint.constant = 1 // Устанавливаем высоту бара
         
+        // Настройка надписей со именем исполнителя и названием аудиозаписи
+        titleLabel.text = nil
+        artistLabel.text = nil
+        
         // Настройка кнопки "Play" / "Пауза"
         updateControlButton()
+        
+        PlayerManager.sharedInstance.addDelegate(self)
+    }
+    
+    deinit {
+        PlayerManager.sharedInstance.deleteDelegate(self)
     }
     
     
@@ -77,8 +85,51 @@ class MiniPlayerViewController: UIViewController {
     
     /// Была нажата кнопка "Play" / "Пауза"
     @IBAction func controlButton(sender: UIButton) {
-        isPlaying = !isPlaying
-        updateControlButton()
+        if isPlaying {
+            PlayerManager.sharedInstance.pauseTapped()
+        } else {
+            PlayerManager.sharedInstance.playTapped()
+        }
+    }
+    
+}
+
+
+// MARK: PlayerManagerDelegate
+
+extension MiniPlayerViewController: PlayerManagerDelegate {
+    
+    // Менеджер плеера получил новое состояние плеера
+    func playerManagerGetNewState(state: PlayerState) {
+        switch state {
+        case .Ready:
+            if !view.hidden {
+                view.hidden = true
+                UIView.animateWithDuration(true ? 0.5 : 0) {
+                    self.view.alpha = 0
+                }
+            }
+        case .Paused, .Playing:
+            if view.hidden {
+                view.hidden = false
+                UIView.animateWithDuration(true ? 0.5 : 0) {
+                    self.view.alpha = 1
+                }
+            }
+            
+            updateControlButton()
+        }
+    }
+    
+    // Менеджер плеера получил новый элемент плеера
+    func playerManagerGetNewItem(item: PlayerItem) {
+        titleLabel.text = item.title
+        artistLabel.text = item.artist
+    }
+    
+    // Менеджер плеера получил новое значение прогресса
+    func playerManagerCurrentItemGetNewTimerProgress(progress: Float) {
+        progressBar.setProgress(progress, animated: false)
     }
     
 }

@@ -22,6 +22,8 @@ class MainTabBarController: UITabBarController {
         miniPlayerViewController.view.frame = CGRectMake(0, view.frame.size.height - tabBar.bounds.size.height - 40, view.frame.size.width, 40)
         view.addSubview(miniPlayerViewController.view)
         miniPlayerViewController.didMoveToParentViewController(self)
+        
+        hideMiniPlayerAnimated(false)
     }
     
     /// Скрыть мини-плеер

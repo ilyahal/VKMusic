@@ -48,6 +48,8 @@ class SearchTableViewController: MusicFromInternetTableViewController {
     /// Запрос на получение искомых аудиозаписей с сервера
     func searchMusic(search: String) {
         RequestManager.sharedInstance.searchAudio.performRequest([.RequestText : search]) { success in
+            self.playlistIdentifier = NSUUID().UUIDString
+            
             self.music = DataManager.sharedInstance.searchMusic.array
             
             self.reloadTableView()

@@ -12,6 +12,8 @@ protocol PlayerDelegate: class {
     
     /// Плеер изменил состояние
     func playerStateDidChange(player: Player)
+    /// Плеер изменил воспроизводимый файл
+    func playerCurrentItemDidChange(player: Player)
     /// Плеер изменил прогресс воспроизведения
     func playerPlaybackProgressDidChange(player: Player)
     

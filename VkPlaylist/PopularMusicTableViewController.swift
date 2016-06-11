@@ -39,6 +39,8 @@ class PopularMusicTableViewController: MusicFromInternetTableViewController {
     /// Запрос на получение популярных аудиозаписей с сервера
     func getPopularAudio() {
         RequestManager.sharedInstance.getPopularAudio.performRequest() { success in
+            self.playlistIdentifier = NSUUID().UUIDString
+            
             self.music = DataManager.sharedInstance.popularMusic.array
             
             self.reloadTableView()

@@ -251,15 +251,29 @@ class DataManager: NSObject {
     
     /// Загружена ли указанная аудиозапись
     func isDownloadedTrack(track: Track) -> Bool {
+        if let _ = getDownloadedCopyOfATrackIfExists(track) {
+            return true
+        }
+        
+        return false
+    }
+    
+    /// Получить загруженненный экземпляр аудиозаписи, если существует
+    func getDownloadedCopyOfATrackIfExists(track: Track) -> OfflineTrack? {
+        return getDownloadedCopyOfATrackIfExistsWithID(track.id, andOwnerID: track.owner_id)
+    }
+    
+    /// Получить загруженненный экземпляр аудиозаписи с указанным ID и указанным ID владельца, если существует
+    func getDownloadedCopyOfATrackIfExistsWithID(id: Int32, andOwnerID ownerID: Int32) -> OfflineTrack? {
         for section in downloadsFetchedResultsController.sections! {
             for trackInPlaylist in section.objects as! [TrackInPlaylist] {
-                if trackInPlaylist.track.id == track.id && trackInPlaylist.track.ownerID == track.owner_id {
-                    return true
+                if trackInPlaylist.track.id == id && trackInPlaylist.track.ownerID == ownerID {
+                    return trackInPlaylist.track
                 }
             }
         }
         
-        return false
+        return nil
     }
     
     /// Список плейлистов, в которых содержится аудиозапись
@@ -327,7 +341,7 @@ class DataManager: NSObject {
             offlineTrack.ownerID = toWrite.track.owner_id
             offlineTrack.lyrics = toWrite.lyrics
             offlineTrack.title = toWrite.track.title
-            offlineTrack.url = fullPath
+            offlineTrack.fileName = fileName
             
             // Добавляем загруженный трек в плейлист "Загрузки"
             entity = NSEntityDescription.entityForName(EntitiesIdentifiers.trackInPlaylist, inManagedObjectContext: coreDataStack.context) // Сущность трека в плейлисте

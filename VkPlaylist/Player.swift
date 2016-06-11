@@ -18,17 +18,20 @@ final class Player: NSObject {
     var progressObserver: AnyObject!
     /// Идентификатор задачи в фоне
     var backgroundIdentifier = UIBackgroundTaskInvalid
+    
     /// Делегат плеера
     weak var delegate: PlayerDelegate?
     
     /// Индекс воспроизводимого трека
     var playIndex = 0
     /// Очередь на воспроизведение
-    var queuedItems: [PlayerItem]!
+    var queuedItems = [PlayerItem]()
     /// Состояние плеера
     var state = PlayerState.Ready {
         didSet {
-            delegate?.playerStateDidChange(self)
+            if oldValue != state {
+                delegate?.playerStateDidChange(self)
+            }
         }
     }
     
@@ -48,12 +51,11 @@ final class Player: NSObject {
     }
     
     
-    init(delegate: PlayerDelegate? = nil, items: [PlayerItem] = [PlayerItem]()) {
+    init(delegate: PlayerDelegate? = nil) {
         self.delegate = delegate
         
         super.init()
         
-        assignQueuedItems(items)
         configureObservers()
         configureAudioSession()
         
@@ -100,22 +102,6 @@ final class Player: NSObject {
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nowPlayingInfo
     }
     
-    /// Продолжить воспроизведение
-    func resumePlayback() {
-        if state != .Playing {
-            if let player = player {
-                startProgressTimer()
-                
-                player.play()
-                
-                state = .Playing
-                updateInfoCenter()
-            } else {
-                startNewPlayerForItem(currentItem!.playerItem!)
-            }
-        }
-    }
-    
     /// Начать воспроизведение нового элемента системного плеера
     func startNewPlayerForItem(item: AVPlayerItem) {
         
@@ -134,8 +120,24 @@ final class Player: NSObject {
         updateInfoCenter()
     }
     
+    /// Продолжить воспроизведение
+    func resumePlayback() {
+        if state != .Playing {
+            if let player = player {
+                startProgressTimer()
+                
+                player.play()
+                
+                state = .Playing
+                updateInfoCenter()
+            } else {
+                startNewPlayerForItem(currentItem!.playerItem!)
+            }
+        }
+    }
     
-    // MARK: Работа с элементами
+    
+    // MARK: Работа с элементами плеера
     
     /// Сохранение аудиозаписей в очередь
     func assignQueuedItems(items: [PlayerItem]) {
@@ -162,12 +164,12 @@ final class Player: NSObject {
     
     /// Прекратить наблюдение за временем воспроизведения
     func stopProgressTimer() {
-        guard let player = player, let observer = progressObserver else {
+        guard let player = player, let progressObserver = progressObserver else {
             return
         }
         
-        player.removeTimeObserver(observer)
-        progressObserver = nil
+        player.removeTimeObserver(progressObserver)
+        self.progressObserver = nil
     }
     
     
@@ -225,6 +227,8 @@ final class Player: NSObject {
     
     /// Обработка уведомления о том, что воспроизводимый элемент системного плеера закончился
     func playerItemDidPlayToEnd() {
+        unregisterForPlayToEndNotification(withItem: currentItem!.playerItem!)
+        
         /// Если это был последний элемент в очереди на воспроизведение
         if playIndex >= queuedItems.count - 1 {
             stop()
@@ -264,12 +268,12 @@ extension Player {
         configureBackgroundAudioTask()
         
         if let _ = queuedItems[index].playerItem where playIndex == index {
-            if state == .Playing {
+            if PlayerManager.sharedInstance.isPauseActive {
+                resumePlayback()
+            } else {
                 seekToSecond(0, shouldPlay: true)
                 updateInfoCenter()
             }
-            
-            resumePlayback()
         } else {
             if let playerItem = currentItem?.playerItem {
                 unregisterForPlayToEndNotification(withItem: playerItem)
@@ -281,6 +285,8 @@ extension Player {
             
             registerForPlayToEndNotification(withItem: playerItem)
             startNewPlayerForItem(playerItem)
+            
+            delegate?.playerCurrentItemDidChange(self)
         }
     }
     
@@ -295,14 +301,26 @@ extension Player {
     /// Остановить воспроизведение
     func stop() {
         stopProgressTimer()
+        if let playerItem = currentItem?.playerItem {
+            unregisterForPlayToEndNotification(withItem: playerItem)
+        }
+        
         player?.pause()
         player = nil
-        playIndex = 0
         
-        state = .Ready
+        playIndex = 0
         
         UIApplication.sharedApplication().endBackgroundTask(backgroundIdentifier)
         backgroundIdentifier = UIBackgroundTaskInvalid
+        
+        state = .Ready
+    }
+    
+    /// Очистить все данные плеера
+    func clear() {
+        stop()
+        
+        queuedItems.removeAll()
     }
     
     /// Начать воспроизведение с начала очереди
@@ -322,6 +340,10 @@ extension Player {
             return
         }
         
+        if playIndex + 1 >= queuedItems.count {
+            replayCurrentItem()
+        }
+        
         playAtIndex(playIndex + 1)
     }
     
@@ -329,6 +351,10 @@ extension Player {
     func playPrevious() {
         guard playerOperational else {
             return
+        }
+        
+        if playIndex - 1 < 0 {
+            replayCurrentItem()
         }
         
         playAtIndex(playIndex - 1)
@@ -354,22 +380,19 @@ extension Player {
         if shouldPlay {
             player.play()
             
-            if state != .Playing {
-                state = .Playing
-            }
+            startProgressTimer()
+            state = .Playing
         }
+        
+        updateInfoCenter()
         
         delegate?.playerPlaybackProgressDidChange(self)
     }
     
     /// Добавить элемент плеера в очередь на воспроизведение
-    func appendItem(item: PlayerItem/*, loadingAssets: Bool*/) {
+    func appendItem(item: PlayerItem) {
         queuedItems.append(item)
         item.delegate = self
-        /*
-        if loadingAssets {
-            item.loadPlayerItem()
-        }*/
     }
     
     /// Удалить элемент плеера из очереди на воспроизведение

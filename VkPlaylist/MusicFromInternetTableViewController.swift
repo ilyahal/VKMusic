@@ -12,6 +12,9 @@ import CoreData
 /// Контроллер отображающий музыку из интернета, с возможностью Pull-To-Refresh
 class MusicFromInternetTableViewController: UITableViewController {
     
+    /// Идентификатор текущего списка аудиозаписей
+    var playlistIdentifier: String?
+    
     /// Состояние авторизации пользователя при последнем отображении контроллера
     var currentAuthorizationStatus: Bool!
     
@@ -131,7 +134,7 @@ class MusicFromInternetTableViewController: UITableViewController {
     
     /// Получение индекса трека в активном массиве для загрузки
     func trackIndexForDownload(download: Download) -> Int? {
-        if let index = activeArray.indexOf({ $0 === download.track}) {
+        if let index = activeArray.indexOf({ $0 === download.track }) {
             return index
         }
         
@@ -411,11 +414,9 @@ extension _MusicFromInternetTableViewControllerDelegate {
         
         if tableView.cellForRowAtIndexPath(indexPath) is AudioCell {
             let track = activeArray[indexPath.row]
+            let index = music.indexOf({ $0 === track })!
             
-            PlayerManager.sharedInstance.play(track)
-            
-            PlayerManager.sharedInstance.miniPlayerViewController.artistNameLabel.text = track.artist
-            PlayerManager.sharedInstance.miniPlayerViewController.songTitleLabel.text = track.title
+            PlayerManager.sharedInstance.playItemWithIndex(index, inOnlinePlaylist: music, withPlaylistIdentifier: playlistIdentifier!)
         }
     }
     
