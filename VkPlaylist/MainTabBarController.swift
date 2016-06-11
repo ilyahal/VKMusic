@@ -23,27 +23,8 @@ class MainTabBarController: UITabBarController {
         view.addSubview(miniPlayerViewController.view)
         miniPlayerViewController.didMoveToParentViewController(self)
         
-        hideMiniPlayerAnimated(false)
-    }
-    
-    /// Скрыть мини-плеер
-    func hideMiniPlayerAnimated(animated: Bool) {
-        if !miniPlayerViewController.view.hidden {
-            miniPlayerViewController.view.hidden = true
-            UIView.animateWithDuration(animated ? 0.5 : 0) {
-                self.miniPlayerViewController.view.alpha = 0
-            }
-        }
-    }
-    
-    /// Отобразить мини-плеер
-    func showMiniPlayerAnimated(animated: Bool) {
-        if miniPlayerViewController.view.hidden {
-            miniPlayerViewController.view.hidden = false
-            UIView.animateWithDuration(animated ? 0.5 : 0) {
-                self.miniPlayerViewController.view.alpha = 1
-            }
-        }
+        // По-умолчанию скрываем мини-плеер
+        PlayerManager.sharedInstance.hideMiniPlayerAnimated(false)
     }
 
 }

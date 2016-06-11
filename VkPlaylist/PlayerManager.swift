@@ -55,13 +55,26 @@ class PlayerManager {
     }
     
     
+    // MARK: Мини-плеер
+    
+    /// Контроллер с мини-плеером
+    let miniPlayerViewController: MiniPlayerViewController!
+    
+    /// Скрыть мини-плеер
+    func hideMiniPlayerAnimated(animated: Bool) {
+        miniPlayerViewController.hideMiniPlayerAnimated(animated)
+    }
+    
+    /// Отобразить мини-плеер
+    func showMiniPlayerAnimated(animated: Bool) {
+        miniPlayerViewController.showMiniPlayerAnimated(animated)
+    }
+    
+    
     // MARK: Свойства
     
     /// Плеер
     var player = Player()
-    
-    /// Контроллер с мини-плеером
-    let miniPlayerViewController: MiniPlayerViewController!
     
     /// Идентификатор плейлиста, воспроизводимого сейчас
     var playlistIdentifier: String?

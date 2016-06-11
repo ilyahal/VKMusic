@@ -19,8 +19,6 @@ class MiniPlayerViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     /// Имя исполнителя
     @IBOutlet weak var artistLabel: UILabel!
-    /// Кнопка для перехода к полноэкранному плееру
-    @IBOutlet weak var miniPlayerButton: UIButton!
     
     /// ImageView для иконки с Play/Пауза
     @IBOutlet weak var controlImageView: UIImageView!
@@ -29,6 +27,19 @@ class MiniPlayerViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     /// Правило для высоты бара
     @IBOutlet weak var progressBarHeightConstraint: NSLayoutConstraint!
+    
+    /// Кнопка для перехода к полноэкранному плееру
+    @IBOutlet weak var miniPlayerButton: UIButton!
+    
+    
+    /// Иконка "Play"
+    var playIcon: UIImage!
+    /// Иконка "Пауза"
+    var pauseIcon: UIImage!
+    /// Иконка для кнопки "Play" или "Пауза"
+    var controlIcon: UIImage {
+        return isPlaying ? pauseIcon : playIcon
+    }
     
     
     /// Воспроизводится ли аудиозапись
@@ -39,24 +50,18 @@ class MiniPlayerViewController: UIViewController {
     }
     
     
-    /// Иконка для кнопки "Play" или "Пауза"
-    var controlIcon: UIImage {
-        return UIImage(named: isPlaying ? "icon-MiniPlayerPause" : "icon-MiniPlayerPlay")!.tintPicto(tintColor)
-    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Настройка цвета основной кнопки
-        let highlightedColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.5)
-        miniPlayerButton.setBackgroundImage(UIImage.generateImageWithColor(highlightedColor), forState: .Highlighted)
+        // Инициализация переменных
+        playIcon = UIImage(named: "icon-MiniPlayerPlay")!.tintPicto(tintColor)
+        pauseIcon = UIImage(named: "icon-MiniPlayerPause")!.tintPicto(tintColor)
+        
+        // Настройка UI
+        configureUI()
         
         // Настройка бара с прогрессом воспроизведения
         progressBar.setProgress(0, animated: false)
-        progressBar.progressTintColor = tintColor
-        progressBar.trackTintColor = UIColor.clearColor()
-        progressBarHeightConstraint.constant = 1 // Устанавливаем высоту бара
         
         // Настройка надписей со именем исполнителя и названием аудиозаписи
         titleLabel.text = nil
@@ -73,22 +78,55 @@ class MiniPlayerViewController: UIViewController {
     }
     
     
-    // MARK: Помощники
+    // MARK: UI
+    
+    /// Настройка интерфейса контроллера
+    func configureUI() {
+        
+        // Настройка цвета основной кнопки
+        let highlightedColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.5)
+        miniPlayerButton.setBackgroundImage(UIImage.generateImageWithColor(highlightedColor), forState: .Highlighted)
+        
+        // Настройка бара с прогрессом воспроизведения
+        progressBar.progressTintColor = tintColor
+        progressBar.trackTintColor = UIColor.clearColor()
+        progressBarHeightConstraint.constant = 1 // Устанавливаем высоту бара
+    }
     
     /// Обновление иконки кнопки "Play" / "Пауза"
     func updateControlButton() {
         controlImageView.image = controlIcon
     }
+    
+    /// Отобразить мини-плеер
+    func showMiniPlayerAnimated(animated: Bool) {
+        if view.hidden {
+            view.hidden = false
+            UIView.animateWithDuration(animated ? 0.3 : 0) {
+                self.view.alpha = 1
+            }
+        }
+    }
+    
+    /// Скрыть мини-плеер
+    func hideMiniPlayerAnimated(animated: Bool) {
+        if !view.hidden {
+            view.hidden = true
+            UIView.animateWithDuration(animated ? 0.3 : 0) {
+                self.view.alpha = 0
+            }
+        }
+    }
 
     
-    // MARK: Кнопки контроллера
+    // MARK: Взаимодействие с пользователем
     
     /// Была нажата кнопка "Play" / "Пауза"
     @IBAction func controlButton(sender: UIButton) {
-        if isPlaying {
-            PlayerManager.sharedInstance.pauseTapped()
-        } else {
+        if controlImageView.image == playIcon {
             PlayerManager.sharedInstance.playTapped()
+        } else {
+            PlayerManager.sharedInstance.pauseTapped()
         }
     }
     
@@ -103,21 +141,10 @@ extension MiniPlayerViewController: PlayerManagerDelegate {
     func playerManagerGetNewState(state: PlayerState) {
         switch state {
         case .Ready:
-            if !view.hidden {
-                view.hidden = true
-                UIView.animateWithDuration(true ? 0.5 : 0) {
-                    self.view.alpha = 0
-                }
-            }
+            hideMiniPlayerAnimated(true)
         case .Paused, .Playing:
-            if view.hidden {
-                view.hidden = false
-                UIView.animateWithDuration(true ? 0.5 : 0) {
-                    self.view.alpha = 1
-                }
-            }
-            
             updateControlButton()
+            showMiniPlayerAnimated(true)
         }
     }
     

@@ -11,9 +11,6 @@ import UIKit
 /// Контроллер со списком допустимых настроек
 class SettingsTableViewController: UITableViewController {
 
-    /// Контроллер вкладок
-    weak var mainTabBarController: MainTabBarController!
-    
     /// Кнопка "Авторизоваться"
     @IBOutlet weak var loginButton: UIButton!
     /// Кнопка "Деавторизоваться"
@@ -25,8 +22,6 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        mainTabBarController = tabBarController as! MainTabBarController
         
         tabBarController!.tabBar.hidden = true
 
@@ -48,14 +43,14 @@ class SettingsTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         // Скрываем мини-плеер при открытии настроек
-        mainTabBarController.hideMiniPlayerAnimated(false)
+        PlayerManager.sharedInstance.hideMiniPlayerAnimated(false)
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
         // Отображаем мини-плеер при закрытии настроек
-        mainTabBarController.showMiniPlayerAnimated(false)
+        PlayerManager.sharedInstance.showMiniPlayerAnimated(true)
     }
     
     deinit {
