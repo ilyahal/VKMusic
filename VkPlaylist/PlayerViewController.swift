@@ -230,7 +230,7 @@ class PlayerViewController: UIViewController {
         
         // Настройка надписей со временм
         currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
-        leftTimeLabel.text = String.formattedTimeFromSeconds(leftTime)
+        leftTimeLabel.text = "-" + String.formattedTimeFromSeconds(leftTime)
         
         // Настройка надписи с названием аудиозаписи
         titleLabel.text = PlayerManager.sharedInstance.trackTitle
@@ -279,9 +279,12 @@ class PlayerViewController: UIViewController {
         lyricsTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(lyricsTapped))
         lyricsTapRecognizer.delegate = self
         
-        // Настройка отображения слов аудиозаписи
+        // Настройка отображения  элемента со словами аудиозаписи
         lyricsView.hidden = true
         lyricsView.alpha = 0
+        
+        // Настройка элемента со словами
+        lyricsTextView.tintColor = tintColor
         
         // Заполняем пустое слева от слайдера
         let leftSliderSubview = UIView(frame: CGRectMake(0, 0, 3, 2))
@@ -458,7 +461,7 @@ class PlayerViewController: UIViewController {
         }
         
         currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
-        leftTimeLabel.text = String.formattedTimeFromSeconds(timeLeft)
+        leftTimeLabel.text = "-" + String.formattedTimeFromSeconds(timeLeft)
     }
     
     /// Слайдер с аудиозаписью прекратили тащить
@@ -591,7 +594,7 @@ extension PlayerViewController: PlayerManagerDelegate {
     // Менеджер плеера получил новое значение прогресса
     func playerManagerCurrentItemGetNewTimerProgress(progress: Float) {
         currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
-        leftTimeLabel.text = String.formattedTimeFromSeconds(leftTime)
+        leftTimeLabel.text = "-" + String.formattedTimeFromSeconds(leftTime)
         
         trackSlider.setValue(progress, animated: false)
     }

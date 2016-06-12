@@ -86,18 +86,19 @@ final class Player: NSObject {
             MPMediaItemPropertyPlaybackDuration : duration,
             MPMediaItemPropertyTitle : title,
             MPNowPlayingInfoPropertyElapsedPlaybackTime : currentTime,
-            MPNowPlayingInfoPropertyPlaybackQueueCount :trackCount,
+            MPNowPlayingInfoPropertyPlaybackQueueCount : trackCount,
             MPNowPlayingInfoPropertyPlaybackQueueIndex : trackNumber,
-            MPMediaItemPropertyMediaType : MPMediaType.Music.rawValue
+            MPMediaItemPropertyMediaType : MPMediaType.Music.rawValue,
+            /**/MPMediaItemPropertyArtwork : MPMediaItemArtwork(image: UIImage(named: "placeholder-Player")!)
         ]
         
         if let artist = item.artist {
             nowPlayingInfo[MPMediaItemPropertyArtist] = artist
         }
         
-        if let artwork = currentItem?.artwork {
-            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: artwork)
-        }
+//        if let artwork = currentItem?.artwork {
+//            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: artwork)
+//        }
         
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nowPlayingInfo
     }

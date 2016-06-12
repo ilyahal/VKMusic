@@ -1530,7 +1530,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="one-direction-drag-me-down-1438876914" translatesAutoresizingMaskIntoConstraints="NO" id="DxC-rq-ILj">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-Player" translatesAutoresizingMaskIntoConstraints="NO" id="DxC-rq-ILj">
                                 <rect key="frame" x="0.0" y="-20" width="600" height="620"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNM-dD-aGd">
@@ -2337,7 +2337,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oqi-OQ-OFd">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="one-direction-drag-me-down-1438876914" translatesAutoresizingMaskIntoConstraints="NO" id="Wgb-Ck-BAU">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-Player" translatesAutoresizingMaskIntoConstraints="NO" id="Wgb-Ck-BAU">
                                                     <rect key="frame" x="145" y="20" width="310" height="310"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Wgb-Ck-BAU" secondAttribute="height" multiplier="1:1" id="Qem-4k-Ik9"/>
@@ -2829,7 +2829,7 @@
         <image name="icon-PlayerVolumeMute" width="20" height="20"/>
         <image name="icon-Playlist" width="25" height="25"/>
         <image name="icon-Search" width="25" height="25"/>
-        <image name="one-direction-drag-me-down-1438876914" width="640" height="640"/>
+        <image name="placeholder-Player" width="375" height="375"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="oyl-4o-mbN"/>

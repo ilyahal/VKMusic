@@ -99,7 +99,11 @@ class PlayerManager {
     }
     /// Прогресс воспроизведения
     var progress: Float {
-        return Float(currentTime / duration)
+        if duration == 0 {
+            return 0
+        } else {
+            return Float(currentTime / duration)
+        }
     }
     
     /// Отображать ли музыку в статусе
