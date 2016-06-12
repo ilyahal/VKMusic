@@ -26,5 +26,22 @@ class MainTabBarController: UITabBarController {
         // По-умолчанию скрываем мини-плеер
         PlayerManager.sharedInstance.hideMiniPlayerAnimated(false)
     }
+    
+    override func remoteControlReceivedWithEvent(event: UIEvent?) {
+        if event?.type == .RemoteControl {
+            switch event!.subtype {
+            case .RemoteControlPlay:
+                PlayerManager.sharedInstance.playTapped()
+            case .RemoteControlPause:
+                PlayerManager.sharedInstance.pauseTapped()
+            case .RemoteControlNextTrack:
+                PlayerManager.sharedInstance.nextTapped()
+            case .RemoteControlPreviousTrack:
+                PlayerManager.sharedInstance.previousTapped()
+            default:
+                break
+            }
+        }
+    }
 
 }
