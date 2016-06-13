@@ -123,10 +123,10 @@ class MiniPlayerViewController: UIViewController {
     
     /// Была нажата кнопка "Play" / "Пауза"
     @IBAction func controlButton(sender: UIButton) {
-        if controlImageView.image == playIcon {
-            PlayerManager.sharedInstance.playTapped()
-        } else {
+        if isPlaying {
             PlayerManager.sharedInstance.pauseTapped()
+        } else {
+            PlayerManager.sharedInstance.playTapped()
         }
     }
     
@@ -158,6 +158,9 @@ extension MiniPlayerViewController: PlayerManagerDelegate {
     func playerManagerCurrentItemGetNewTimerProgress(progress: Float) {
         progressBar.setProgress(progress, animated: false)
     }
+    
+    // Менеджер плеера получил новое значение текущего времени
+    func playerManagerCurrentItemGetNewCurrentTime(currentTime: Double) {}
     
     // Менеджер плеера изменил настройку "Отправлять ли музыку в статус"
     func playerManagerShareToStatusSettingChangedTo(isShareToStatus: Bool) {}

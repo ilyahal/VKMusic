@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Darwin
 
 /// Менеджер воспроизведения
 class PlayerManager {
@@ -78,6 +79,13 @@ class PlayerManager {
     
     /// Идентификатор плейлиста, воспроизводимого сейчас
     var playlistIdentifier: String?
+    /// Является ли плейлист оффлайн
+    var isOffline = false
+    
+    /// Ширина бара для отображения прогресса воспроизведения (необходимо для вычисления частоты обновления)
+    var barWidth: CGFloat {
+        return CGRectGetWidth(miniPlayerViewController.progressBar.bounds)
+    }
     
     /// Воспроизводится ли музыка
     var isPlaying = false
@@ -142,7 +150,7 @@ class PlayerManager {
     
     /// Пользователь начал перемотку аудиозаписи
     func sliderEditingDidBegin() {
-        if isPlaying {
+        if !isPauseActive {
             player.pause()
         }
     }
@@ -236,7 +244,7 @@ extension PlayerManager: PlayerDelegate {
     
     // Плеер изменил прогресс воспроизведения
     func playerPlaybackProgressDidChange(player: Player) {
-        currentTime = player.currentItem!.currentTime!
+        currentTime = round(player.currentItem!.currentTime!)
         
         delegates.forEach { delegate in
             delegate.playerManagerCurrentItemGetNewTimerProgress(progress)
@@ -251,6 +259,14 @@ extension PlayerManager: PlayerDelegate {
         
         delegates.forEach { delegate in
             delegate.playerManagerGetNewItem(player.currentItem!)
+        }
+    }
+    
+    func playerPlaybackCurrentTimeDidChange(player: Player) {
+        currentTime = round(player.currentItem!.currentTime!)
+        
+        delegates.forEach { delegate in
+            delegate.playerManagerCurrentItemGetNewCurrentTime(currentTime)
         }
     }
     

@@ -593,10 +593,13 @@ extension PlayerViewController: PlayerManagerDelegate {
     
     // Менеджер плеера получил новое значение прогресса
     func playerManagerCurrentItemGetNewTimerProgress(progress: Float) {
-        currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
-        leftTimeLabel.text = "-" + String.formattedTimeFromSeconds(leftTime)
-        
         trackSlider.setValue(progress, animated: false)
+    }
+    
+    // Менеджер плеера получил новое значение текущего времени
+    func playerManagerCurrentItemGetNewCurrentTime(currentTime: Double) {
+        currentTimeLabel.text = String.formattedTimeFromSeconds(self.currentTime)
+        leftTimeLabel.text = "-" + String.formattedTimeFromSeconds(leftTime)
     }
     
     // Менеджер плеера изменил настройку "Отправлять ли музыку в статус"

@@ -16,6 +16,8 @@ protocol PlayerManagerDelegate: class {
     func playerManagerGetNewItem(item: PlayerItem)
     /// Менеджер плеера получил новое значение прогресса
     func playerManagerCurrentItemGetNewTimerProgress(progress: Float)
+    /// Менеджер плеера получил новое значение текущего времени
+    func playerManagerCurrentItemGetNewCurrentTime(currentTime: Double)
     /// Менеджер плеера изменил настройку "Отправлять ли музыку в статус"
     func playerManagerShareToStatusSettingChangedTo(isShareToStatus: Bool)
     /// Менеджер плеера изменил настройку "Перемешивать ли плейлист"

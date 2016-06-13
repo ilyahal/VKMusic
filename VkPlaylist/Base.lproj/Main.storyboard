@@ -1559,6 +1559,7 @@
                                                                         <connections>
                                                                             <action selector="trackSliderEditingDidBegin:" destination="Urs-Va-CQm" eventType="touchDown" id="9Q1-S0-RaL"/>
                                                                             <action selector="trackSliderEditingDidEnd:" destination="Urs-Va-CQm" eventType="touchUpInside" id="Xny-oT-aSt"/>
+                                                                            <action selector="trackSliderEditingDidEnd:" destination="Urs-Va-CQm" eventType="touchUpOutside" id="ujB-Nq-lvv"/>
                                                                             <action selector="trackSliderValueChanged:" destination="Urs-Va-CQm" eventType="valueChanged" id="r3i-oI-lz7"/>
                                                                         </connections>
                                                                     </slider>

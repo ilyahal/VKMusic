@@ -16,6 +16,8 @@ final class Player: NSObject {
     var player: AVPlayer?
     /// Наблюдатель за изменениями о прогрессе воспроизведения
     var progressObserver: AnyObject!
+    /// Наблюдатель за изменениями меток со временем воспроизведения
+    var currentTimeObserver: AnyObject!
     /// Идентификатор задачи в фоне
     var backgroundIdentifier = UIBackgroundTaskInvalid
     
@@ -108,13 +110,17 @@ final class Player: NSObject {
         
         // Отменяем воспроизведение прошлой аудиозаписи
         stopProgressTimer()
+        stopCurrentTimeUpdate()
+        
         player?.pause()
         player = nil
         
         // Начинаем воспроизведение новой аудиозаписи
         player = AVPlayer(playerItem: item)
         player!.allowsExternalPlayback = false // Внешнее воспроизведение недоступно
+        
         startProgressTimer()
+        startCurrentTimeUpdate()
         
         seekToSecond(0, shouldPlay: true)
         
@@ -126,6 +132,7 @@ final class Player: NSObject {
         if state != .Playing {
             if let player = player {
                 startProgressTimer()
+                startCurrentTimeUpdate()
                 
                 player.play()
                 
@@ -152,18 +159,20 @@ final class Player: NSObject {
     
     // MARK: Отслеживание прогресса
     
-    /// Начать наблюдение за временем воспроизведения
+    /// Начать наблюдение за прогрессом воспроизведения
     func startProgressTimer() {
-        guard let player = player where player.currentItem?.duration.isValid == true else {
+        guard let player = player where progressObserver == nil else {
             return
         }
         
-        progressObserver = player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.25, Int32(NSEC_PER_SEC)), queue: nil) { [unowned self] time in
+        let interval = 0.5 * currentItem!.duration! / Double(PlayerManager.sharedInstance.barWidth)
+        
+        progressObserver = player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(interval, Int32(NSEC_PER_SEC)), queue: nil) { [unowned self] _ in
             self.timerAction()
         }
     }
     
-    /// Прекратить наблюдение за временем воспроизведения
+    /// Прекратить наблюдение за прогрессом воспроизведения
     func stopProgressTimer() {
         guard let player = player, let progressObserver = progressObserver else {
             return
@@ -171,6 +180,27 @@ final class Player: NSObject {
         
         player.removeTimeObserver(progressObserver)
         self.progressObserver = nil
+    }
+    
+    /// Начать наблюдение за текущим временем воспоизведения
+    func startCurrentTimeUpdate() {
+        guard let player = player where currentTimeObserver == nil else {
+            return
+        }
+        
+        currentTimeObserver = player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(1, Int32(NSEC_PER_SEC)), queue: nil) { [unowned self] _ in
+            self.syncCurrentTime()
+        }
+    }
+    
+    /// Прекратить наблюдение за текущим временем воспроизведения
+    func stopCurrentTimeUpdate() {
+        guard let player = player, let currentTimeObserver = currentTimeObserver else {
+            return
+        }
+        
+        player.removeTimeObserver(currentTimeObserver)
+        self.currentTimeObserver = nil
     }
     
     
@@ -209,10 +239,13 @@ final class Player: NSObject {
     /// Обработка уведомления о том, что часть медиа-файла не успела загрузиться из сети, чтобы быть воспроизведенной
     func handleStall() {
         player?.pause()
-        player?.play()
+        
+        if state == .Playing {
+            player?.play()
+        }
     }
     
-    /// Обновление значений времени для воспроизводимого элемента
+    /// Обновление значения прогресса воспроизведения для текущего элемента плеера
     func timerAction() {
         guard let _ = player?.currentItem, let _ = currentItem?.currentTime else {
             return
@@ -221,14 +254,23 @@ final class Player: NSObject {
         delegate?.playerPlaybackProgressDidChange(self)
     }
     
+    /// Обновление значения текущего времени воспроизведения для текущего элемента плеера
+    func syncCurrentTime() {
+        guard let _ = player?.currentItem, let _ = currentItem?.currentTime else {
+            return
+        }
+        
+        delegate?.playerPlaybackCurrentTimeDidChange(self)
+    }
+    
     /// Подписка на уведомление об окончании воспроизведения элемента системного плеера для указанного элемента системного плеера
-    private func registerForPlayToEndNotification(withItem item: AVPlayerItem) {
+    private func registerForPlayToEndNotificationWithItem(item: AVPlayerItem) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(playerItemDidPlayToEnd), name: AVPlayerItemDidPlayToEndTimeNotification, object: item)
     }
     
     /// Обработка уведомления о том, что воспроизводимый элемент системного плеера закончился
     func playerItemDidPlayToEnd() {
-        unregisterForPlayToEndNotification(withItem: currentItem!.playerItem!)
+        unregisterForPlayToEndNotificationWithItem(currentItem!.playerItem!)
         
         /// Если это был последний элемент в очереди на воспроизведение
         if playIndex >= queuedItems.count - 1 {
@@ -239,7 +281,7 @@ final class Player: NSObject {
     }
     
     /// Отписка от уведомлений об окончании воспроизведения элемента системного плеера для указанного элемента системного плеера
-    func unregisterForPlayToEndNotification(withItem item: AVPlayerItem) {
+    func unregisterForPlayToEndNotificationWithItem(item: AVPlayerItem) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: item)
     }
     
@@ -277,14 +319,14 @@ extension Player {
             }
         } else {
             if let playerItem = currentItem?.playerItem {
-                unregisterForPlayToEndNotification(withItem: playerItem)
+                unregisterForPlayToEndNotificationWithItem(playerItem)
             }
             
             playIndex = index
             
             let playerItem = currentItem!.getPlayerItem()
             
-            registerForPlayToEndNotification(withItem: playerItem)
+            registerForPlayToEndNotificationWithItem(playerItem)
             startNewPlayerForItem(playerItem)
             
             delegate?.playerCurrentItemDidChange(self)
@@ -294,6 +336,7 @@ extension Player {
     /// Поставить воспроизведение на паузу
     func pause() {
         stopProgressTimer()
+        stopCurrentTimeUpdate()
         
         player?.pause()
         state = .Paused
@@ -302,8 +345,9 @@ extension Player {
     /// Остановить воспроизведение
     func stop() {
         stopProgressTimer()
+        stopCurrentTimeUpdate()
         if let playerItem = currentItem?.playerItem {
-            unregisterForPlayToEndNotification(withItem: playerItem)
+            unregisterForPlayToEndNotificationWithItem(playerItem)
         }
         
         player?.pause()
@@ -331,6 +375,7 @@ extension Player {
         }
         
         stopProgressTimer()
+        stopCurrentTimeUpdate()
         seekToSecond(0)
         playAtIndex(0)
     }
@@ -346,6 +391,7 @@ extension Player {
         }
         
         playAtIndex(playIndex + 1)
+        syncCurrentTime()
     }
     
     /// Воспроизвести предыдущий элемент плеера
@@ -382,6 +428,7 @@ extension Player {
             player.play()
             
             startProgressTimer()
+            startCurrentTimeUpdate()
             state = .Playing
         }
         
