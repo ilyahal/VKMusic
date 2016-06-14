@@ -1661,9 +1661,9 @@
                                                                 <rect key="frame" x="0.0" y="125.5" width="600" height="30"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XiZ-Ac-nP2">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VU7-jH-6En">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dcd-2t-zVN">
@@ -1810,7 +1810,7 @@
                                                                 <rect key="frame" x="0.0" y="188.5" width="600" height="17"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ets-hJ-FYq">
-                                                                        <rect key="frame" x="45" y="3" width="10" height="10"/>
+                                                                        <rect key="frame" x="45" y="5.5" width="10" height="10"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RBl-cT-kPT">
                                                                             <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1837,7 +1837,7 @@
                                                                         </vibrancyEffect>
                                                                     </visualEffectView>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Tj-lR-MYr">
-                                                                        <rect key="frame" x="545" y="3" width="10" height="10"/>
+                                                                        <rect key="frame" x="545" y="5.5" width="10" height="10"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Edf-rU-Ddw">
                                                                             <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1873,12 +1873,12 @@
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstItem="Ets-hJ-FYq" firstAttribute="centerY" secondItem="B48-dT-RUx" secondAttribute="centerY" id="Iqx-R1-brJ"/>
+                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="centerY" secondItem="CLY-MP-Z8F" secondAttribute="centerY" id="4w4-Uq-TOc"/>
+                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="height" secondItem="CLY-MP-Z8F" secondAttribute="height" id="Fd9-Fv-3wg"/>
+                                                                    <constraint firstItem="Ets-hJ-FYq" firstAttribute="centerY" secondItem="B48-dT-RUx" secondAttribute="centerY" constant="2" id="Iqx-R1-brJ"/>
                                                                     <constraint firstItem="B48-dT-RUx" firstAttribute="centerX" secondItem="CLY-MP-Z8F" secondAttribute="centerX" id="NDl-bD-ibg"/>
                                                                     <constraint firstItem="8Tj-lR-MYr" firstAttribute="leading" secondItem="B48-dT-RUx" secondAttribute="trailing" constant="5" id="Xfy-1e-jhS"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="B48-dT-RUx" secondAttribute="bottom" id="aOg-fK-yKK"/>
                                                                     <constraint firstItem="B48-dT-RUx" firstAttribute="width" secondItem="CLY-MP-Z8F" secondAttribute="width" multiplier="0.8" id="hwF-7k-9Bh"/>
-                                                                    <constraint firstItem="B48-dT-RUx" firstAttribute="top" secondItem="CLY-MP-Z8F" secondAttribute="top" id="iia-9o-fjI"/>
                                                                     <constraint firstItem="8Tj-lR-MYr" firstAttribute="centerY" secondItem="Ets-hJ-FYq" secondAttribute="centerY" id="jw6-ma-GJE"/>
                                                                     <constraint firstItem="B48-dT-RUx" firstAttribute="leading" secondItem="Ets-hJ-FYq" secondAttribute="trailing" constant="5" id="qn8-oc-VHZ"/>
                                                                 </constraints>

@@ -348,6 +348,17 @@ class PlayerViewController: UIViewController {
         
         // Настройка слайдера со звуком
         volumeSliderView.setVolumeThumbImage(UIImage(named: "icon-PlayerThumbVolume")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
+        
+        // Настройка иконки AirPlay
+        for view in volumeSliderView.subviews {
+            if view.isKindOfClass(UIButton) {
+                let airPlayButton: UIButton = view as! UIButton
+                volumeSliderView.setRouteButtonImage(airPlayButton.currentImage?.tintPicto(tintColor), forState: .Normal)
+                break
+            }
+        }
+        
+        // Настройка изображений по бокам от слайдера со звуком
         muteVolumeImageView.image = volumeMuteIcon
         loudlyVolumeImageView.image = volumeLoudlyIcon
         
