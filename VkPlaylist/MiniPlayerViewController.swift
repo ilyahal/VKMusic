@@ -42,11 +42,28 @@ class MiniPlayerViewController: UIViewController {
     }
     
     
+    /// Состояние плеера
+    var state: PlayerState {
+        return PlayerManager.sharedInstance.state
+    }
+    
     /// Воспроизводится ли аудиозапись
     var isPlaying: Bool {
         get {
             return PlayerManager.sharedInstance.isPlaying
         }
+    }
+    /// Прогресс воспроизведения текущей аудиозаписи
+    var progress: Float {
+        return PlayerManager.sharedInstance.progress
+    }
+    /// Название исполняемой аудиозаписи
+    var trackTitle: String? {
+        return PlayerManager.sharedInstance.trackTitle
+    }
+    /// Имя исполнителя аудиозаписи
+    var artist: String? {
+        return PlayerManager.sharedInstance.artist
     }
     
     
@@ -138,7 +155,7 @@ class MiniPlayerViewController: UIViewController {
 extension MiniPlayerViewController: PlayerManagerDelegate {
     
     // Менеджер плеера получил новое состояние плеера
-    func playerManagerGetNewState(state: PlayerState) {
+    func playerManagerGetNewState() {
         switch state {
         case .Ready:
             hideMiniPlayerAnimated(true)
@@ -149,26 +166,26 @@ extension MiniPlayerViewController: PlayerManagerDelegate {
     }
     
     // Менеджер плеера получил новый элемент плеера
-    func playerManagerGetNewItem(item: PlayerItem) {
-        titleLabel.text = item.title
-        artistLabel.text = item.artist
+    func playerManagerGetNewItem() {
+        titleLabel.text = trackTitle
+        artistLabel.text = artist
     }
     
     // Менеджер плеера получил новое значение прогресса
-    func playerManagerCurrentItemGetNewTimerProgress(progress: Float) {
+    func playerManagerCurrentItemGetNewProgressValue() {
         progressBar.setProgress(progress, animated: false)
     }
     
     // Менеджер плеера получил новое значение текущего времени
-    func playerManagerCurrentItemGetNewCurrentTime(currentTime: Double) {}
+    func playerManagerCurrentItemGetNewCurrentTime() {}
     
     // Менеджер плеера изменил настройку "Отправлять ли музыку в статус"
-    func playerManagerShareToStatusSettingChangedTo(isShareToStatus: Bool) {}
+    func playerManagerShareToStatusSettingDidChange() {}
     
     // Менеджер плеера изменил настройку "Перемешивать ли плейлист"
-    func playerManagerShuffleSettingChangedTo(isShuffle: Bool) {}
+    func playerManagerShuffleSettingDidChange() {}
     
     // Менеджер плеера изменил настройку "Повторять ли плейлист"
-    func playerManagerRepeatTypeDidChange(type: PlayerRepeatType) {}
+    func playerManagerRepeatTypeDidChange() {}
     
 }

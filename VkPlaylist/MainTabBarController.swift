@@ -34,6 +34,12 @@ class MainTabBarController: UITabBarController {
                 PlayerManager.sharedInstance.playTapped()
             case .RemoteControlPause:
                 PlayerManager.sharedInstance.pauseTapped()
+            case .RemoteControlTogglePlayPause:
+                if PlayerManager.sharedInstance.isPauseActive {
+                    PlayerManager.sharedInstance.playTapped()
+                } else {
+                    PlayerManager.sharedInstance.pauseTapped()
+                }
             case .RemoteControlNextTrack:
                 PlayerManager.sharedInstance.nextTapped()
             case .RemoteControlPreviousTrack:

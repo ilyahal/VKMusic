@@ -169,6 +169,15 @@ class PlayerViewController: UIViewController {
     let moreIcon = UIImage(named: "icon-More")!.tintPicto(UIColor.whiteColor())
     
     
+    /// Состояние плеера
+    var state: PlayerState {
+        return PlayerManager.sharedInstance.state
+    }
+    
+    /// Прогресс воспроизведения текущей аудиозаписи
+    var progress: Float {
+        return PlayerManager.sharedInstance.progress
+    }
     /// Длина текущей аудиозаписи
     var duration: Double {
         return PlayerManager.sharedInstance.duration
@@ -179,13 +188,19 @@ class PlayerViewController: UIViewController {
     }
     /// Времени осталось до конца аудиозаписи
     var leftTime: Double {
-        var leftTime = duration - currentTime
-        if leftTime < 0 {
-            leftTime = 0
-        }
+        let leftTime = duration - currentTime
         
-        return leftTime
+        return leftTime < 0 ? 0 : leftTime
     }
+    /// Название исполняемой аудиозаписи
+    var trackTitle: String? {
+        return PlayerManager.sharedInstance.trackTitle
+    }
+    /// Имя исполнителя аудиозаписи
+    var artist: String? {
+        return PlayerManager.sharedInstance.artist
+    }
+    
     
     /// Показывать ли слова аудиозаписи
     var isShowLyrics = false
@@ -446,32 +461,24 @@ class PlayerViewController: UIViewController {
     }
     
     /// Слайдер с аудиозаписью начали тащить
-    @IBAction func trackSliderEditingDidBegin(sender: UISlider) {
-        PlayerManager.sharedInstance.sliderEditingDidBegin()
+    @IBAction func trackSliderBeginDragging(sender: UISlider) {
+        PlayerManager.sharedInstance.sliderBeginDragging()
     }
     
     /// Значение слайдера с аудиозаписью изменилось
     @IBAction func trackSliderValueChanged(sender: UISlider) {
-        var currentTime = floor(duration * Double(sender.value))
-        var timeLeft = floor(duration - currentTime)
+        let currentTime = floor(duration * Double(sender.value))
+        let timeLeft = floor(duration - currentTime)
         
-        if currentTime <= 0 {
-            currentTime = 0
-            timeLeft = floor(duration);
-        }
-        
-        currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
-        leftTimeLabel.text = "-" + String.formattedTimeFromSeconds(timeLeft)
+        currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime < 0 ? 0 : currentTime)
+        leftTimeLabel.text = "-" + String.formattedTimeFromSeconds(currentTime < 0 ? duration : timeLeft)
     }
     
     /// Слайдер с аудиозаписью прекратили тащить
-    @IBAction func trackSliderEditingDidEnd(sender: UISlider) {
-        var currentTime = floor(duration * Double(sender.value))
-        if currentTime <= 0 {
-            currentTime = 0
-        }
+    @IBAction func trackSliderEndDragging(sender: UISlider) {
+        let currentTime = floor(duration * Double(sender.value))
         
-        PlayerManager.sharedInstance.sliderEditingDidEndWithSecond(Int(currentTime))
+        PlayerManager.sharedInstance.sliderEndDraggingWithSecond(Int(currentTime < 0 ? 0 : currentTime))
     }
     
     /// Кнопка "Скачать" была нажата
@@ -576,7 +583,7 @@ extension PlayerViewController: UIGestureRecognizerDelegate {
 extension PlayerViewController: PlayerManagerDelegate {
     
     // Менеджер плеера получил новое состояние плеера
-    func playerManagerGetNewState(state: PlayerState) {
+    func playerManagerGetNewState() {
         switch state {
         case .Ready:
             dismissViewControllerAnimated(true, completion: nil)
@@ -586,34 +593,34 @@ extension PlayerViewController: PlayerManagerDelegate {
     }
     
     // Менеджер плеера получил новый элемент плеера
-    func playerManagerGetNewItem(item: PlayerItem) {
-        titleLabel.text = item.title
-        artistLabel.text = item.artist
+    func playerManagerGetNewItem() {
+        titleLabel.text = trackTitle
+        artistLabel.text = artist
     }
     
     // Менеджер плеера получил новое значение прогресса
-    func playerManagerCurrentItemGetNewTimerProgress(progress: Float) {
+    func playerManagerCurrentItemGetNewProgressValue() {
         trackSlider.setValue(progress, animated: false)
     }
     
     // Менеджер плеера получил новое значение текущего времени
-    func playerManagerCurrentItemGetNewCurrentTime(currentTime: Double) {
-        currentTimeLabel.text = String.formattedTimeFromSeconds(self.currentTime)
+    func playerManagerCurrentItemGetNewCurrentTime() {
+        currentTimeLabel.text = String.formattedTimeFromSeconds(currentTime)
         leftTimeLabel.text = "-" + String.formattedTimeFromSeconds(leftTime)
     }
     
     // Менеджер плеера изменил настройку "Отправлять ли музыку в статус"
-    func playerManagerShareToStatusSettingChangedTo(isShareToStatus: Bool) {
+    func playerManagerShareToStatusSettingDidChange() {
         configureShareToStatusButton()
     }
     
     // Менеджер плеера изменил настройку "Перемешивать ли плейлист"
-    func playerManagerShuffleSettingChangedTo(isShuffle: Bool) {
+    func playerManagerShuffleSettingDidChange() {
         configureShuffleButton()
     }
     
     // Менеджер плеера изменил настройку "Повторять ли плейлист"
-    func playerManagerRepeatTypeDidChange(type: PlayerRepeatType) {
+    func playerManagerRepeatTypeDidChange() {
         configureRepeatButton()
     }
     

@@ -1557,10 +1557,10 @@
                                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="1i6-K6-Zh3">
                                                                         <rect key="frame" x="0.0" y="-15" width="600" height="31"/>
                                                                         <connections>
-                                                                            <action selector="trackSliderEditingDidBegin:" destination="Urs-Va-CQm" eventType="touchDown" id="9Q1-S0-RaL"/>
-                                                                            <action selector="trackSliderEditingDidEnd:" destination="Urs-Va-CQm" eventType="touchUpInside" id="Xny-oT-aSt"/>
-                                                                            <action selector="trackSliderEditingDidEnd:" destination="Urs-Va-CQm" eventType="touchUpOutside" id="ujB-Nq-lvv"/>
-                                                                            <action selector="trackSliderValueChanged:" destination="Urs-Va-CQm" eventType="valueChanged" id="r3i-oI-lz7"/>
+                                                                            <action selector="trackSliderBeginDragging:" destination="Urs-Va-CQm" eventType="touchDown" id="Dte-lY-6S6"/>
+                                                                            <action selector="trackSliderEndDragging:" destination="Urs-Va-CQm" eventType="touchUpOutside" id="cdA-g1-148"/>
+                                                                            <action selector="trackSliderEndDragging:" destination="Urs-Va-CQm" eventType="touchUpInside" id="p5h-UU-zjl"/>
+                                                                            <action selector="trackSliderValueChanged:" destination="Urs-Va-CQm" eventType="valueChanged" id="dJ3-FB-tnu"/>
                                                                         </connections>
                                                                     </slider>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tgO-et-zca">

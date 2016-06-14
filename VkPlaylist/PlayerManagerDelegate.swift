@@ -11,18 +11,18 @@ import Foundation
 protocol PlayerManagerDelegate: class {
     
     /// Менеджер плеера получил новое состояние плеера
-    func playerManagerGetNewState(state: PlayerState)
+    func playerManagerGetNewState()
     /// Менеджер плеера получил новый элемент плеера
-    func playerManagerGetNewItem(item: PlayerItem)
+    func playerManagerGetNewItem()
     /// Менеджер плеера получил новое значение прогресса
-    func playerManagerCurrentItemGetNewTimerProgress(progress: Float)
+    func playerManagerCurrentItemGetNewProgressValue()
     /// Менеджер плеера получил новое значение текущего времени
-    func playerManagerCurrentItemGetNewCurrentTime(currentTime: Double)
+    func playerManagerCurrentItemGetNewCurrentTime()
     /// Менеджер плеера изменил настройку "Отправлять ли музыку в статус"
-    func playerManagerShareToStatusSettingChangedTo(isShareToStatus: Bool)
+    func playerManagerShareToStatusSettingDidChange()
     /// Менеджер плеера изменил настройку "Перемешивать ли плейлист"
-    func playerManagerShuffleSettingChangedTo(isShuffle: Bool)
+    func playerManagerShuffleSettingDidChange()
     /// Менеджер плеера изменил настройку "Повторять ли плейлист"
-    func playerManagerRepeatTypeDidChange(type: PlayerRepeatType)
+    func playerManagerRepeatTypeDidChange()
     
 }

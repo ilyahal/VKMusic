@@ -37,9 +37,8 @@ final class Player: NSObject {
         }
     }
     
-    
     /// Текущий элемент плеера
-    var currentItem : PlayerItem? {
+    var currentItem: PlayerItem? {
         guard playIndex >= 0 && playIndex < queuedItems.count else {
             return nil
         }
@@ -70,77 +69,72 @@ final class Player: NSObject {
     }
     
     
-    // MARK: Воспроизведение
+    // MARK: Настройки
     
-    /// Обновление инфо-центра "Воспроизводится сейчас"
-    func updateInfoCenter() {
-        guard let item = currentItem else {
-            return
+    /// Настройка аудио-сессии
+    func configureAudioSession() {
+        do {
+            // Установка категории аудио-сессии - воспроизведение музыки (чтобы приложение позволяло воспроизводить музыку в фоне, необходимо добавить значение "audio" для ключа UIBackgroundModes на странице настроек приложения)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            // Активирует аудио-сессию
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            fatalError("Could not open the audio session, hence Player is unusable!")
         }
-        
-        let title = item.title ?? item.URL.lastPathComponent!
-        let currentTime = item.currentTime ?? 0
-        let duration = item.duration ?? 0
-        let trackNumber = self.playIndex
-        let trackCount = self.queuedItems.count
-        
-        var nowPlayingInfo: [String : AnyObject] = [
-            MPMediaItemPropertyPlaybackDuration : duration,
-            MPMediaItemPropertyTitle : title,
-            MPNowPlayingInfoPropertyElapsedPlaybackTime : currentTime,
-            MPNowPlayingInfoPropertyPlaybackQueueCount : trackCount,
-            MPNowPlayingInfoPropertyPlaybackQueueIndex : trackNumber,
-            MPMediaItemPropertyMediaType : MPMediaType.Music.rawValue,
-            /**/MPMediaItemPropertyArtwork : MPMediaItemArtwork(image: UIImage(named: "placeholder-Player")!)
-        ]
-        
-        if let artist = item.artist {
-            nowPlayingInfo[MPMediaItemPropertyArtist] = artist
-        }
-        
-//        if let artwork = currentItem?.artwork {
-//            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: artwork)
-//        }
-        
-        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nowPlayingInfo
     }
     
-    /// Начать воспроизведение нового элемента системного плеера
-    func startNewPlayerForItem(item: AVPlayerItem) {
+    /// Создание фоновой задачи воспроизведения аудиозаписи
+    private func configureBackgroundAudioTask() {
+        backgroundIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler {
+            UIApplication.sharedApplication().endBackgroundTask(self.backgroundIdentifier)
+            self.backgroundIdentifier = UIBackgroundTaskInvalid
+        }
+    }
+    
+    /// Настройка слушателей уведомлений
+    func configureObservers() {
+        registerForPlaybackStalledNotification()
+    }
+    
+    
+    // MARK: Обработка окончания воспроизведения
+    
+    /// Подписка на уведомление об окончании воспроизведения элемента системного плеера для указанного элемента системного плеера
+    private func registerForPlayToEndNotificationWithItem(item: AVPlayerItem) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(playerItemDidPlayToEnd), name: AVPlayerItemDidPlayToEndTimeNotification, object: item)
+    }
+    
+    /// Обработка уведомления о том, что воспроизводимый элемент системного плеера закончился
+    func playerItemDidPlayToEnd() {
+        unregisterForPlayToEndNotificationWithItem(currentItem!.playerItem!)
         
-        // Отменяем воспроизведение прошлой аудиозаписи
-        stopProgressTimer()
-        stopCurrentTimeUpdate()
-        
+        /// Если это был последний элемент в очереди на воспроизведение
+        if playIndex >= queuedItems.count - 1 {
+            clear()
+        } else {
+            playAtIndex(playIndex + 1)
+        }
+    }
+    
+    /// Отписка от уведомлений об окончании воспроизведения элемента системного плеера для указанного элемента системного плеера
+    func unregisterForPlayToEndNotificationWithItem(item: AVPlayerItem) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: item)
+    }
+    
+    
+    // MARK: Обработка низкой скорости подключения
+    
+    /// Подписка на уведомление о том, что часть медиа-файла не успела загрузиться из сети, чтобы быть воспроизведенной
+    func registerForPlaybackStalledNotification() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleStall), name: AVPlayerItemPlaybackStalledNotification, object: nil)
+    }
+    
+    /// Обработка уведомления о том, что часть медиа-файла не успела загрузиться из сети, чтобы быть воспроизведенной
+    func handleStall() {
         player?.pause()
-        player = nil
         
-        // Начинаем воспроизведение новой аудиозаписи
-        player = AVPlayer(playerItem: item)
-        player!.allowsExternalPlayback = false // Внешнее воспроизведение недоступно
-        
-        startProgressTimer()
-        startCurrentTimeUpdate()
-        
-        seekToSecond(0, shouldPlay: true)
-        
-        updateInfoCenter()
-    }
-    
-    /// Продолжить воспроизведение
-    func resumePlayback() {
-        if state != .Playing {
-            if let player = player {
-                startProgressTimer()
-                startCurrentTimeUpdate()
-                
-                player.play()
-                
-                state = .Playing
-                updateInfoCenter()
-            } else {
-                startNewPlayerForItem(currentItem!.playerItem!)
-            }
+        if state == .Playing {
+            player?.play()
         }
     }
     
@@ -157,7 +151,85 @@ final class Player: NSObject {
     }
     
     
+    // MARK: Воспроизведение
+    
+    /// Обновление всего инфо-центра "Воспроизводится сейчас"
+    func updateInfoCenter() {
+        guard let item = currentItem else {
+            MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nil
+            return
+        }
+        
+        let title = item.title ?? ""
+        let artist = item.artist ?? ""
+        let currentTime = item.currentTime ?? 0
+        let duration = item.duration ?? 0
+        let trackNumber = playIndex
+        let trackCount = queuedItems.count
+        
+        let nowPlayingInfo: [String : AnyObject] = [
+            MPMediaItemPropertyTitle : title,
+            MPMediaItemPropertyArtist : artist,
+            MPMediaItemPropertyPlaybackDuration : duration,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime : currentTime,
+            MPNowPlayingInfoPropertyPlaybackQueueCount : trackCount,
+            MPNowPlayingInfoPropertyPlaybackQueueIndex : trackNumber,
+            MPMediaItemPropertyMediaType : MPMediaType.Music.rawValue,
+            /**/MPMediaItemPropertyArtwork : MPMediaItemArtwork(image: UIImage(named: "placeholder-Player")!)
+        ]
+        
+//        if let artwork = currentItem?.artwork {
+//            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: artwork)
+//        }
+        
+        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nowPlayingInfo
+    }
+    
+    /// Начать воспроизведение нового элемента системного плеера
+    func startNewPlayerForItem(item: AVPlayerItem) {
+        
+        // Отменяем воспроизведение прошлой аудиозаписи
+        stopProgressObserving()
+        player?.pause()
+        player = nil
+        
+        // Начинаем воспроизведение новой аудиозаписи
+        player = AVPlayer(playerItem: item)
+        startProgressObserving()
+        
+        seekToSecond(0, shouldPlay: true)
+    }
+    
+    /// Продолжить воспроизведение
+    func resumePlayback() {
+        if state != .Playing {
+            if let player = player {
+                startProgressObserving()
+                player.play()
+                
+                state = .Playing
+                
+                updateInfoCenter()
+            } else {
+                startNewPlayerForItem(currentItem!.playerItem!)
+            }
+        }
+    }
+    
+    
     // MARK: Отслеживание прогресса
+    
+    /// Начать наблюдение за показателями прогресса воспроизведения
+    func startProgressObserving() {
+        startProgressTimer()
+        startCurrentTimeUpdate()
+    }
+    
+    /// Прекратить наблюдение за показателями прогресса воспроизведения
+    func stopProgressObserving() {
+        stopProgressTimer()
+        stopCurrentTimeUpdate()
+    }
     
     /// Начать наблюдение за прогрессом воспроизведения
     func startProgressTimer() {
@@ -168,7 +240,7 @@ final class Player: NSObject {
         let interval = 0.5 * currentItem!.duration! / Double(PlayerManager.sharedInstance.barWidth)
         
         progressObserver = player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(interval, Int32(NSEC_PER_SEC)), queue: nil) { [unowned self] _ in
-            self.timerAction()
+            self.syncProgress()
         }
     }
     
@@ -204,49 +276,16 @@ final class Player: NSObject {
     }
     
     
-    // MARK: Настройки
+    // MARK: Работа с уведомлениями о прогрессе
     
-    /// Настройка аудио-сессии
-    func configureAudioSession() {
-        do {
-            // Установка категории аудио-сессии - воспроизведение музыки (чтобы приложение позволяло воспроизводить музыку в фоне, необходимо добавить значение "audio" для ключа UIBackgroundModes на странице настроек приложения)
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            // Активирует аудио-сессию
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-            fatalError("Could not open the audio session, hence Player is unusable!")
-        }
-    }
-    
-    /// Создание фоновой задачи воспроизведения аудиозаписи
-    private func configureBackgroundAudioTask() {
-        backgroundIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler {
-            UIApplication.sharedApplication().endBackgroundTask(self.backgroundIdentifier)
-            self.backgroundIdentifier = UIBackgroundTaskInvalid
-        }
-    }
-    
-    /// Настройка слушателей уведомлений
-    func configureObservers() {
-        
-        // Подписка на уведомление о том, что часть медиа-файла не успела загрузиться из сети, чтобы быть воспроизведенной
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleStall), name: AVPlayerItemPlaybackStalledNotification, object: nil)
-    }
-    
-    
-    // MARK: Работа с уведомлениями
-    
-    /// Обработка уведомления о том, что часть медиа-файла не успела загрузиться из сети, чтобы быть воспроизведенной
-    func handleStall() {
-        player?.pause()
-        
-        if state == .Playing {
-            player?.play()
-        }
+    /// Обновление значений прогресса и текущего времени для текущего элемента
+    func syncValues() {
+        syncProgress()
+        syncCurrentTime()
     }
     
     /// Обновление значения прогресса воспроизведения для текущего элемента плеера
-    func timerAction() {
+    func syncProgress() {
         guard let _ = player?.currentItem, let _ = currentItem?.currentTime else {
             return
         }
@@ -261,28 +300,6 @@ final class Player: NSObject {
         }
         
         delegate?.playerPlaybackCurrentTimeDidChange(self)
-    }
-    
-    /// Подписка на уведомление об окончании воспроизведения элемента системного плеера для указанного элемента системного плеера
-    private func registerForPlayToEndNotificationWithItem(item: AVPlayerItem) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(playerItemDidPlayToEnd), name: AVPlayerItemDidPlayToEndTimeNotification, object: item)
-    }
-    
-    /// Обработка уведомления о том, что воспроизводимый элемент системного плеера закончился
-    func playerItemDidPlayToEnd() {
-        unregisterForPlayToEndNotificationWithItem(currentItem!.playerItem!)
-        
-        /// Если это был последний элемент в очереди на воспроизведение
-        if playIndex >= queuedItems.count - 1 {
-            stop()
-        } else {
-            playAtIndex(playIndex + 1)
-        }
-    }
-    
-    /// Отписка от уведомлений об окончании воспроизведения элемента системного плеера для указанного элемента системного плеера
-    func unregisterForPlayToEndNotificationWithItem(item: AVPlayerItem) {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: item)
     }
     
 }
@@ -315,7 +332,6 @@ extension Player {
                 resumePlayback()
             } else {
                 seekToSecond(0, shouldPlay: true)
-                updateInfoCenter()
             }
         } else {
             if let playerItem = currentItem?.playerItem {
@@ -335,17 +351,15 @@ extension Player {
     
     /// Поставить воспроизведение на паузу
     func pause() {
-        stopProgressTimer()
-        stopCurrentTimeUpdate()
+        stopProgressObserving()
         
         player?.pause()
         state = .Paused
     }
     
-    /// Остановить воспроизведение
-    func stop() {
-        stopProgressTimer()
-        stopCurrentTimeUpdate()
+    /// Очистить все данные плеера
+    func clear() {
+        stopProgressObserving()
         if let playerItem = currentItem?.playerItem {
             unregisterForPlayToEndNotificationWithItem(playerItem)
         }
@@ -354,30 +368,34 @@ extension Player {
         player = nil
         
         playIndex = 0
+        queuedItems.removeAll()
         
         UIApplication.sharedApplication().endBackgroundTask(backgroundIdentifier)
         backgroundIdentifier = UIBackgroundTaskInvalid
         
+        updateInfoCenter()
+        
         state = .Ready
     }
     
-    /// Очистить все данные плеера
-    func clear() {
-        stop()
-        
-        queuedItems.removeAll()
-    }
-    
-    /// Начать воспроизведение с начала очереди
-    func replay(){
+    /// Воспроизвести предыдущий элемент плеера
+    func playPrevious() {
         guard playerOperational else {
             return
         }
         
-        stopProgressTimer()
-        stopCurrentTimeUpdate()
-        seekToSecond(0)
-        playAtIndex(0)
+        if currentItem!.currentTime > 5 {
+            replayCurrentItem()
+            return
+        }
+        
+        if playIndex - 1 < 0 {
+            clear()
+            return
+        }
+        
+        playAtIndex(playIndex - 1)
+        syncValues()
     }
     
     /// Начать воспроизведение следующего элемента плеера
@@ -387,24 +405,24 @@ extension Player {
         }
         
         if playIndex + 1 >= queuedItems.count {
-            replayCurrentItem()
+            clear()
+            return
         }
         
         playAtIndex(playIndex + 1)
-        syncCurrentTime()
+        syncValues()
     }
     
-    /// Воспроизвести предыдущий элемент плеера
-    func playPrevious() {
+    /// Начать воспроизведение с начала очереди
+    func replay(){
         guard playerOperational else {
             return
         }
         
-        if playIndex - 1 < 0 {
-            replayCurrentItem()
-        }
+        stopProgressObserving()
         
-        playAtIndex(playIndex - 1)
+        seekToSecond(0)
+        playAtIndex(0)
     }
     
     /// Воспроизвести заново текущий элемент плеера
@@ -422,40 +440,18 @@ extension Player {
             return
         }
         
-        player.seekToTime(CMTimeMake(Int64(second), 1))
+        player.seekToTime(CMTimeMakeWithSeconds(Float64(second), Int32(NSEC_PER_SEC)))
         
         if shouldPlay {
+            startProgressObserving()
             player.play()
             
-            startProgressTimer()
-            startCurrentTimeUpdate()
             state = .Playing
         }
         
         updateInfoCenter()
         
         delegate?.playerPlaybackProgressDidChange(self)
-    }
-    
-    /// Добавить элемент плеера в очередь на воспроизведение
-    func appendItem(item: PlayerItem) {
-        queuedItems.append(item)
-        item.delegate = self
-    }
-    
-    /// Удалить элемент плеера из очереди на воспроизведение
-    func removeItem(item: PlayerItem) {
-        if let index = queuedItems.indexOf({ $0.identifier == item.identifier }) {
-            queuedItems.removeAtIndex(index)
-        }
-    }
-    
-    /// Удалить все элементы плеера с указанным URL
-    func removeItems(withURL url: NSURL) {
-        let indexes = queuedItems.indexesOf({ $0.URL == url })
-        for index in indexes {
-            queuedItems.removeAtIndex(index)
-        }
     }
     
 }

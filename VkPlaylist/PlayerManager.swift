@@ -87,23 +87,31 @@ class PlayerManager {
         return CGRectGetWidth(miniPlayerViewController.progressBar.bounds)
     }
     
+    /// Состояние плеера
+    var state: PlayerState {
+        return player.state
+    }
     /// Воспроизводится ли музыка
-    var isPlaying = false
+    var isPlaying: Bool {
+        return state == .Playing
+    }
     /// Активна ли пауза (активируется при нажатии по кнопке "Пауза")
     var isPauseActive = false
     /// Название исполняемой аудиозаписи
-    var trackTitle: String?
+    var trackTitle: String? {
+        return player.currentItem?.title
+    }
     /// Имя исполнителя исполняемой аудиозаписи
-    var artist: String?
+    var artist: String? {
+        return player.currentItem?.artist
+    }
     /// Длина аудиозаписи
-    var duration = 0.0
+    var duration: Double {
+        return player.currentItem?.duration ?? 0
+    }
     /// Текущее время аудиозаписи
-    var currentTime = 0.0 {
-        didSet {
-            if currentTime < 0 {
-                currentTime = 0
-            }
-        }
+    var currentTime: Double {
+        return round(player.currentItem?.currentTime ?? 0)
     }
     /// Прогресс воспроизведения
     var progress: Float {
@@ -149,20 +157,22 @@ class PlayerManager {
     // MARK: Управление воспроизведением
     
     /// Пользователь начал перемотку аудиозаписи
-    func sliderEditingDidBegin() {
+    func sliderBeginDragging() {
         if !isPauseActive {
             player.pause()
         }
     }
     
     /// Пользователь закончил перемотку аудиозаписи
-    func sliderEditingDidEndWithSecond(second: Int) {
+    func sliderEndDraggingWithSecond(second: Int) {
         player.seekToSecond(second, shouldPlay: !isPauseActive)
     }
     
     /// Пользователь переключил на предыдущую аудиозапись
     func previousTapped() {
         player.playPrevious()
+        
+        isPauseActive = false
     }
     
     /// Нажата кнопка "Play" на одном из контроллеров
@@ -182,6 +192,8 @@ class PlayerManager {
     /// Пользователь переключил на следующую аудиозапись
     func nextTapped() {
         player.playNext()
+        
+        isPauseActive = false
     }
     
     /// Была нажата кнопка "Отправлять музыку в статус"
@@ -189,7 +201,7 @@ class PlayerManager {
         isShareToStatus = !isShareToStatus
         
         delegates.forEach { delegate in
-            delegate.playerManagerShareToStatusSettingChangedTo(isShareToStatus)
+            delegate.playerManagerShareToStatusSettingDidChange()
         }
     }
     
@@ -198,7 +210,7 @@ class PlayerManager {
         nextRepeatType()
         
         delegates.forEach { delegate in
-            delegate.playerManagerRepeatTypeDidChange(repeatType)
+            delegate.playerManagerRepeatTypeDidChange()
         }
     }
     
@@ -207,7 +219,7 @@ class PlayerManager {
         isShuffle = !isShuffle
         
         delegates.forEach { delegate in
-            delegate.playerManagerShuffleSettingChangedTo(isShuffle)
+            delegate.playerManagerShuffleSettingDidChange()
         }
     }
     
@@ -235,38 +247,33 @@ extension PlayerManager: PlayerDelegate {
     
     // Плеер изменил состояние
     func playerStateDidChange(player: Player) {
-        isPlaying = player.state == .Playing
-        
-        delegates.forEach { delegate in
-            delegate.playerManagerGetNewState(player.state)
+        if state == .Ready {
+            playlistIdentifier = nil
         }
-    }
-    
-    // Плеер изменил прогресс воспроизведения
-    func playerPlaybackProgressDidChange(player: Player) {
-        currentTime = round(player.currentItem!.currentTime!)
         
         delegates.forEach { delegate in
-            delegate.playerManagerCurrentItemGetNewTimerProgress(progress)
+            delegate.playerManagerGetNewState()
         }
     }
     
     // Плеер изменил воспроизводимый элемент
     func playerCurrentItemDidChange(player: Player) {
-        trackTitle = player.currentItem!.title
-        artist = player.currentItem!.artist
-        duration = player.currentItem!.duration!
-        
         delegates.forEach { delegate in
-            delegate.playerManagerGetNewItem(player.currentItem!)
+            delegate.playerManagerGetNewItem()
         }
     }
     
-    func playerPlaybackCurrentTimeDidChange(player: Player) {
-        currentTime = round(player.currentItem!.currentTime!)
-        
+    // Плеер изменил прогресс воспроизведения
+    func playerPlaybackProgressDidChange(player: Player) {
         delegates.forEach { delegate in
-            delegate.playerManagerCurrentItemGetNewCurrentTime(currentTime)
+            delegate.playerManagerCurrentItemGetNewProgressValue()
+        }
+    }
+    
+    // Плеер измени текущее время воспроизведения
+    func playerPlaybackCurrentTimeDidChange(player: Player) {
+        delegates.forEach { delegate in
+            delegate.playerManagerCurrentItemGetNewCurrentTime()
         }
     }
     
