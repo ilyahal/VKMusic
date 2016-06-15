@@ -16,7 +16,7 @@ final class PlayerItem: NSObject {
     /// Делегат аудиозаписи
     weak var delegate: PlayerItemDelegate?
     /// URL элемента плеера в сети
-    let URL: NSURL
+    let URL: NSURL?
     /// URL элемента плеера в файловой системе устройства
     var fileURL: NSURL!
     
@@ -50,6 +50,8 @@ final class PlayerItem: NSObject {
     var artist: String?
     /// Обложка аудиозаписи
     var artwork: UIImage?
+    /// Слова аудиозаписи
+    var lyrics: String?
     
     
     init(onlineTrack: Track) {
@@ -65,6 +67,20 @@ final class PlayerItem: NSObject {
         artist = onlineTrack.artist
     }
     
+    init(offlineTrack: OfflineTrack) {
+        identifier = NSUUID().UUIDString
+        
+        URL = nil
+        isDownloaded = true
+        
+        trackID = offlineTrack.id
+        trackOwnerID = offlineTrack.ownerID
+        
+        duration = Double(offlineTrack.duration)
+        title = offlineTrack.title
+        artist = offlineTrack.artist
+    }
+    
     deinit {
         removeBufferProgressObserver()
     }
@@ -77,19 +93,29 @@ final class PlayerItem: NSObject {
         if isDownloaded {
             if let offlineTrack = DataManager.sharedInstance.getDownloadedCopyOfATrackIfExistsWithID(trackID, andOwnerID: trackOwnerID) {
                 fileURL = NSURL(fileURLWithPath: offlineTrack.url)
+                if let artwork = offlineTrack.artwork {
+                    self.artwork = UIImage(data: artwork)
+                }
+                lyrics = offlineTrack.lyrics
             } else {
                 isDownloaded = false
                 fileURL = nil
+                artwork = nil
+                lyrics = nil
             }
         } else {
             if let offlineTrack = DataManager.sharedInstance.getDownloadedCopyOfATrackIfExistsWithID(trackID, andOwnerID: trackOwnerID) {
                 isDownloaded = true
                 fileURL = NSURL(fileURLWithPath: offlineTrack.url)
+                if let artwork = offlineTrack.artwork {
+                    self.artwork = UIImage(data: artwork)
+                }
+                lyrics = offlineTrack.lyrics
             }
         }
         
         // Создаем экземпляр системного плеера
-        playerItem = playerItem == nil ? AVPlayerItem(URL: isDownloaded ? fileURL : URL) : AVPlayerItem(asset: playerItem!.asset)
+        playerItem = playerItem == nil ? AVPlayerItem(URL: isDownloaded ? fileURL : URL!) : AVPlayerItem(asset: playerItem!.asset)
         
         return playerItem!
     }

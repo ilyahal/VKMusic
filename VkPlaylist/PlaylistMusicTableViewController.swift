@@ -14,6 +14,9 @@ class PlaylistMusicTableViewController: UITableViewController {
     /// Родительский контроллер
     weak var playlistMusicViewController: PlaylistMusicViewController!
     
+    /// Идентификатор текущего списка аудиозаписей
+    var playlistIdentifier: String!
+    
     /// Выбранный плейлист
     var playlist: Playlist!
     
@@ -70,6 +73,7 @@ class PlaylistMusicTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         tracks = DataManager.sharedInstance.getTracksForPlaylist(playlist)
+        playlistIdentifier = NSUUID().UUIDString
         
         searchEnable(tracks.count != 0)
         reloadTableView()
@@ -287,6 +291,13 @@ extension _PlaylistMusicTableViewControllerDelegate {
     // Вызывается при тапе по строке таблицы
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if tableView.cellForRowAtIndexPath(indexPath) is OfflineAudioCell {
+            let track = activeArray[indexPath.row]
+            let index = tracks.indexOf({ $0 === track })!
+            
+            PlayerManager.sharedInstance.playItemWithIndex(index, inPlaylist: tracks, withPlaylistIdentifier: playlistIdentifier)
+        }
     }
     
 }

@@ -136,6 +136,15 @@ class PlayerManager {
     var duration: Double {
         return player.currentItem?.duration ?? 0
     }
+    /// Обложка аудиозаписи
+    var artwork: UIImage? {
+        return player.currentItem?.artwork
+    }
+    /// Слова аудиозаписи
+    var lyrics: String {
+        return player.currentItem?.lyrics ?? ""
+    }
+    
     /// Текущее время аудиозаписи
     var currentTime: Double {
         return round(player.currentItem?.currentTime ?? 0)
@@ -166,10 +175,10 @@ class PlayerManager {
     }
     
     
-    // MARK: Начало воспроизведения
+    // MARK: Управление очередью
     
     /// Воспроизвести аудиозапись по указанному индексу, в указанном плейлисте с указанным идентификатором
-    func playItemWithIndex(index: Int , inOnlinePlaylist playlist: [Track], withPlaylistIdentifier playlistIdentifier: String) {
+    func playItemWithIndex(index: Int , inPlaylist playlist: [AnyObject], withPlaylistIdentifier playlistIdentifier: String) {
         isPauseActive = false
         
         if let _playlistIdentifier = self.playlistIdentifier where _playlistIdentifier == playlistIdentifier {
@@ -183,9 +192,11 @@ class PlayerManager {
             
             self.playlistIdentifier = playlistIdentifier
             
+            isOffline = playlist is [TrackInPlaylist]
+            
             var playerItems = [PlayerItem]()
             for track in playlist {
-                playerItems.append(PlayerItem(onlineTrack: track))
+                playerItems.append(playlist is [Track] ? PlayerItem(onlineTrack: track as! Track) : PlayerItem(offlineTrack: (track as! TrackInPlaylist).track))
             }
             
             originalQueued = playerItems
@@ -201,6 +212,42 @@ class PlayerManager {
         }
         
         player.playAtIndex(isShuffle ? playIndex : index)
+    }
+    
+    /// Удалить аудиозапись из очереди
+    func deleteOfflineTrack(offlineTrack: OfflineTrack) -> Bool {
+        if isOffline {
+            if isShuffle {
+                for (index, playerItem) in shuffledQueued.enumerate() {
+                    if playerItem.trackID == offlineTrack.id && playerItem.trackOwnerID == offlineTrack.ownerID {
+                        if playIndex == index {
+                            return false
+                        } else if playIndex > index {
+                            playIndex -= 1
+                        }
+                        
+                        shuffledQueued.removeAtIndex(index)
+                        
+                        let originalIndex = originalQueued.indexOf({ $0.trackID == offlineTrack.id && $0.trackOwnerID == offlineTrack.ownerID })!
+                        originalQueued.removeAtIndex(originalIndex)
+                    }
+                }
+            } else {
+                for (index, playerItem) in originalQueued.enumerate() {
+                    if playerItem.trackID == offlineTrack.id && playerItem.trackOwnerID == offlineTrack.ownerID {
+                        if playIndex == index {
+                            return false
+                        } else if playIndex > index {
+                            playIndex -= 1
+                        }
+                        
+                        originalQueued.removeAtIndex(index)
+                    }
+                }
+            }
+        }
+        
+        return true
     }
     
     

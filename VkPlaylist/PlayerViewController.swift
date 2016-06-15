@@ -129,6 +129,8 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var moreIconImageView: UIImageView!
     
     
+    /// Обложка по-умолчанию
+    var artworkPlaceholder = UIImage(named: "placeholder-Player")!
     /// Распознатель тапов по текстовому полю
     var lyricsTapRecognizer: UITapGestureRecognizer!
     /// Иконка "Скачать"
@@ -176,18 +178,27 @@ class PlayerViewController: UIViewController {
         return PlayerManager.sharedInstance.state
     }
     
-    /// Прогресс воспроизведения текущей аудиозаписи
-    var progress: Float {
-        return PlayerManager.sharedInstance.progress
+    /// Название исполняемой аудиозаписи
+    var trackTitle: String? {
+        return PlayerManager.sharedInstance.trackTitle
     }
-    /// Прогресс буфферизации
-    var preloadProgress: Float {
-        return PlayerManager.sharedInstance.preloadProgress
+    /// Имя исполнителя аудиозаписи
+    var artist: String? {
+        return PlayerManager.sharedInstance.artist
     }
     /// Длина текущей аудиозаписи
     var duration: Double {
         return PlayerManager.sharedInstance.duration
     }
+    /// Обложка аудиозаписи
+    var artwork: UIImage {
+        return PlayerManager.sharedInstance.artwork ?? artworkPlaceholder
+    }
+    /// Слова аудиозаписи
+    var lyrics: String {
+        return PlayerManager.sharedInstance.lyrics
+    }
+    
     /// Текущее время воспроизведения текущей аудиозаписи
     var currentTime: Double {
         return PlayerManager.sharedInstance.currentTime
@@ -198,13 +209,13 @@ class PlayerViewController: UIViewController {
         
         return leftTime < 0 ? 0 : leftTime
     }
-    /// Название исполняемой аудиозаписи
-    var trackTitle: String? {
-        return PlayerManager.sharedInstance.trackTitle
+    /// Прогресс воспроизведения текущей аудиозаписи
+    var progress: Float {
+        return PlayerManager.sharedInstance.progress
     }
-    /// Имя исполнителя аудиозаписи
-    var artist: String? {
-        return PlayerManager.sharedInstance.artist
+    /// Прогресс буфферизации
+    var preloadProgress: Float {
+        return PlayerManager.sharedInstance.preloadProgress
     }
     
     
@@ -243,6 +254,13 @@ class PlayerViewController: UIViewController {
         
         configureUI()
         
+        // Настройка отображения обложки
+        backgroundArtworkImageView.image = artwork
+        artworkImageView.image = artwork
+        
+        // Настройка слов аудиозаписи
+        lyricsTextView.text = lyrics
+        
         // Настройка бара отображающего прогресс буфферизации
         bufferingProgressView.setProgress(preloadProgress, animated: false)
         
@@ -268,7 +286,7 @@ class PlayerViewController: UIViewController {
         
         // Настройка кнопки "Отобразить в статусе"
         configureShareToStatusButton()
-        shareToStatusView.hidden = true
+        shareToStatusView.alpha = 0
         
         // Настройка кнопки "Отобразить слова аудиозаписи"
         configureLyricsButton()
@@ -280,7 +298,7 @@ class PlayerViewController: UIViewController {
         configureRepeatButton()
         
         // Настройка кнопки "Еще"
-        moreView.hidden = true
+        moreView.alpha = 0
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -615,6 +633,11 @@ extension PlayerViewController: PlayerManagerDelegate {
     
     // Менеджер плеера получил новый элемент плеера
     func playerManagerGetNewItem() {
+        backgroundArtworkImageView.image = artwork
+        artworkImageView.image = artwork
+        
+        lyricsTextView.text = lyrics
+        
         titleLabel.text = trackTitle
         artistLabel.text = artist
     }

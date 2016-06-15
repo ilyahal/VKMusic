@@ -14,6 +14,9 @@ class DownloadsTableViewController: UITableViewController {
 
     weak var delegate: DownloadsTableViewControllerDelegate?
     
+    /// Идентификатор текущего списка аудиозаписей
+    var playlistIdentifier = NSUUID().UUIDString
+    
     /// Контроллер поиска
     let searchController = UISearchController(searchResultsController: nil)
     /// Выполняется ли сейчас поиск
@@ -115,7 +118,14 @@ class DownloadsTableViewController: UITableViewController {
     
     /// Удаление аудиозаписи
     func deleteTrack(track: OfflineTrack) {
-        if !DataManager.sharedInstance.deleteTrack(track) {
+        if !PlayerManager.sharedInstance.deleteOfflineTrack(track) {
+            let alertController = UIAlertController(title: "Ошибка", message: "Невозможно удалить, аудиозапись сейчас воспроизводится!", preferredStyle: .Alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(okAction)
+            
+            presentViewController(alertController, animated: true, completion: nil)
+        } else if !DataManager.sharedInstance.deleteTrack(track) {
             let alertController = UIAlertController(title: "Ошибка", message: "При удалении файла произошла ошибка, попробуйте еще раз..", preferredStyle: .Alert)
             
             let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -493,6 +503,13 @@ extension _DownloadsTableViewControllerDelegate {
     // Вызывается при тапе по строке таблицы
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if tableView.cellForRowAtIndexPath(indexPath) is OfflineAudioCell {
+            let track = activeArray[indexPath.row]
+            let index = downloaded.indexOf({ $0 === track })!
+            
+            PlayerManager.sharedInstance.playItemWithIndex(index, inPlaylist: downloaded, withPlaylistIdentifier: playlistIdentifier)
+        }
     }
     
     // Определяется куда переместить ячейку с укзанного NSIndexPath при перемещении в указанный NSIndexPath

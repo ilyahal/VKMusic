@@ -416,7 +416,7 @@ extension _MusicFromInternetTableViewControllerDelegate {
             let track = activeArray[indexPath.row]
             let index = music.indexOf({ $0 === track })!
             
-            PlayerManager.sharedInstance.playItemWithIndex(index, inOnlinePlaylist: music, withPlaylistIdentifier: playlistIdentifier!)
+            PlayerManager.sharedInstance.playItemWithIndex(index, inPlaylist: music, withPlaylistIdentifier: playlistIdentifier!)
         }
     }
     

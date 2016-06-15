@@ -37,6 +37,14 @@ final class Player: NSObject {
     var queuedItems: [PlayerItem] {
         return PlayerManager.sharedInstance.queuedItems
     }
+    /// Текущий элемент плеера
+    var currentItem: PlayerItem? {
+        guard playIndex >= 0 && playIndex < queuedItems.count else {
+            return nil
+        }
+        
+        return queuedItems[playIndex]
+    }
     
     /// Состояние плеера
     var state = PlayerState.Ready {
@@ -47,19 +55,13 @@ final class Player: NSObject {
         }
     }
     
-    /// Текущий элемент плеера
-    var currentItem: PlayerItem? {
-        guard playIndex >= 0 && playIndex < queuedItems.count else {
-            return nil
-        }
-        
-        return queuedItems[playIndex]
-    }
-    
     /// Доступно ли воспроизведение
     var playerOperational: Bool {
         return player != nil && currentItem != nil
     }
+    
+    /// Обложка по-умолчанию
+    var artworkPlaceholder = UIImage(named: "placeholder-Player")!
     
     
     init(delegate: PlayerDelegate? = nil) {
@@ -189,12 +191,8 @@ final class Player: NSObject {
             MPNowPlayingInfoPropertyPlaybackQueueCount : trackCount,
             MPNowPlayingInfoPropertyPlaybackQueueIndex : trackNumber,
             MPMediaItemPropertyMediaType : MPMediaType.Music.rawValue,
-            /**/MPMediaItemPropertyArtwork : MPMediaItemArtwork(image: UIImage(named: "placeholder-Player")!)
+            MPMediaItemPropertyArtwork : MPMediaItemArtwork(image: currentItem?.artwork ?? artworkPlaceholder)
         ]
-        
-//        if let artwork = currentItem?.artwork {
-//            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: artwork)
-//        }
         
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nowPlayingInfo
     }
@@ -428,7 +426,14 @@ extension Player {
         }
         
         if playIndex - 1 < 0 {
-            clear()
+            switch PlayerManager.sharedInstance.repeatType {
+            case .No, .One:
+                clear()
+            case .All:
+                playAtIndex(queuedItems.count - 1)
+                syncValues()
+            }
+            
             return
         }
         
@@ -443,7 +448,13 @@ extension Player {
         }
         
         if playIndex + 1 >= queuedItems.count {
-            clear()
+            switch PlayerManager.sharedInstance.repeatType {
+            case .No, .One:
+                clear()
+            case .All:
+                replay()
+            }
+            
             return
         }
         
