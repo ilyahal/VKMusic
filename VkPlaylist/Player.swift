@@ -107,6 +107,7 @@ final class Player: NSObject {
     /// Обработка уведомления о том, что воспроизводимый элемент системного плеера закончился
     func playerItemDidPlayToEnd() {
         unregisterForPlayToEndNotificationWithItem(currentItem!.playerItem!)
+        currentItem!.removeBufferProgressObserver()
         
         /// Если это был последний элемент в очереди на воспроизведение
         if playIndex >= queuedItems.count - 1 {
@@ -282,6 +283,7 @@ final class Player: NSObject {
     func syncValues() {
         syncProgress()
         syncCurrentTime()
+        syncBufferingProgress()
     }
     
     /// Обновление значения прогресса воспроизведения для текущего элемента плеера
@@ -302,12 +304,28 @@ final class Player: NSObject {
         delegate?.playerPlaybackCurrentTimeDidChange(self)
     }
     
+    /// Обновление значения текущего прогресса буфферизации для текущего элемента плеера
+    func syncBufferingProgress() {
+        guard let _ = player?.currentItem, let _ = currentItem?.currentTime else {
+            return
+        }
+        
+        delegate?.playerBufferingProgressDidChange(self)
+    }
+    
 }
 
 
 // MARK: PlayerItemDelegate
 
-extension Player: PlayerItemDelegate { }
+extension Player: PlayerItemDelegate {
+
+    // Элемент плеера предзагрузил текущую аудиозапись со следующей величиной
+    func playerItemDidPreLoadCurrentItemWithProgress(preloadProgress: Float) {
+        syncBufferingProgress()
+    }
+    
+}
 
 
 // MARK: Публичные методы
@@ -336,6 +354,7 @@ extension Player {
         } else {
             if let playerItem = currentItem?.playerItem {
                 unregisterForPlayToEndNotificationWithItem(playerItem)
+                currentItem!.removeBufferProgressObserver()
             }
             
             playIndex = index
@@ -343,6 +362,8 @@ extension Player {
             let playerItem = currentItem!.getPlayerItem()
             
             registerForPlayToEndNotificationWithItem(playerItem)
+            currentItem!.addBufferProgressObserver()
+            
             startNewPlayerForItem(playerItem)
             
             delegate?.playerCurrentItemDidChange(self)
@@ -362,6 +383,7 @@ extension Player {
         stopProgressObserving()
         if let playerItem = currentItem?.playerItem {
             unregisterForPlayToEndNotificationWithItem(playerItem)
+            currentItem!.removeBufferProgressObserver()
         }
         
         player?.pause()

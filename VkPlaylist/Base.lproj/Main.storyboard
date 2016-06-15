@@ -1552,7 +1552,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="26"/>
                                                                 <subviews>
                                                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wTt-mR-ZCC">
-                                                                        <rect key="frame" x="2" y="0.0" width="596" height="2"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="2"/>
                                                                     </progressView>
                                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="1i6-K6-Zh3">
                                                                         <rect key="frame" x="0.0" y="-15" width="600" height="31"/>
@@ -1600,8 +1600,8 @@
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="trailing" secondItem="1i6-K6-Zh3" secondAttribute="trailing" constant="2" id="2ch-ng-i2Z"/>
-                                                                    <constraint firstItem="wTt-mR-ZCC" firstAttribute="leading" secondItem="aGe-SC-0Hw" secondAttribute="leading" constant="2" id="FqN-48-d7F"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="wTt-mR-ZCC" secondAttribute="trailing" constant="2" id="OTw-O9-T1S"/>
+                                                                    <constraint firstItem="wTt-mR-ZCC" firstAttribute="leading" secondItem="aGe-SC-0Hw" secondAttribute="leading" id="FqN-48-d7F"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="wTt-mR-ZCC" secondAttribute="trailing" id="OTw-O9-T1S"/>
                                                                     <constraint firstAttribute="trailing" secondItem="tgO-et-zca" secondAttribute="trailing" constant="8" id="aPV-xS-T1Z"/>
                                                                     <constraint firstItem="1i6-K6-Zh3" firstAttribute="top" secondItem="aGe-SC-0Hw" secondAttribute="top" constant="-15" id="gUP-cz-7sM"/>
                                                                     <constraint firstAttribute="bottom" secondItem="tgO-et-zca" secondAttribute="bottom" id="k3W-2S-0hI"/>

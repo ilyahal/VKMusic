@@ -178,6 +178,10 @@ class PlayerViewController: UIViewController {
     var progress: Float {
         return PlayerManager.sharedInstance.progress
     }
+    /// Прогресс буфферизации
+    var preloadProgress: Float {
+        return PlayerManager.sharedInstance.preloadProgress
+    }
     /// Длина текущей аудиозаписи
     var duration: Double {
         return PlayerManager.sharedInstance.duration
@@ -238,7 +242,7 @@ class PlayerViewController: UIViewController {
         configureUI()
         
         // Настройка бара отображающего прогресс буфферизации
-        bufferingProgressView.setProgress(0, animated: false)
+        bufferingProgressView.setProgress(preloadProgress, animated: false)
         
         // Настройка слайдера с аудиозаписью
         trackSlider.setValue(PlayerManager.sharedInstance.progress, animated: false)
@@ -304,7 +308,7 @@ class PlayerViewController: UIViewController {
         // Заполняем пустое слева от слайдера
         let leftSliderSubview = UIView(frame: CGRectMake(0, 0, 3, 2))
         leftSliderSubview.backgroundColor = tintColor
-        sliderView.insertSubview(leftSliderSubview, belowSubview: bufferingProgressView)
+        sliderView.insertSubview(leftSliderSubview, belowSubview: trackSlider)
         
         // Заполняем пустое справа от слайдера
         let rightSliderSubview = UIView(frame: CGRectMake(view.bounds.size.width - 3, 0, 3, 2))
@@ -612,6 +616,11 @@ extension PlayerViewController: PlayerManagerDelegate {
     // Менеджер плеера получил новое значение прогресса
     func playerManagerCurrentItemGetNewProgressValue() {
         trackSlider.setValue(progress, animated: false)
+    }
+    
+    // Менеджер плеера получил новое значение прогресса буфферизации
+    func playerManagerCurrentItemGetNewBufferingProgressValue() {
+        bufferingProgressView.setProgress(preloadProgress, animated: false)
     }
     
     // Менеджер плеера получил новое значение текущего времени

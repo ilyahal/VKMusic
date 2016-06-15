@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-final class PlayerItem {
+final class PlayerItem: NSObject {
     
     /// Идентификатор аудиозаписи
     let identifier: String
@@ -19,6 +19,9 @@ final class PlayerItem {
     let URL: NSURL
     /// URL элемента плеера в файловой системе устройства
     var fileURL: NSURL!
+    
+    /// Активно ли KVO
+    var isKVOActive = false
     
     /// Элемент системного плеера
     var playerItem: AVPlayerItem?
@@ -62,6 +65,10 @@ final class PlayerItem {
         artist = onlineTrack.artist
     }
     
+    deinit {
+        removeBufferProgressObserver()
+    }
+    
     
     /// Получить элемент системного плеера
     func getPlayerItem() -> AVPlayerItem {
@@ -87,4 +94,87 @@ final class PlayerItem {
         return playerItem!
     }
     
+    
+    // MARK: Отслеживаение прогресса буфферизации
+    
+    /// Добавить слушателя для уведомлений о прогрессе буфферизации
+    func addBufferProgressObserver() {
+        if let playerItem = playerItem where !isKVOActive {
+            isKVOActive = true
+            playerItem.addObserver(self, forKeyPath: "loadedTimeRanges", options: .New, context: nil)
+        }
+    }
+    
+    /// Удалить слушателя для уведомлений о прогрессе буфферизации
+    func removeBufferProgressObserver() {
+        if let playerItem = playerItem where isKVOActive {
+            isKVOActive = false
+            playerItem.removeObserver(self, forKeyPath: "loadedTimeRanges")
+        }
+    }
+    
+    /// Доступная длина
+    var availableDuration: Double {
+        var availableDuration = 0.0
+        
+        if let playerItem = playerItem {
+            let loadedTimeRanges = playerItem.loadedTimeRanges
+            
+            if loadedTimeRanges.count > 0 {
+                let timeRange = loadedTimeRanges[0].CMTimeRangeValue
+                
+                let startSeconds = CMTimeGetSeconds(timeRange.start)
+                let durationSeconds = CMTimeGetSeconds(timeRange.duration)
+                
+                availableDuration = startSeconds + durationSeconds
+            }
+        }
+        
+        return availableDuration
+    }
+    
+    /// Прогресс буфферизации
+    var preloadProgress: Float {
+        if isDownloaded {
+            return 1
+        } else {
+            var progress: Float = 0.0
+            
+            if let playerItem = playerItem {
+                if playerItem.status == .ReadyToPlay {
+                    let bufferTime = availableDuration
+                    
+                    if let duration = duration {
+                        if duration > 0 {
+                            progress = Float(bufferTime) / Float(duration)
+                        }
+                    }
+                }
+            }
+            
+            return progress
+        }
+    }
+    
+}
+
+
+// MARK: NSObject + KVO (Key Value Observing)
+
+private typealias _PlayerItemDelegateNSObjectKVO = PlayerItem
+extension _PlayerItemDelegateNSObjectKVO {
+
+    // Вызывается при получении изменений для указанных ключей
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if let playerItem = playerItem {
+            if playerItem === object {
+                if keyPath == "loadedTimeRanges" {
+                    if let _ = change?[NSKeyValueChangeNewKey] as? NSArray {
+                        delegate?.playerItemDidPreLoadCurrentItemWithProgress(preloadProgress)
+                    }
+                }
+            }
+        }
+    }
+
 }

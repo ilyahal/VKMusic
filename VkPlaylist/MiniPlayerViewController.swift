@@ -176,6 +176,9 @@ extension MiniPlayerViewController: PlayerManagerDelegate {
         progressBar.setProgress(progress, animated: false)
     }
     
+    // Менеджер плеера получил новое значение прогресса буфферизации
+    func playerManagerCurrentItemGetNewBufferingProgressValue() {}
+    
     // Менеджер плеера получил новое значение текущего времени
     func playerManagerCurrentItemGetNewCurrentTime() {}
     

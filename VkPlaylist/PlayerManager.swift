@@ -121,6 +121,11 @@ class PlayerManager {
             return Float(currentTime / duration)
         }
     }
+    /// Прогресс буфферизации
+    var preloadProgress: Float {
+        let preloadProgress = player.currentItem?.preloadProgress ?? 0
+        return preloadProgress > 1 ? 1 : preloadProgress
+    }
     
     /// Отображать ли музыку в статусе
     var isShareToStatus = false
@@ -267,6 +272,13 @@ extension PlayerManager: PlayerDelegate {
     func playerPlaybackProgressDidChange(player: Player) {
         delegates.forEach { delegate in
             delegate.playerManagerCurrentItemGetNewProgressValue()
+        }
+    }
+    
+    // Плеер изменил прогресс буфферизации
+    func playerBufferingProgressDidChange(player: Player) {
+        delegates.forEach { delegate in
+            delegate.playerManagerCurrentItemGetNewBufferingProgressValue()
         }
     }
     

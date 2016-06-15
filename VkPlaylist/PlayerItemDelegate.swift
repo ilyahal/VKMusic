@@ -10,4 +10,7 @@ import Foundation
 
 protocol PlayerItemDelegate: class {
 
+    /// Элемент плеера предзагрузил текущую аудиозапись со следующей величиной
+    func playerItemDidPreLoadCurrentItemWithProgress(preloadProgress: Float)
+    
 }

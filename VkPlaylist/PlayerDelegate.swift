@@ -16,6 +16,8 @@ protocol PlayerDelegate: class {
     func playerCurrentItemDidChange(player: Player)
     /// Плеер изменил прогресс воспроизведения
     func playerPlaybackProgressDidChange(player: Player)
+    /// Плеер изменил прогресс буфферизации
+    func playerBufferingProgressDidChange(player: Player)
     /// Плеер измени текущее время воспроизведения
     func playerPlaybackCurrentTimeDidChange(player: Player)
     
