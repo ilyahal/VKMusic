@@ -19,7 +19,9 @@ extension String {
             timeFromSecondsDateFormatter.dateFormat = "mm:ss"
         }
         
-        return timeFromSecondsDateFormatter.stringFromDate(date)
+        let result = timeFromSecondsDateFormatter.stringFromDate(date)
+        
+        return result.hasPrefix("0") ? result.substringWithRange(Range<String.Index>(result.startIndex.advancedBy(1)..<result.endIndex)) : result
     }
     
 }
