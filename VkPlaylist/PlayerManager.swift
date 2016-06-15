@@ -77,13 +77,24 @@ class PlayerManager {
     /// Индекс воспроизводимого трека
     var playIndex = 0
     /// Очередь на воспроизведение
-    var queuedItems = [PlayerItem]()
+    var queuedItems: [PlayerItem] {
+        if isShuffle {
+            return shuffledQueued
+        } else {
+            return originalQueued
+        }
+    }
+    /// Оригинальная очередь на воспроизведение
+    var originalQueued = [PlayerItem]()
+    /// Перемешенная очередь на воспроизведение
+    var shuffledQueued = [PlayerItem]()
     
     /// Очистить очередь на воспроизведение
     func clearQueued() {
         playIndex = 0
         
-        queuedItems.removeAll()
+        originalQueued.removeAll()
+        shuffledQueued.removeAll()
     }
     
     
@@ -146,7 +157,9 @@ class PlayerManager {
     /// Отображать ли музыку в статусе
     var isShareToStatus = false
     /// Перемешивать ли плейлист
-    var isShuffle = false
+    var isShuffle: Bool {
+        return DataManager.sharedInstance.isShuffle
+    }
     /// Тип повторения плейлиста
     var repeatType: PlayerRepeatType {
         return DataManager.sharedInstance.repeatType
@@ -160,25 +173,34 @@ class PlayerManager {
         isPauseActive = false
         
         if let _playlistIdentifier = self.playlistIdentifier where _playlistIdentifier == playlistIdentifier {
-            player.playAtIndex(index)
+            if isShuffle {
+                player.clear(isRemove: false, isClose: false)
+                
+                playIndex = index
+            }
         } else {
+            player.clear(isClose: false)
+            
             self.playlistIdentifier = playlistIdentifier
             
             var playerItems = [PlayerItem]()
-            
             for track in playlist {
                 playerItems.append(PlayerItem(onlineTrack: track))
             }
             
-            player.clear()
-            
-            queuedItems = playerItems
+            originalQueued = playerItems
             for playerItem in playerItems {
                 playerItem.delegate = player
             }
             
-            player.playAtIndex(index)
+            playIndex = index
         }
+        
+        if isShuffle {
+            shuffleQueued()
+        }
+        
+        player.playAtIndex(isShuffle ? playIndex : index)
     }
     
     
@@ -244,7 +266,13 @@ class PlayerManager {
     
     /// Была нажата кнопка "Перемешать"
     func shuffleButtonTapped() {
-        isShuffle = !isShuffle
+        DataManager.sharedInstance.switchShuffle()
+        
+        if isShuffle {
+            shuffleQueued()
+        } else {
+            playIndex = originalQueued.indexOf({ $0 === shuffledQueued[playIndex] })!
+        }
         
         delegates.forEach { delegate in
             delegate.playerManagerShuffleSettingDidChange()
@@ -268,6 +296,25 @@ class PlayerManager {
         }
         
         DataManager.sharedInstance.setNewRepeatType(newRepeatType)
+    }
+    
+    /// Перемешать очередь
+    func shuffleQueued() {
+        shuffledQueued.removeAll()
+        
+        var tmpOriginalQueued = originalQueued
+        
+        shuffledQueued.append(tmpOriginalQueued[playIndex])
+        tmpOriginalQueued.removeAtIndex(playIndex)
+        
+        while !tmpOriginalQueued.isEmpty {
+            let index = Int(arc4random_uniform(UInt32(tmpOriginalQueued.count)))
+            
+            shuffledQueued.append(tmpOriginalQueued[index])
+            tmpOriginalQueued.removeAtIndex(index)
+        }
+        
+        playIndex = 0
     }
     
 }

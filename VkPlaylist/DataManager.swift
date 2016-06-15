@@ -120,6 +120,11 @@ class DataManager: NSObject {
     
     // MARK: NSUserDefaults
     
+    /// Программируемый интерфейс для взаимодействия с системой значений по умолчанию
+    var userDefaults: NSUserDefaults {
+        return NSUserDefaults.standardUserDefaults()
+    }
+    
     /// Регестрируем дефолтные значения для ключей в NSUserDefaults
     func registerDefaults() {
         var dictionary = [
@@ -132,14 +137,13 @@ class DataManager: NSObject {
         
         // Настройки плеера
         dictionary[DataManagerNSUserDefaultsKeys.repeatType] = -1
+        dictionary[DataManagerNSUserDefaultsKeys.isShuffle] = false
         
-        NSUserDefaults.standardUserDefaults().registerDefaults(dictionary) // Записываем дефолтные значения для указанных ключей
+        userDefaults.registerDefaults(dictionary) // Записываем дефолтные значения для указанных ключей
     }
     
     /// Получение идентификатора для нового плейлиста
     func nextPlaylistID() -> Int32 {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        
         let playlistID = userDefaults.integerForKey(DataManagerNSUserDefaultsKeys.playlistID) // Получение идентификатора для нового плейлиста
         userDefaults.setInteger(playlistID + 1, forKey: DataManagerNSUserDefaultsKeys.playlistID) // Установка нового идентификатора для следующего плейлиста
         userDefaults.synchronize() // Принудительно синхронизируем данные
@@ -149,31 +153,23 @@ class DataManager: NSObject {
     
     /// Предупреждать ли о наличии в плейлистах при удалении аудиозаписи
     var isWarningWhenDeletingOfExistenceInPlaylists: Bool {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        
         return userDefaults.boolForKey(DataManagerNSUserDefaultsKeys.warningWhenDeletingOfExistenceInPlaylists)
     }
     
     /// Не предупреждать о наличии в плейлистах при удалении аудиозаписи
     func warningWhenDeletingOfExistenceInPlaylistsDisabled() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        
         userDefaults.setBool(false, forKey: DataManagerNSUserDefaultsKeys.warningWhenDeletingOfExistenceInPlaylists)
         userDefaults.synchronize()
     }
     
     /// Предупреждать о наличии в плейлистах при удалении аудиозаписи
     func warningWhenDeletingOfExistenceInPlaylistsEnabled() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        
         userDefaults.setBool(true, forKey: DataManagerNSUserDefaultsKeys.warningWhenDeletingOfExistenceInPlaylists)
         userDefaults.synchronize()
     }
     
     /// Тип повторения плейлиста
     var repeatType: PlayerRepeatType {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        
         switch userDefaults.integerForKey(DataManagerNSUserDefaultsKeys.repeatType) {
         case -1:
             return .No
@@ -188,9 +184,18 @@ class DataManager: NSObject {
     
     /// Установить новый тип повторения плейлиста
     func setNewRepeatType(repeatType: PlayerRepeatType) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        
         userDefaults.setInteger(repeatType.rawValue, forKey: DataManagerNSUserDefaultsKeys.repeatType)
+        userDefaults.synchronize()
+    }
+    
+    /// Перемешивать ли плейлист
+    var isShuffle: Bool {
+        return userDefaults.boolForKey(DataManagerNSUserDefaultsKeys.isShuffle)
+    }
+    
+    /// Переключить настройку перемешивания плейлиста
+    func switchShuffle() {
+        userDefaults.setBool(!isShuffle, forKey: DataManagerNSUserDefaultsKeys.isShuffle)
         userDefaults.synchronize()
     }
     

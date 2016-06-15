@@ -392,7 +392,7 @@ extension Player {
     }
     
     /// Очистить все данные плеера
-    func clear() {
+    func clear(isRemove isRemove: Bool = true, isClose: Bool = true) {
         stopProgressObserving()
         if let playerItem = currentItem?.playerItem {
             unregisterForPlayToEndNotificationWithItem(playerItem)
@@ -402,14 +402,18 @@ extension Player {
         player?.pause()
         player = nil
         
-        PlayerManager.sharedInstance.clearQueued()
+        if isRemove {
+            PlayerManager.sharedInstance.clearQueued()
+        }
         
         UIApplication.sharedApplication().endBackgroundTask(backgroundIdentifier)
         backgroundIdentifier = UIBackgroundTaskInvalid
         
         updateInfoCenter()
         
-        state = .Ready
+        if isClose {
+            state = .Ready
+        }
     }
     
     /// Воспроизвести предыдущий элемент плеера

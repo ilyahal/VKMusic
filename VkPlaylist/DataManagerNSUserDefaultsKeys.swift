@@ -25,5 +25,7 @@ struct DataManagerNSUserDefaultsKeys {
     
     /// Тип повторения плейлиста (Int)
     static let repeatType = "RepeatType"
+    /// Перемешивать ли плейлист (Bool)
+    static let isShuffle = "isShuffle"
     
 }
