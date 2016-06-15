@@ -2545,6 +2545,7 @@
                         <outlet property="lyricsTextView" destination="1uw-8n-KQo" id="b16-V7-IfQ"/>
                         <outlet property="lyricsView" destination="A6Y-aa-8dE" id="NAa-mN-fFO"/>
                         <outlet property="moreIconImageView" destination="rz3-rP-ZrH" id="GpD-94-1jY"/>
+                        <outlet property="moreView" destination="i9Y-4O-4Rz" id="Chj-Fk-jVl"/>
                         <outlet property="muteVolumeImageView" destination="JuZ-QH-PKB" id="LaB-tX-DLX"/>
                         <outlet property="nextTrackButton" destination="MpO-y6-HGT" id="p4W-ZM-EgK"/>
                         <outlet property="playOrPauseButton" destination="uVD-JD-3Xz" id="8y0-1B-0Bu"/>

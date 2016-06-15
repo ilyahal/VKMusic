@@ -123,6 +123,8 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var repeatInactiveStateView: UIVisualEffectView!
     /// Кнопка "Повторить" для неактивного состояния
     @IBOutlet weak var repeatInactiveStateIconImageView: UIImageView!
+    /// Элемент содержащий кнопку "Еще"
+    @IBOutlet weak var moreView: UIView!
     /// Кнопка "Еще"
     @IBOutlet weak var moreIconImageView: UIImageView!
     
@@ -266,6 +268,7 @@ class PlayerViewController: UIViewController {
         
         // Настройка кнопки "Отобразить в статусе"
         configureShareToStatusButton()
+        shareToStatusView.hidden = true
         
         // Настройка кнопки "Отобразить слова аудиозаписи"
         configureLyricsButton()
@@ -275,6 +278,9 @@ class PlayerViewController: UIViewController {
         
         // Настройка кнопки "Повторить"
         configureRepeatButton()
+        
+        // Настройка кнопки "Еще"
+        moreView.hidden = true
     }
     
     override func viewDidDisappear(animated: Bool) {
