@@ -25,9 +25,19 @@ final class Player: NSObject {
     weak var delegate: PlayerDelegate?
     
     /// Индекс воспроизводимого трека
-    var playIndex = 0
+    var playIndex: Int {
+        get {
+            return PlayerManager.sharedInstance.playIndex
+        }
+        set {
+            PlayerManager.sharedInstance.playIndex = newValue
+        }
+    }
     /// Очередь на воспроизведение
-    var queuedItems = [PlayerItem]()
+    var queuedItems: [PlayerItem] {
+        return PlayerManager.sharedInstance.queuedItems
+    }
+    
     /// Состояние плеера
     var state = PlayerState.Ready {
         didSet {
@@ -140,22 +150,10 @@ final class Player: NSObject {
     }
     
     
-    // MARK: Работа с элементами плеера
-    
-    /// Сохранение аудиозаписей в очередь
-    func assignQueuedItems(items: [PlayerItem]) {
-        queuedItems = items
-        
-        for item in queuedItems {
-            item.delegate = self
-        }
-    }
-    
-    
     // MARK: Воспроизведение
     
     /// Обновление всего инфо-центра "Воспроизводится сейчас"
-    func updateInfoCenter() {
+    func updateInfoCenter(withCurrentTime time: Double? = nil) {
         guard let item = currentItem else {
             MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nil
             return
@@ -163,7 +161,7 @@ final class Player: NSObject {
         
         let title = item.title ?? ""
         let artist = item.artist ?? ""
-        let currentTime = item.currentTime ?? 0
+        let currentTime = time ?? (item.currentTime ?? 0)
         let duration = item.duration ?? 0
         let trackNumber = playIndex
         let trackCount = queuedItems.count
@@ -389,8 +387,7 @@ extension Player {
         player?.pause()
         player = nil
         
-        playIndex = 0
-        queuedItems.removeAll()
+        PlayerManager.sharedInstance.clearQueued()
         
         UIApplication.sharedApplication().endBackgroundTask(backgroundIdentifier)
         backgroundIdentifier = UIBackgroundTaskInvalid
@@ -471,7 +468,7 @@ extension Player {
             state = .Playing
         }
         
-        updateInfoCenter()
+        updateInfoCenter(withCurrentTime: Double(second))
         
         delegate?.playerPlaybackProgressDidChange(self)
     }

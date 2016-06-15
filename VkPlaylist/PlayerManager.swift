@@ -72,6 +72,21 @@ class PlayerManager {
     }
     
     
+    // MARK: Элементы плеера
+    
+    /// Индекс воспроизводимого трека
+    var playIndex = 0
+    /// Очередь на воспроизведение
+    var queuedItems = [PlayerItem]()
+    
+    /// Очистить очередь на воспроизведение
+    func clearQueued() {
+        playIndex = 0
+        
+        queuedItems.removeAll()
+    }
+    
+    
     // MARK: Свойства
     
     /// Плеер
@@ -97,6 +112,7 @@ class PlayerManager {
     }
     /// Активна ли пауза (активируется при нажатии по кнопке "Пауза")
     var isPauseActive = false
+    
     /// Название исполняемой аудиозаписи
     var trackTitle: String? {
         return player.currentItem?.title
@@ -153,7 +169,12 @@ class PlayerManager {
             }
             
             player.clear()
-            player.assignQueuedItems(playerItems)
+            
+            queuedItems = playerItems
+            for playerItem in playerItems {
+                playerItem.delegate = player
+            }
+            
             player.playAtIndex(index)
         }
     }
