@@ -101,7 +101,7 @@ final class PlayerItem: NSObject {
     func addBufferProgressObserver() {
         if let playerItem = playerItem where !isKVOActive {
             isKVOActive = true
-            playerItem.addObserver(self, forKeyPath: "loadedTimeRanges", options: .New, context: nil)
+            playerItem.addObserver(self, forKeyPath: PlayerItemKVOKeys.loadedTimeRanges, options: .New, context: nil)
         }
     }
     
@@ -109,7 +109,7 @@ final class PlayerItem: NSObject {
     func removeBufferProgressObserver() {
         if let playerItem = playerItem where isKVOActive {
             isKVOActive = false
-            playerItem.removeObserver(self, forKeyPath: "loadedTimeRanges")
+            playerItem.removeObserver(self, forKeyPath: PlayerItemKVOKeys.loadedTimeRanges)
         }
     }
     
@@ -168,7 +168,7 @@ extension _PlayerItemDelegateNSObjectKVO {
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if let playerItem = playerItem {
             if playerItem === object {
-                if keyPath == "loadedTimeRanges" {
+                if keyPath == PlayerItemKVOKeys.loadedTimeRanges {
                     if let _ = change?[NSKeyValueChangeNewKey] as? NSArray {
                         delegate?.playerItemDidPreLoadCurrentItemWithProgress(preloadProgress)
                     }
