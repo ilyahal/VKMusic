@@ -116,14 +116,29 @@ final class Player: NSObject {
     
     /// Обработка уведомления о том, что воспроизводимый элемент системного плеера закончился
     func playerItemDidPlayToEnd() {
-        unregisterForPlayToEndNotificationWithItem(currentItem!.playerItem!)
-        currentItem!.removeBufferProgressObserver()
-        
-        /// Если это был последний элемент в очереди на воспроизведение
-        if playIndex >= queuedItems.count - 1 {
-            clear()
-        } else {
-            playAtIndex(playIndex + 1)
+        switch PlayerManager.sharedInstance.repeatType {
+        case .No:
+            unregisterForPlayToEndNotificationWithItem(currentItem!.playerItem!)
+            currentItem!.removeBufferProgressObserver()
+            
+            // Если это был последний элемент в очереди на воспроизведение
+            if playIndex >= queuedItems.count - 1 {
+                clear()
+            } else {
+                playAtIndex(playIndex + 1)
+            }
+        case .All:
+            unregisterForPlayToEndNotificationWithItem(currentItem!.playerItem!)
+            currentItem!.removeBufferProgressObserver()
+            
+            // Если это был последний элемент в очереди на воспроизведение
+            if playIndex >= queuedItems.count - 1 {
+                replay()
+            } else {
+                playAtIndex(playIndex + 1)
+            }
+        case .One:
+            replayCurrentItem()
         }
     }
     

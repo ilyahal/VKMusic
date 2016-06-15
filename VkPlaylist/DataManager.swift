@@ -122,11 +122,16 @@ class DataManager: NSObject {
     
     /// Регестрируем дефолтные значения для ключей в NSUserDefaults
     func registerDefaults() {
-        let dictionary = [
+        var dictionary = [
             "FirstTime": true, // Флаг на первый запуск программы
-            "PlaylistID": 0, // Идентификатор плейлиста
-            "WarningWhenDeletingOfExistenceInPlaylists" : true // При удалении загруженного трека предупреждать о наличии в плейлистах
+            "PlaylistID": 0 // Идентификатор плейлиста
         ]
+        
+        // Настройки приложения
+        dictionary["WarningWhenDeletingOfExistenceInPlaylists"] = true // При удалении загруженного трека предупреждать о наличии в плейлистах
+        
+        // Настройки плеера
+        dictionary["RepeatType"] = -1
         
         NSUserDefaults.standardUserDefaults().registerDefaults(dictionary) // Записываем дефолтные значения для указанных ключей
     }
@@ -162,6 +167,30 @@ class DataManager: NSObject {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         
         userDefaults.setBool(true, forKey: "WarningWhenDeletingOfExistenceInPlaylists")
+        userDefaults.synchronize()
+    }
+    
+    /// Тип повторения плейлиста
+    var repeatType: PlayerRepeatType {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        switch userDefaults.integerForKey("RepeatType") {
+        case -1:
+            return .No
+        case 0:
+            return .All
+        case 1:
+            return .One
+        default:
+            return .No
+        }
+    }
+    
+    /// Установить новый тип повторения плейлиста
+    func setNewRepeatType(repeatType: PlayerRepeatType) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        userDefaults.setInteger(repeatType.rawValue, forKey: "RepeatType")
         userDefaults.synchronize()
     }
     

@@ -7,13 +7,13 @@
 //
 
 /// Возможные типы повторения плейлиста
-enum PlayerRepeatType {
+enum PlayerRepeatType: Int {
     
     /// Не повторять
-    case No
+    case No = -1
     /// Повторять весь плейлист
-    case All
+    case All = 0
     /// Повторять текущую аудиозапись
-    case One
+    case One = 1
     
 }

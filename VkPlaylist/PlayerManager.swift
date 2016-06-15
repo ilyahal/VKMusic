@@ -148,7 +148,9 @@ class PlayerManager {
     /// Перемешивать ли плейлист
     var isShuffle = false
     /// Тип повторения плейлиста
-    var repeatType = PlayerRepeatType.No
+    var repeatType: PlayerRepeatType {
+        return DataManager.sharedInstance.repeatType
+    }
     
     
     // MARK: Начало воспроизведения
@@ -254,14 +256,18 @@ class PlayerManager {
     
     /// Переключение типа повторения
     func nextRepeatType() {
+        let newRepeatType: PlayerRepeatType
+        
         switch repeatType {
         case .No:
-            repeatType = .All
+            newRepeatType = .All
         case .All:
-            repeatType = .One
+            newRepeatType = .One
         case .One:
-            repeatType = .No
+            newRepeatType = .No
         }
+        
+        DataManager.sharedInstance.setNewRepeatType(newRepeatType)
     }
     
 }
