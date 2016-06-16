@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import AVFoundation
 
 /// Отвечает за взаимодействие с данными, загруженными на устройство
 class DataManager: NSObject {
@@ -358,6 +359,37 @@ class DataManager: NSObject {
             }
             
             
+            // Пытаемся получить обложку для аудиозаписи
+            var artwork: UIImage?
+            
+            let metadataArray = AVPlayerItem(URL: NSURL(fileURLWithPath: fullPath)).asset.commonMetadata
+            
+            for metadataItem in metadataArray {
+                metadataItem.loadValuesAsynchronouslyForKeys([AVMetadataKeySpaceCommon]) {
+                    switch metadataItem.commonKey {
+                    case "artwork"?:
+                        if let value = metadataItem.value {
+                            let copiedValue: AnyObject = value.copyWithZone(nil)
+                            
+                            if let dictionary = copiedValue as? [NSObject : AnyObject] {
+                                // AVMetadataKeySpaceID3
+                                
+                                if let imageData = dictionary["data"] as? NSData {
+                                    artwork = UIImage(data: imageData)
+                                }
+                            } else if let data = copiedValue as? NSData{
+                                // AVMetadataKeySpaceiTunes
+                                
+                                artwork = UIImage(data: data)
+                            }
+                        }
+                    default :
+                        break
+                    }
+                }
+            }
+            
+            
             // Смещаем все треки в плейлисте "Загрузки" на один вперед
             for trackInPlaylist in downloadsPlaylistObject.tracks.allObjects as! [TrackInPlaylist] {
                 // FIXME: Периодически вылетает
@@ -369,7 +401,7 @@ class DataManager: NSObject {
             
             let offlineTrack = OfflineTrack(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context) // Загруженный трек
             offlineTrack.artist = toWrite.track.artist
-            offlineTrack.artwork = nil
+            offlineTrack.artwork = artwork == nil ? nil : UIImageJPEGRepresentation(artwork!, 1)
             offlineTrack.duration = toWrite.track.duration
             offlineTrack.id = toWrite.track.id
             offlineTrack.ownerID = toWrite.track.owner_id
