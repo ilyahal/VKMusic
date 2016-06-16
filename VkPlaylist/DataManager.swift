@@ -326,7 +326,7 @@ class DataManager: NSObject {
     }
     
     /// Очередь на запись скаченных аудиозаписей
-    var toSaveDownloadedTrackQueue = [(track: Track, artwork: NSData?, lyrics: String, fileLocation: NSURL)]() {
+    var toSaveDownloadedTrackQueue = [(track: Track, lyrics: String, fileLocation: NSURL)]() {
         didSet {
             tryStartWriteFromDownloadedTrackQueue()
         }
@@ -369,7 +369,7 @@ class DataManager: NSObject {
             
             let offlineTrack = OfflineTrack(entity: entity!, insertIntoManagedObjectContext: coreDataStack.context) // Загруженный трек
             offlineTrack.artist = toWrite.track.artist
-            offlineTrack.artwork = toWrite.artwork
+            offlineTrack.artwork = nil
             offlineTrack.duration = toWrite.track.duration
             offlineTrack.id = toWrite.track.id
             offlineTrack.ownerID = toWrite.track.owner_id

@@ -60,44 +60,12 @@ class Download: NSObject {
     }
     
     
-    /// Обложка альбома
-    var artwork: NSData?
-    /// Запрос на получение обложки альбома
-    var artworkRequest: MusicBrainzAPIManager?
-    /// Получается ли обложка альбома сейчас
-    var isArtworkDownloads = false
-    
     /// Слова аудиозаписи
     var lyrics = ""
     /// Запрос на получение слов аудиозаписи
     var lyricsRequest: Request?
     /// Получаются ли слова аудиозаписи в данный момент
     var isLyricsDownloads = false
-    
-    
-    /// Отправить запрос на получение обложки
-    func getArtwork() {
-        isArtworkDownloads = true
-        
-        artworkRequest = MusicBrainzAPIManager(title: track.title, artist: track.artist)
-        artworkRequest?.getArtwork() { artwork in
-            self.isArtworkDownloads = false
-            
-            self.artworkRequest = nil
-            
-            if let artwork = artwork {
-                self.artwork = UIImageJPEGRepresentation(artwork, 1)
-            }
-        }
-    }
-    
-    /// Отменить запрос на получение обложки альбома
-    func cancelGetArtwork() {
-        isArtworkDownloads = false
-        
-        artworkRequest?.cancel()
-        artworkRequest = nil
-    }
     
     
     /// Отправить запрос на получение слов аудиозаписи

@@ -120,7 +120,6 @@ class DownloadManager: NSObject {
             }
             download.downloadTask!.resume()
             
-            download.getArtwork()
             download.getLyrics()
         }
     }
@@ -155,9 +154,6 @@ class DownloadManager: NSObject {
             
             // Отмена загрузки компонентов аудиозаписи
             download.downloadTask?.cancel() // Отменяем выполнение загрузки
-            if download.isArtworkDownloads { // Отменяем загрузку обложки
-                download.cancelGetArtwork()
-            }
             if download.isLyricsDownloads { // Отменяем загрузку слов аудиозаписи
                 download.cancelGetLyrics()
             }
@@ -272,16 +268,7 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
             if let download = activeDownloads[url] {
                 let track = download.track // Загруженный трек
-                var artwork: NSData? // Обложка альбома песни
                 var lyrics: String // Слова песни
-                
-                // Получение обложки аудиозаписи
-                if download.isArtworkDownloads {
-                    download.cancelGetArtwork()
-                    artwork = nil
-                } else {
-                    artwork = download.artwork
-                }
                 
                 // Получение слов аудиозаписи
                 if download.isLyricsDownloads {
@@ -301,7 +288,7 @@ extension DownloadManager: NSURLSessionDownloadDelegate {
                 tryStartDownloadFromQueue()
                 
                 // Сохранение данных
-                DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, artwork: artwork, lyrics: lyrics, fileLocation: location))
+                DataManager.sharedInstance.toSaveDownloadedTrackQueue.append((track: track, lyrics: lyrics, fileLocation: location))
                 
                 // Оповещение делегатов о изменениях
                 delegates.forEach { delegate in
