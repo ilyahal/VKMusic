@@ -2365,6 +2365,15 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
+                                                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="R4V-GC-CR4">
+                                                                                    <rect key="frame" x="290" y="165" width="20" height="20"/>
+                                                                                </activityIndicatorView>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Текст не найден" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbF-Gb-c6g">
+                                                                                    <rect key="frame" x="232" y="165" width="136" height="21"/>
+                                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
                                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1uw-8n-KQo">
                                                                                     <rect key="frame" x="60" y="20" width="480" height="330"/>
                                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2376,7 +2385,13 @@
                                                                                 </textView>
                                                                             </subviews>
                                                                             <constraints>
+                                                                                <constraint firstItem="bbF-Gb-c6g" firstAttribute="centerY" secondItem="bDT-xF-4dl" secondAttribute="centerY" id="9hB-0s-jDR"/>
+                                                                                <constraint firstItem="R4V-GC-CR4" firstAttribute="centerX" secondItem="bDT-xF-4dl" secondAttribute="centerX" id="Ca7-Ji-0e3"/>
+                                                                                <constraint firstItem="bbF-Gb-c6g" firstAttribute="centerX" secondItem="bDT-xF-4dl" secondAttribute="centerX" id="EJZ-f4-tR9"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="1uw-8n-KQo" secondAttribute="bottom" id="JMz-8i-XPe"/>
+                                                                                <constraint firstItem="R4V-GC-CR4" firstAttribute="centerY" secondItem="bDT-xF-4dl" secondAttribute="centerY" id="dgn-T1-Dlk"/>
+                                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bbF-Gb-c6g" secondAttribute="trailing" constant="14" id="hqa-4B-7jn"/>
+                                                                                <constraint firstItem="bbF-Gb-c6g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bDT-xF-4dl" secondAttribute="leading" constant="14" id="ko5-yB-Qe1"/>
                                                                                 <constraint firstItem="1uw-8n-KQo" firstAttribute="top" secondItem="bDT-xF-4dl" secondAttribute="top" constant="20" id="nMX-Ni-4cw"/>
                                                                                 <constraint firstItem="1uw-8n-KQo" firstAttribute="centerX" secondItem="bDT-xF-4dl" secondAttribute="centerX" id="oPg-OH-h7A"/>
                                                                             </constraints>
@@ -2537,6 +2552,7 @@
                         <outlet property="loudlyVolumeImageView" destination="j3b-Ly-1yU" id="1RH-Jd-7sm"/>
                         <outlet property="lyricsActiveStateIconImageView" destination="Gur-Fj-Z5G" id="ean-FD-IGd"/>
                         <outlet property="lyricsActiveStateView" destination="PMq-2L-ZwR" id="JnO-ks-BXY"/>
+                        <outlet property="lyricsActivityIndicator" destination="R4V-GC-CR4" id="N03-xZ-jcl"/>
                         <outlet property="lyricsBackgroundBlurEffectView" destination="2MX-vE-M4d" id="Avw-Rz-stL"/>
                         <outlet property="lyricsButtonArea" destination="wcD-pw-Cme" id="3fg-4s-9Ss"/>
                         <outlet property="lyricsButtonView" destination="Jrp-ex-QMY" id="ypD-HK-BQI"/>
@@ -2548,6 +2564,7 @@
                         <outlet property="moreView" destination="i9Y-4O-4Rz" id="Chj-Fk-jVl"/>
                         <outlet property="muteVolumeImageView" destination="JuZ-QH-PKB" id="LaB-tX-DLX"/>
                         <outlet property="nextTrackButton" destination="MpO-y6-HGT" id="p4W-ZM-EgK"/>
+                        <outlet property="noLyricsLabel" destination="bbF-Gb-c6g" id="EY9-Xi-33n"/>
                         <outlet property="playOrPauseButton" destination="uVD-JD-3Xz" id="8y0-1B-0Bu"/>
                         <outlet property="previousTrackButton" destination="f3e-rL-kMj" id="UNC-MP-Cc0"/>
                         <outlet property="repeatActiveStateIconImageView" destination="7h4-TZ-Jo3" id="Zgb-zr-PVw"/>

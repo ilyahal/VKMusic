@@ -20,5 +20,7 @@ protocol PlayerDelegate: class {
     func playerBufferingProgressDidChange(player: Player)
     /// Плеер измени текущее время воспроизведения
     func playerPlaybackCurrentTimeDidChange(player: Player)
+    /// Плеера получил слова для текущего элемента плеера
+    func playerDidGetLyricsForCurrentItem(player: Player)
     
 }

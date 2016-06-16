@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import SwiftyVK
 
 final class PlayerItem: NSObject {
     
@@ -42,6 +43,11 @@ final class PlayerItem: NSObject {
     /// ID владельца аудиозаписи, для текущего элемента плеера
     var trackOwnerID: Int32
     
+    /// Идентификатор слов
+    var lyricsID: Int?
+    /// Запрос на получение слов аудиозаписи
+    var lyricsRequest: Request?
+    
     /// Длина аудиозаписи
     var duration: Double?
     /// Название аудиозаписи
@@ -65,6 +71,8 @@ final class PlayerItem: NSObject {
         duration = Double(onlineTrack.duration)
         title = onlineTrack.title
         artist = onlineTrack.artist
+        
+        lyricsID = onlineTrack.lyrics_id
     }
     
     init(offlineTrack: OfflineTrack) {
@@ -82,6 +90,8 @@ final class PlayerItem: NSObject {
     }
     
     deinit {
+        lyricsRequest?.cancel()
+        VKAPIManager.sharedInstance.deleteLyricsDelegate(self)
         removeBufferProgressObserver()
     }
     
@@ -182,6 +192,19 @@ final class PlayerItem: NSObject {
         }
     }
     
+    
+    // MARK: Получение слов аудиозаписи
+    
+    /// Отправить запрос на получение слов аудиозаписи
+    func getLyrics() {
+        guard lyrics == nil && lyricsRequest == nil, let lyricsID = lyricsID else {
+            return
+        }
+        
+        VKAPIManager.sharedInstance.addLyricsDelegate(self)
+        lyricsRequest = VKAPIManager.audioGetLyrics(lyricsID)
+    }
+    
 }
 
 
@@ -203,4 +226,35 @@ extension _PlayerItemDelegateNSObjectKVO {
         }
     }
 
+}
+
+
+// MARK: VKAPIManagerLyricsDelegate
+
+extension PlayerItem: VKAPIManagerLyricsDelegate {
+    
+    // VKAPIManager получил слова с указанным id
+    func VKAPIManagerLyricsDelegateGetLyrics(lyrics: String, forLyricsID lyricsID: Int) {
+        if let _lyricsID = self.lyricsID where _lyricsID == lyricsID {
+            VKAPIManager.sharedInstance.deleteLyricsDelegate(self)
+            lyricsRequest = nil
+            
+            self.lyrics = lyrics == "" ? nil : lyrics
+            
+            delegate?.playerItem(self, didGetLyrics: lyrics)
+        }
+    }
+    
+    // VKAPIManager получил ошибку при получении слов с указанным id
+    func VKAPIManagerLyricsDelegateErrorLyricsWithID(lyricsID: Int) {
+        if let _lyricsID = self.lyricsID where _lyricsID == lyricsID {
+            VKAPIManager.sharedInstance.deleteLyricsDelegate(self)
+            lyricsRequest = nil
+            
+            lyrics = nil
+            
+            delegate?.playerItemGetErrorWhenGetLyrics(self)
+        }
+    }
+    
 }

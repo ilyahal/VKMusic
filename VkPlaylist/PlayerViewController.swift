@@ -38,6 +38,10 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var lyricsView: UIView!
     /// Элемент с эффектом размытия для заднего фона элемента с текстом аудиозаписи
     @IBOutlet weak var lyricsBackgroundBlurEffectView: UIVisualEffectView!
+    /// Индикатор загрузки для слов аудиозаписи
+    @IBOutlet weak var lyricsActivityIndicator: UIActivityIndicatorView!
+    /// Метка с сообщением об отсутствии текста аудиозаписи
+    @IBOutlet weak var noLyricsLabel: UILabel!
     /// Элемент с текстом аудиозаписи
     @IBOutlet weak var lyricsTextView: UITextView!
     
@@ -131,8 +135,6 @@ class PlayerViewController: UIViewController {
     
     /// Обложка по-умолчанию
     var artworkPlaceholder = UIImage(named: "placeholder-Player")!
-    /// Распознатель тапов по текстовому полю
-    var lyricsTapRecognizer: UITapGestureRecognizer!
     /// Иконка "Скачать"
     let downloadIcon = UIImage(named: "icon-PlayerDownload")!.tintPicto(UIColor.whiteColor())
     /// Иконка "Предыдущая аудиозапись"
@@ -195,8 +197,13 @@ class PlayerViewController: UIViewController {
         return PlayerManager.sharedInstance.artwork ?? artworkPlaceholder
     }
     /// Слова аудиозаписи
-    var lyrics: String {
+    var lyrics: String? {
         return PlayerManager.sharedInstance.lyrics
+    }
+    
+    /// Активен ли запрос на получение текста аудиозаписи
+    var isLyricsRequestActiv: Bool {
+        return PlayerManager.sharedInstance.isLyricsRequestActive
     }
     
     /// Текущее время воспроизведения текущей аудиозаписи
@@ -259,7 +266,7 @@ class PlayerViewController: UIViewController {
         artworkImageView.image = artwork
         
         // Настройка слов аудиозаписи
-        lyricsTextView.text = lyrics
+        configureLyrics()
         
         // Настройка бара отображающего прогресс буфферизации
         bufferingProgressView.setProgress(preloadProgress, animated: false)
@@ -318,16 +325,15 @@ class PlayerViewController: UIViewController {
         closeView.layer.masksToBounds = true
         closeButton.setImage(UIImage(named: "icon-PlayerClose")!.tintPicto(UIColor.whiteColor()), forState: .Normal)
         
-        // Инициализация распознавателя тапов по элементу с текстом аудиозаписи
-        lyricsTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(lyricsTapped))
-        lyricsTapRecognizer.delegate = self
-        
         // Настройка отображения  элемента со словами аудиозаписи
         lyricsView.hidden = true
         lyricsView.alpha = 0
         
         // Настройка элемента со словами
+        lyricsActivityIndicator.alpha = 0
+        noLyricsLabel.alpha = 0
         lyricsTextView.tintColor = tintColor
+        lyricsTextView.alpha = 0
         
         // Заполняем пустое слева от слайдера
         let leftSliderSubview = UIView(frame: CGRectMake(0, 0, 3, 2))
@@ -417,7 +423,7 @@ class PlayerViewController: UIViewController {
         moreIconImageView.image = moreIcon
     }
     
-    /// Настройка отображения слов аудиозаписи
+    /// Настройка отображения элемента со словами аудиозаписи
     func configureLyricsAppear() {
         if isShowLyrics {
             lyricsTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false) // Пролистываем текст до верха
@@ -426,12 +432,9 @@ class PlayerViewController: UIViewController {
             UIView.animateWithDuration(0.5, animations: {
                 self.lyricsView.alpha = 1
             }, completion: { _ in
-                self.lyricsTextView.addGestureRecognizer(self.lyricsTapRecognizer)
                 self.lyricsButtonArea.enabled = true
             })
         } else {
-            lyricsTextView.removeGestureRecognizer(lyricsTapRecognizer)
-            
             UIView.animateWithDuration(0.5, animations: {
                 self.lyricsView.alpha = 0
             }, completion: { _ in
@@ -440,6 +443,43 @@ class PlayerViewController: UIViewController {
                 self.artworkButton.enabled = true
                 self.lyricsButtonArea.enabled = true
             })
+        }
+    }
+    
+    /// Настройка отображения текста аудиозаписи
+    func configureLyrics() {
+        dispatch_async(dispatch_get_main_queue()) {
+            if let lyrics = self.lyrics where lyrics != "" {
+                self.lyricsTextView.text = lyrics
+                
+                UIView.animateWithDuration(0.5, animations: {
+                    self.lyricsActivityIndicator.alpha = 0
+                    self.noLyricsLabel.alpha = 0
+                    self.lyricsTextView.alpha = 1
+                }, completion: { _ in
+                    self.lyricsActivityIndicator.stopAnimating()
+                })
+            } else {
+                if self.isLyricsRequestActiv {
+                    self.lyricsActivityIndicator.startAnimating()
+                    
+                    UIView.animateWithDuration(0.5, animations: {
+                        self.lyricsActivityIndicator.alpha = 1
+                        self.noLyricsLabel.alpha = 0
+                        self.lyricsTextView.alpha = 0
+                    })
+                } else {
+                    self.lyricsTextView.text = "Текст не найден"
+                    
+                    UIView.animateWithDuration(0.5, animations: {
+                        self.lyricsActivityIndicator.alpha = 0
+                        self.noLyricsLabel.alpha = 1
+                        self.lyricsTextView.alpha = 0
+                    }, completion: { _ in
+                        self.lyricsActivityIndicator.stopAnimating()
+                    })
+                }
+            }
         }
     }
     
@@ -485,14 +525,6 @@ class PlayerViewController: UIViewController {
     
     /// По кнопке над обложкой был тап
     @IBAction func artworkTapped(sender: UIButton) {
-        isShowLyrics = !isShowLyrics
-        
-        configureLyricsAppear()
-        configureLyricsButton()
-    }
-    
-    /// По элементу со словами аудиозаписи был тап
-    func lyricsTapped() {
         isShowLyrics = !isShowLyrics
         
         configureLyricsAppear()
@@ -605,18 +637,6 @@ class PlayerViewController: UIViewController {
 }
 
 
-// MARK: UIGestureRecognizerDelegate
-
-extension PlayerViewController: UIGestureRecognizerDelegate {
-    
-    // Спрашивает делегат позволения если два распознавателя жестов хотят распознавать жесты одновременно
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
-}
-
-
 // MARK: PlayerManagerDelegate
 
 extension PlayerViewController: PlayerManagerDelegate {
@@ -636,10 +656,15 @@ extension PlayerViewController: PlayerManagerDelegate {
         backgroundArtworkImageView.image = artwork
         artworkImageView.image = artwork
         
-        lyricsTextView.text = lyrics
+        configureLyrics()
         
         titleLabel.text = trackTitle
         artistLabel.text = artist
+    }
+    
+    // Менеджер обновил слова аудиозаписи
+    func playerManagerUpdateLyrics() {
+        configureLyrics()
     }
     
     // Менеджер плеера получил новое значение прогресса

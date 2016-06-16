@@ -327,19 +327,7 @@ final class Player: NSObject {
 }
 
 
-// MARK: PlayerItemDelegate
-
-extension Player: PlayerItemDelegate {
-
-    // Элемент плеера предзагрузил текущую аудиозапись со следующей величиной
-    func playerItemDidPreLoadCurrentItemWithProgress(preloadProgress: Float) {
-        syncBufferingProgress()
-    }
-    
-}
-
-
-// MARK: Публичные методы
+// MARK: Управление воспроизведением
 
 extension Player {
     
@@ -371,6 +359,7 @@ extension Player {
             playIndex = index
             
             let playerItem = currentItem!.getPlayerItem()
+            currentItem!.getLyrics()
             
             registerForPlayToEndNotificationWithItem(playerItem)
             currentItem!.addBufferProgressObserver()
@@ -501,6 +490,36 @@ extension Player {
         updateInfoCenter(withCurrentTime: Double(second))
         
         delegate?.playerPlaybackProgressDidChange(self)
+    }
+    
+}
+
+
+// MARK: PlayerItemDelegate
+
+extension Player: PlayerItemDelegate {
+    
+    // Элемент плеера предзагрузил текущую аудиозапись со следующей величиной
+    func playerItemDidPreLoadCurrentItemWithProgress(preloadProgress: Float) {
+        syncBufferingProgress()
+    }
+    
+    // Элемент плеера получил слова для аудиозаписи
+    func playerItem(playerItem: PlayerItem, didGetLyrics lyrics: String) {
+        if let currentItem = currentItem {
+            if currentItem.trackID == playerItem.trackID && currentItem.trackOwnerID == playerItem.trackOwnerID {
+                delegate?.playerDidGetLyricsForCurrentItem(self)
+            }
+        }
+    }
+    
+    // Элемент плеера получил ошибку при загрузке слов аудиозаписи
+    func playerItemGetErrorWhenGetLyrics(playerItem: PlayerItem) {
+        if let currentItem = currentItem {
+            if currentItem.trackID == playerItem.trackID && currentItem.trackOwnerID == playerItem.trackOwnerID {
+                delegate?.playerDidGetLyricsForCurrentItem(self)
+            }
+        }
     }
     
 }

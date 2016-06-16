@@ -141,8 +141,17 @@ class PlayerManager {
         return player.currentItem?.artwork
     }
     /// Слова аудиозаписи
-    var lyrics: String {
-        return player.currentItem?.lyrics ?? ""
+    var lyrics: String? {
+        return player.currentItem?.lyrics
+    }
+    
+    /// Активен ли запрос на получение текста аудиозаписи для текущего элемента
+    var isLyricsRequestActive: Bool {
+        if let _ = player.currentItem?.lyricsRequest {
+            return true
+        } else {
+            return false
+        }
     }
     
     /// Текущее время аудиозаписи
@@ -407,6 +416,13 @@ extension PlayerManager: PlayerDelegate {
     func playerPlaybackCurrentTimeDidChange(player: Player) {
         delegates.forEach { delegate in
             delegate.playerManagerCurrentItemGetNewCurrentTime()
+        }
+    }
+    
+    /// Плеера получил слова для текущего элемента плеера
+    func playerDidGetLyricsForCurrentItem(player: Player) {
+        delegates.forEach { delegate in
+            delegate.playerManagerUpdateLyrics()
         }
     }
     

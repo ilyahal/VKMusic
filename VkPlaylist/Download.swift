@@ -74,7 +74,7 @@ class Download: NSObject {
             isLyricsDownloads = true
             
             VKAPIManager.sharedInstance.addLyricsDelegate(self)
-            VKAPIManager.audioGetLyrics(lyrics_id)
+            lyricsRequest = VKAPIManager.audioGetLyrics(lyrics_id)
         }
     }
     
