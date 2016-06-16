@@ -15,7 +15,7 @@ class DownloadsTableViewController: UITableViewController {
     weak var delegate: DownloadsTableViewControllerDelegate?
     
     /// Идентификатор текущего списка аудиозаписей
-    var playlistIdentifier = NSUUID().UUIDString
+    var playlistIdentifier: String!
     
     /// Контроллер поиска
     let searchController = UISearchController(searchResultsController: nil)
@@ -91,6 +91,8 @@ class DownloadsTableViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        playlistIdentifier = NSUUID().UUIDString
         
         DataManager.sharedInstance.addDataManagerDownloadsDelegate(self)
         DownloadManager.sharedInstance.addDelegate(self)
@@ -592,6 +594,8 @@ extension DownloadsTableViewController: DataManagerDownloadsDelegate {
     
     // Контроллер массива загруженных аудиозаписей закончил изменять контент
     func dataManagerDownloadsControllerDidChangeContent() {
+        playlistIdentifier = NSUUID().UUIDString
+        
         searchEnable(downloaded.count != 0)
         if isSearched {
             filterContentForSearchText(searchController.searchBar.text!)
