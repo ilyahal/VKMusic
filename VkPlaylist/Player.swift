@@ -60,9 +60,6 @@ final class Player: NSObject {
         return player != nil && currentItem != nil
     }
     
-    /// Обложка по-умолчанию
-    var artworkPlaceholder = UIImage(named: "placeholder-Player")!
-    
     
     init(delegate: PlayerDelegate? = nil) {
         self.delegate = delegate
@@ -183,16 +180,19 @@ final class Player: NSObject {
         let trackNumber = playIndex
         let trackCount = queuedItems.count
         
-        let nowPlayingInfo: [String : AnyObject] = [
+        var nowPlayingInfo: [String : AnyObject] = [
             MPMediaItemPropertyTitle : title,
             MPMediaItemPropertyArtist : artist,
             MPMediaItemPropertyPlaybackDuration : duration,
             MPNowPlayingInfoPropertyElapsedPlaybackTime : currentTime,
             MPNowPlayingInfoPropertyPlaybackQueueCount : trackCount,
             MPNowPlayingInfoPropertyPlaybackQueueIndex : trackNumber,
-            MPMediaItemPropertyMediaType : MPMediaType.Music.rawValue,
-            MPMediaItemPropertyArtwork : MPMediaItemArtwork(image: currentItem?.artwork ?? artworkPlaceholder)
+            MPMediaItemPropertyMediaType : MPMediaType.Music.rawValue
         ]
+        
+        if let artwork = currentItem?.artwork {
+            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: artwork)
+        }
         
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nowPlayingInfo
     }
@@ -360,6 +360,7 @@ extension Player {
             
             let playerItem = currentItem!.getPlayerItem()
             currentItem!.getLyrics()
+            currentItem!.getArtwork()
             
             registerForPlayToEndNotificationWithItem(playerItem)
             currentItem!.addBufferProgressObserver()
@@ -518,6 +519,16 @@ extension Player: PlayerItemDelegate {
         if let currentItem = currentItem {
             if currentItem.trackID == playerItem.trackID && currentItem.trackOwnerID == playerItem.trackOwnerID {
                 delegate?.playerDidGetLyricsForCurrentItem(self)
+            }
+        }
+    }
+    
+    // Элемент плеера получил обложку для аудиозаписи
+    func playerItem(playerItem: PlayerItem, didGetArtwork artwork: UIImage) {
+        if let currentItem = currentItem {
+            if currentItem.trackID == playerItem.trackID && currentItem.trackOwnerID == playerItem.trackOwnerID {
+                updateInfoCenter()
+                delegate?.playerDidGetArtworkForCurrentItem(self)
             }
         }
     }

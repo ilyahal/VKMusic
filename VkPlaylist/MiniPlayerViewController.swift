@@ -174,6 +174,9 @@ extension MiniPlayerViewController: PlayerManagerDelegate {
     // Менеджер обновил слова аудиозаписи
     func playerManagerUpdateLyrics() {}
     
+    // Менеджер получил обложку аудиозаписи
+    func playerManagerGetArtwork() {}
+    
     // Менеджер плеера получил новое значение прогресса
     func playerManagerCurrentItemGetNewProgressValue() {
         progressBar.setProgress(progress, animated: false)

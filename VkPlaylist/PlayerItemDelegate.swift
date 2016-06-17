@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ilya Khalyapin. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol PlayerItemDelegate: class {
 
@@ -16,5 +16,7 @@ protocol PlayerItemDelegate: class {
     func playerItem(playerItem: PlayerItem, didGetLyrics lyrics: String)
     /// Элемент плеера получил ошибку при загрузке слов аудиозаписи
     func playerItemGetErrorWhenGetLyrics(playerItem: PlayerItem)
+    /// Элемент плеера получил обложку для аудиозаписи
+    func playerItem(playerItem: PlayerItem, didGetArtwork artwork: UIImage)
     
 }

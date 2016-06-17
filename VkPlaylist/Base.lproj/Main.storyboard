@@ -1612,7 +1612,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKC-yu-PBr">
-                                                                <rect key="frame" x="0.0" y="59" width="600" height="34"/>
+                                                                <rect key="frame" x="0.0" y="55" width="600" height="50"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8CB-ra-bVr">
                                                                         <rect key="frame" x="0.0" y="0.0" width="600" height="34"/>
@@ -1658,7 +1658,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="el0-9c-bbo">
-                                                                <rect key="frame" x="0.0" y="125.5" width="600" height="30"/>
+                                                                <rect key="frame" x="0.0" y="134" width="600" height="30"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XiZ-Ac-nP2">
                                                                         <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
@@ -1807,7 +1807,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLY-MP-Z8F">
-                                                                <rect key="frame" x="0.0" y="188.5" width="600" height="17"/>
+                                                                <rect key="frame" x="0.0" y="193" width="600" height="17"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ets-hJ-FYq">
                                                                         <rect key="frame" x="45" y="5.5" width="10" height="10"/>
@@ -2368,9 +2368,9 @@
                                                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="R4V-GC-CR4">
                                                                                     <rect key="frame" x="290" y="165" width="20" height="20"/>
                                                                                 </activityIndicatorView>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Текст не найден" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbF-Gb-c6g">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Текст не найден" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbF-Gb-c6g">
                                                                                     <rect key="frame" x="232" y="165" width="136" height="21"/>
-                                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>

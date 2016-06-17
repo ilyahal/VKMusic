@@ -16,6 +16,8 @@ protocol PlayerManagerDelegate: class {
     func playerManagerGetNewItem()
     /// Менеджер обновил слова аудиозаписи
     func playerManagerUpdateLyrics()
+    /// Менеджер получил обложку аудиозаписи
+    func playerManagerGetArtwork()
     /// Менеджер плеера получил новое значение прогресса
     func playerManagerCurrentItemGetNewProgressValue()
     /// Менеджер плеера получил новое значение прогресса буфферизации

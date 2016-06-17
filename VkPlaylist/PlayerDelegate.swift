@@ -22,5 +22,7 @@ protocol PlayerDelegate: class {
     func playerPlaybackCurrentTimeDidChange(player: Player)
     /// Плеера получил слова для текущего элемента плеера
     func playerDidGetLyricsForCurrentItem(player: Player)
+    /// Плеер получил обложку аудиозаписи для текущего элемента плеера
+    func playerDidGetArtworkForCurrentItem(player: Player)
     
 }

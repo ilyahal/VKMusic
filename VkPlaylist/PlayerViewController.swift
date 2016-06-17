@@ -262,8 +262,7 @@ class PlayerViewController: UIViewController {
         configureUI()
         
         // Настройка отображения обложки
-        backgroundArtworkImageView.image = artwork
-        artworkImageView.image = artwork
+        configureArtwork()
         
         // Настройка слов аудиозаписи
         configureLyrics()
@@ -421,6 +420,12 @@ class PlayerViewController: UIViewController {
         
         // Настройка кнопки "Еще"
         moreIconImageView.image = moreIcon
+    }
+    
+    /// Настройка обложки
+    func configureArtwork() {
+        backgroundArtworkImageView.image = artwork
+        artworkImageView.image = artwork
     }
     
     /// Настройка отображения элемента со словами аудиозаписи
@@ -665,6 +670,11 @@ extension PlayerViewController: PlayerManagerDelegate {
     // Менеджер обновил слова аудиозаписи
     func playerManagerUpdateLyrics() {
         configureLyrics()
+    }
+    
+    /// Менеджер получил обложку аудиозаписи
+    func playerManagerGetArtwork() {
+        configureArtwork()
     }
     
     // Менеджер плеера получил новое значение прогресса

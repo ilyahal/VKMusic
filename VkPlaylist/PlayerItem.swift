@@ -48,6 +48,9 @@ final class PlayerItem: NSObject {
     /// Запрос на получение слов аудиозаписи
     var lyricsRequest: Request?
     
+    /// Загружается ли обложка
+    var isArtworkDidLoad = false
+    
     /// Длина аудиозаписи
     var duration: Double?
     /// Название аудиозаписи
@@ -203,6 +206,58 @@ final class PlayerItem: NSObject {
         
         VKAPIManager.sharedInstance.addLyricsDelegate(self)
         lyricsRequest = VKAPIManager.audioGetLyrics(lyricsID)
+    }
+    
+    
+    // MARK: Получение обложки аудиозаписи
+    
+    /// Отправить запрос на получение обложки аудиозаписи
+    func getArtwork() {
+        guard !isArtworkDidLoad && artwork == nil, let playerItem = playerItem else {
+            return
+        }
+        
+        isArtworkDidLoad = true
+        
+        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        dispatch_async(backgroundQueue) {
+            let metadataArray = playerItem.asset.commonMetadata
+            
+            for metadataItem in metadataArray {
+                metadataItem.loadValuesAsynchronouslyForKeys(["artwork"]) {
+                    if let value = metadataItem.value {
+                        let copiedValue: AnyObject = value.copyWithZone(nil)
+                        
+                        if let dictionary = copiedValue as? [NSObject : AnyObject] {
+                            // AVMetadataKeySpaceID3
+                            
+                            if let imageData = dictionary["data"] as? NSData {
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    let artwork = UIImage(data: imageData)
+                                    
+                                    if let artwork = artwork {
+                                        self.artwork = artwork
+                                        self.delegate?.playerItem(self, didGetArtwork: artwork)
+                                    }
+                                }
+                            }
+                        } else if let data = copiedValue as? NSData{
+                            // AVMetadataKeySpaceiTunes
+                            
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let artwork = UIImage(data: data)
+                                
+                                if let artwork = artwork {
+                                    self.artwork = artwork
+                                    self.delegate?.playerItem(self, didGetArtwork: artwork)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
 }

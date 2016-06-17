@@ -426,4 +426,11 @@ extension PlayerManager: PlayerDelegate {
         }
     }
     
+    // Плеер получил обложку аудиозаписи для текущего элемента плеера
+    func playerDidGetArtworkForCurrentItem(player: Player) {
+        delegates.forEach { delegate in
+            delegate.playerManagerGetArtwork()
+        }
+    }
+    
 }
