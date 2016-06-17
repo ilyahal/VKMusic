@@ -28,7 +28,7 @@ class OfflineAudioCell: UITableViewCell {
     /// Настройка ячейки для указанной аудиозаписи
     func configureForTrack(track: OfflineTrack) {
         if let artwork = track.artwork {
-            artworkUmageView.image = UIImage(data: artwork)?.resizedImageWithBounds(artworkUmageView.bounds.size)
+            artworkUmageView.image = UIImage(data: artwork)
         } else {
             artworkUmageView.image = UIImage(named: "icon-TrackArtworkDefault")
         }

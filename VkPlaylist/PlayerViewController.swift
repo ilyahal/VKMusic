@@ -669,6 +669,7 @@ extension PlayerViewController: PlayerManagerDelegate {
     
     // Менеджер обновил слова аудиозаписи
     func playerManagerUpdateLyrics() {
+        lyricsTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false) // Пролистываем текст до верха
         configureLyrics()
     }
     
