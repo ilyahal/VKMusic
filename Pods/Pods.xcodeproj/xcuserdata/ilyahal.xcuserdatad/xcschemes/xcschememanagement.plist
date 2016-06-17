@@ -8,31 +8,43 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>0</integer>
 		</dict>
 		<key>AlamofireImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
-		<key>Pods-VkPlaylist.xcscheme</key>
+		<key>Pods-VKPlaylist.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>SWXMLHash.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>5</integer>
 		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 		<key>SwiftyVK.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>4</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -42,7 +54,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>621564B2CF6F9FF3870EDBB320DFC011</key>
+		<key>735D504146D2AAAD4D1F96850F473845</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,17 +64,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A43C0892F0F2CCCF88D22CC7E1FE59F5</key>
+		<key>92226C595381EA1B62F593A10E66806C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DCF612B4D9DBE26B6F2CFFD1982F6697</key>
+		<key>D050CC5F915AAAB2B12F9631C04B691E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E6C19A910BC318305B0E875E22131DC1</key>
+		<key>D22A2F38BDA1FA9810122AFFA25B6E6A</key>
 		<dict>
 			<key>primary</key>
 			<true/>

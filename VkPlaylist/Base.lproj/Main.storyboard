@@ -11,7 +11,7 @@
         <!--Текущий плейлист-->
         <scene sceneID="ytB-ef-8LB">
             <objects>
-                <viewController id="B7A-zs-S4p" customClass="CurrentPlaylistViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="B7A-zs-S4p" customClass="CurrentPlaylistViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vaw-Na-Rev"/>
                         <viewControllerLayoutGuide type="bottom" id="L9F-9t-Roe"/>
@@ -62,7 +62,7 @@
         <!--Моя музыка-->
         <scene sceneID="YGK-o2-mey">
             <objects>
-                <viewController id="XUr-jx-b6z" customClass="MyMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XUr-jx-b6z" customClass="MyMusicViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cmi-YO-nwG"/>
                         <viewControllerLayoutGuide type="bottom" id="LNH-MH-WXQ"/>
@@ -98,7 +98,7 @@
         <!--Моя музыка-->
         <scene sceneID="R3I-ph-RgW">
             <objects>
-                <tableViewController id="u0c-tT-8ti" customClass="MyMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="u0c-tT-8ti" customClass="MyMusicTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="XIi-hS-VHz">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -117,7 +117,7 @@
         <!--Поиск-->
         <scene sceneID="vk8-Mn-bxB">
             <objects>
-                <tableViewController id="Ngh-Br-Pnh" customClass="SearchTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Ngh-Br-Pnh" customClass="SearchTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="jRB-to-Rgr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -153,7 +153,7 @@
         <!--Загрузки-->
         <scene sceneID="uXB-MM-IGm">
             <objects>
-                <viewController id="Ek4-3w-l7x" customClass="DownloadsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Ek4-3w-l7x" customClass="DownloadsViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="AUV-w4-kJc"/>
                         <viewControllerLayoutGuide type="bottom" id="6FA-ge-Nfx"/>
@@ -189,7 +189,7 @@
         <!--Поиск-->
         <scene sceneID="1xP-eF-An2">
             <objects>
-                <viewController id="wjY-tO-3D8" customClass="SearchViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="wjY-tO-3D8" customClass="SearchViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zfn-pe-L7s"/>
                         <viewControllerLayoutGuide type="bottom" id="EAW-32-tvD"/>
@@ -225,7 +225,7 @@
         <!--Playlists View Controller-->
         <scene sceneID="X3j-Y4-uDw">
             <objects>
-                <viewController id="lhN-RF-2LM" customClass="PlaylistsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lhN-RF-2LM" customClass="PlaylistsViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zDb-vz-QHW"/>
                         <viewControllerLayoutGuide type="bottom" id="W7u-Ef-8UH"/>
@@ -251,7 +251,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GK2-As-faB" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GK2-As-faB" customClass="ButtonWithRoundedBorder" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                                     <rect key="frame" x="18" y="14" width="26" height="26"/>
                                                     <color key="backgroundColor" red="0.069000579419999999" green="0.84732443089999998" blue="0.080847390000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -281,7 +281,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PlaylistCell" id="Mkd-fS-PlY" customClass="PlaylistCell" customModule="VkPlaylist" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PlaylistCell" id="Mkd-fS-PlY" customClass="PlaylistCell" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="145" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mkd-fS-PlY" id="n1P-zZ-F9w">
@@ -318,7 +318,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgI-3x-jsa" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgI-3x-jsa" customClass="ButtonWithRoundedBorder" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                                     <rect key="frame" x="18" y="14" width="26" height="26"/>
                                                     <color key="backgroundColor" red="0.069000579419999999" green="0.84732443089999998" blue="0.080847390000000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -348,7 +348,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AlbumCell" id="tHg-Mf-2aS" customClass="AlbumCell" customModule="VkPlaylist" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AlbumCell" id="tHg-Mf-2aS" customClass="AlbumCell" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="242" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tHg-Mf-2aS" id="lFK-uv-BXe">
@@ -413,7 +413,7 @@
         <!--Ещё-->
         <scene sceneID="kgY-Od-LnP">
             <objects>
-                <tableViewController id="ybX-Qk-NpR" customClass="MoreTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="ybX-Qk-NpR" customClass="MoreTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hrt-KP-BWZ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -459,7 +459,7 @@
         <!--Друзья-->
         <scene sceneID="9Hv-1j-Wek">
             <objects>
-                <viewController id="gWU-2m-44Y" customClass="FriendsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gWU-2m-44Y" customClass="FriendsViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cYk-gy-9kD"/>
                         <viewControllerLayoutGuide type="bottom" id="IbG-05-T17"/>
@@ -495,7 +495,7 @@
         <!--Edit Playlist View Controller-->
         <scene sceneID="2cj-wq-FiP">
             <objects>
-                <viewController id="9rM-Vk-5eS" customClass="EditPlaylistViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9rM-Vk-5eS" customClass="EditPlaylistViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ytc-Ig-ygq"/>
                         <viewControllerLayoutGuide type="bottom" id="K4F-ai-jVI"/>
@@ -564,13 +564,13 @@
         <!--Add Playlist Music Table View Controller-->
         <scene sceneID="yqe-BY-5F3">
             <objects>
-                <tableViewController id="Jx5-fu-1Mz" customClass="AddPlaylistMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Jx5-fu-1Mz" customClass="AddPlaylistMusicTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="mUn-fA-mvp">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddToPlaylistCell" rowHeight="53" id="dTm-BG-ZSe" customClass="AddToPlaylistCell" customModule="VkPlaylist" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddToPlaylistCell" rowHeight="53" id="dTm-BG-ZSe" customClass="AddToPlaylistCell" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="53"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dTm-BG-ZSe" id="iUl-6z-kqt">
@@ -592,7 +592,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aht-To-oxU">
                                             <rect key="frame" x="547" y="0.0" width="52.5" height="52.5"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOo-CD-tsX" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOo-CD-tsX" customClass="ButtonWithRoundedBorder" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                                     <rect key="frame" x="18" y="13" width="26" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="26" id="aj7-8Q-3Bo"/>
@@ -670,7 +670,7 @@
         <!--Add Playlist Music View Controller-->
         <scene sceneID="Wpy-KU-IzZ">
             <objects>
-                <viewController id="FHS-3D-eLn" customClass="AddPlaylistMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="FHS-3D-eLn" customClass="AddPlaylistMusicViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qbL-a1-HkX"/>
                         <viewControllerLayoutGuide type="bottom" id="c0i-y7-MFT"/>
@@ -709,7 +709,7 @@
         <!--Edit Playlist Music Table View Controller-->
         <scene sceneID="pmL-oC-Ax4">
             <objects>
-                <tableViewController id="ddI-GD-bER" customClass="EditPlaylistMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="ddI-GD-bER" customClass="EditPlaylistMusicTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="XW7-9B-HEA">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="491"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -728,7 +728,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xj2-qi-qpS" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xj2-qi-qpS" customClass="ButtonWithRoundedBorder" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                             <rect key="frame" x="18" y="14" width="26" height="26"/>
                                             <color key="backgroundColor" red="0.069000579416751862" green="0.8473244309425354" blue="0.080847389996051788" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -775,7 +775,7 @@
         <!--<Название плейлиста>-->
         <scene sceneID="zJo-Zi-imR">
             <objects>
-                <viewController id="lTe-XD-VCn" customClass="PlaylistMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lTe-XD-VCn" customClass="PlaylistMusicViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="43e-nz-9Kd"/>
                         <viewControllerLayoutGuide type="bottom" id="Bs3-VD-WW9"/>
@@ -817,7 +817,7 @@
         <!--Playlist Music Table View Controller-->
         <scene sceneID="JeN-Yl-amv">
             <objects>
-                <tableViewController id="f7o-da-RJ0" customClass="PlaylistMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="f7o-da-RJ0" customClass="PlaylistMusicTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="06a-F7-FeR">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -835,7 +835,7 @@
         <!--<Название Альбома>-->
         <scene sceneID="bXA-aR-QhH">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="d08-qv-bL9" customClass="AlbumMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="d08-qv-bL9" customClass="AlbumMusicTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="el2-1A-i5o">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -854,7 +854,7 @@
         <!--<Название альбома>-->
         <scene sceneID="QCU-b5-KdS">
             <objects>
-                <viewController id="3dV-4s-2HG" customClass="AlbumMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3dV-4s-2HG" customClass="AlbumMusicViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bXF-8A-b8T"/>
                         <viewControllerLayoutGuide type="bottom" id="LoG-D4-85Y"/>
@@ -890,13 +890,13 @@
         <!--Друзья-->
         <scene sceneID="QRQ-Jz-uGV">
             <objects>
-                <tableViewController id="Pw1-a5-z2D" customClass="FriendsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Pw1-a5-z2D" customClass="FriendsTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="6YH-FY-P0h">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="569"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FriendCell" rowHeight="62" id="XUN-FM-xnc" customClass="FriendCell" customModule="VkPlaylist" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FriendCell" rowHeight="62" id="XUN-FM-xnc" customClass="FriendCell" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XUN-FM-xnc" id="HCk-Pb-IWR">
@@ -948,7 +948,7 @@
         <!--Owner Music View Controller-->
         <scene sceneID="wok-jT-kX1">
             <objects>
-                <viewController id="CXf-rw-kh6" customClass="OwnerMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="CXf-rw-kh6" customClass="OwnerMusicViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mAW-JB-bGc"/>
                         <viewControllerLayoutGuide type="bottom" id="ecb-hS-R7e"/>
@@ -983,7 +983,7 @@
         <!--<Имя владельца>-->
         <scene sceneID="7aK-Lh-4fa">
             <objects>
-                <tableViewController id="WMM-6k-EWz" customClass="OwnerMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="WMM-6k-EWz" customClass="OwnerMusicTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="HwJ-cR-hCn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="642"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1002,7 +1002,7 @@
         <!--Группы-->
         <scene sceneID="uWT-9j-tkP">
             <objects>
-                <viewController id="pB0-z3-7lM" customClass="GroupsViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pB0-z3-7lM" customClass="GroupsViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hAx-K4-eW0"/>
                         <viewControllerLayoutGuide type="bottom" id="TGR-Ar-QSp"/>
@@ -1038,13 +1038,13 @@
         <!--Группы-->
         <scene sceneID="TUL-NI-Ut4">
             <objects>
-                <tableViewController id="J6P-fh-5CB" customClass="GroupsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="J6P-fh-5CB" customClass="GroupsTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="EJX-bD-EZu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="569"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="62" id="Zof-ZS-NGF" customClass="GroupCell" customModule="VkPlaylist" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="62" id="Zof-ZS-NGF" customClass="GroupCell" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zof-ZS-NGF" id="1ny-5o-rqh">
@@ -1096,7 +1096,7 @@
         <!--Рекомендации-->
         <scene sceneID="UmM-do-Pus">
             <objects>
-                <viewController id="MH8-yw-Zwd" customClass="RecommendationsMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="MH8-yw-Zwd" customClass="RecommendationsMusicViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KkD-eI-TvD"/>
                         <viewControllerLayoutGuide type="bottom" id="2K9-JI-Q7Y"/>
@@ -1132,7 +1132,7 @@
         <!--Рекомендации-->
         <scene sceneID="2mB-yL-cQg">
             <objects>
-                <tableViewController id="xkp-KM-EQN" customClass="RecommendationsMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="xkp-KM-EQN" customClass="RecommendationsMusicTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="0yM-OP-1z3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="569"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1151,7 +1151,7 @@
         <!--Популярное-->
         <scene sceneID="sGS-Cy-5gI">
             <objects>
-                <viewController id="hYN-Cz-fhD" customClass="PopularMusicViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="hYN-Cz-fhD" customClass="PopularMusicViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HUi-4K-KBK"/>
                         <viewControllerLayoutGuide type="bottom" id="awj-ma-nVF"/>
@@ -1187,7 +1187,7 @@
         <!--Популярное-->
         <scene sceneID="FUO-1z-6kc">
             <objects>
-                <tableViewController id="PxH-Nj-fS4" customClass="PopularMusicTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="PxH-Nj-fS4" customClass="PopularMusicTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" id="a7q-wB-8yI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="569"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1223,7 +1223,7 @@
         <!--Еще-->
         <scene sceneID="Arp-6j-hur">
             <objects>
-                <viewController id="VPu-q5-Wrb" customClass="MoreViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="VPu-q5-Wrb" customClass="MoreViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tec-Jc-7EA"/>
                         <viewControllerLayoutGuide type="bottom" id="Tod-2V-YQr"/>
@@ -1276,13 +1276,13 @@
         <!--Загрузки-->
         <scene sceneID="ORm-hi-4ol">
             <objects>
-                <tableViewController id="SB3-Uu-qB0" customClass="DownloadsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="SB3-Uu-qB0" customClass="DownloadsTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QVh-Jq-C1g">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActiveDownloadCell" rowHeight="62" id="Dak-4F-lB8" customClass="ActiveDownloadCell" customModule="VkPlaylist" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActiveDownloadCell" rowHeight="62" id="Dak-4F-lB8" customClass="ActiveDownloadCell" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dak-4F-lB8" id="7FP-wE-5Zx">
@@ -1383,7 +1383,7 @@
         <!--Настройки-->
         <scene sceneID="WTZ-UN-nAx">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="4gw-wh-h40" customClass="SettingsTableViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="4gw-wh-h40" customClass="SettingsTableViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="VyZ-qB-Rwm">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1493,7 +1493,7 @@
         <!--Authorization View Controller-->
         <scene sceneID="dQe-ys-bPt">
             <objects>
-                <viewController storyboardIdentifier="AuthorizationViewController" id="K0p-sA-XXX" customClass="AuthorizationViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthorizationViewController" id="K0p-sA-XXX" customClass="AuthorizationViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WyX-ih-tSt"/>
                         <viewControllerLayoutGuide type="bottom" id="0sL-8s-Ko8"/>
@@ -1502,7 +1502,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D1-zE-Npu" customClass="ButtonWithRoundedBorder" customModule="VkPlaylist" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D1-zE-Npu" customClass="ButtonWithRoundedBorder" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                 <rect key="frame" x="70" y="530" width="460" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="82h-cU-bb2"/>
@@ -1555,7 +1555,7 @@
         <!--Player View Controller-->
         <scene sceneID="4KC-my-fCp">
             <objects>
-                <viewController storyboardIdentifier="PlayerViewController" id="Urs-Va-CQm" customClass="PlayerViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayerViewController" id="Urs-Va-CQm" customClass="PlayerViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vnn-cw-Xiv"/>
                         <viewControllerLayoutGuide type="bottom" id="uhR-kg-WQo"/>
@@ -1844,7 +1844,7 @@
                                                                 <rect key="frame" x="0.0" y="188.5" width="600" height="17"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ets-hJ-FYq">
-                                                                        <rect key="frame" x="45" y="5.5" width="10" height="10"/>
+                                                                        <rect key="frame" x="45" y="5" width="10" height="10"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RBl-cT-kPT">
                                                                             <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1871,7 +1871,7 @@
                                                                         </vibrancyEffect>
                                                                     </visualEffectView>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Tj-lR-MYr">
-                                                                        <rect key="frame" x="545" y="5.5" width="10" height="10"/>
+                                                                        <rect key="frame" x="545" y="5" width="10" height="10"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Edf-rU-Ddw">
                                                                             <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1939,7 +1939,7 @@
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
                                                                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerShareToStatus" translatesAutoresizingMaskIntoConstraints="NO" id="JPk-lH-5G0">
-                                                                                                                <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
+                                                                                                                <rect key="frame" x="4" y="4" width="15" height="15"/>
                                                                                                                 <constraints>
                                                                                                                     <constraint firstAttribute="height" constant="15" id="5n9-h0-bwd"/>
                                                                                                                     <constraint firstAttribute="width" constant="15" id="Cpk-08-Ynv"/>
@@ -1972,7 +1972,7 @@
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
                                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerShareToStatus" translatesAutoresizingMaskIntoConstraints="NO" id="npR-2c-IVA">
-                                                                                                    <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
+                                                                                                    <rect key="frame" x="4" y="4" width="15" height="15"/>
                                                                                                     <constraints>
                                                                                                         <constraint firstAttribute="height" constant="15" id="Bt9-Qd-xsK"/>
                                                                                                         <constraint firstAttribute="width" constant="15" id="bgV-tx-WgP"/>
@@ -2029,7 +2029,7 @@
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
                                                                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerLyrics" translatesAutoresizingMaskIntoConstraints="NO" id="Gur-Fj-Z5G">
-                                                                                                                <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
+                                                                                                                <rect key="frame" x="4" y="4" width="15" height="15"/>
                                                                                                                 <constraints>
                                                                                                                     <constraint firstAttribute="height" constant="15" id="8S6-DQ-PDY"/>
                                                                                                                     <constraint firstAttribute="width" constant="15" id="NRP-KC-9uK"/>
@@ -2062,7 +2062,7 @@
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
                                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-PlayerLyrics" translatesAutoresizingMaskIntoConstraints="NO" id="o41-PC-ulM">
-                                                                                                    <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
+                                                                                                    <rect key="frame" x="4" y="4" width="15" height="15"/>
                                                                                                     <constraints>
                                                                                                         <constraint firstAttribute="width" constant="15" id="gb5-ym-kBf"/>
                                                                                                         <constraint firstAttribute="height" constant="15" id="kmk-JI-bBL"/>
@@ -2291,7 +2291,7 @@
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
                                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-More" translatesAutoresizingMaskIntoConstraints="NO" id="rz3-rP-ZrH">
-                                                                                                    <rect key="frame" x="4.5" y="4.5" width="15" height="15"/>
+                                                                                                    <rect key="frame" x="4" y="4" width="15" height="15"/>
                                                                                                     <constraints>
                                                                                                         <constraint firstAttribute="width" constant="15" id="ZPC-t3-3JR"/>
                                                                                                         <constraint firstAttribute="height" constant="15" id="svZ-eX-RzY"/>
@@ -2373,13 +2373,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-Player" translatesAutoresizingMaskIntoConstraints="NO" id="Wgb-Ck-BAU">
-                                                    <rect key="frame" x="145" y="20" width="310" height="310"/>
+                                                    <rect key="frame" x="150" y="25" width="300" height="300"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Wgb-Ck-BAU" secondAttribute="height" multiplier="1:1" id="Qem-4k-Ik9"/>
                                                     </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edp-em-GWV">
-                                                    <rect key="frame" x="145" y="20" width="310" height="310"/>
+                                                    <rect key="frame" x="150" y="25" width="300" height="300"/>
                                                     <connections>
                                                         <action selector="artworkTapped:" destination="Urs-Va-CQm" eventType="touchUpInside" id="iFW-z0-WyY"/>
                                                     </connections>
@@ -2403,7 +2403,7 @@
                                                                                     <rect key="frame" x="290" y="165" width="20" height="20"/>
                                                                                 </activityIndicatorView>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Текст не найден" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbF-Gb-c6g">
-                                                                                    <rect key="frame" x="234.5" y="165" width="131" height="21"/>
+                                                                                    <rect key="frame" x="234" y="165" width="131" height="21"/>
                                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <nil key="highlightedColor"/>
@@ -2669,7 +2669,7 @@
         <!--Main Tab Bar Controller-->
         <scene sceneID="AD8-On-Y5o">
             <objects>
-                <tabBarController storyboardIdentifier="MainTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="v93-T2-lwU" customClass="MainTabBarController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="v93-T2-lwU" customClass="MainTabBarController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="arH-3i-B93"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="lZH-AK-xaL">
@@ -2727,7 +2727,7 @@
         <!--Mini Player View Controller-->
         <scene sceneID="ehH-9T-gVk">
             <objects>
-                <viewController storyboardIdentifier="MiniPlayerViewController" id="WDb-iE-agi" customClass="MiniPlayerViewController" customModule="VkPlaylist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MiniPlayerViewController" id="WDb-iE-agi" customClass="MiniPlayerViewController" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FTV-fm-PMs"/>
                         <viewControllerLayoutGuide type="bottom" id="5qC-Ts-eHQ"/>
@@ -2744,7 +2744,7 @@
                                 </view>
                                 <blurEffect style="light"/>
                             </visualEffectView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Er3-Oj-g8l" customClass="MiniPlayerView" customModule="VkPlaylist" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Er3-Oj-g8l" customClass="MiniPlayerView" customModule="VKPlaylist_temp_caseinsensitive_rename" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag Me Down" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UlA-gB-7X8">
@@ -2882,7 +2882,7 @@
         <image name="icon-PlayerVolumeMute" width="20" height="20"/>
         <image name="icon-Playlist" width="25" height="25"/>
         <image name="icon-Search" width="25" height="25"/>
-        <image name="placeholder-Player" width="375" height="375"/>
+        <image name="placeholder-Player" width="300" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="CRi-Lk-it5"/>

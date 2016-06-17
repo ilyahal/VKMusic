@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E8806DB35C61E4EC8A1BE9F /* Pods_VKPlaylist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B398A2C6D590327DF0F079CA /* Pods_VKPlaylist.framework */; };
 		BB05DF871CFEC460001F65CB /* EditPlaylistMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05DF861CFEC460001F65CB /* EditPlaylistMusicTableViewController.swift */; };
 		BB05DF8A1CFED22F001F65CB /* AddPlaylistMusicDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05DF891CFED22F001F65CB /* AddPlaylistMusicDelegate.swift */; };
 		BB0C62E61CE3751A00C505B1 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C62E51CE3751A00C505B1 /* Album.swift */; };
@@ -133,12 +134,12 @@
 		BBEF4EEE1CFDA4F7003642D0 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4EED1CFDA4F7003642D0 /* FriendsViewController.swift */; };
 		BBEF4EF01CFDA820003642D0 /* OwnerMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4EEF1CFDA820003642D0 /* OwnerMusicViewController.swift */; };
 		BBEF4EF21CFDAD0B003642D0 /* AddPlaylistMusicTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4EF11CFDAD0B003642D0 /* AddPlaylistMusicTableViewController.swift */; };
-		E4022466192309F1AF3847F1 /* Pods_VkPlaylist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0695256AAC292A98255D5756 /* Pods_VkPlaylist.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		019E2C5D10C487A8DF0DE007 /* Pods-VkPlaylist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VkPlaylist.release.xcconfig"; path = "Pods/Target Support Files/Pods-VkPlaylist/Pods-VkPlaylist.release.xcconfig"; sourceTree = "<group>"; };
 		0695256AAC292A98255D5756 /* Pods_VkPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VkPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		337EABD4C6012E2AD3ED00E9 /* Pods-VKPlaylist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKPlaylist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VKPlaylist/Pods-VKPlaylist.debug.xcconfig"; sourceTree = "<group>"; };
+		B398A2C6D590327DF0F079CA /* Pods_VKPlaylist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VKPlaylist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB05DF861CFEC460001F65CB /* EditPlaylistMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPlaylistMusicTableViewController.swift; sourceTree = "<group>"; };
 		BB05DF891CFED22F001F65CB /* AddPlaylistMusicDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlaylistMusicDelegate.swift; sourceTree = "<group>"; };
 		BB0C62E51CE3751A00C505B1 /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
@@ -214,7 +215,7 @@
 		BBD279E41D06BBF800A844D3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		BBD279E71D06EF4700A844D3 /* UIImage+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+TintColor.swift"; sourceTree = "<group>"; };
 		BBD279E91D079BF800A844D3 /* CurrentPlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentPlaylistViewController.swift; sourceTree = "<group>"; };
-		BBDEC0501CD66441005B8494 /* VkPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBDEC0501CD66441005B8494 /* VKPlaylist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKPlaylist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBDEC0531CD66441005B8494 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBDEC0581CD66441005B8494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BBDEC05A1CD66441005B8494 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -274,7 +275,7 @@
 		BBEF4EED1CFDA4F7003642D0 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		BBEF4EEF1CFDA820003642D0 /* OwnerMusicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwnerMusicViewController.swift; sourceTree = "<group>"; };
 		BBEF4EF11CFDAD0B003642D0 /* AddPlaylistMusicTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPlaylistMusicTableViewController.swift; sourceTree = "<group>"; };
-		D7990FBB27C7528272CAA93C /* Pods-VkPlaylist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VkPlaylist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VkPlaylist/Pods-VkPlaylist.debug.xcconfig"; sourceTree = "<group>"; };
+		BDBD30D64778E4B9ABC7A389 /* Pods-VKPlaylist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKPlaylist.release.xcconfig"; path = "Pods/Target Support Files/Pods-VKPlaylist/Pods-VKPlaylist.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,7 +283,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4022466192309F1AF3847F1 /* Pods_VkPlaylist.framework in Frameworks */,
+				6E8806DB35C61E4EC8A1BE9F /* Pods_VKPlaylist.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,8 +293,8 @@
 		50B222353DF41D1DFA8F6295 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D7990FBB27C7528272CAA93C /* Pods-VkPlaylist.debug.xcconfig */,
-				019E2C5D10C487A8DF0DE007 /* Pods-VkPlaylist.release.xcconfig */,
+				337EABD4C6012E2AD3ED00E9 /* Pods-VKPlaylist.debug.xcconfig */,
+				BDBD30D64778E4B9ABC7A389 /* Pods-VKPlaylist.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -308,6 +309,7 @@
 				BB17319A1D01A55700996A34 /* Pods_VkPlaylist.framework */,
 				BB1731981D01A54800996A34 /* Alamofire.framework */,
 				0695256AAC292A98255D5756 /* Pods_VkPlaylist.framework */,
+				B398A2C6D590327DF0F079CA /* Pods_VKPlaylist.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -524,7 +526,7 @@
 			isa = PBXGroup;
 			children = (
 				BB0C62F41CE4B81600C505B1 /* Notepad.playground */,
-				BBDEC0521CD66441005B8494 /* VkPlaylist */,
+				BBDEC0521CD66441005B8494 /* VKPlaylist */,
 				BBDEC0511CD66441005B8494 /* Products */,
 				50B222353DF41D1DFA8F6295 /* Pods */,
 				9182076C59CEA963088D05EA /* Frameworks */,
@@ -534,12 +536,12 @@
 		BBDEC0511CD66441005B8494 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BBDEC0501CD66441005B8494 /* VkPlaylist.app */,
+				BBDEC0501CD66441005B8494 /* VKPlaylist.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BBDEC0521CD66441005B8494 /* VkPlaylist */ = {
+		BBDEC0521CD66441005B8494 /* VKPlaylist */ = {
 			isa = PBXGroup;
 			children = (
 				BBE853581CDFE4C100872C3B /* Extensions */,
@@ -556,6 +558,7 @@
 				BBDEC05C1CD66441005B8494 /* LaunchScreen.storyboard */,
 				BBDEC05F1CD66441005B8494 /* Info.plist */,
 			);
+			name = VKPlaylist;
 			path = VkPlaylist;
 			sourceTree = "<group>";
 		};
@@ -844,9 +847,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BBDEC04F1CD66441005B8494 /* VkPlaylist */ = {
+		BBDEC04F1CD66441005B8494 /* VKPlaylist */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BBDEC0621CD66441005B8494 /* Build configuration list for PBXNativeTarget "VkPlaylist" */;
+			buildConfigurationList = BBDEC0621CD66441005B8494 /* Build configuration list for PBXNativeTarget "VKPlaylist" */;
 			buildPhases = (
 				13DFFDACC82D520F7C47CD09 /* [CP] Check Pods Manifest.lock */,
 				BBDEC04C1CD66441005B8494 /* Sources */,
@@ -859,9 +862,9 @@
 			);
 			dependencies = (
 			);
-			name = VkPlaylist;
+			name = VKPlaylist;
 			productName = VkPlaylist;
-			productReference = BBDEC0501CD66441005B8494 /* VkPlaylist.app */;
+			productReference = BBDEC0501CD66441005B8494 /* VKPlaylist.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -885,7 +888,7 @@
 					};
 				};
 			};
-			buildConfigurationList = BBDEC04B1CD66441005B8494 /* Build configuration list for PBXProject "VkPlaylist" */;
+			buildConfigurationList = BBDEC04B1CD66441005B8494 /* Build configuration list for PBXProject "VKPlaylist" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -898,7 +901,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BBDEC04F1CD66441005B8494 /* VkPlaylist */,
+				BBDEC04F1CD66441005B8494 /* VKPlaylist */,
 			);
 		};
 /* End PBXProject section */
@@ -937,7 +940,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VkPlaylist/Pods-VkPlaylist-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VKPlaylist/Pods-VKPlaylist-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		13DFFDACC82D520F7C47CD09 /* [CP] Check Pods Manifest.lock */ = {
@@ -967,7 +970,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VkPlaylist/Pods-VkPlaylist-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VKPlaylist/Pods-VKPlaylist-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1202,7 +1205,7 @@
 		};
 		BBDEC0631CD66441005B8494 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7990FBB27C7528272CAA93C /* Pods-VkPlaylist.debug.xcconfig */;
+			baseConfigurationReference = 337EABD4C6012E2AD3ED00E9 /* Pods-VKPlaylist.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1210,14 +1213,14 @@
 				INFOPLIST_FILE = VkPlaylist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.ilyahal.VkPlaylist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VKPlaylist;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
 		BBDEC0641CD66441005B8494 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 019E2C5D10C487A8DF0DE007 /* Pods-VkPlaylist.release.xcconfig */;
+			baseConfigurationReference = BDBD30D64778E4B9ABC7A389 /* Pods-VKPlaylist.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1225,7 +1228,7 @@
 				INFOPLIST_FILE = VkPlaylist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.ilyahal.VkPlaylist;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VKPlaylist;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -1233,7 +1236,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BBDEC04B1CD66441005B8494 /* Build configuration list for PBXProject "VkPlaylist" */ = {
+		BBDEC04B1CD66441005B8494 /* Build configuration list for PBXProject "VKPlaylist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BBDEC0601CD66441005B8494 /* Debug */,
@@ -1242,7 +1245,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BBDEC0621CD66441005B8494 /* Build configuration list for PBXNativeTarget "VkPlaylist" */ = {
+		BBDEC0621CD66441005B8494 /* Build configuration list for PBXNativeTarget "VKPlaylist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BBDEC0631CD66441005B8494 /* Debug */,

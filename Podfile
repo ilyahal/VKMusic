@@ -3,7 +3,7 @@ platform :ios, '9.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
 
-target 'VkPlaylist' do
+target 'VKPlaylist' do
 
 pod 'SwiftyVK', :git => 'https://github.com/WE-St0r/SwiftyVK.git'
 pod 'Alamofire', '~> 3.4'
