@@ -159,22 +159,22 @@ class MusicFromInternetTableViewController: UITableViewController {
     // MARK: Получение количества строк таблицы
     
     /// Количества строк в таблице при статусе "NotSearchedYet" и ошибкой при подключении к интернету
-    func numberOfRowsForNotSearchedYetStatusWithInternetErrorInTableView(tableView: UITableView, inSection section: Int) -> Int {
+    func numberOfRowsForNotSearchedYetStatusWithInternetErrorInSection(section: Int) -> Int {
         return 1 // Ячейка с сообщением об отсутствии интернет соединения
     }
     
     /// Количества строк в таблице при статусе "NotSearchedYet" и ошибкой при подключении к интернету
-    func numberOfRowsForNotSearchedYetStatusWithAccessErrorInTableView(tableView: UITableView, inSection section: Int) -> Int {
+    func numberOfRowsForNotSearchedYetStatusWithAccessErrorInSection(section: Int) -> Int {
         return 1 // Ячейка с сообщением об отсутствии доступа
     }
     
     /// Количества строк в таблице при статусе "NotSearchedYet"
-    func numberOfRowsForNotSearchedYetStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+    func numberOfRowsForNotSearchedYetStatusInSection(section: Int) -> Int {
         return 0
     }
     
     /// Количества строк в таблице при статусе "Loading"
-    func numberOfRowsForLoadingStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+    func numberOfRowsForLoadingStatusInSection(section: Int) -> Int {
         if let refreshControl = refreshControl where refreshControl.refreshing {
             return activeArray.count + 1
         }
@@ -183,17 +183,17 @@ class MusicFromInternetTableViewController: UITableViewController {
     }
     
     /// Количества строк в таблице при статусе "NoResults"
-    func numberOfRowsForNoResultsStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+    func numberOfRowsForNoResultsStatusInSection(section: Int) -> Int {
         return 1 // Ячейки с сообщением об отсутствии личных аудиозаписей
     }
     
     /// Количества строк в таблице при статусе "Results"
-    func numberOfRowsForResultsStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+    func numberOfRowsForResultsStatusInSection(section: Int) -> Int {
         return activeArray.count + 1 // +1 - ячейка для вывода количества строк
     }
     
     /// Количества строк в таблице при статусе "Не авторизован"
-    func numberOfRowsForNoAuthorizedStatusInTableView(tableView: UITableView, inSection section: Int) -> Int {
+    func numberOfRowsForNoAuthorizedStatusInSection(section: Int) -> Int {
         return 1 // Ячейка с сообщением о необходимости авторизоваться
     }
     
@@ -228,26 +228,26 @@ class MusicFromInternetTableViewController: UITableViewController {
     // MARK: Получение ячеек для строк таблицы
     
     /// Ячейка для строки когда поиск еще не выполнялся и была получена ошибка при подключении к интернету
-    func getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNotSearchedYetRowWithInternetErrorForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
         
         return cell
     }
     
     /// Ячейка для строки когда поиск еще не выполнялся и была получена ошибка доступа
-    func getCellForNotSearchedYetRowWithAccessErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNotSearchedYetRowWithAccessErrorForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.accessErrorCell, forIndexPath: indexPath) as! AccessErrorCell
         
         return cell
     }
     
     /// Ячейка для строки когда поиск еще не выполнялся
-    func getCellForNotSearchedYetRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNotSearchedYetRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         return UITableViewCell()
     }
     
     /// Ячейка для строки с сообщением что сервер вернул пустой массив
-    func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoResultsRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         cell.messageLabel.text = noResultsLabelText
         
@@ -255,7 +255,7 @@ class MusicFromInternetTableViewController: UITableViewController {
     }
     
     /// Ячейка для строки с сообщением о загрузке
-    func getCellForLoadingRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForLoadingRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
         cell.activityIndicator.startAnimating()
         
@@ -263,7 +263,7 @@ class MusicFromInternetTableViewController: UITableViewController {
     }
     
     /// Попытка получить ячейку для строки с количеством аудиозаписей
-    func getCellForNumberOfAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+    func getCellForNumberOfAudioRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
         let count = numberOfAudioForIndexPath(indexPath)
         
         if let count = count {
@@ -277,7 +277,7 @@ class MusicFromInternetTableViewController: UITableViewController {
     }
     
     /// Ячейка для строки с аудиозаписью
-    func getCellForRowWithAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForRowWithAudioForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let track = trackForIndexPath(indexPath)
         let downloaded = DataManager.sharedInstance.isDownloadedTrack(track) // Загружен ли трек
         
@@ -312,7 +312,7 @@ class MusicFromInternetTableViewController: UITableViewController {
     }
     
     /// Ячейка для строки с сообщением о необходимости авторизоваться
-    func getCellForNoAuthorizedRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoAuthorizedRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
         cell.messageLabel.text = noAuthorizedLabelText
         
@@ -332,21 +332,21 @@ extension _MusicFromInternetTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch requestManagerStatus {
             case .NotSearchedYet where requestManagerError == .NetworkError:
-                return numberOfRowsForNotSearchedYetStatusWithInternetErrorInTableView(tableView, inSection: section)
+                return numberOfRowsForNotSearchedYetStatusWithInternetErrorInSection(section)
             case .NotSearchedYet where requestManagerError == .AccessError:
-                return numberOfRowsForNotSearchedYetStatusWithAccessErrorInTableView(tableView, inSection: section)
+                return numberOfRowsForNotSearchedYetStatusWithAccessErrorInSection(section)
             case .NotSearchedYet:
-                return numberOfRowsForNotSearchedYetStatusInTableView(tableView, inSection: section)
+                return numberOfRowsForNotSearchedYetStatusInSection(section)
             case .Loading:
-                return numberOfRowsForLoadingStatusInTableView(tableView, inSection: section)
+                return numberOfRowsForLoadingStatusInSection(section)
             case .NoResults:
-                return numberOfRowsForNoResultsStatusInTableView(tableView, inSection: section)
+                return numberOfRowsForNoResultsStatusInSection(section)
             case .Results:
-                return numberOfRowsForResultsStatusInTableView(tableView, inSection: section)
+                return numberOfRowsForResultsStatusInSection(section)
             }
         }
         
-        return numberOfRowsForNoAuthorizedStatusInTableView(tableView, inSection: section)
+        return numberOfRowsForNoAuthorizedStatusInSection(section)
     }
     
     // Получение ячейки для строки таблицы
@@ -354,35 +354,35 @@ extension _MusicFromInternetTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch requestManagerStatus {
             case .NotSearchedYet where requestManagerError == .NetworkError:
-                return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNotSearchedYetRowWithInternetErrorForIndexPath(indexPath)
             case .NotSearchedYet where requestManagerError == .AccessError:
-                return getCellForNotSearchedYetRowWithAccessErrorInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNotSearchedYetRowWithAccessErrorForIndexPath(indexPath)
             case .NotSearchedYet:
-                return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNotSearchedYetRowForIndexPath(indexPath)
             case .NoResults:
-                return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNoResultsRowForIndexPath(indexPath)
             case .Loading:
                 if let refreshControl = refreshControl where refreshControl.refreshing {
                     if music.count != 0 {
-                        if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+                        if let numberOfRowsCell = getCellForNumberOfAudioRowForIndexPath(indexPath) {
                             return numberOfRowsCell
                         }
                         
-                        return getCellForRowWithAudioInTableView(tableView, forIndexPath: indexPath)
+                        return getCellForRowWithAudioForIndexPath(indexPath)
                     }
                 }
                 
-                return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForLoadingRowForIndexPath(indexPath)
             case .Results:
-                if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+                if let numberOfRowsCell = getCellForNumberOfAudioRowForIndexPath(indexPath) {
                     return numberOfRowsCell
                 }
                 
-                return getCellForRowWithAudioInTableView(tableView, forIndexPath: indexPath)
+                return getCellForRowWithAudioForIndexPath(indexPath)
             }
         }
         
-        return getCellForNoAuthorizedRowInTableView(tableView, forIndexPath: indexPath)
+        return getCellForNoAuthorizedRowForIndexPath(indexPath)
     }
 
 }

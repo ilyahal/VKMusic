@@ -359,13 +359,13 @@ extension Player {
             playIndex = index
             
             let playerItem = currentItem!.getPlayerItem()
-            currentItem!.getLyrics()
-            currentItem!.getArtwork()
-            
             registerForPlayToEndNotificationWithItem(playerItem)
             currentItem!.addBufferProgressObserver()
             
             startNewPlayerForItem(playerItem)
+            
+            currentItem!.getLyrics()
+            currentItem!.getArtwork()
             
             delegate?.playerCurrentItemDidChange(self)
         }

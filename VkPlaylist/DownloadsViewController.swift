@@ -20,6 +20,14 @@ class DownloadsViewController: UIViewController {
     /// Нажата ли кнопка "Изменить"
     var editTapped = false
     
+    /// Правило для нижней границы контейнера с таблицей
+    @IBOutlet weak var containerBottomLayoutConstraint: NSLayoutConstraint!
+    
+    /// Значение для правила для нижней границы контейнера с таблицей
+    var containerBottomLayoutConstraintConstantValue: CGFloat {
+        return PlayerManager.sharedInstance.isPlaying ? -9 : -49
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +41,23 @@ class DownloadsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationItem.setRightBarButtonItems(downloadsTableViewController.downloaded.count != 0 ? editTapped ? [doneButton] : [editButton] : nil, animated: false)
+        
+        
+        updateContainerBottomLayoutConstraintAnimated(false)
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(playerManagerDidShowMiniPlayerNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
+            self.updateContainerBottomLayoutConstraintAnimated(true)
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName(playerManagerDidHideMiniPlayerNotification, object: nil, queue: NSOperationQueue.mainQueue()) { _ in
+            self.updateContainerBottomLayoutConstraintAnimated(true)
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: playerManagerDidShowMiniPlayerNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: playerManagerDidHideMiniPlayerNotification, object: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -64,6 +89,13 @@ class DownloadsViewController: UIViewController {
         editTapped = false
         
         downloadsTableViewController.reloadTableView()
+    }
+    
+    /// Обновить отступ для нижней границы контейнера с аудиозаписями
+    func updateContainerBottomLayoutConstraintAnimated(animated: Bool) {
+        UIView.animateWithDuration(animated ? 0.3 : 0) {
+            self.containerBottomLayoutConstraint.constant = self.containerBottomLayoutConstraintConstantValue
+        }
     }
     
     

@@ -57,14 +57,14 @@ class EditPlaylistMusicTableViewController: UITableViewController {
     // MARK: Получение ячеек для строк таблицы
     
     /// Ячейка для строки с загруженным треком
-    func getCellForAddAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForAddAudioForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.addAudioCell, forIndexPath: indexPath)
         
         return cell
     }
     
     // Ячейка для строки с загруженным треком
-    func getCellForOfflineAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForOfflineAudioForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let track = tracks[indexPath.row - 1]
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.offlineAudioCell, forIndexPath: indexPath) as! OfflineAudioCell
@@ -90,10 +90,10 @@ extension _EditPlaylistMusicTableViewControllerDataSource {
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            return getCellForAddAudioInTableView(tableView, forIndexPath: indexPath)
+            return getCellForAddAudioForIndexPath(indexPath)
         }
         
-        return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
+        return getCellForOfflineAudioForIndexPath(indexPath)
     }
     
     // Возможно ли редактировать ячейку

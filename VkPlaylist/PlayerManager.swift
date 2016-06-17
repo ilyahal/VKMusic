@@ -68,7 +68,19 @@ class PlayerManager {
     
     /// Отобразить мини-плеер
     func showMiniPlayerAnimated(animated: Bool) {
-        miniPlayerViewController.showMiniPlayerAnimated(animated)
+        if isPlaying {
+            miniPlayerViewController.showMiniPlayerAnimated(animated)
+        }
+    }
+    
+    /// Мини-плеер скрылся
+    func miniPlayerDidHide() {
+        NSNotificationCenter.defaultCenter().postNotificationName(playerManagerDidHideMiniPlayerNotification, object: nil)
+    }
+    
+    /// Мини-плеер отобразился
+    func miniPlayerDidShow() {
+        NSNotificationCenter.defaultCenter().postNotificationName(playerManagerDidShowMiniPlayerNotification, object: nil)
     }
     
     

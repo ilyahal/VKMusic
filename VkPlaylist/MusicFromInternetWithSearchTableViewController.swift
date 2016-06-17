@@ -127,7 +127,7 @@ class MusicFromInternetWithSearchTableViewController: MusicFromInternetTableView
     // MARK: Получение ячеек для строк таблицы
     
     /// Ячейка для строки с сообщением, что при поиске ничего не было найдено
-    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNothingFoundRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         nothingFoundCell.messageLabel.text = textForNothingFoundRow
         
@@ -148,7 +148,7 @@ extension _MusicFromInternetWithSearchTableViewControllerDataSource {
             switch requestManagerStatus {
             case .Results:
                 if isSearched && filteredMusic.count == 0 {
-                    return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                    return getCellForNothingFoundRowForIndexPath(indexPath)
                 }
             default:
                 break

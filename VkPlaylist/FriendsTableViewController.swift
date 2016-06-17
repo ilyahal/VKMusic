@@ -320,19 +320,19 @@ class FriendsTableViewController: UITableViewController {
     // MARK: Получение ячеек для строк таблицы
     
     // Ячейка для строки когда поиск еще не выполнялся и была получена ошибка при подключении к интернету
-    func getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNotSearchedYetRowWithInternetErrorForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
         
         return cell
     }
     
     // Ячейка для строки когда поиск еще не выполнялся
-    func getCellForNotSearchedYetRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNotSearchedYetRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         return UITableViewCell()
     }
     
     // Ячейка для строки с сообщением что сервер вернул пустой массив
-    func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoResultsRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         cell.messageLabel.text = noResultsLabelText
         
@@ -340,7 +340,7 @@ class FriendsTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с сообщением, что при поиске ничего не было найдено
-    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNothingFoundRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         nothingFoundCell.messageLabel.text = nothingFoundLabelText
         
@@ -348,7 +348,7 @@ class FriendsTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с сообщением о загрузке
-    func getCellForLoadingRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForLoadingRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
         cell.activityIndicator.startAnimating()
         
@@ -356,7 +356,7 @@ class FriendsTableViewController: UITableViewController {
     }
     
     // Пытаемся получить ячейку для строки с количеством друзей
-    func getCellForNumberOfFriendsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+    func getCellForNumberOfFriendsRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
         let count = numberOfFriendsForIndexPath(indexPath)
         
         if let count = count {
@@ -370,7 +370,7 @@ class FriendsTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с другом
-    func getCellForRowWithGroupInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForRowWithGroupForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let sectionTitle = nameSectionTitles[indexPath.section]
         let sectionNames = names[sectionTitle]
         
@@ -383,7 +383,7 @@ class FriendsTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с сообщением о необходимости авторизоваться
-    func getCellForNoAuthorizedRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoAuthorizedRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
         cell.messageLabel.text = noAuthorizedLabelText
         
@@ -479,33 +479,33 @@ extension _FriendsTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch requestManagerStatus {
             case .NotSearchedYet where requestManagerError == .NetworkError:
-               return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
+               return getCellForNotSearchedYetRowWithInternetErrorForIndexPath(indexPath)
             case .NotSearchedYet:
-                return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNotSearchedYetRowForIndexPath(indexPath)
             case .NoResults:
-                return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNoResultsRowForIndexPath(indexPath)
             case .Loading where isRefreshing:
-                if let numberOfRowsCell = getCellForNumberOfFriendsRowInTableView(tableView, forIndexPath: indexPath) {
+                if let numberOfRowsCell = getCellForNumberOfFriendsRowForIndexPath(indexPath) {
                     return numberOfRowsCell
                 }
                 
-                return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
+                return getCellForRowWithGroupForIndexPath(indexPath)
             case .Loading:
-                return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForLoadingRowForIndexPath(indexPath)
             case .Results:
                 if searchController.active && searchController.searchBar.text != "" && filteredFriends.count == 0 {
-                    return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                    return getCellForNothingFoundRowForIndexPath(indexPath)
                 }
                 
-                if let numberOfRowsCell = getCellForNumberOfFriendsRowInTableView(tableView, forIndexPath: indexPath) {
+                if let numberOfRowsCell = getCellForNumberOfFriendsRowForIndexPath(indexPath) {
                     return numberOfRowsCell
                 }
                 
-                return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
+                return getCellForRowWithGroupForIndexPath(indexPath)
             }
         }
         
-        return getCellForNoAuthorizedRowInTableView(tableView, forIndexPath: indexPath)
+        return getCellForNoAuthorizedRowForIndexPath(indexPath)
     }
     
     // Получение массива индексов секций таблицы

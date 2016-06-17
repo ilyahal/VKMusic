@@ -87,6 +87,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Моя музыка" id="SgA-VK-HBX"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="fYo-bi-5jf" id="Qs0-T4-UHb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pvy-n3-LAe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -175,6 +178,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Загрузки" id="rbQ-rR-yaz"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="gLh-NT-Mya" id="Uba-Ri-Rzf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="79v-qs-loM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -208,6 +214,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Поиск" id="JdP-Z9-1DT"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="RWU-1K-IP8" id="21J-3m-uFu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="woo-Sq-5wD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -389,6 +398,7 @@
                         </segmentedControl>
                     </navigationItem>
                     <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="fgD-xD-d0R" id="tXR-2p-yad"/>
                         <outlet property="segmentedControl" destination="3Ce-2s-hR4" id="7gN-Zf-eBb"/>
                         <outlet property="tableView" destination="ZEL-n5-aj3" id="Z5j-j9-Kae"/>
                         <segue destination="lTe-XD-VCn" kind="show" identifier="ShowPlaylistAudioSegue" id="uZ6-Ly-O9q"/>
@@ -474,6 +484,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Друзья" id="c5D-Rh-Ge8"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="v7j-Yw-iBv" id="r8w-mn-ElF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mxh-gH-PGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -793,6 +806,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="yur-gU-sVj" id="dmL-nN-tUN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMI-4V-fgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -863,6 +879,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="&lt;Название альбома&gt;" id="FLT-pe-XXD"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="NGf-ki-7xX" id="OC4-77-UaQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P8j-vf-5Z8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -953,6 +972,9 @@
                             <constraint firstItem="9TN-tw-sVl" firstAttribute="leading" secondItem="SMn-HQ-AfZ" secondAttribute="leading" id="lwQ-G4-13R"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="1eP-j0-4ta" id="VWv-Bu-4eB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AzQ-dO-gFQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1005,6 +1027,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Группы" id="xt3-m0-ad6"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="MLd-8h-wU0" id="7FF-ps-Tvl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hoF-yp-4UM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1096,6 +1121,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Рекомендации" id="Fce-cZ-bHv"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="oqG-Pk-TI6" id="bVj-9A-myZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CWI-AQ-cZo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1148,6 +1176,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Популярное" id="I30-Tv-5xV"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="Q5J-9l-PvH" id="RBI-94-6RF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F9O-lK-g5f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1217,6 +1248,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Еще" id="cL1-3W-GUF"/>
+                    <connections>
+                        <outlet property="containerBottomLayoutConstraint" destination="66i-gO-Q4y" id="NcB-8Y-UkI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GnU-fk-4Zd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1612,7 +1646,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKC-yu-PBr">
-                                                                <rect key="frame" x="0.0" y="55" width="600" height="50"/>
+                                                                <rect key="frame" x="0.0" y="59" width="600" height="34"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8CB-ra-bVr">
                                                                         <rect key="frame" x="0.0" y="0.0" width="600" height="34"/>
@@ -1658,7 +1692,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="el0-9c-bbo">
-                                                                <rect key="frame" x="0.0" y="134" width="600" height="30"/>
+                                                                <rect key="frame" x="0.0" y="125.5" width="600" height="30"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XiZ-Ac-nP2">
                                                                         <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
@@ -1807,7 +1841,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLY-MP-Z8F">
-                                                                <rect key="frame" x="0.0" y="193" width="600" height="17"/>
+                                                                <rect key="frame" x="0.0" y="188.5" width="600" height="17"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ets-hJ-FYq">
                                                                         <rect key="frame" x="45" y="5.5" width="10" height="10"/>
@@ -2368,8 +2402,8 @@
                                                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="R4V-GC-CR4">
                                                                                     <rect key="frame" x="290" y="165" width="20" height="20"/>
                                                                                 </activityIndicatorView>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Текст не найден" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbF-Gb-c6g">
-                                                                                    <rect key="frame" x="232" y="165" width="136" height="21"/>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Текст не найден" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbF-Gb-c6g">
+                                                                                    <rect key="frame" x="234.5" y="165" width="131" height="21"/>
                                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <nil key="highlightedColor"/>
@@ -2851,7 +2885,7 @@
         <image name="placeholder-Player" width="375" height="375"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="oyl-4o-mbN"/>
         <segue reference="CRi-Lk-it5"/>
+        <segue reference="oyl-4o-mbN"/>
     </inferredMetricsTieBreakers>
 </document>

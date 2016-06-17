@@ -264,19 +264,19 @@ class GroupsTableViewController: UITableViewController {
     // MARK: Получение ячеек для строк таблицы
     
     /// Ячейка для строки когда поиск еще не выполнялся и была получена ошибка при подключении к интернету
-    func getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNotSearchedYetRowWithInternetErrorForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.networkErrorCell, forIndexPath: indexPath) as! NetworkErrorCell
         
         return cell
     }
     
     /// Ячейка для строки когда поиск еще не выполнялся
-    func getCellForNotSearchedYetRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNotSearchedYetRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         return UITableViewCell()
     }
     
     // Ячейка для строки с сообщением что сервер вернул пустой массив
-    func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoResultsRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         cell.messageLabel.text = noResultsLabelText
         
@@ -284,7 +284,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с сообщением, что при поиске ничего не было найдено
-    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNothingFoundRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         nothingFoundCell.messageLabel.text = nothingFoundLabelText
         
@@ -292,7 +292,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с сообщением о загрузке
-    func getCellForLoadingRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForLoadingRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.loadingCell, forIndexPath: indexPath) as! LoadingCell
         cell.activityIndicator.startAnimating()
         
@@ -300,7 +300,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     // Пытаемся получить ячейку для строки с количеством групп
-    func getCellForNumberOfGroupsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+    func getCellForNumberOfGroupsRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
         let count = numberOfGroupsForIndexPath(indexPath)
         
         if let count = count {
@@ -314,7 +314,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с группой
-    func getCellForRowWithGroupInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForRowWithGroupForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let group = activeArray[indexPath.row]
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.groupCell, forIndexPath: indexPath) as! GroupCell
@@ -324,7 +324,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с сообщением о необходимости авторизоваться
-    func getCellForNoAuthorizedRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoAuthorizedRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.noAuthorizedCell, forIndexPath: indexPath) as! NoAuthorizedCell
         cell.messageLabel.text = noAuthorizedLabelText
         
@@ -366,33 +366,33 @@ extension _GroupsTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch requestManagerStatus {
             case .NotSearchedYet where requestManagerError == .NetworkError:
-                return getCellForNotSearchedYetRowWithInternetErrorInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNotSearchedYetRowWithInternetErrorForIndexPath(indexPath)
             case .NotSearchedYet:
-                return getCellForNotSearchedYetRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNotSearchedYetRowForIndexPath(indexPath)
             case .NoResults:
-                return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNoResultsRowForIndexPath(indexPath)
             case .Loading where isRefreshing:
-                if let numberOfRowsCell = getCellForNumberOfGroupsRowInTableView(tableView, forIndexPath: indexPath) {
+                if let numberOfRowsCell = getCellForNumberOfGroupsRowForIndexPath(indexPath) {
                     return numberOfRowsCell
                 }
                 
-                return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
+                return getCellForRowWithGroupForIndexPath(indexPath)
             case .Loading:
-                return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForLoadingRowForIndexPath(indexPath)
             case .Results:
                 if isSearched && filteredGroups.count == 0 {
-                    return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                    return getCellForNothingFoundRowForIndexPath(indexPath)
                 }
                 
-                if let numberOfRowsCell = getCellForNumberOfGroupsRowInTableView(tableView, forIndexPath: indexPath) {
+                if let numberOfRowsCell = getCellForNumberOfGroupsRowForIndexPath(indexPath) {
                     return numberOfRowsCell
                 }
                 
-                return getCellForRowWithGroupInTableView(tableView, forIndexPath: indexPath)
+                return getCellForRowWithGroupForIndexPath(indexPath)
             }
         }
         
-        return getCellForNoAuthorizedRowInTableView(tableView, forIndexPath: indexPath)
+        return getCellForNoAuthorizedRowForIndexPath(indexPath)
     }
     
 }

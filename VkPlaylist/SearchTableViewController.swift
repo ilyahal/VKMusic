@@ -98,7 +98,7 @@ extension _SearchTableViewControllerDataSource {
         if VKAPIManager.isAuthorized {
             switch requestManagerStatus {
             case .Loading:
-                return getCellForLoadingRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForLoadingRowForIndexPath(indexPath)
             default:
                 break
             }

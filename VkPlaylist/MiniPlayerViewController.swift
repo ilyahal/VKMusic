@@ -122,6 +122,8 @@ class MiniPlayerViewController: UIViewController {
             UIView.animateWithDuration(animated ? 0.3 : 0) {
                 self.view.alpha = 1
             }
+            
+            PlayerManager.sharedInstance.miniPlayerDidShow()
         }
     }
     
@@ -132,6 +134,8 @@ class MiniPlayerViewController: UIViewController {
             UIView.animateWithDuration(animated ? 0.3 : 0) {
                 self.view.alpha = 0
             }
+            
+            PlayerManager.sharedInstance.miniPlayerDidHide()
         }
     }
 

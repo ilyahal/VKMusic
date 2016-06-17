@@ -238,7 +238,7 @@ class DownloadsTableViewController: UITableViewController {
     // MARK: Получение ячеек для строк таблицы
     
     /// Ячейка для строки с сообщением об отсутствии загружаемых треков
-    func getCellForNoActiveDownloadsInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoActiveDownloadsForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         cell.messageLabel.text = noActiveDownloadsLabelText
         
@@ -246,7 +246,7 @@ class DownloadsTableViewController: UITableViewController {
     }
     
     /// Ячейка для строки с загружаемым треком
-    func getCellForActiveDownloadTrackInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForActiveDownloadTrackForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let track = DownloadManager.sharedInstance.downloadsTracks[indexPath.row]
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.activeDownloadCell, forIndexPath: indexPath) as! ActiveDownloadCell
@@ -269,7 +269,7 @@ class DownloadsTableViewController: UITableViewController {
     }
     
     /// Ячейка для строки с сообщением об отсутствии загруженных треков
-    func getCellForNoDownloadedInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoDownloadedForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         cell.messageLabel.text = noDownloadedLabelText
         
@@ -277,7 +277,7 @@ class DownloadsTableViewController: UITableViewController {
     }
     
     /// Ячейка для строки с сообщением, что при поиске ничего не было найдено
-    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNothingFoundRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         nothingFoundCell.messageLabel.text = textForNothingFoundRow
         
@@ -285,7 +285,7 @@ class DownloadsTableViewController: UITableViewController {
     }
     
     /// Ячейка для строки с загруженным треком
-    func getCellForOfflineAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForOfflineAudioForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let trackInPlaylist = activeArray[indexPath.row]
         let track = trackInPlaylist.track
         
@@ -296,7 +296,7 @@ class DownloadsTableViewController: UITableViewController {
     }
     
     /// Попытка получить ячейку для строки с количеством аудиозаписей
-    func getCellForNumberOfAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+    func getCellForNumberOfAudioRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
         let count = numberOfAudioForIndexPath(indexPath)
         
         if let count = count {
@@ -358,31 +358,31 @@ extension _DownloadsTableViewControllerDataSource {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if isSearched {
             if filteredDownloaded.count == 0 {
-                return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNothingFoundRowForIndexPath(indexPath)
             } else {
-                if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+                if let numberOfRowsCell = getCellForNumberOfAudioRowForIndexPath(indexPath) {
                     return numberOfRowsCell
                 }
                 
-                return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
+                return getCellForOfflineAudioForIndexPath(indexPath)
             }
         } else {
             switch indexPath.section {
             case 0:
                 if activeDownloads.count == 0 {
-                    return getCellForNoActiveDownloadsInTableView(tableView, forIndexPath: indexPath)
+                    return getCellForNoActiveDownloadsForIndexPath(indexPath)
                 } else {
-                    return getCellForActiveDownloadTrackInTableView(tableView, forIndexPath: indexPath)
+                    return getCellForActiveDownloadTrackForIndexPath(indexPath)
                 }
             case 1:
                 if downloaded.count == 0 {
-                    return getCellForNoDownloadedInTableView(tableView, forIndexPath: indexPath)
+                    return getCellForNoDownloadedForIndexPath(indexPath)
                 } else {
-                    if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+                    if let numberOfRowsCell = getCellForNumberOfAudioRowForIndexPath(indexPath) {
                         return numberOfRowsCell
                     }
                     
-                    return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
+                    return getCellForOfflineAudioForIndexPath(indexPath)
                 }
             default:
                 return UITableViewCell()

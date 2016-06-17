@@ -172,7 +172,7 @@ class PlaylistMusicTableViewController: UITableViewController {
     // MARK: Получение ячеек для строк таблицы
     
     // Ячейка для строки с сообщением что плейлист пустой
-    func getCellForNoResultsRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNoResultsRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         cell.messageLabel.text = noResultsLabelText
         
@@ -180,7 +180,7 @@ class PlaylistMusicTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с сообщением, что при поиске ничего не было найдено
-    func getCellForNothingFoundRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForNothingFoundRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let nothingFoundCell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.nothingFoundCell, forIndexPath: indexPath) as! NothingFoundCell
         nothingFoundCell.messageLabel.text = nothingFoundLabelText
         
@@ -188,7 +188,7 @@ class PlaylistMusicTableViewController: UITableViewController {
     }
     
     // Пытаемся получить ячейку для строки с количеством аудиозаписей
-    func getCellForNumberOfAudioRowInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell? {
+    func getCellForNumberOfAudioRowForIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
         let count = numberOfAudioRowForIndexPath(indexPath)
         
         if let count = count {
@@ -202,7 +202,7 @@ class PlaylistMusicTableViewController: UITableViewController {
     }
     
     // Ячейка для строки с треком
-    func getCellForOfflineAudioInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func getCellForOfflineAudioForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let track = activeArray[indexPath.row].track
         
         let cell = tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiers.offlineAudioCell, forIndexPath: indexPath) as! OfflineAudioCell
@@ -227,17 +227,17 @@ extension _PlaylistMusicTableViewControllerDataSource {
     // Получение ячейки для строки таблицы
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if tracks.count == 0 {
-            return getCellForNoResultsRowInTableView(tableView, forIndexPath: indexPath)
+            return getCellForNoResultsRowForIndexPath(indexPath)
         } else {
             if isSearched && filteredMusic.count == 0 {
-                return getCellForNothingFoundRowInTableView(tableView, forIndexPath: indexPath)
+                return getCellForNothingFoundRowForIndexPath(indexPath)
             }
             
-            if let numberOfRowsCell = getCellForNumberOfAudioRowInTableView(tableView, forIndexPath: indexPath) {
+            if let numberOfRowsCell = getCellForNumberOfAudioRowForIndexPath(indexPath) {
                 return numberOfRowsCell
             }
             
-            return getCellForOfflineAudioInTableView(tableView, forIndexPath: indexPath)
+            return getCellForOfflineAudioForIndexPath(indexPath)
         }
     }
     
