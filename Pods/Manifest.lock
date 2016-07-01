@@ -2,6 +2,9 @@ PODS:
   - Alamofire (3.4.0)
   - AlamofireImage (2.4.0):
     - Alamofire (~> 3.3)
+  - Crashlytics (3.7.2):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.7)
   - SwiftyJSON (2.3.2)
   - SwiftyVK (1.2.1)
   - SWXMLHash (2.3.1)
@@ -9,6 +12,8 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 3.4)
   - AlamofireImage (~> 2.0)
+  - Crashlytics
+  - Fabric
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
   - SwiftyVK (from `https://github.com/WE-St0r/SwiftyVK.git`)
   - SWXMLHash (~> 2.3.0)
@@ -30,10 +35,12 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
+  Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   SwiftyVK: ea30729504d37356ec118dd8a00fede2adf4a1f7
   SWXMLHash: 795c66e74f4cc9473ad6465c6653c5a6f59f417e
 
-PODFILE CHECKSUM: b713b7eb430849c637f414a1921b99ebf70e61b7
+PODFILE CHECKSUM: 9c2f2082910e56a65bd25524fa52700821c07157
 
 COCOAPODS: 1.0.1

@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>Fabric</key>
+    <dict>
+        <key>APIKey</key>
+        <string>92bc2e8390063439e27b7439b428a489919fa578</string>
+    </dict>
 	<key>CFBundleDisplayName</key>
 	<string>Музыка VK</string>
 	<key>CFBundleDevelopmentRegion</key>

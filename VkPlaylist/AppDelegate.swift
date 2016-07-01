@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import Fabric
+import Crashlytics
 import SwiftyVK
 
 @UIApplicationMain
@@ -26,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Вызывается при запуске приложения
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        Fabric.sharedSDK().debug = true
+        Fabric.with([Crashlytics.self])
+        
         customizeAppearance()
         DataManager.sharedInstance
         

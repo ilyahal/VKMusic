@@ -843,6 +843,7 @@
 				BBDEC04E1CD66441005B8494 /* Resources */,
 				0D969316730C7978B177BFFA /* [CP] Embed Pods Frameworks */,
 				99734BF1605CFAF080BB477C /* [CP] Copy Pods Resources */,
+				BB129C831D269F4600F377F4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -958,6 +959,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VKPlaylist/Pods-VKPlaylist-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		BB129C831D269F4600F377F4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 92bc2e8390063439e27b7439b428a489919fa578 1d83b9639beec7ec27d77b8f3b4f72ec4a680208f17255c87b0075c11c739655";
 		};
 /* End PBXShellScriptBuildPhase section */
 
