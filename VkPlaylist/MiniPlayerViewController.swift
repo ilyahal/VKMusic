@@ -102,7 +102,7 @@ class MiniPlayerViewController: UIViewController {
         
         // Настройка цвета основной кнопки
         let highlightedColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.5)
-        miniPlayerButton.setBackgroundImage(UIImage.generateImageWithColor(highlightedColor), forState: .Highlighted)
+        miniPlayerButton.setBackgroundImage(UIImage.generateImageWithColor(highlightedColor, size: CGSizeMake(1, 1)), forState: .Highlighted)
         
         // Настройка бара с прогрессом воспроизведения
         progressBar.progressTintColor = tintColor

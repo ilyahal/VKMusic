@@ -10,9 +10,9 @@ import UIKit
 
 extension UIImage {
 
-    /// Генерация изображения с указанным цветом
-    class func generateImageWithColor(color: UIColor) -> UIImage {
-        let rect = CGRectMake(0, 0, 1, 1)
+    /// Генерация изображения с указанным цветом указанного размера
+    class func generateImageWithColor(color: UIColor, size: CGSize) -> UIImage {
+        let rect = CGRectMake(0, 0, size.width, size.height)
         
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
