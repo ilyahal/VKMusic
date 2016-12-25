@@ -72,3 +72,7 @@
 VK: [ilya_hal](https://vk.com/ilya_hal)
 
 Twitter: [@ilya_hal](https://twitter.com/ilya_hal)
+
+## Licence
+
+MIT. For more info see licence file.
