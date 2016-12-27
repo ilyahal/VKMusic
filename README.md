@@ -1,78 +1,87 @@
+<h1 align="center">
+    <img src="https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/icon-w256h256.png" width="150">
+    <br>
+    VK Music
+</h1>
+-------
 [![Swift](https://img.shields.io/badge/Swift-2.3-orange.svg?style=flat)](https://developer.apple.com/swift/)
 
-# VK Музыка
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/icon-w128h128.png)
-***
+The app is designed for listening to music from [vk.com](vk.com)
 
-Приложение предназначено для прослушивания аудиозаписей с сайта [vk.com](vk.com)
 
-### Приложение обладает следующим функционалом:
-- Просмотр личных аудиозаписей пользователя
+### This app has following features:
+- Access to profile songs
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/1_w375h624.png)
-- Просмотр плейлистов пользователя
-- Просмотр аудиозаписей групп пользователя
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/1_w375h624.png)
+- Access to profile playlists
+- Access to profile songs of your groups
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/3_w375h624.png)
-- Просмотр аудиозаписей друзей пользователя
-- Просмотр рекомендуемых аудиозаписей
-- Просмотр популярных аудиозаписей
-- Поиск по аудиозаписям
-- Загрузка выбранной аудиозаписи на устройство
-- Просмотр загруженных аудиозаписей
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/3_w375h624.png)
+- Access to profile songs of your friends
+- Access to recommended songs
+- Access to popular songs
+- Search for songs or artists
+- Download the particular song to your device
+- Access to the downloaded songs
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/4_w375h624.png)
-- Управление загрузками (сортировка/удаление)
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/4_w375h624.png)
+- Manage your downloads (sort/delete)
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/5_w375h624.png)
-- Прослушивание аудиозаписей онлайн
-- Прослушивание аудиозаписей, загруженных ранее
-- Создание плейлистов на устройстве
-- Управление плейлистами (сортировка/удаление)
-- Просмотр плейлиста
-- Управление плейлистом (переименование/добавление аудиозаписей/удаление аудиозаписей)
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/5_w375h624.png)
+- Listen to music online
+- Listen to the downloaded music
+- Create playlists on your device
+- Access to offline playlist
+- Manage playlists (sort/rename/delete playlist/add songs/delete songs)
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/6_w375h624.png)
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/6_w375h624.png)
 
-### Функционал миниплеера (доступ на всех экранах):
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/7_w375h624.png)
-- Отображение прогресса воспроизведения
-- Play/пауза
-- Переход к полноэкранному плееру
+### Miniplayer features (access on all screens):
 
-### Функционал плеера:
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/7_w375h624.png)
+- Display progress of playing
+- Play/Pause
+- Transform to fullscreen player
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/8_w375h624.png)
-- Отображение прогресса воспроизведения
-- Перемотка аудиозаписи
-- Отображение названия аудиозаписи и имени исполнителя
-- Play/пауза
-- Переключение вперед/назад
-- Регулировка громкости
-- Выбор источника воспроизведения (AirPlay)
-- Просмотр слов аудиозаписи
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/9_w375h624.png)
-- Случайная сортировка текущего плейлиста
-- Зацикливание плейлиста
-- Зацикливание одной аудиозаписи
+### Player features:
 
-### Дополнительные возможности:
-- Управление воспроизведением при помощи гарнитуры
-- Управленеи воспроизведением из Control Center
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/8_w375h624.png)
+- Display the progress of playing
+- Song rewind
+- Display the name of the song and its artist
+- Play/Pause
+- Scroll songs forward/backwards
+- Manage volume
+- Stream music via AirPlay
+- Access to song lyrics
 
-![Иконка](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/10_w375h624.png)
-- Управление воспроизведением с экрана блокировки
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/9_w375h624.png)
+- Shuffle playlist
+- Repeat playlist mode
+- Repeat current track mode
 
-## Автор
 
-Илья Халяпин
+### More features:
+- Manage playing music via headset
+- Manage playing music via Control Center
+
+![Screenshot](https://raw.githubusercontent.com/ilyahal/VKMusic/master/Screenshots/10_w375h624.png)
+- Manage playing music from the Lock Screen
+
+
+## Author
+
+Ilya Khalyapin
 
 VK: [ilya_hal](https://vk.com/ilya_hal)
 
 Twitter: [@ilya_hal](https://twitter.com/ilya_hal)
 
+Facebook: [ilyahal](https://www.facebook.com/ilyahal)
+
+
 ## Licence
 
-MIT. For more info see licence file.
+VK Music is available under the MIT license. See the LICENSE file for more info.
